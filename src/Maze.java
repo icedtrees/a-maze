@@ -1,8 +1,14 @@
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 
 public class Maze {
@@ -84,6 +90,27 @@ public class Maze {
 //		mazeString += "+";
 		
 		return mazeString;
+	}
+	public void drawToScreen() {
+		JFrame f = new JFrame();
+		f.setLayout(new GridBagLayout());
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
+				if (tiles[col][row].getValue() == Tile.WALL) {
+					c.gridx = col;
+					c.gridy = row;
+					JPanel wall = new JPanel();
+					wall.setBackground(Color.BLACK);
+					f.add(wall, c);
+				}
+			}
+		}
+		
+		f.pack();
+		f.setVisible(true);
 	}
 	
 	private void genMaze() {
