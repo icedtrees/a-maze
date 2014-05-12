@@ -14,14 +14,16 @@ import javax.swing.JPanel;
 public class Maze {
 	private final static boolean DEBUGGING = false;
 	
+	private final Random rand;
+	
 	private Tile[][] tiles;
 	private int width;
 	private int height;
 	private int complexity;
 	
 	public Maze(int newWidth, int newHeight, int newComplexity) {
-		width = newWidth;
-		height = newHeight;
+		width = 2 * newWidth + 1;
+		height = 2 * newHeight + 1;
 		tiles = new Tile[width][height];
 		for (int row = 0; row < height; row++) {
 			for (int col = 0; col < width; col++) {
@@ -46,7 +48,7 @@ public class Maze {
 		}
 		complexity = newComplexity;
 		
-		genMaze();
+		rand = new Random(System.nanoTime());
 	}
 	
 	public int getWidth() {
@@ -113,9 +115,17 @@ public class Maze {
 		f.setVisible(true);
 	}
 	
-	private void genMaze() {
-		Random rand = new Random(System.nanoTime());
+	public void genMazeDFS() {
+		reset();
 		
+		int startx = width / 2;
+		int starty = height / 2;
+		if (startx % 2 == 0) {
+			startx++;
+		}
+		if (starty % 2 == 0) {
+			starty++;
+		}
 		Stack<MazeGenStep> s = new Stack<MazeGenStep>();
 		s.add(new MazeGenStep(tiles[1][1], tiles[1][0]));
 		
@@ -154,6 +164,67 @@ public class Maze {
 			Collections.shuffle(possibleMoves, rand);
 			for (MazeGenStep nextMove : possibleMoves) {
 				s.add(nextMove);
+			}
+		}
+		
+		tiles[width-2][height-1].setValue(Tile.SPACE);
+	}
+	
+	public void genMazePrim() {
+		reset();
+		
+		int startx = width / 2;
+		int starty = height / 2;
+		if (startx % 2 == 0) {
+			startx++;
+		}
+		if (starty % 2 == 0) {
+			starty++;
+		}
+		List<MazeGenStep> possibleMoves = new ArrayList<MazeGenStep>();
+		possibleMoves.add(new MazeGenStep(tiles[startx][starty], tiles[1][0]));
+		
+		while (!possibleMoves.isEmpty()) {
+			int index = rand.nextInt(possibleMoves.size());
+			MazeGenStep curStep = possibleMoves.get(index);
+			possibleMoves.remove(index);
+			
+			if (!curStep.isValidMove()) {
+				continue;
+			}
+			curStep.setValues(Tile.SPACE);
+			
+			Tile curTile = curStep.getNewTile();
+			Tile curMove;
+			curMove = curTile.getNorth(2);
+			if (curMove != null) {
+				debug("    Considering move north to " + curMove.toString());
+				possibleMoves.add(new MazeGenStep(curMove, curTile.getNorth()));
+			}
+			curMove = curTile.getEast(2);
+			if (curMove != null) {
+				debug("    Considering move east to " + curMove.toString());
+				possibleMoves.add(new MazeGenStep(curMove, curTile.getEast()));
+			}
+			curMove = curTile.getSouth(2);
+			if (curMove != null) {
+				debug("    Considering move south to " + curMove.toString());
+				possibleMoves.add(new MazeGenStep(curMove, curTile.getSouth()));
+			}
+			curMove = curTile.getWest(2);
+			if (curMove != null) {
+				debug("    Considering move west to " + curMove.toString());
+				possibleMoves.add(new MazeGenStep(curMove, curTile.getWest()));
+			}
+		}
+		
+		tiles[width-2][height-1].setValue(Tile.SPACE);
+	}
+	
+	private void reset() {
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
+				tiles[col][row].setValue(Tile.WALL);
 			}
 		}
 	}

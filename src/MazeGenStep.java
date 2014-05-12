@@ -22,24 +22,6 @@ public class MazeGenStep {
 		if (newTile.getValue() != Tile.WALL) {
 			return false;
 		}
-		
-		Tile next;
-		next = newTile.getNorth();
-		if (next != null && next != wallTile && next.getValue() != Tile.WALL) {
-			return false;
-		}
-		next = newTile.getEast();
-		if (next != null && next != wallTile && next.getValue() != Tile.WALL) {
-			return false;
-		}
-		next = newTile.getSouth();
-		if (next != null && next != wallTile && next.getValue() != Tile.WALL) {
-			return false;
-		}
-		next = newTile.getWest();
-		if (next != null && next != wallTile && next.getValue() != Tile.WALL) {
-			return false;
-		}
 		return true;
 	}
 }
