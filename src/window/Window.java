@@ -1,3 +1,5 @@
+package window;
+
 import javax.swing.JFrame;
 
 
