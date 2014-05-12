@@ -1,3 +1,7 @@
+package window;
+
+import game.Game;
+
 /**
  * @author icedtrees
  *

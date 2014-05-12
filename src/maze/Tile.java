@@ -1,3 +1,4 @@
+package maze;
 
 public class Tile {
     static final public int WALL = 1;

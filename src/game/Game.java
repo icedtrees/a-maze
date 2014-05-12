@@ -1,3 +1,7 @@
+package game;
+import window.HomeWindow;
+import window.MazeWindow;
+
 
 /**
  * @author icedtrees
