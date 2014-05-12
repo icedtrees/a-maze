@@ -1,0 +1,1 @@
+javac -cp "src/game; src/maze; src/window" -d "bin" src/game/*.java src/maze/*.java src/window/*.java
