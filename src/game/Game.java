@@ -34,14 +34,13 @@ public class Game {
         while (running) {
             homeWindow.show();
             Command command = homeWindow.waitCommand();
-            if (Command == PLAY_GAME) {
+            if (command == PLAY_GAME) {
                 mazeWindow.show();
                 homeWindow.hide();
-                currentWindow = mazeWindow;
-            } else if (Command == INSTRUCTIONS) {
-                currentWindow = instructionsWindow;
+            } else if (command == INSTRUCTIONS) {
                 homeWindow.hide();
-                instructionsWindow.show()
+                Command result = instructionsWindow.run();
+                
             } else if (Command == QUIT) {
                 running = false;
             }

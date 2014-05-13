@@ -9,7 +9,7 @@ import javax.swing.JFrame;
  */
 
 public abstract class Window {
-	private JFrame window;
+	private final JFrame window;
 	
 	
     public Window(int width, int height) {
@@ -17,9 +17,6 @@ public abstract class Window {
         window.setSize(width, height);
     }
     
-    public JFrame getWindow() {
-    	return window;
-    }
     
     public void show() {
         window.setVisible(true);    
