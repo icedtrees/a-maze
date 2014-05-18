@@ -40,6 +40,11 @@ TileObject
 ----------
 An object can be shown on an empty Tile. Each TileObject is initialised with a reference to an image file in the resources directory, indicating what image should be displayed for the given object.
 
+
+TileObject
+----------
+An object can be shown on an empty Tile. Each TileObject is initialised with a reference to an image file in the resources directory.
+
 PlayerObject
 ------------
 A PlayerObject, unlike a TileObject, is mobile, and is displayed on top of the TileObject.
@@ -63,3 +68,5 @@ Non-base functionality to design later
     * Fog of war/line of sight
 - PlayerObjects
     * Enemies
+
+
