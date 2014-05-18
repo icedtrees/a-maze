@@ -1,28 +1,25 @@
 package window;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 
-/**
- * @author icedtrees
- *
- */
+public abstract class Window extends JPanel {
 
-public abstract class Window {
-	private final JFrame window;
+	private static final long serialVersionUID = 1L;
+	private final JFrame mainFrame;
 	
 	
-    public Window(int width, int height) {
-        window = new JFrame();
-        window.setSize(width, height);
+    public Window(JFrame frame) {
+        mainFrame = frame;
     }
     
-    
     public void show() {
-        window.setVisible(true);    
+        mainFrame.setVisible(true);    
     }
     
     public void hide() {
-        window.setVisible(false);        
+        mainFrame.setVisible(false);        
     }
+    
 }
