@@ -1,6 +1,5 @@
 Design Summary
 ==============
-
 Game
 ----
 The main Game class is effectively a window manager that controls when windows open and close. 
@@ -21,6 +20,10 @@ InstructionsWindow extends Window
 ---------------------------------
 Instructions
 
+SettingsWindow extends Window
+-----------------------------
+Settings window allows the user to manually choose display dimensions for the Game, overriding the default display dimensions derived from the monitor resolution.
+
 HighScoresWindow extends Window
 -------------------------------
 Shows the high scores
@@ -29,20 +32,13 @@ Maze extends JPanel
 -------------------
 Takes care of the maze generation as well as graphical output.
 
-    private Tile[][] tiles;
-    private int width;
-    private int height;
-    private int snakeFactor;
-    private int branchFactor;
-    
-    @Override
-    public void paintComponent(Graphics g);
-
 Tile
 ----
 Tile can either be empty or not empty, representing a wall or an empty space. Each Tile contains one TileObject, which is the contents of the Tile.
 
-    private TileObject contents;
+TileObject
+----------
+An object can be shown on an empty Tile. Each TileObject is initialised with a reference to an image file in the resources directory, indicating what image should be displayed for the given object.
 
 
 TileObject
@@ -58,7 +54,9 @@ Non-base functionality to design later
 - Page transitions
 - Background images for the windows
 - Walking on the main menu
-- Time limits and high scores
+- Time limits (planning + solving) and high scores
+- Hints and other assistance
+- Instructions for each level
 - TileObjects
     * Portals
     * Switches/Doors
@@ -70,3 +68,5 @@ Non-base functionality to design later
     * Fog of war/line of sight
 - PlayerObjects
     * Enemies
+
+
