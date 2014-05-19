@@ -1,6 +1,8 @@
 package game;
-import window.HomeWindow;
-import window.MazeWindow;
+import javax.swing.JFrame;
+
+import pages.HomePage;
+import pages.MazePage;
 
 
 /**
@@ -14,8 +16,8 @@ public class Game {
         QUIT
     }
     
-    private HomeWindow homeWindow;
-    private MazeWindow mazeWindow;
+    private HomePage homePage;
+    private MazePage mazePage;
     
     public static void main(String[] args) {
         Game game = new Game();
@@ -23,25 +25,24 @@ public class Game {
     }
     
     public Game() {
-        homeWindow = new HomeWindow();
-        homeWindow.hide();
+        JFrame mainWindow = new JFrame();
+        homePage = new HomePage(mainWindow);
+        homePage.hide();
     }
     
     public void run() {
-        currentWindow = homeWindow;
         boolean running = true;
         
         while (running) {
-            homeWindow.show();
-            Command command = homeWindow.waitCommand();
-            if (command == PLAY_GAME) {
-                mazeWindow.show();
-                homeWindow.hide();
-            } else if (command == INSTRUCTIONS) {
-                homeWindow.hide();
-                Command result = instructionsWindow.run();
-                
-            } else if (Command == QUIT) {
+            homePage.show();
+            Command command = homePage.waitCommand();
+            if (command == Command.PLAY_GAME) {
+                mazePage.show();
+                homePage.hide();
+            } else if (command == Command.INSTRUCTIONS) {
+                homePage.hide();
+
+            } else if (command == Command.QUIT) {
                 running = false;
             }
         }
