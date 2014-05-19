@@ -22,7 +22,7 @@ public class Maze extends JComponent {
      * 
      */
     private static final long serialVersionUID = 1L;
-
+    
     private final static boolean DEBUGGING = false;
     private final static double DEFAULT_ASPECT = 1.2;
     
@@ -32,6 +32,13 @@ public class Maze extends JComponent {
     private int width;
     private int height;
     private int complexity;
+    
+    private static enum Direction {
+        NORTH,
+        EAST,
+        SOUTH,
+        WEST,
+    }
     
     // TEST
     double playerX;
@@ -50,32 +57,33 @@ public class Maze extends JComponent {
     	playerX = 1;
     	playerY = 0;
     	// TEST
-    	
+
         width = 2 * newWidth + 1;
         height = 2 * newHeight + 1;
         setPreferredSize(new Dimension(displayWidth, displayHeight));
         tiles = new Tile[width][height];
+        // tiles[x-dir][y-dir], x points right, y points down
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 tiles[col][row] = new Tile(Tile.WALL, col, row);
             }
         }
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                if (row > 1) {
-                    tiles[col][row].setNorth(tiles[col][row-1]);
-                }
-                if (col < width - 2) {
-                    tiles[col][row].setEast(tiles[col+1][row]);
-                }
-                if (row < height - 2) {
-                    tiles[col][row].setSouth(tiles[col][row+1]);
-                }
-                if (col > 1) {
-                    tiles[col][row].setWest(tiles[col-1][row]);
-                }
-            }
-        }
+//        for (int row = 0; row < height; row++) {
+//            for (int col = 0; col < width; col++) {
+//                if (row > 1) {
+//                    tiles[col][row].setNorth(tiles[col][row-1]);
+//                }
+//                if (col < width - 2) {
+//                    tiles[col][row].setEast(tiles[col+1][row]);
+//                }
+//                if (row < height - 2) {
+//                    tiles[col][row].setSouth(tiles[col][row+1]);
+//                }
+//                if (col > 1) {
+//                    tiles[col][row].setWest(tiles[col-1][row]);
+//                }
+//            }
+//        }
         complexity = newComplexity;
         
         rand = new Random(System.nanoTime());
@@ -239,26 +247,27 @@ public class Maze extends JComponent {
             Tile curTile = curStep.getNewTile();
             debug("Currently at " + curTile.toString());
             Tile curMove;
-            curMove = curTile.getNorth(2);
-            if (curMove != null) {
-                debug("    Considering move north to " + curMove.toString());
-                possibleMoves.add(new MazeGenStep(curMove, curTile.getNorth()));
+            // TODO use a for-each loop to iterative over the directions
+            for (Direction dir : Direction.values()) {
+                curMove = getRelativeTile(curTile, 2, dir);
+                String dirString;
+                if (dir == Direction.NORTH) {
+                    dirString = "north";
+                } else if (dir == Direction.EAST) {
+                    dirString = "east";
+                } else if (dir == Direction.SOUTH) {
+                    dirString = "south";
+                } else {
+                    dirString = "west";
+                }
+                if (curMove != null) {
+                    debug(String.format("    Consider move %s to %s", dirString,
+                            curMove.toString()));
+                    possibleMoves.add(new MazeGenStep(curMove,
+                            getRelativeTile(curTile, dir)));
+                }
             }
-            curMove = curTile.getEast(2);
-            if (curMove != null) {
-                debug("    Considering move east to " + curMove.toString());
-                possibleMoves.add(new MazeGenStep(curMove, curTile.getEast()));
-            }
-            curMove = curTile.getSouth(2);
-            if (curMove != null) {
-                debug("    Considering move south to " + curMove.toString());
-                possibleMoves.add(new MazeGenStep(curMove, curTile.getSouth()));
-            }
-            curMove = curTile.getWest(2);
-            if (curMove != null) {
-                debug("    Considering move west to " + curMove.toString());
-                possibleMoves.add(new MazeGenStep(curMove, curTile.getWest()));
-            }
+            // TODO see if you can attach multiple values to a part of the enum
             
             Collections.shuffle(possibleMoves, rand);
             for (MazeGenStep nextMove : possibleMoves) {
@@ -295,26 +304,53 @@ public class Maze extends JComponent {
             
             Tile curTile = curStep.getNewTile();
             Tile curMove;
-            curMove = curTile.getNorth(2);
-            if (curMove != null) {
-                debug("    Considering move north to " + curMove.toString());
-                possibleMoves.add(new MazeGenStep(curMove, curTile.getNorth()));
+            for (Direction dir : Direction.values()) {
+                curMove = getRelativeTile(curTile, 2, dir);
+                String dirString;
+                if (dir == Direction.NORTH) {
+                    dirString = "north";
+                } else if (dir == Direction.EAST) {
+                    dirString = "east";
+                } else if (dir == Direction.SOUTH) {
+                    dirString = "south";
+                } else {
+                    dirString = "west";
+                }
+                if (curMove != null) {
+                    debug(String.format("    Consider move %s to %s", dirString,
+                            curMove.toString()));
+                    possibleMoves.add(new MazeGenStep(curMove,
+                            getRelativeTile(curTile, dir)));
+                }
             }
-            curMove = curTile.getEast(2);
-            if (curMove != null) {
-                debug("    Considering move east to " + curMove.toString());
-                possibleMoves.add(new MazeGenStep(curMove, curTile.getEast()));
-            }
-            curMove = curTile.getSouth(2);
-            if (curMove != null) {
-                debug("    Considering move south to " + curMove.toString());
-                possibleMoves.add(new MazeGenStep(curMove, curTile.getSouth()));
-            }
-            curMove = curTile.getWest(2);
-            if (curMove != null) {
-                debug("    Considering move west to " + curMove.toString());
-                possibleMoves.add(new MazeGenStep(curMove, curTile.getWest()));
-            }
+////            curMove = curTile.getNorth(2);
+//            curMove = getRelativeTile(curTile, 2, Direction.NORTH);
+//            if (curMove != null) {
+//                debug("    Considering move north to " + curMove.toString());
+//                possibleMoves.add(new MazeGenStep(curMove,
+//                        getRelativeTile(curTile, Direction.NORTH)));
+//            }
+////            curMove = curTile.getEast(2);
+//            curMove = getRelativeTile(curTile, 2, Direction.EAST);
+//            if (curMove != null) {
+//                debug("    Considering move east to " + curMove.toString());
+//                possibleMoves.add(new MazeGenStep(curMove,
+//                        getRelativeTile(curTile, Direction.EAST)));
+//            }
+////            curMove = curTile.getSouth(2);
+//            curMove = getRelativeTile(curTile, 2, Direction.SOUTH);
+//            if (curMove != null) {
+//                debug("    Considering move south to " + curMove.toString());
+//                possibleMoves.add(new MazeGenStep(curMove,
+//                        getRelativeTile(curTile, Direction.SOUTH)));
+//            }
+////            curMove = curTile.getWest(2);
+//            curMove = getRelativeTile(curTile, 2, Direction.WEST);
+//            if (curMove != null) {
+//                debug("    Considering move west to " + curMove.toString());
+//                possibleMoves.add(new MazeGenStep(curMove,
+//                        getRelativeTile(curTile, Direction.WEST)));
+//            }
         }
         
         tiles[width-2][height-1].setValue(Tile.SPACE);
@@ -333,4 +369,37 @@ public class Maze extends JComponent {
             System.out.println("> " + message);
         }
     }
+    
+    private Tile getRelativeTile(Tile tile, int n, Direction direction) {
+        if (tile == null) {
+            return null;
+        }
+        int[] dx = {1, 0, -1, 0}; // east, north, west, south
+        int[] dy = {0, -1, 0, 1};
+        int dir;
+        if (direction == Direction.EAST) {
+            dir = 0;
+        } else if (direction == Direction.NORTH) {
+            dir = 1;
+        } else if (direction == Direction.WEST) {
+            dir = 2;
+        } else {
+            assert(direction == Direction.SOUTH);
+            dir = 3;
+        }
+        
+        int newX = tile.getX() + n * dx[dir];
+        int newY = tile.getY() + n * dy[dir];
+        
+        if (newX < 0 || newX >= width || newY < 0 || newY >= height) {
+            return null;
+        } else {
+            return tiles[newX][newY];
+        }
+    }
+    
+    private Tile getRelativeTile(Tile tile, Direction direction) {
+        return getRelativeTile(tile, 1, direction);
+    }
+    
 }
