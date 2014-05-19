@@ -117,14 +117,14 @@ public class Tile {
     }
     
     public void draw(Graphics g, int x, int y, int size) {
-    	if (value == WALL) {
-    		g.setColor(new Color(0, 0, 0));
-    	}
-    	if (value == SPACE) {
-    		g.setColor(new Color(255, 255, 255));
-    	}
-//    	System.out.println("Filling rect at " + x * size + ", " + y * size + " of side length " + size + " with the color " + (value == WALL ? "black" : "white"));
-    	g.fillRect(x * size,  y * size,  size,  size);
+        if (value == WALL) {
+            g.setColor(new Color(0, 0, 0));
+        }
+        if (value == SPACE) {
+            g.setColor(new Color(255, 255, 255));
+        }
+//        System.out.println("Filling rect at " + x * size + ", " + y * size + " of side length " + size + " with the color " + (value == WALL ? "black" : "white"));
+        g.fillRect(x * size,  y * size,  size,  size);
     }
     
     public String toString() {
