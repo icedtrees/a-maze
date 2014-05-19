@@ -1,5 +1,8 @@
 package maze;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class Tile {
     static final public int WALL = 1;
     static final public int SPACE = 0;
@@ -111,6 +114,17 @@ public class Tile {
     }
     public void setWest(Tile newWest) {
         west = newWest;
+    }
+    
+    public void draw(Graphics g, int x, int y, int size) {
+    	if (value == WALL) {
+    		g.setColor(new Color(0, 0, 0));
+    	}
+    	if (value == SPACE) {
+    		g.setColor(new Color(255, 255, 255));
+    	}
+//    	System.out.println("Filling rect at " + x * size + ", " + y * size + " of side length " + size + " with the color " + (value == WALL ? "black" : "white"));
+    	g.fillRect(x * size,  y * size,  size,  size);
     }
     
     public String toString() {

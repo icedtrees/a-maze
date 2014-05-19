@@ -1,19 +1,28 @@
 package maze;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class Maze {
+public class Maze extends JComponent {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final static boolean DEBUGGING = false;
 	
 	private final Random rand;
@@ -21,11 +30,14 @@ public class Maze {
 	private Tile[][] tiles;
 	private int width;
 	private int height;
+	private int tileSize;
 	private int complexity;
 	
 	public Maze(int newWidth, int newHeight, int newComplexity) {
 		width = 2 * newWidth + 1;
 		height = 2 * newHeight + 1;
+		tileSize = 50;
+		setPreferredSize(new Dimension(tileSize * width, tileSize * height));
 		tiles = new Tile[width][height];
 		for (int row = 0; row < height; row++) {
 			for (int col = 0; col < width; col++) {
@@ -115,6 +127,18 @@ public class Maze {
 		
 		f.pack();
 		f.setVisible(true);
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		Rectangle bounds = this.getBounds();
+		tileSize = Math.min(bounds.width/width, bounds.height/height);
+		g.setClip(0, 0, width * tileSize, height * tileSize);
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
+				tiles[col][row].draw(g, col, row, tileSize);
+			}
+		}
 	}
 	
 	public void genMazeDFS() {
