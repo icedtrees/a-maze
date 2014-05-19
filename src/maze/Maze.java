@@ -33,6 +33,11 @@ public class Maze extends JComponent {
     private int height;
     private int complexity;
     
+    // TEST
+    double playerX;
+    double playerY;
+    // TEST
+    
     public Maze(int newHeight, int displayHeight, int newComplexity) {
         this((int) (newHeight * DEFAULT_ASPECT), newHeight,
                 (int) (displayHeight * DEFAULT_ASPECT), displayHeight,
@@ -41,7 +46,10 @@ public class Maze extends JComponent {
     public Maze(int newWidth, int newHeight,
             int displayWidth, int displayHeight,
             int newComplexity) {
-    	System.out.println(newWidth + "," + newHeight + " " + displayWidth + "," + displayHeight);
+    	// TEST
+    	playerX = 1;
+    	playerY = 0;
+    	// TEST
     	
         width = 2 * newWidth + 1;
         height = 2 * newHeight + 1;
@@ -156,9 +164,55 @@ public class Maze extends JComponent {
             	int newY = row*tileSize + yMargin/2;
             	Graphics newG = g.create(newX, newY, tileSize, tileSize);
             	tiles[col][row].draw(newG, tileSize);
+            	
+                // TEST
+                if (playerX == col && playerY == row) {
+                	newG.setColor(new Color(255, 0, 0));
+                	newG.fillOval(0, 0, tileSize, tileSize);
+                }
+                // TEST
             }
         }
     }
+    
+    // TEST
+    public void movePlayerRandom() {
+    	int x = (int) playerX;
+    	int y = (int) playerY;
+    	if (rand.nextBoolean() && tiles[x+1][y] != null && tiles[x+1][y].getValue() != Tile.WALL) {
+    		playerX++;
+    		return;
+    	}
+    	if (rand.nextBoolean() && tiles[x][y+1] != null && tiles[x][y+1].getValue() != Tile.WALL) {
+    		playerY++;
+    		return;
+    	}
+    	if (rand.nextBoolean() && tiles[x-1][y] != null && tiles[x-1][y].getValue() != Tile.WALL) {
+    		playerX--;
+    		return;
+    	}
+    	if (rand.nextBoolean() && tiles[x][y-1] != null && tiles[x][y-1].getValue() != Tile.WALL) {
+    		playerY--;
+    		return;
+    	}
+    }
+    
+    public void setPlayerPos(int x, int y) {
+    	playerX = x;
+    	playerY = y;
+    }
+    
+    public boolean isSpace(int x, int y) {
+    	if (x < 1 || x > width - 2 || y < 1 || y > height - 2) {
+    		return false;
+    	}
+    	return tiles[x][y].getValue() == Tile.SPACE;
+    }
+    
+    public void setTile(int x, int y, int value) {
+    	tiles[x][y].setValue(value);
+    }
+    // TEST
     
     public void genMazeDFS() {
         reset();

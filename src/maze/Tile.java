@@ -7,6 +7,10 @@ public class Tile {
     static final public int WALL = 1;
     static final public int SPACE = 0;
     
+    // TEST
+    static final public int EXPLORED = 2;
+    // TEST
+    
     private int value;
     private int x;
     private int y;
@@ -123,6 +127,13 @@ public class Tile {
 	    if (value == SPACE) {
 	        g.setColor(new Color(255, 255, 255));
 	    }
+	    
+	    // TEST
+	    if (value == EXPLORED) {
+	    	g.setColor(new Color(200, 200, 255));
+	    }
+	    // TEST
+	    
     	g.fillRect(0, 0, tileSize, tileSize);
     }
     
