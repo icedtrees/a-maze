@@ -1,4 +1,4 @@
-package window;
+package pages;
 
 import game.Game;
 
@@ -7,14 +7,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class HomeWindow extends Window {
+public class HomePage extends Page {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;
 	
-    public HomeWindow(JFrame frame) {
+    public HomePage(JFrame frame) {
     	super(frame);
         mainPanel = new JPanel(new GridLayout(6, 1));
         

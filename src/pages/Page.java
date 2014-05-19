@@ -1,16 +1,16 @@
-package window;
+package pages;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public abstract class Window extends JPanel {
+public abstract class Page extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private final JFrame mainFrame;
 	
 	
-    public Window(JFrame frame) {
+    public Page(JFrame frame) {
         mainFrame = frame;
     }
     

@@ -1,5 +1,4 @@
-package window;
-import maze.Maze;
+package pages;
 
 
 import java.awt.GridBagConstraints;
@@ -9,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class MazeWindow extends Window {
+public class MazePage extends Page {
 	/**
 	 * 
 	 */
@@ -19,7 +18,7 @@ public class MazeWindow extends Window {
 	// and sidebarPanel on the right 
 	private JPanel mainPanel;
 	
-	public MazeWindow(JFrame frame) {
+	public MazePage(JFrame frame) {
 		super(frame);
 		mainPanel = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();

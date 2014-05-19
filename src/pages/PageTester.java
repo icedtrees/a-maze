@@ -1,4 +1,4 @@
-package window;
+package pages;
 
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class WindowTester {
+public class PageTester {
 
     /**
      * @param args
@@ -25,7 +25,7 @@ public class WindowTester {
         cardPanel.setLayout(cardLayout);
         
         // buttons for home's JPanel here
-    	HomeWindow home = new HomeWindow(frame);
+    	HomePage home = new HomePage(frame);
         addStartButton(home.getHomePanel());
         addInstructionsButton(home.getHomePanel());
         addHighScoresButton(home.getHomePanel());
@@ -33,16 +33,16 @@ public class WindowTester {
     	cardPanel.add(home.getHomePanel(), "main menu panel");
         
     	// buttons for startMaze's JPanel here
-    	MazeWindow startMaze = new MazeWindow(frame);
+    	MazePage startMaze = new MazePage(frame);
     	cardPanel.add(startMaze.getMazePanel(), "maze panel");
     	
     	// buttons for instructions' JPanel here
-    	InstructionsWindow instructions = new InstructionsWindow(frame);
+    	InstructionsPage instructions = new InstructionsPage(frame);
     	addReturnButton(instructions.getInstructionsPanel());
     	cardPanel.add(instructions.getInstructionsPanel(), "instruction panel");
     	
     	// buttons for highScores' JPanel here
-        HighScoresWindow highScores = new HighScoresWindow(frame);
+        HighScoresPage highScores = new HighScoresPage(frame);
         addReturnButton(highScores.getHighScoresPanel());
         cardPanel.add(highScores.getHighScoresPanel(), "high scores panel");
 
@@ -58,7 +58,7 @@ public class WindowTester {
         JButton startMaze = new JButton("Start maze");
 		startMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// some action to generate maze and display a MazeWindow
+				// some action to generate maze and display a MazePage
 				System.out.println("hello");
 				frame.setTitle("MAZE");
 				cardLayout.show(cardPanel, "maze panel");
