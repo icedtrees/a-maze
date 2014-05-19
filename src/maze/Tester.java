@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 public class Tester {
     public static void main(String[] args) {
-        Maze myMaze = new Maze(107, 52, 1);
+        Maze myMaze = new Maze(30, 610, 1);
         myMaze.genMazeDFS();
         
 

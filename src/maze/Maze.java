@@ -24,20 +24,28 @@ public class Maze extends JComponent {
     private static final long serialVersionUID = 1L;
 
     private final static boolean DEBUGGING = false;
+    private final static double DEFAULT_ASPECT = 1;
     
     private final Random rand;
     
     private Tile[][] tiles;
     private int width;
     private int height;
-    private int tileSize;
     private int complexity;
     
-    public Maze(int newWidth, int newHeight, int newComplexity) {
+    public Maze(int newHeight, int displayHeight, int newComplexity) {
+        this((int) (newHeight * DEFAULT_ASPECT), newHeight,
+                (int) (displayHeight * DEFAULT_ASPECT), displayHeight,
+                newComplexity);
+    }
+    public Maze(int newWidth, int newHeight,
+            int displayWidth, int displayHeight,
+            int newComplexity) {
+    	System.out.println(newWidth + "," + newHeight + " " + displayWidth + "," + displayHeight);
+    	
         width = 2 * newWidth + 1;
         height = 2 * newHeight + 1;
-        tileSize = 50;
-        setPreferredSize(new Dimension(tileSize * width, tileSize * height));
+        setPreferredSize(new Dimension(displayWidth, displayHeight));
         tiles = new Tile[width][height];
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
@@ -132,11 +140,20 @@ public class Maze extends JComponent {
     @Override
     public void paintComponent(Graphics g) {
         Rectangle bounds = this.getBounds();
-        tileSize = Math.min(bounds.width/width, bounds.height/height);
-        g.setClip(0, 0, width * tileSize, height * tileSize);
+        System.out.println("bounds: " + bounds.toString());
+        int tileSize = Math.min(bounds.width/width, bounds.height/height);
+        System.out.println("tileSize: " + tileSize);
+        
+        int xMargin = bounds.width - (width * tileSize);
+        int yMargin = bounds.height - (height * tileSize);
+        g.setClip(xMargin/2, yMargin/2, tileSize*width, tileSize*height);
+        
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                tiles[col][row].draw(g, col, row, tileSize);
+            	int newX = col*tileSize + xMargin/2;
+            	int newY = row*tileSize + yMargin/2;
+            	Graphics newG = g.create(newX, newY, tileSize, tileSize);
+            	tiles[col][row].draw(newG, tileSize);
             }
         }
     }
