@@ -43,7 +43,7 @@ Modification defines a certain way in which a Maze must be modified to fit the r
 
 void modify(Maze maze) function
 
-which takes a Maze as an argument and modifies it minimally to suit the feature. It will also return a command telling window what to do (e.g. enable timer)
+which takes a Maze as an argument and modifies it minimally to suit the feature. MazePage features like enable timer will have to be manually hardcoded.
 
 Tile
 ----
