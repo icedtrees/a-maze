@@ -24,7 +24,7 @@ public class Maze extends JComponent {
     private static final long serialVersionUID = 1L;
 
     private final static boolean DEBUGGING = false;
-    private final static double DEFAULT_ASPECT = 1;
+    private final static double DEFAULT_ASPECT = 1.2;
     
     private final Random rand;
     
@@ -138,16 +138,18 @@ public class Maze extends JComponent {
     }
     
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {    	
         Rectangle bounds = this.getBounds();
-        System.out.println("bounds: " + bounds.toString());
         int tileSize = Math.min(bounds.width/width, bounds.height/height);
-        System.out.println("tileSize: " + tileSize);
         
         int xMargin = bounds.width - (width * tileSize);
         int yMargin = bounds.height - (height * tileSize);
-        g.setClip(xMargin/2, yMargin/2, tileSize*width, tileSize*height);
         
+        g.setClip(0, 0, bounds.width, bounds.height);
+        g.setColor(new Color(0, 255, 0));
+    	g.fillRect(0, 0, bounds.width, bounds.height);
+        
+    	g.setClip(xMargin/2, yMargin/2, tileSize*width, tileSize*height);
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
             	int newX = col*tileSize + xMargin/2;
