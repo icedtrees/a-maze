@@ -1,3 +1,6 @@
+Note: run update.sh to update the HTML page from the md file. Modify the md file to make changes.
+
+
 Design Summary
 ==============
 
@@ -40,7 +43,7 @@ Modification defines a certain way in which a Maze must be modified to fit the r
 
 void modify(Maze maze) function
 
-which takes a Maze as an argument and modifies it minimally to suit the restriction. The maze 
+which takes a Maze as an argument and modifies it minimally to suit the feature. It will also return a command telling window what to do (e.g. enable timer)
 
 Tile
 ----
@@ -61,25 +64,25 @@ The MazeOverlay allows additional overlays to be drawn on top of the maze, and
 
 Non-base functionality to design later
 --------------------------------------
-- Page transitions
-- Background images for the pages
-- Walking on the main menu
-- Instructions for each level
+-   Page transitions
+-   Background images for the pages
+-   Walking on the main menu
+-  Instructions for each level
 
 Non-base functionality that varies with difficulty level
 
-- Time limits (planning + solving) and high scores
-- Hints and other assistance
-- TileObjects
-    * Portals
-    * Switches/Doors
-    * Treasure
-    * Extra time item
-    * Movement speed item
-    * Move back in time item
-    * Transparent walls, moving walls
-    * Fog of war/line of sight
+-   Time limits (planning + solving) and high scores
+-   Hints and other assistance
+-   TileObjects
+    *   Portals
+    *   Switches/Doors
+    *   Treasure
+    *   Extra time item
+    *   Movement speed item
+    *   Move back in time item
+    *   Transparent walls, moving walls
+    *   Fog of war/line of sight
 - MobileObjects
-    * Enemies
+    *   Enemies
 
 
