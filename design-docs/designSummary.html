@@ -1,0 +1,90 @@
+<p>Note: run update.sh to update the HTML page from the md file. Modify the md file to make changes.</p>
+
+<h1>Design Summary</h1>
+
+<h2>Game</h2>
+
+<p>The main Game class controls one main JFrame window, which it passes to various Page classes which determine the contents of the window. Each Page has a set of </p>
+
+<h2>abstract Page</h2>
+
+<p>The Page class is an abstract class that other Pages will extend. The constructor will accept a JFrame as a parameter that all GUI elements can be packed into.</p>
+
+<h2>HomePage extends Page</h2>
+
+<p>The HomePage is the main menu screen, where the user can navigate to the other </p>
+
+<h2>MazePage extends Page</h2>
+
+<p>Main game page which contains a Maze object as well as a Player object. The Maze object is drawn and the Player object is overlaid on the maze while other menu elements are placed in a sidebar on the right.</p>
+
+<h2>InstructionsPage extends Page</h2>
+
+<p>Instructions</p>
+
+<h2>SettingsPage extends Page</h2>
+
+<p>Settings page allows the user to manually choose display dimensions for the Game, overriding the default display dimensions derived from the monitor resolution.</p>
+
+<h2>HighScoresPage extends Page</h2>
+
+<p>Shows the high scores</p>
+
+<h2>Maze extends JComponent</h2>
+
+<p>Contained in MazeWindow. Takes care of the maze generation as well as graphical output. Maze will have various public functions to alter the maze, which mazewindow will call. Maze returns result codes to MazePage to tell it what to do.</p>
+
+<h2>interface Modification</h2>
+
+<p>Modification defines a certain way in which a Maze must be modified to fit the requirements of a new feature. Modifications must implement the </p>
+
+<p>void modify(Maze maze) function</p>
+
+<p>which takes a Maze as an argument and modifies it minimally to suit the feature. It will also return a command telling window what to do (e.g. enable timer)</p>
+
+<h2>Tile</h2>
+
+<p>Tile can either be empty or not empty, representing a wall or an empty space. Each Tile contains one TileObject, which is the contents of the Tile.</p>
+
+<h2>TileObject</h2>
+
+<p>An object can be shown on an empty Tile. Each TileObject is initialised with a reference to an image file in the resources directory, indicating what image should be displayed for the given object.</p>
+
+<h2>MobileObject</h2>
+
+<p>A MobileObject, unlike a TileObject, is mobile, and is displayed on top of the TileObject. The Maze contains a list of mobileobjects contained in the maze, and draws them after drawing the rest of the maze</p>
+
+<h2>MazeOverlay</h2>
+
+<p>The MazeOverlay allows additional overlays to be drawn on top of the maze, and </p>
+
+<h2>Non-base functionality to design later</h2>
+
+<ul>
+<li>Page transitions</li>
+<li>Background images for the pages</li>
+<li>Walking on the main menu</li>
+<li>Instructions for each level</li>
+</ul>
+
+<p>Non-base functionality that varies with difficulty level</p>
+
+<ul>
+<li>Time limits (planning + solving) and high scores</li>
+<li>Hints and other assistance</li>
+<li>TileObjects
+<ul>
+<li>Portals</li>
+<li>Switches/Doors</li>
+<li>Treasure</li>
+<li>Extra time item</li>
+<li>Movement speed item</li>
+<li>Move back in time item</li>
+<li>Transparent walls, moving walls</li>
+<li>Fog of war/line of sight</li>
+</ul></li>
+<li>MobileObjects
+<ul>
+<li>Enemies</li>
+</ul></li>
+</ul>
