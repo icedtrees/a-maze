@@ -16,11 +16,11 @@ public abstract class Page extends JPanel {
     }
     
     public void show() {
-        mainFrame.setVisible(true);    
+        this.setVisible(true);    
     }
     
     public void hide() {
-        mainFrame.setVisible(false);        
+        this.setVisible(false);        
     }
     
 }
