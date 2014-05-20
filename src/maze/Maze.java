@@ -33,7 +33,7 @@ public class Maze extends JComponent {
     private int height;
     private int complexity;
     
-    private static enum Direction {
+    public static enum Direction {
         NORTH,
         EAST,
         SOUTH,
@@ -174,13 +174,15 @@ public class Maze extends JComponent {
             	tiles[col][row].draw(newG, tileSize);
             	
                 // TEST
-                if (playerX == col && playerY == row) {
-                	newG.setColor(new Color(255, 0, 0));
-                	newG.fillOval(0, 0, tileSize, tileSize);
-                }
+//                if (playerX == col && playerY == row) {
+//                	newG.setColor(new Color(255, 0, 0));
+//                	newG.fillOval(0, 0, tileSize, tileSize);
+//                }
                 // TEST
             }
         }
+        g.setColor(new Color(255, 0, 0));
+    	g.fillOval((int) (playerX * tileSize + xMargin/2), (int) (playerY * tileSize + yMargin/2), tileSize, tileSize);
     }
     
     // TEST
@@ -208,6 +210,46 @@ public class Maze extends JComponent {
     public void setPlayerPos(int x, int y) {
     	playerX = x;
     	playerY = y;
+    }
+    
+    public void movePlayer(Direction dir) {
+    	if (dir == null) {
+    		return;
+    	}
+    	
+    	double increment = 0.0000002;
+    	if (dir == Direction.EAST) {
+    		double goal = playerX + 1;
+    		while (playerX < goal) {
+    			playerX += increment;
+    			this.getParent().repaint();
+    		}
+    		return;
+    	}
+    	if (dir == Direction.SOUTH){
+    		double goal = playerY + 1;
+    		while (playerY < goal) {
+    			playerY += increment;
+    			this.getParent().repaint();
+    		}
+    		return;
+    	}
+    	if (dir == Direction.NORTH){
+    		double goal = playerY - 1;
+    		while (playerY > goal) {
+    			playerY -= increment;
+    			this.getParent().repaint();
+    		}
+    		return;
+    	}
+    	if (dir == Direction.WEST) {
+    		double goal = playerX - 1;
+    		while (playerX > goal) {
+    			playerX -= increment;
+    			this.getParent().repaint();
+    		}
+    		return;
+    	}
     }
     
     public boolean isSpace(int x, int y) {

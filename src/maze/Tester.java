@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 
 public class Tester {
     public static void main(String[] args) {
-        Maze myMaze = new Maze(60, 610, 1);
+        Maze myMaze = new Maze(20, 610, 1);
         myMaze.genMazeDFS();
         
 
@@ -40,9 +40,11 @@ public class Tester {
 //			}
 //        }
         
+//        myMaze.movePlayer(Maze.Direction.EAST);
+        
         Set<Coordinate> seen = new HashSet<Coordinate>();
         Stack<Coordinate> s = new Stack<Coordinate>();
-        s.add(new Coordinate(1, 0));
+        s.add(new Coordinate(1, 0, null));
         while (!s.isEmpty()) {
         	Coordinate cur = s.pop();
         	
@@ -50,7 +52,8 @@ public class Tester {
         		continue;
         	}
         	seen.add(cur);
-        	myMaze.setPlayerPos(cur.getX(), cur.getY());
+//        	myMaze.setPlayerPos(cur.getX(), cur.getY());
+        	myMaze.movePlayer(cur.getDir());
         	myMaze.setTile(cur.getX(), cur.getY(), Tile.EXPLORED);
         	f.repaint();
         	
@@ -60,7 +63,7 @@ public class Tester {
         		}
         	}
         	try {
-				Thread.sleep(5);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
