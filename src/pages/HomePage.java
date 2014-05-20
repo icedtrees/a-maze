@@ -1,7 +1,5 @@
 package pages;
 
-import game.Game;
-
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -9,10 +7,10 @@ import javax.swing.JPanel;
 
 public class HomePage extends Page {
 	public enum Result {
-        PLAY_GAME;
-        SHOW_INSTRUCTIONS;
-        SHOW_HIGH_SCORES;
-        QUIT_GAME;
+        PLAY_GAME,
+        SHOW_INSTRUCTIONS,
+        SHOW_HIGH_SCORES,
+        QUIT_GAME,
     };
 	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;
@@ -37,12 +35,7 @@ public class HomePage extends Page {
         return result;
     }
     
-    private void addButtons() {
-    	HomePage home = new HomePage(frame);
-        addStartButton(home.getHomePanel());
-        addInstructionsButton(home.getHomePanel());
-        addHighScoresButton(home.getHomePanel());
-        addExitButton(home.getHomePanel());	
-    	cardPanel.add(home.getHomePanel(), "main menu panel");
+    public JPanel getHomePanel() {
+        return mainPanel;
     }
 }

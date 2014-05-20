@@ -25,14 +25,15 @@ public class Game {
         
         while (running) {
             mainWindow.setVisible(true);
-            Command command = homePage.waitCommand();
-            if (command.equals(Command.PLAY_GAME)) {
-                mazePage.show();
-                homePage.hide();
-            } else if (command.equals(Command.INSTRUCTIONS)) {
-                homePage.hide();
-
-            } else if (command.equals(Command.QUIT)) {
+            HomePage home = new HomePage(mainWindow);
+            HomePage.Result result = home.run();
+            if (result.equals(HomePage.Result.PLAY_GAME)) {
+                
+            } else if (result.equals(HomePage.Result.SHOW_INSTRUCTIONS)) {
+                
+            } else if (result.equals(HomePage.Result.SHOW_HIGH_SCORES)) {
+                
+            } else if (result.equals(HomePage.Result.QUIT_GAME)) {
                 running = false;
             }
         }
