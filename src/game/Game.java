@@ -10,11 +10,6 @@ import pages.MazePage;
  *
  */
 public class Game {
-    public enum Command {
-        PLAY_GAME,
-        INSTRUCTIONS,
-        QUIT
-    }
     
     private HomePage homePage;
     private MazePage mazePage;

@@ -8,11 +8,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class HomePage extends Page {
-	/**
-	 * 
-	 */
+	public enum Result {
+        PLAY_GAME;
+        SHOW_INSTRUCTIONS;
+        SHOW_HIGH_SCORES;
+        QUIT_GAME;
+    };
 	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;
+    private Result result;
 	
     public HomePage(JFrame frame) {
     	super(frame);
@@ -24,13 +28,21 @@ public class HomePage extends Page {
         JLabel titleLabel = new JLabel("MAZE", JLabel.CENTER);
         mainPanel.add(titleLabel);
         
+        result = null;
     }
     
-    public JPanel getHomePanel() {
-    	return mainPanel;
+    public Result run() {
+        // Wait until the user presses the button, and then return the result
+        while (result.equals(null));
+        return result;
     }
-	
-    public Game.Command waitCommand() {
-        return Game.Command.QUIT;
+    
+    private void addButtons() {
+    	HomePage home = new HomePage(frame);
+        addStartButton(home.getHomePanel());
+        addInstructionsButton(home.getHomePanel());
+        addHighScoresButton(home.getHomePanel());
+        addExitButton(home.getHomePanel());	
+    	cardPanel.add(home.getHomePanel(), "main menu panel");
     }
 }
