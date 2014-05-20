@@ -1,9 +1,7 @@
 package game;
 import javax.swing.JFrame;
 
-import pages.HomePage;
-import pages.MazePage;
-
+import pages.*;
 
 /**
  * @author icedtrees
@@ -16,8 +14,7 @@ public class Game {
         QUIT
     }
     
-    private HomePage homePage;
-    private MazePage mazePage;
+    private JFrame mainWindow;
     
     public static void main(String[] args) {
         Game game = new Game();
@@ -25,24 +22,22 @@ public class Game {
     }
     
     public Game() {
-        JFrame mainWindow = new JFrame();
-        homePage = new HomePage(mainWindow);
-        homePage.hide();
+        mainWindow = new JFrame();
     }
     
     public void run() {
         boolean running = true;
         
         while (running) {
-            homePage.show();
+            mainWindow.setVisible(true);
             Command command = homePage.waitCommand();
-            if (command == Command.PLAY_GAME) {
+            if (command.equals(Command.PLAY_GAME)) {
                 mazePage.show();
                 homePage.hide();
-            } else if (command == Command.INSTRUCTIONS) {
+            } else if (command.equals(Command.INSTRUCTIONS)) {
                 homePage.hide();
 
-            } else if (command == Command.QUIT) {
+            } else if (command.equals(Command.QUIT)) {
                 running = false;
             }
         }
