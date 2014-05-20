@@ -1,23 +1,15 @@
 package game;
 import javax.swing.JFrame;
 
-import pages.HomePage;
-import pages.MazePage;
-
+import pages.*;
 
 /**
  * @author icedtrees
  *
  */
 public class Game {
-    public enum Command {
-        PLAY_GAME,
-        INSTRUCTIONS,
-        QUIT
-    }
     
-    private HomePage homePage;
-    private MazePage mazePage;
+    private JFrame mainWindow;
     
     public static void main(String[] args) {
         Game game = new Game();
@@ -25,24 +17,23 @@ public class Game {
     }
     
     public Game() {
-        JFrame mainWindow = new JFrame();
-        homePage = new HomePage(mainWindow);
-        homePage.hide();
+        mainWindow = new JFrame();
     }
     
     public void run() {
         boolean running = true;
         
         while (running) {
-            homePage.show();
-            Command command = homePage.waitCommand();
-            if (command == Command.PLAY_GAME) {
-                mazePage.show();
-                homePage.hide();
-            } else if (command == Command.INSTRUCTIONS) {
-                homePage.hide();
-
-            } else if (command == Command.QUIT) {
+            mainWindow.setVisible(true);
+            HomePage home = new HomePage(mainWindow);
+            HomePage.Result result = home.run();
+            if (result.equals(HomePage.Result.PLAY_GAME)) {
+                
+            } else if (result.equals(HomePage.Result.SHOW_INSTRUCTIONS)) {
+                
+            } else if (result.equals(HomePage.Result.SHOW_HIGH_SCORES)) {
+                
+            } else if (result.equals(HomePage.Result.QUIT_GAME)) {
                 running = false;
             }
         }

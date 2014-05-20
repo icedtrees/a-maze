@@ -1,7 +1,6 @@
 package pages;
 
 
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
@@ -21,7 +20,7 @@ public class MazePage extends Page {
 	public MazePage(JFrame frame) {
 		super(frame);
 		mainPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
+		// GridBagConstraints c = new GridBagConstraints();
 		
 		//panel where the maze will be drawn
 		// JPanel mazePanel = new Maze();
