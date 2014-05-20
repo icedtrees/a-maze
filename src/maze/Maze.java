@@ -41,8 +41,7 @@ public class Maze extends JComponent {
     }
     
     // TEST
-    double playerX;
-    double playerY;
+    PlayerObject player;
     // TEST
     
     public Maze(int newHeight, int displayHeight, int newComplexity) {
@@ -54,8 +53,7 @@ public class Maze extends JComponent {
             int displayWidth, int displayHeight,
             int newComplexity) {
     	// TEST
-    	playerX = 1;
-    	playerY = 0;
+    	player = new PlayerObject();
     	// TEST
 
         width = 2 * newWidth + 1;
@@ -181,78 +179,92 @@ public class Maze extends JComponent {
                 // TEST
             }
         }
-        g.setColor(new Color(255, 0, 0));
-    	g.fillOval((int) (playerX * tileSize + xMargin/2), (int) (playerY * tileSize + yMargin/2), tileSize, tileSize);
+//        g.setColor(new Color(255, 0, 0));
+//    	g.fillOval((int) (player.getX() * tileSize + xMargin/2), (int) (player.getY() * tileSize + yMargin/2), tileSize, tileSize);
+        Graphics newG = g.create((int) (player.getX() * tileSize + xMargin/2), (int) (player.getY() * tileSize + yMargin/2), tileSize, tileSize);
+        player.draw(newG, tileSize);
     }
     
     // TEST
     public void movePlayerRandom() {
-    	int x = (int) playerX;
-    	int y = (int) playerY;
+    	int x = (int) player.getX();
+    	int y = (int) player.getY();
     	if (rand.nextBoolean() && tiles[x+1][y] != null && tiles[x+1][y].getValue() != Tile.WALL) {
-    		playerX++;
+    		player.move(Direction.EAST);;
     		return;
     	}
     	if (rand.nextBoolean() && tiles[x][y+1] != null && tiles[x][y+1].getValue() != Tile.WALL) {
-    		playerY++;
+    		player.move(Direction.SOUTH);;
     		return;
     	}
     	if (rand.nextBoolean() && tiles[x-1][y] != null && tiles[x-1][y].getValue() != Tile.WALL) {
-    		playerX--;
+    		player.move(Direction.WEST);;
     		return;
     	}
     	if (rand.nextBoolean() && tiles[x][y-1] != null && tiles[x][y-1].getValue() != Tile.WALL) {
-    		playerY--;
+    		player.move(Direction.NORTH);;
     		return;
     	}
     }
     
-    public void setPlayerPos(int x, int y) {
-    	playerX = x;
-    	playerY = y;
+//    public void setPlayerPos(int x, int y) {
+//    	playerX = x;
+//    	playerY = y;
+//    }
+    
+//    public void movePlayer(Direction dir) {
+//    	if (dir == null) {
+//    		return;
+//    	}
+//    	
+//    	double increment = 0.0000002;
+//    	if (dir == Direction.EAST) {
+//    		double goal = playerX + 1;
+//    		while (playerX < goal) {
+//    			playerX += increment;
+//    			this.getParent().repaint();
+//    		}
+//    		return;
+//    	}
+//    	if (dir == Direction.SOUTH){
+//    		double goal = playerY + 1;
+//    		while (playerY < goal) {
+//    			playerY += increment;
+//    			this.getParent().repaint();
+//    		}
+//    		return;
+//    	}
+//    	if (dir == Direction.NORTH){
+//    		double goal = playerY - 1;
+//    		while (playerY > goal) {
+//    			playerY -= increment;
+//    			this.getParent().repaint();
+//    		}
+//    		return;
+//    	}
+//    	if (dir == Direction.WEST) {
+//    		double goal = playerX - 1;
+//    		while (playerX > goal) {
+//    			playerX -= increment;
+//    			this.getParent().repaint();
+//    		}
+//    		return;
+//    	}
+//    }
+    
+    public boolean movePlayer(Direction dir) {
+    	return player.move(dir);
     }
     
-    public void movePlayer(Direction dir) {
-    	if (dir == null) {
-    		return;
-    	}
-    	
-    	double increment = 0.0000002;
-    	if (dir == Direction.EAST) {
-    		double goal = playerX + 1;
-    		while (playerX < goal) {
-    			playerX += increment;
-    			this.getParent().repaint();
-    		}
-    		return;
-    	}
-    	if (dir == Direction.SOUTH){
-    		double goal = playerY + 1;
-    		while (playerY < goal) {
-    			playerY += increment;
-    			this.getParent().repaint();
-    		}
-    		return;
-    	}
-    	if (dir == Direction.NORTH){
-    		double goal = playerY - 1;
-    		while (playerY > goal) {
-    			playerY -= increment;
-    			this.getParent().repaint();
-    		}
-    		return;
-    	}
-    	if (dir == Direction.WEST) {
-    		double goal = playerX - 1;
-    		while (playerX > goal) {
-    			playerX -= increment;
-    			this.getParent().repaint();
-    		}
-    		return;
-    	}
+    public void nextFrame() {
+    	player.nextFrame();
     }
     
     public boolean isSpace(int x, int y) {
+    	if (x == width - 2 && y == height - 1) {
+    		// End goal
+    		return true;
+    	}
     	if (x < 1 || x > width - 2 || y < 1 || y > height - 2) {
     		return false;
     	}
