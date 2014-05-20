@@ -7,6 +7,10 @@ public class Tile {
     static final public int WALL = 1;
     static final public int SPACE = 0;
     
+    // TEST
+    static final public int EXPLORED = 2;
+    // TEST
+    
     private int value;
     private int x;
     private int y;
@@ -116,15 +120,21 @@ public class Tile {
 //        west = newWest;
 //    }
     
-    public void draw(Graphics g, int x, int y, int size) {
+    public void draw(Graphics g, int tileSize) {
         if (value == WALL) {
-            g.setColor(new Color(0, 0, 0));
-        }
-        if (value == SPACE) {
-            g.setColor(new Color(255, 255, 255));
-        }
-//        System.out.println("Filling rect at " + x * size + ", " + y * size + " of side length " + size + " with the color " + (value == WALL ? "black" : "white"));
-        g.fillRect(x * size,  y * size,  size,  size);
+    	    g.setColor(new Color(0, 0, 0));
+	    }
+	    if (value == SPACE) {
+	        g.setColor(new Color(255, 255, 255));
+	    }
+	    
+	    // TEST
+	    if (value == EXPLORED) {
+	    	g.setColor(new Color(200, 200, 255));
+	    }
+	    // TEST
+	    
+    	g.fillRect(0, 0, tileSize, tileSize);
     }
     
     public String toString() {

@@ -22,15 +22,15 @@ public class Maze extends JComponent {
      * 
      */
     private static final long serialVersionUID = 1L;
-
-    private final static boolean DEBUGGING = true;
+    
+    private final static boolean DEBUGGING = false;
+    private final static double DEFAULT_ASPECT = 1.2;
     
     private final Random rand;
     
     private Tile[][] tiles;
     private int width;
     private int height;
-    private int tileSize;
     private int complexity;
     
     private static enum Direction {
@@ -40,11 +40,27 @@ public class Maze extends JComponent {
         WEST,
     }
     
-    public Maze(int newWidth, int newHeight, int newComplexity) {
+    // TEST
+    double playerX;
+    double playerY;
+    // TEST
+    
+    public Maze(int newHeight, int displayHeight, int newComplexity) {
+        this((int) (newHeight * DEFAULT_ASPECT), newHeight,
+                (int) (displayHeight * DEFAULT_ASPECT), displayHeight,
+                newComplexity);
+    }
+    public Maze(int newWidth, int newHeight,
+            int displayWidth, int displayHeight,
+            int newComplexity) {
+    	// TEST
+    	playerX = 1;
+    	playerY = 0;
+    	// TEST
+
         width = 2 * newWidth + 1;
         height = 2 * newHeight + 1;
-        tileSize = 50;
-        setPreferredSize(new Dimension(tileSize * width, tileSize * height));
+        setPreferredSize(new Dimension(displayWidth, displayHeight));
         tiles = new Tile[width][height];
         // tiles[x-dir][y-dir], x points right, y points down
         for (int row = 0; row < height; row++) {
@@ -138,16 +154,73 @@ public class Maze extends JComponent {
     }
     
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {    	
         Rectangle bounds = this.getBounds();
-        tileSize = Math.min(bounds.width/width, bounds.height/height);
-        g.setClip(0, 0, width * tileSize, height * tileSize);
+        int tileSize = Math.min(bounds.width/width, bounds.height/height);
+        
+        int xMargin = bounds.width - (width * tileSize);
+        int yMargin = bounds.height - (height * tileSize);
+        
+        g.setClip(0, 0, bounds.width, bounds.height);
+        g.setColor(new Color(0, 255, 0));
+    	g.fillRect(0, 0, bounds.width, bounds.height);
+        
+    	g.setClip(xMargin/2, yMargin/2, tileSize*width, tileSize*height);
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                tiles[col][row].draw(g, col, row, tileSize);
+            	int newX = col*tileSize + xMargin/2;
+            	int newY = row*tileSize + yMargin/2;
+            	Graphics newG = g.create(newX, newY, tileSize, tileSize);
+            	tiles[col][row].draw(newG, tileSize);
+            	
+                // TEST
+                if (playerX == col && playerY == row) {
+                	newG.setColor(new Color(255, 0, 0));
+                	newG.fillOval(0, 0, tileSize, tileSize);
+                }
+                // TEST
             }
         }
     }
+    
+    // TEST
+    public void movePlayerRandom() {
+    	int x = (int) playerX;
+    	int y = (int) playerY;
+    	if (rand.nextBoolean() && tiles[x+1][y] != null && tiles[x+1][y].getValue() != Tile.WALL) {
+    		playerX++;
+    		return;
+    	}
+    	if (rand.nextBoolean() && tiles[x][y+1] != null && tiles[x][y+1].getValue() != Tile.WALL) {
+    		playerY++;
+    		return;
+    	}
+    	if (rand.nextBoolean() && tiles[x-1][y] != null && tiles[x-1][y].getValue() != Tile.WALL) {
+    		playerX--;
+    		return;
+    	}
+    	if (rand.nextBoolean() && tiles[x][y-1] != null && tiles[x][y-1].getValue() != Tile.WALL) {
+    		playerY--;
+    		return;
+    	}
+    }
+    
+    public void setPlayerPos(int x, int y) {
+    	playerX = x;
+    	playerY = y;
+    }
+    
+    public boolean isSpace(int x, int y) {
+    	if (x < 1 || x > width - 2 || y < 1 || y > height - 2) {
+    		return false;
+    	}
+    	return tiles[x][y].getValue() == Tile.SPACE;
+    }
+    
+    public void setTile(int x, int y, int value) {
+    	tiles[x][y].setValue(value);
+    }
+    // TEST
     
     public void genMazeDFS() {
         reset();
