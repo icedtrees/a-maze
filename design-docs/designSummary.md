@@ -12,6 +12,8 @@ abstract Page
 ------
 The Page class is an abstract class that other Pages will extend. The constructor will accept a JFrame as a parameter that all GUI elements can be packed into.
 
+Generally each Page will have a constructor, which will set up all required page elements, and a run() function, which fills the Frame with the Page and assumes control until the termination of the page. At the termination of the page, the Page will return an exit code defined in an enumeration within the Page. 
+
 HomePage extends Page
 -------------------------
 The HomePage is the main menu screen, where the user can navigate to the other 

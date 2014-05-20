@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class HomePage extends Page {
-	public enum Result {
+	public enum Result implements Page.Result {
         PLAY_GAME,
         SHOW_INSTRUCTIONS,
         SHOW_HIGH_SCORES,
@@ -29,9 +29,9 @@ public class HomePage extends Page {
         result = null;
     }
     
-    public Result run() {
+    public Page.Result run() {
         // Wait until the user presses the button, and then return the result
-        while (result.equals(null));
+        while (result == null);
         return result;
     }
     
