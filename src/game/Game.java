@@ -26,7 +26,7 @@ public class Game {
         while (running) {
             mainWindow.setVisible(true);
             HomePage home = new HomePage(mainWindow);
-            HomePage.Result result = home.run();
+            Page.Result result = home.run();
             if (result.equals(HomePage.Result.PLAY_GAME)) {
                 
             } else if (result.equals(HomePage.Result.SHOW_INSTRUCTIONS)) {
