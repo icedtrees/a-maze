@@ -22,7 +22,7 @@ public class Maze extends JComponent {
     
     private final static boolean DEBUGGING = false;
     private final static double DEFAULT_RATIO = 1.2;
-    public final static int FPS = 80;
+    public final static int FPS = 50;
     
     private final Random rand;
     

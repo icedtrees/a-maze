@@ -46,6 +46,10 @@ public abstract class MobileObject {
 		if (moving == null) {
 			return;
 		}
+		
+		x += moving.dx() * (speed/Maze.FPS);
+		y += moving.dy() * (speed/Maze.FPS);
+		
 		boolean finishedMoving = true;
 		if (moving == Direction.EAST && lessThan(x, goalX)) {
 			finishedMoving = false;
@@ -64,9 +68,6 @@ public abstract class MobileObject {
 			x = goalX;
 			y = goalY;
 			moving = null;
-		} else {
-			x += moving.dx() * (speed/Maze.FPS);
-			y += moving.dy() * (speed/Maze.FPS);
 		}
 		return;
 	}
