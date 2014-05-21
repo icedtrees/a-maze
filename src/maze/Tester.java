@@ -3,7 +3,6 @@ package maze;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.Timer;
@@ -52,13 +51,13 @@ public class Tester {
         
         Thread thread1 = new Thread() {
             public void run() {
-            	maze2.genMazeDFSBranch(5);
+            	myMaze.genMazeDFS();
             }
         };
         
         Thread thread2 = new Thread() {
             public void run() {
-            	myMaze.genMazeDFS();
+            	maze2.genMazeDFSBranch(5);
             }
         };
         
