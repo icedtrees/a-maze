@@ -1,4 +1,4 @@
-package maze;
+package maze.autoplayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +28,11 @@ public class Coordinate {
 	
 	public List<Coordinate> adj() {
 		List<Coordinate> l = new ArrayList<Coordinate>();
-		l.add(new Coordinate(x+1, y, Maze.Direction.EAST));
-		l.add(new Coordinate(x, y+1, Maze.Direction.SOUTH));
-		l.add(new Coordinate(x-1, y, Maze.Direction.WEST));
-		l.add(new Coordinate(x, y-1, Maze.Direction.NORTH));
+		
+		l.add(new Coordinate(x-1, y, Direction.WEST));
+		l.add(new Coordinate(x, y-1, Direction.NORTH));
+		l.add(new Coordinate(x+1, y, Direction.EAST));
+		l.add(new Coordinate(x, y+1, Direction.SOUTH));
 		
 		return l;
 	}

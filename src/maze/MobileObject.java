@@ -8,12 +8,12 @@ import maze.Maze.Direction;
 public abstract class MobileObject {
 	private double x;
 	private double y;
-	private double speed;
+	private double speed; // Tiles traversed per second
 	private double goalX;
 	private double goalY;
 	private Color color;
 	
-	private static int FPS = 50;
+	private Direction moving;
 	
 	public MobileObject() {
 		this(new Color(0, 0, 0));
@@ -31,6 +31,8 @@ public abstract class MobileObject {
 		this.goalX = x;
 		this.goalY = y;
 		this.color = color;
+		
+		this.moving = null;
 	}
 	
 	public double getX() {
@@ -41,17 +43,31 @@ public abstract class MobileObject {
 	}
 	
 	public void nextFrame() {
-		if (lessThan(x, goalX)) {
-			x += speed/FPS;
+		if (moving == null) {
+			return;
 		}
-		if (greaterThan(x, goalX)) {
-			x -= speed/FPS;
+		
+		x += moving.dx() * (speed/Maze.FPS);
+		y += moving.dy() * (speed/Maze.FPS);
+		
+		boolean finishedMoving = true;
+		if (moving == Direction.EAST && lessThan(x, goalX)) {
+			finishedMoving = false;
 		}
-		if (lessThan(y, goalY)) {
-			y += speed/FPS;
+		if (moving == Direction.WEST && greaterThan(x, goalX)) {
+			finishedMoving = false;
 		}
-		if (greaterThan(y, goalY)) {
-			y -= speed/FPS;
+		if (moving == Direction.SOUTH && lessThan(y, goalY)) {
+			finishedMoving = false;
+		}
+		if (moving == Direction.NORTH && greaterThan(y, goalY)) {
+			finishedMoving = false;
+		}
+		
+		if (finishedMoving) {
+			x = goalX;
+			y = goalY;
+			moving = null;
 		}
 		return;
 	}
@@ -72,18 +88,15 @@ public abstract class MobileObject {
 	}
 	
 	public boolean move(Direction dir) {
-		if (!equalTo(x, goalX) || !equalTo(y, goalY)) {
+		if (dir == null) {
+			return true;
+		}
+		if (moving != null) {
 			return false;
 		}
-		if (dir == Direction.EAST) {
-			goalX = x + 1;
-		} else if (dir == Direction.SOUTH){
-			goalY = y + 1;
-		} else if (dir == Direction.WEST) {
-			goalX = x - 1;
-		} else if (dir == Direction.NORTH){
-			goalY = y - 1;
-		}
+		moving = dir;
+		goalX = x + dir.dx();
+		goalY = y + dir.dy();
 		return true;
 	}
 }

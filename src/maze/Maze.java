@@ -3,8 +3,6 @@ package maze;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,8 +12,6 @@ import java.util.Random;
 import java.util.Stack;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 
 public class Maze extends JComponent {
@@ -25,7 +21,8 @@ public class Maze extends JComponent {
     private static final long serialVersionUID = 1L;
     
     private final static boolean DEBUGGING = false;
-    private final static double DEFAULT_ASPECT = 1.2;
+    private final static double DEFAULT_RATIO = 1.2;
+    public final static int FPS = 50;
     
     private final Random rand;
     
@@ -35,54 +32,60 @@ public class Maze extends JComponent {
     private int complexity;
     
     public static enum Direction {
-        NORTH,
-        EAST,
-        SOUTH,
-        WEST,
+    	NORTH(0, -1),
+    	EAST(1, 0),
+    	SOUTH(0, 1),
+    	WEST(-1, 0);
+        
+        private int dx;
+        private int dy;
+        private Direction reverse;
+        
+        static {
+        	NORTH.reverse = SOUTH;
+        	EAST.reverse = WEST;
+        	SOUTH.reverse = NORTH;
+        	WEST.reverse = EAST;
+        }
+        
+        private Direction(int dx, int dy) {
+        	this.dx = dx;
+        	this.dy = dy;
+        }
+        
+        public int dx() {
+        	return dx;
+        }
+        public int dy() {
+        	return dy;
+        }
+        public Direction reverse() {
+        	return reverse;
+        }
     }
     
-    // TEST
     PlayerObject player;
-    // TEST
     
     public Maze(int newHeight, int displayHeight, int newComplexity) {
-        this((int) (newHeight * DEFAULT_ASPECT), newHeight,
-                (int) (displayHeight * DEFAULT_ASPECT), displayHeight,
+        this((int) (newHeight * DEFAULT_RATIO), newHeight,
+                (int) (displayHeight * DEFAULT_RATIO), displayHeight,
                 newComplexity);
     }
     public Maze(int newWidth, int newHeight,
             int displayWidth, int displayHeight,
             int newComplexity) {
-    	// TEST
     	player = new PlayerObject();
-    	// TEST
 
         width = 2 * newWidth + 1;
         height = 2 * newHeight + 1;
         setPreferredSize(new Dimension(displayWidth, displayHeight));
         tiles = new Tile[width][height];
-        // tiles[x-dir][y-dir], x points right, y points down
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 tiles[col][row] = new Tile(Tile.WALL, col, row);
             }
         }
-//        for (int row = 0; row < height; row++) {
-//            for (int col = 0; col < width; col++) {
-//                if (row > 1) {
-//                    tiles[col][row].setNorth(tiles[col][row-1]);
-//                }
-//                if (col < width - 2) {
-//                    tiles[col][row].setEast(tiles[col+1][row]);
-//                }
-//                if (row < height - 2) {
-//                    tiles[col][row].setSouth(tiles[col][row+1]);
-//                }
-//                if (col > 1) {
-//                    tiles[col][row].setWest(tiles[col-1][row]);
-//                }
-//            }
-//        }
+        
         complexity = newComplexity;
         
         rand = new Random(System.nanoTime());
@@ -97,92 +100,77 @@ public class Maze extends JComponent {
     public int getComplexity() {
         return complexity;
     }
-    public Tile getTile(int x, int y) {
-        if (x >= 0 && x < width && y >= 0 && y < height) {
-            return tiles[x][y];
-        } else {
-            return null;
-        }
-    }
+//    public Tile getTile(int x, int y) {
+//        if (x >= 0 && x < width && y >= 0 && y < height) {
+//            return tiles[x][y];
+//        } else {
+//            return null;
+//        }
+//    }
     
     public String toString() {
         String[] asciiOutput = new String[]{" ", "#"};
         String mazeString = "";
         
-//        mazeString += "+";
-//        for (int i = 0; i < width; i++) {
-//            mazeString += "-";
-//        }
-//        mazeString += "+\n";
         for (int row = 0; row < height; row++) {
-//            mazeString += "|";
             for (int col = 0; col < width; col++) {
                 mazeString += asciiOutput[tiles[col][row].getValue()];
             }
-//            mazeString += "|\n";
             mazeString += "\n";
         }
-//        mazeString += "+";
-//        for (int i = 0; i < width; i++) {
-//            mazeString += "-";
-//        }
-//        mazeString += "+";
         
         return mazeString;
     }
-    public void drawToScreen() {
-        JFrame f = new JFrame();
-        f.setLayout(new GridBagLayout());
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        GridBagConstraints c = new GridBagConstraints();
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                if (tiles[col][row].getValue() == Tile.WALL) {
-                    c.gridx = col;
-                    c.gridy = row;
-                    JPanel wall = new JPanel();
-                    wall.setBackground(Color.BLACK);
-                    f.add(wall, c);
-                }
-            }
-        }
-        
-        f.pack();
-        f.setVisible(true);
-    }
     
     @Override
-    public void paintComponent(Graphics g) {    	
+    public void paintComponent(Graphics g) {
+    	/*
+    	 * Initial calculations and background
+    	 */
+    	
+    	// Calculate tileSize based on our available width and height
         Rectangle bounds = this.getBounds();
         int tileSize = Math.min(bounds.width/width, bounds.height/height);
         
-        int xMargin = bounds.width - (width * tileSize);
-        int yMargin = bounds.height - (height * tileSize);
+        // Calculate how much margin to leave to center the maze
+        int xMargin = (bounds.width - (width * tileSize)) / 2;
+        int yMargin = (bounds.height - (height * tileSize)) / 2;
         
+        // Set initial clipping to the entire bounds
         g.setClip(0, 0, bounds.width, bounds.height);
+        
+        // Draw green background to prove transparency of later clipping
         g.setColor(new Color(0, 255, 0));
     	g.fillRect(0, 0, bounds.width, bounds.height);
         
-    	g.setClip(xMargin/2, yMargin/2, tileSize*width, tileSize*height);
+    	/*
+    	 * Draw each tile
+    	 */
+    	
+    	// Set clipping to just the maze display area
+    	g.setClip(xMargin, yMargin, tileSize*width, tileSize*height);
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-            	int newX = col*tileSize + xMargin/2;
-            	int newY = row*tileSize + yMargin/2;
+            	int newX = col*tileSize + xMargin;
+            	int newY = row*tileSize + yMargin;
+            	
+            	// Create a small localised graphics context for each
+            	// tile to draw to to that they can't draw anywhere on the
+            	// canvas and ruin everything.
             	Graphics newG = g.create(newX, newY, tileSize, tileSize);
             	tiles[col][row].draw(newG, tileSize);
-            	
-                // TEST
-//                if (playerX == col && playerY == row) {
-//                	newG.setColor(new Color(255, 0, 0));
-//                	newG.fillOval(0, 0, tileSize, tileSize);
-//                }
-                // TEST
             }
         }
-//        g.setColor(new Color(255, 0, 0));
-//    	g.fillOval((int) (player.getX() * tileSize + xMargin/2), (int) (player.getY() * tileSize + yMargin/2), tileSize, tileSize);
-        Graphics newG = g.create((int) (player.getX() * tileSize + xMargin/2), (int) (player.getY() * tileSize + yMargin/2), tileSize, tileSize);
+        
+        /*
+         * Draw overlay objects such as player
+         */
+        
+        // Create localised graphics context for player to draw to
+        Graphics newG = g.create(
+        		(int) (player.getX() * tileSize + xMargin),
+        		(int) (player.getY() * tileSize + yMargin),
+        		tileSize, tileSize);
         player.draw(newG, tileSize);
     }
     
@@ -208,56 +196,16 @@ public class Maze extends JComponent {
     	}
     }
     
-//    public void setPlayerPos(int x, int y) {
-//    	playerX = x;
-//    	playerY = y;
-//    }
-    
-//    public void movePlayer(Direction dir) {
-//    	if (dir == null) {
-//    		return;
-//    	}
-//    	
-//    	double increment = 0.0000002;
-//    	if (dir == Direction.EAST) {
-//    		double goal = playerX + 1;
-//    		while (playerX < goal) {
-//    			playerX += increment;
-//    			this.getParent().repaint();
-//    		}
-//    		return;
-//    	}
-//    	if (dir == Direction.SOUTH){
-//    		double goal = playerY + 1;
-//    		while (playerY < goal) {
-//    			playerY += increment;
-//    			this.getParent().repaint();
-//    		}
-//    		return;
-//    	}
-//    	if (dir == Direction.NORTH){
-//    		double goal = playerY - 1;
-//    		while (playerY > goal) {
-//    			playerY -= increment;
-//    			this.getParent().repaint();
-//    		}
-//    		return;
-//    	}
-//    	if (dir == Direction.WEST) {
-//    		double goal = playerX - 1;
-//    		while (playerX > goal) {
-//    			playerX -= increment;
-//    			this.getParent().repaint();
-//    		}
-//    		return;
-//    	}
-//    }
-    
     public boolean movePlayer(Direction dir) {
     	return player.move(dir);
     }
     
     public void nextFrame() {
+    	for (int row = 0; row < height; row++) {
+    		for (int col = 0; col < width; col++) {
+    			tiles[col][row].nextFrame();
+    		}
+    	}
     	player.nextFrame();
     }
     
@@ -292,12 +240,12 @@ public class Maze extends JComponent {
         s.add(new MazeGenStep(tiles[startx][starty], tiles[startx][starty]));
         
         while (!s.empty()) {
-        	try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//        	try {
+//				Thread.sleep(10);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
             MazeGenStep curStep = s.pop();
             if (!curStep.isValidMove()) {
                 continue;
@@ -352,17 +300,15 @@ public class Maze extends JComponent {
         while (!branches.isEmpty()) {
         	curNumSteps++;
         	
-//        	System.out.println();
         	for (int i = 0; i < branches.size(); i++) {
-        		try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//        		try {
+//					Thread.sleep(10);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
         		Stack<MazeGenStep> branch = branches.get(i);
 	        	
-//	        	System.out.println("On branch " + branch.toString());
 		        if (!branch.isEmpty()) {
 		            MazeGenStep curStep = branch.pop();
 		            if (!curStep.isValidMove()) {
@@ -436,6 +382,12 @@ public class Maze extends JComponent {
         possibleMoves.add(new MazeGenStep(tiles[startx][starty], tiles[1][0]));
         
         while (!possibleMoves.isEmpty()) {
+        	try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             int index = rand.nextInt(possibleMoves.size());
             MazeGenStep curStep = possibleMoves.get(index);
             possibleMoves.remove(index);
@@ -466,34 +418,6 @@ public class Maze extends JComponent {
                             getRelativeTile(curTile, dir)));
                 }
             }
-////            curMove = curTile.getNorth(2);
-//            curMove = getRelativeTile(curTile, 2, Direction.NORTH);
-//            if (curMove != null) {
-//                debug("    Considering move north to " + curMove.toString());
-//                possibleMoves.add(new MazeGenStep(curMove,
-//                        getRelativeTile(curTile, Direction.NORTH)));
-//            }
-////            curMove = curTile.getEast(2);
-//            curMove = getRelativeTile(curTile, 2, Direction.EAST);
-//            if (curMove != null) {
-//                debug("    Considering move east to " + curMove.toString());
-//                possibleMoves.add(new MazeGenStep(curMove,
-//                        getRelativeTile(curTile, Direction.EAST)));
-//            }
-////            curMove = curTile.getSouth(2);
-//            curMove = getRelativeTile(curTile, 2, Direction.SOUTH);
-//            if (curMove != null) {
-//                debug("    Considering move south to " + curMove.toString());
-//                possibleMoves.add(new MazeGenStep(curMove,
-//                        getRelativeTile(curTile, Direction.SOUTH)));
-//            }
-////            curMove = curTile.getWest(2);
-//            curMove = getRelativeTile(curTile, 2, Direction.WEST);
-//            if (curMove != null) {
-//                debug("    Considering move west to " + curMove.toString());
-//                possibleMoves.add(new MazeGenStep(curMove,
-//                        getRelativeTile(curTile, Direction.WEST)));
-//            }
         }
         
         tiles[width-2][height-1].setValue(Tile.SPACE);
@@ -517,22 +441,22 @@ public class Maze extends JComponent {
         if (tile == null) {
             return null;
         }
-        int[] dx = {1, 0, -1, 0}; // east, north, west, south
-        int[] dy = {0, -1, 0, 1};
-        int dir;
-        if (direction == Direction.EAST) {
-            dir = 0;
-        } else if (direction == Direction.NORTH) {
-            dir = 1;
-        } else if (direction == Direction.WEST) {
-            dir = 2;
-        } else {
-            assert(direction == Direction.SOUTH);
-            dir = 3;
-        }
+//        int[] dx = {1, 0, -1, 0}; // east, north, west, south
+//        int[] dy = {0, -1, 0, 1};
+//        int dir;
+//        if (direction == Direction.EAST) {
+//            dir = 0;
+//        } else if (direction == Direction.NORTH) {
+//            dir = 1;
+//        } else if (direction == Direction.WEST) {
+//            dir = 2;
+//        } else {
+//            assert(direction == Direction.SOUTH);
+//            dir = 3;
+//        }
         
-        int newX = tile.getX() + n * dx[dir];
-        int newY = tile.getY() + n * dy[dir];
+        int newX = tile.getX() + n * direction.dx();
+        int newY = tile.getY() + n * direction.dy();
         
         if (newX < 0 || newX >= width || newY < 0 || newY >= height) {
             return null;
