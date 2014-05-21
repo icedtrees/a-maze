@@ -1,4 +1,4 @@
-package maze;
+package maze.autoplayer;
 
 import java.util.ArrayList;
 import java.util.List;
