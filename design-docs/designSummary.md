@@ -34,6 +34,7 @@ HighScoresPage extends Page
 -------------------------------
 Shows the high scores
 
+
 Maze extends JComponent
 -----------------------
 Contained in MazeWindow. Takes care of the maze generation as well as graphical output. Maze will have various public functions to alter the maze, which mazewindow will call. Maze returns result codes to MazePage to tell it what to do.
@@ -47,14 +48,14 @@ void modify(Maze maze) function
 
 which takes a Maze as an argument and modifies it minimally to suit the feature. MazePage features like enable timer will have to be manually hardcoded.
 
+
 Tile
 ----
 Tile can either be empty or not empty, representing a wall or an empty space. Each Tile contains one TileObject, which is the contents of the Tile.
 
 TileObject
 ----------
-An object can be shown on an empty Tile. Each TileObject is initialised with a reference to an image file in the resources directory, indicating what image should be displayed for the given object.
-
+An object can be shown on an empty Tile. Each TileObject is initialised with a reference to an image file in the resources directory. The Tile contains the TileObject
 
 MobileObject
 ------------
@@ -69,7 +70,8 @@ Non-base functionality to design later
 -   Page transitions
 -   Background images for the pages
 -   Walking on the main menu
--  Instructions for each level
+-   Instructions for each level
+-   Racing against an AI
 
 Non-base functionality that varies with difficulty level
 
