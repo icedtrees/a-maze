@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
@@ -288,9 +289,15 @@ public class Maze extends JComponent {
             starty++;
         }
         Stack<MazeGenStep> s = new Stack<MazeGenStep>();
-        s.add(new MazeGenStep(tiles[1][1], tiles[1][0]));
+        s.add(new MazeGenStep(tiles[startx][starty], tiles[startx][starty]));
         
         while (!s.empty()) {
+        	try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             MazeGenStep curStep = s.pop();
             if (!curStep.isValidMove()) {
                 continue;
@@ -329,6 +336,88 @@ public class Maze extends JComponent {
             }
         }
         
+        tiles[width-2][height-1].setValue(Tile.SPACE);
+    }
+    
+    public void genMazeDFSBranch(int firstBranchStep) {
+    	reset();
+        
+        List<Stack<MazeGenStep>> branches = new ArrayList<Stack<MazeGenStep>>();
+        Stack<MazeGenStep> firstBranch = new Stack<MazeGenStep>();
+        firstBranch.push(new MazeGenStep(tiles[1][1], tiles[1][0]));
+        branches.add(firstBranch);
+        
+        int curNumSteps = 0;
+        int branchAtStep = firstBranchStep;
+        while (!branches.isEmpty()) {
+        	curNumSteps++;
+        	
+//        	System.out.println();
+        	for (int i = 0; i < branches.size(); i++) {
+        		try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		Stack<MazeGenStep> branch = branches.get(i);
+	        	
+//	        	System.out.println("On branch " + branch.toString());
+		        if (!branch.isEmpty()) {
+		            MazeGenStep curStep = branch.pop();
+		            if (!curStep.isValidMove()) {
+		                continue;
+		            }
+		            curStep.setValues(Tile.SPACE);
+		            
+		            List<MazeGenStep> possibleMoves = new ArrayList<MazeGenStep>();
+		            Tile curTile = curStep.getNewTile();
+		            debug("Currently at " + curTile.toString());
+		            Tile curMove;
+		            // TODO use a for-each loop to iterative over the directions
+		            for (Direction dir : Direction.values()) {
+		                curMove = getRelativeTile(curTile, 2, dir);
+		                String dirString;
+		                if (dir == Direction.NORTH) {
+		                    dirString = "north";
+		                } else if (dir == Direction.EAST) {
+		                    dirString = "east";
+		                } else if (dir == Direction.SOUTH) {
+		                    dirString = "south";
+		                } else {
+		                    dirString = "west";
+		                }
+		                if (curMove != null) {
+		                    debug(String.format("    Consider move %s to %s", dirString,
+		                            curMove.toString()));
+		                    possibleMoves.add(new MazeGenStep(curMove,
+		                            getRelativeTile(curTile, dir)));
+		                }
+		            }
+		            // TODO see if you can attach multiple values to a part of the enum
+		            
+		            Collections.shuffle(possibleMoves, rand);
+		            for (MazeGenStep nextMove : possibleMoves) {
+		                branch.push(nextMove);
+		            }
+		            if (curNumSteps == branchAtStep) {
+		            	Stack<MazeGenStep> newBranch = new Stack<MazeGenStep>();
+		            	newBranch.push(possibleMoves.get(possibleMoves.size() - 1));
+		            	branches.add(newBranch);
+		            }
+		        }
+	        }
+        	Iterator<Stack<MazeGenStep>> iter = branches.iterator();
+	        while (iter.hasNext()) {
+	        	if (iter.next().isEmpty()) {
+	        		iter.remove();
+	        	}
+	        }
+	        if (curNumSteps == branchAtStep) {
+	        	curNumSteps = 0;
+	        	branchAtStep += firstBranchStep;
+	        }
+        }
         tiles[width-2][height-1].setValue(Tile.SPACE);
     }
     

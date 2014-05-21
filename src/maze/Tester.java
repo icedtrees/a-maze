@@ -15,8 +15,7 @@ import maze.Maze.Direction;
 
 public class Tester {
     public static void main(String[] args) {
-        final Maze myMaze = new Maze(10, 610, 1);
-        myMaze.genMazeDFS();
+        final Maze myMaze = new Maze(15, 610, 1);
         
         final JFrame f = new JFrame();
         f.setLayout(new GridBagLayout());
@@ -29,6 +28,10 @@ public class Tester {
         c.weightx = 1;
         c.weighty = 1;
         f.add(myMaze, c);
+        
+        final Maze maze2 = new Maze(15, 610, 1);
+        c.gridx = 1;
+        f.add(maze2, c);
         
         f.pack();
         f.setVisible(true);
@@ -46,6 +49,29 @@ public class Tester {
         		f.repaint();
         	}
         }, 1000/fps, 1000/fps);
+        
+        Thread thread1 = new Thread() {
+            public void run() {
+            	maze2.genMazeDFSBranch(5);
+            }
+        };
+        
+        Thread thread2 = new Thread() {
+            public void run() {
+            	myMaze.genMazeDFS();
+            }
+        };
+        
+        thread1.start();
+        thread2.start();
+        try {
+			thread1.join();
+			thread2.join();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
         
         /*
          * A simple dfs approach to find a path to the end of the maze.
