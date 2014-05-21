@@ -22,6 +22,7 @@ public class Maze extends JComponent {
     
     private final static boolean DEBUGGING = false;
     private final static double DEFAULT_RATIO = 1.2;
+    public final static int FPS = 80;
     
     private final Random rand;
     
@@ -31,10 +32,36 @@ public class Maze extends JComponent {
     private int complexity;
     
     public static enum Direction {
-        NORTH,
-        EAST,
-        SOUTH,
-        WEST,
+    	NORTH(0, -1),
+    	EAST(1, 0),
+    	SOUTH(0, 1),
+    	WEST(-1, 0);
+        
+        private int dx;
+        private int dy;
+        private Direction reverse;
+        
+        static {
+        	NORTH.reverse = SOUTH;
+        	EAST.reverse = WEST;
+        	SOUTH.reverse = NORTH;
+        	WEST.reverse = EAST;
+        }
+        
+        private Direction(int dx, int dy) {
+        	this.dx = dx;
+        	this.dy = dy;
+        }
+        
+        public int dx() {
+        	return dx;
+        }
+        public int dy() {
+        	return dy;
+        }
+        public Direction reverse() {
+        	return reverse;
+        }
     }
     
     PlayerObject player;
@@ -213,12 +240,12 @@ public class Maze extends JComponent {
         s.add(new MazeGenStep(tiles[startx][starty], tiles[startx][starty]));
         
         while (!s.empty()) {
-        	try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//        	try {
+//				Thread.sleep(10);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
             MazeGenStep curStep = s.pop();
             if (!curStep.isValidMove()) {
                 continue;
@@ -274,12 +301,12 @@ public class Maze extends JComponent {
         	curNumSteps++;
         	
         	for (int i = 0; i < branches.size(); i++) {
-        		try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//        		try {
+//					Thread.sleep(10);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
         		Stack<MazeGenStep> branch = branches.get(i);
 	        	
 		        if (!branch.isEmpty()) {
@@ -414,22 +441,22 @@ public class Maze extends JComponent {
         if (tile == null) {
             return null;
         }
-        int[] dx = {1, 0, -1, 0}; // east, north, west, south
-        int[] dy = {0, -1, 0, 1};
-        int dir;
-        if (direction == Direction.EAST) {
-            dir = 0;
-        } else if (direction == Direction.NORTH) {
-            dir = 1;
-        } else if (direction == Direction.WEST) {
-            dir = 2;
-        } else {
-            assert(direction == Direction.SOUTH);
-            dir = 3;
-        }
+//        int[] dx = {1, 0, -1, 0}; // east, north, west, south
+//        int[] dy = {0, -1, 0, 1};
+//        int dir;
+//        if (direction == Direction.EAST) {
+//            dir = 0;
+//        } else if (direction == Direction.NORTH) {
+//            dir = 1;
+//        } else if (direction == Direction.WEST) {
+//            dir = 2;
+//        } else {
+//            assert(direction == Direction.SOUTH);
+//            dir = 3;
+//        }
         
-        int newX = tile.getX() + n * dx[dir];
-        int newY = tile.getY() + n * dy[dir];
+        int newX = tile.getX() + n * direction.dx();
+        int newY = tile.getY() + n * direction.dy();
         
         if (newX < 0 || newX >= width || newY < 0 || newY >= height) {
             return null;

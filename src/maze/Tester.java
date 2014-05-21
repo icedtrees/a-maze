@@ -39,7 +39,6 @@ public class Tester {
          * The main event loop which gets run every frame based on a frame-rate
          * in the 'fps' variable.
          */
-        int fps = 50;
         Timer actionLoop = new Timer();
         actionLoop.scheduleAtFixedRate(new TimerTask() {
         	@Override
@@ -47,7 +46,7 @@ public class Tester {
         		myMaze.nextFrame();
         		f.repaint();
         	}
-        }, 1000/fps, 1000/fps);
+        }, 1000/Maze.FPS, 1000/Maze.FPS);
         
         Thread thread1 = new Thread() {
             public void run() {
@@ -132,16 +131,7 @@ public class Tester {
         		BranchCounter myBranchCounter = branchPoints.peek();
         		while (!myBranchCounter.pathEmpty()) {
         			curPath = myBranchCounter.popPath();
-        			Direction reverseDir = curPath.getDir();
-        			if (reverseDir == Direction.EAST) {
-        				reverseDir = Direction.WEST;
-        			} else if (reverseDir == Direction.SOUTH) {
-        				reverseDir = Direction.NORTH;
-        			} else if (reverseDir == Direction.WEST) {
-        				reverseDir = Direction.EAST;
-        			} else if (reverseDir == Direction.NORTH) {
-        				reverseDir = Direction.SOUTH;
-        			}
+        			Direction reverseDir = curPath.getDir().reverse();
         			while (true) {
                 		if (myMaze.movePlayer(reverseDir)) {
                 			break;
