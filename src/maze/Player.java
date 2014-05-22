@@ -2,9 +2,9 @@ package maze;
 
 import java.awt.Color;
 
-public class PlayerObject extends MobileObject {
+public class Player extends MobileObject {
 
-	public PlayerObject() {
+	public Player() {
 		super(Color.GRAY, 20);
 	}
 

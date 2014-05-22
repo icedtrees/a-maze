@@ -11,7 +11,7 @@ public class Treasure implements TileObject {
 	}
 
 	@Override
-	public void interact(PlayerObject player) {
+	public void interact(Player player) {
 		System.out.println("Player got treasure worth " + value);
 	}
 

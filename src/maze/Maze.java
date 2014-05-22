@@ -31,7 +31,7 @@ public class Maze extends JComponent {
     private int mazeHeight;
     private int complexity;
     
-    private PlayerObject player;
+    private Player player;
     
     public static enum Direction {
     	NORTH(0, -1),
@@ -77,7 +77,7 @@ public class Maze extends JComponent {
     public Maze(int newWidth, int newHeight,
             int displayWidth, int displayHeight,
             int newComplexity, long seed) {
-    	player = new PlayerObject();
+    	player = new Player();
 
         mazeWidth = 2 * newWidth + 1;
         mazeHeight = 2 * newHeight + 1;

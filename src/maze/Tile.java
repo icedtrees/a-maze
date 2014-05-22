@@ -64,7 +64,7 @@ public class Tile {
     	
     }
     
-    public void interact(PlayerObject player) {
+    public void interact(Player player) {
     	if (contents != null) {
     		contents.interact(player);
     		contents = null;
