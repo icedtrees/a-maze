@@ -1,18 +1,17 @@
 package pages;
 
-import java.awt.CardLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
 
 public class PageTester {
 
-    /**
-     * @param args
-     */
+    public static void main(String args[]) {
+        JFrame main = new JFrame();
+        main.add(new HomePage());
+        main.setVisible(true);
+    }
+    /*
+
 	private static JFrame frame;
 	private static JPanel cardPanel;
 	private static CardLayout cardLayout = new CardLayout();
@@ -49,7 +48,9 @@ public class PageTester {
         frame.add(cardPanel);
     	frame.setVisible(true);
     }
-
+    
+    
+    
     private static void addStartButton(JPanel mainPanel) {
     	System.out.println("have added start maze panel");
         JPanel startPanel = new JPanel();
@@ -132,5 +133,5 @@ public class PageTester {
 		returnPanel.add(returnBut);
 		mainPanel.add(returnPanel);
 	}
-	
+	*/
 }

@@ -16,26 +16,22 @@ public class HomePage extends Page {
 	private JPanel mainPanel;
     private Result result;
 	
-    public HomePage(JFrame frame) {
-    	super(frame);
-        mainPanel = new JPanel(new GridLayout(6, 1));
+    public HomePage() {
+    	super();
+        setLayout(new GridLayout(6, 1));
         
         JLabel blank = new JLabel("", JLabel.CENTER);
-        mainPanel.add(blank);
+        add(blank);
         
         JLabel titleLabel = new JLabel("MAZE", JLabel.CENTER);
-        mainPanel.add(titleLabel);
+        add(titleLabel);
         
         result = null;
     }
     
-    public Page.Result run() {
+    public HomePage.Result run() {
         // Wait until the user presses the button, and then return the result
         while (result == null);
         return result;
-    }
-    
-    public JPanel getHomePanel() {
-        return mainPanel;
     }
 }

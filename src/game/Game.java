@@ -1,5 +1,7 @@
 package game;
-import javax.swing.JFrame;
+
+import java.awt.CardLayout;
+import javax.swing.*;
 
 import pages.*;
 
@@ -17,7 +19,9 @@ public class Game {
     }
     
     public Game() {
-        mainWindow = new JFrame();
+         mainWindow = new JFrame();
+         CardLayout gameLayout = new CardLayout();
+         gameLayout.addLayoutComponent(new HomePage(), "home");
     }
     
     public void run() {
@@ -26,7 +30,7 @@ public class Game {
         while (running) {
             mainWindow.setVisible(true);
             HomePage home = new HomePage(mainWindow);
-            Page.Result result = home.run();
+            HomePage.Result result = home.run();
             if (result.equals(HomePage.Result.PLAY_GAME)) {
                 
             } else if (result.equals(HomePage.Result.SHOW_INSTRUCTIONS)) {
