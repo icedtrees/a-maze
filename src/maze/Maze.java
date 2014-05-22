@@ -140,7 +140,7 @@ public class Maze extends JComponent {
         g.setClip(0, 0, bounds.width, bounds.height);
         
         // Draw green background to prove transparency of later clipping
-        g.setColor(new Color(0, 255, 0));
+        g.setColor(Color.GREEN);
     	g.fillRect(0, 0, bounds.width, bounds.height);
         
     	/*
@@ -186,6 +186,7 @@ public class Maze extends JComponent {
     		}
     	}
     	player.nextFrame();
+    	tiles[player.getRealX()][player.getRealY()].interact(player);
     }
     
     public boolean isSpace(int x, int y) {
@@ -274,7 +275,9 @@ public class Maze extends JComponent {
             }
         }
         
+        tiles[1][0].setValue(Tile.SPACE);
         tiles[mazeWidth-2][mazeHeight-1].setValue(Tile.SPACE);
+        tiles[mazeWidth-2][mazeHeight-1].setContents(new Treasure(100));
     }
     
     public void genMazeDFSBranch(int firstBranchStep) {

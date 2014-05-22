@@ -58,8 +58,9 @@ public abstract class MobileObject {
 			return;
 		}
 		
-		curX += moving.dx() * (speed/Maze.FPS);
-		curY += moving.dy() * (speed/Maze.FPS);
+		double tilePerFrame = speed / Maze.FPS;
+		curX += moving.dx() * tilePerFrame;
+		curY += moving.dy() * tilePerFrame;
 		
 		boolean finishedMoving = true;
 		if (moving == Direction.EAST && curX < realX + 1) {
