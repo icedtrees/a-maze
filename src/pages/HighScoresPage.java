@@ -15,7 +15,7 @@ public class HighScoresPage extends Page {
 	private JPanel mainPanel;
 	
 	public HighScoresPage(JFrame frame) {
-		super(frame);
+		super();
 		
 		mainPanel = new JPanel(new GridLayout(2,1));
 		
@@ -25,6 +25,12 @@ public class HighScoresPage extends Page {
 	
 	public JPanel getHighScoresPanel() {
 		return mainPanel;
+	}
+
+	@Override
+	public Result run() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

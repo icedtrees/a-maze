@@ -8,10 +8,6 @@ public abstract class Page extends JPanel {
     private static final long serialVersionUID = 1L;
     
     public interface Result{};
-   
-    public abstract Page() {
-        
-    }
     
     public abstract Result run();
     
