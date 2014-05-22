@@ -2,11 +2,17 @@ package maze;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import maze.Maze.Direction;
 
 public abstract class MobileObject {
 //	private static final double EPSILON = 0.00000000001;
+	
+	private Lock lock;
+	private Condition canMakeNewMove;
 	
 	private int realX;
 	private int realY;
@@ -35,6 +41,8 @@ public abstract class MobileObject {
 		this.color = color;
 		
 		this.moving = null;
+		this.lock = new ReentrantLock();
+		this.canMakeNewMove = lock.newCondition();
 	}
 	
 	public int getRealX() {
@@ -82,6 +90,13 @@ public abstract class MobileObject {
 			curX = realX;
 			curY = realY;
 			moving = null;
+			
+			lock.lock();
+			try {
+				canMakeNewMove.signalAll();
+			} finally {
+				lock.unlock();
+			}
 		}
 		return;
 	}
@@ -101,14 +116,20 @@ public abstract class MobileObject {
 //		return (a > b) && (!equalTo(a, b));
 //	}
 	
-	public boolean move(Direction dir) {
+	public void move(Direction dir) throws InterruptedException {
 		if (dir == null) {
-			return true;
+			return;
 		}
-		if (this.isMoving()) {
-			return false;
+		
+		lock.lock();
+		try {
+			while (this.isMoving()) {
+				canMakeNewMove.await();
+			}
+			moving = dir;
+		} finally {
+			lock.unlock();
 		}
-		moving = dir;
-		return true;
+		
 	}
 }

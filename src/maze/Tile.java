@@ -3,6 +3,8 @@ package maze;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import maze.Maze.Direction;
+
 public class Tile {
     static final public int WALL = 1;
     static final public int SPACE = 0;
@@ -61,6 +63,10 @@ public class Tile {
     }
     
     public void nextFrame() {
+    	
+    }
+    
+    public void shiftWall(Direction dir) {
     	
     }
     

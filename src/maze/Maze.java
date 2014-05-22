@@ -175,8 +175,8 @@ public class Maze extends JComponent {
     }
     
     // TEST    
-    public boolean movePlayer(Direction dir) {
-    	return player.move(dir);
+    public void movePlayer(Direction dir) throws InterruptedException {
+    	player.move(dir);
     }
     
     public void nextFrame() {
