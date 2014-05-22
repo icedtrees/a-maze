@@ -46,16 +46,17 @@ public class HomePage extends Page {
 
     public HomePage.Result run() {
         // Wait until the user presses the button, and then return the result
-        while (result == null) {
-    	    // will need to modify this busy block to thread.notify and thread.wait?
-            try {
-			    Thread.sleep(50);
-		    } catch (InterruptedException e) {
-		        // TODO Auto-generated catch block
-			    e.printStackTrace();
-		    }
-        }
-        System.out.println("result is " + result);
+
+    	while (result == null) {
+    		// will need to modify this busy block to thread.notify and thread.wait?
+    		try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+
         return result;
     }
     

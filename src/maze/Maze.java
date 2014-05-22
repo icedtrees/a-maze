@@ -31,7 +31,7 @@ public class Maze extends JComponent {
     private int mazeHeight;
     private int complexity;
     
-    private PlayerObject player;
+    private Player player;
     
     public static enum Direction {
     	NORTH(0, -1),
@@ -67,14 +67,17 @@ public class Maze extends JComponent {
     }
     
     public Maze(int newHeight, int displayHeight, int newComplexity) {
-        this((int) (newHeight * DEFAULT_RATIO), newHeight,
+        this(newHeight, displayHeight, newComplexity, System.nanoTime());
+    }
+    public Maze(int newHeight, int displayHeight, int newComplexity, long seed) {
+    	this((int) (newHeight * DEFAULT_RATIO), newHeight,
                 (int) (displayHeight * DEFAULT_RATIO), displayHeight,
-                newComplexity);
+                newComplexity, seed);
     }
     public Maze(int newWidth, int newHeight,
             int displayWidth, int displayHeight,
-            int newComplexity) {
-    	player = new PlayerObject();
+            int newComplexity, long seed) {
+    	player = new Player();
 
         mazeWidth = 2 * newWidth + 1;
         mazeHeight = 2 * newHeight + 1;
@@ -88,7 +91,7 @@ public class Maze extends JComponent {
         
         complexity = newComplexity;
         
-        rand = new Random(System.nanoTime());
+        rand = new Random(seed);
     }
     
     /*
@@ -137,7 +140,7 @@ public class Maze extends JComponent {
         g.setClip(0, 0, bounds.width, bounds.height);
         
         // Draw green background to prove transparency of later clipping
-        g.setColor(new Color(0, 255, 0));
+        g.setColor(Color.GREEN);
     	g.fillRect(0, 0, bounds.width, bounds.height);
         
     	/*
@@ -165,34 +168,13 @@ public class Maze extends JComponent {
         
         // Create localised graphics context for player to draw to
         Graphics newG = g.create(
-        		(int) (player.getX() * tileSize + xMargin),
-        		(int) (player.getY() * tileSize + yMargin),
+        		(int) (player.getCurX() * tileSize + xMargin),
+        		(int) (player.getCurY() * tileSize + yMargin),
         		tileSize, tileSize);
         player.draw(newG, tileSize);
     }
     
-    // TEST
-    public void movePlayerRandom() {
-    	int x = (int) player.getX();
-    	int y = (int) player.getY();
-    	if (rand.nextBoolean() && tiles[x+1][y] != null && tiles[x+1][y].getValue() != Tile.WALL) {
-    		player.move(Direction.EAST);;
-    		return;
-    	}
-    	if (rand.nextBoolean() && tiles[x][y+1] != null && tiles[x][y+1].getValue() != Tile.WALL) {
-    		player.move(Direction.SOUTH);;
-    		return;
-    	}
-    	if (rand.nextBoolean() && tiles[x-1][y] != null && tiles[x-1][y].getValue() != Tile.WALL) {
-    		player.move(Direction.WEST);;
-    		return;
-    	}
-    	if (rand.nextBoolean() && tiles[x][y-1] != null && tiles[x][y-1].getValue() != Tile.WALL) {
-    		player.move(Direction.NORTH);;
-    		return;
-    	}
-    }
-    
+    // TEST    
     public boolean movePlayer(Direction dir) {
     	return player.move(dir);
     }
@@ -204,6 +186,7 @@ public class Maze extends JComponent {
     		}
     	}
     	player.nextFrame();
+    	tiles[player.getRealX()][player.getRealY()].interact(player);
     }
     
     public boolean isSpace(int x, int y) {
@@ -212,9 +195,10 @@ public class Maze extends JComponent {
     		return true;
     	}
     	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
+    		// Outside of map bounds
     		return false;
     	}
-    	return tiles[x][y].getValue() == Tile.SPACE;
+    	return tiles[x][y].getValue() != Tile.WALL;
     }
     
     public void setTile(int x, int y, int value) {
@@ -291,7 +275,9 @@ public class Maze extends JComponent {
             }
         }
         
+        tiles[1][0].setValue(Tile.SPACE);
         tiles[mazeWidth-2][mazeHeight-1].setValue(Tile.SPACE);
+        tiles[mazeWidth-2][mazeHeight-1].setContents(new Treasure(100));
     }
     
     public void genMazeDFSBranch(int firstBranchStep) {

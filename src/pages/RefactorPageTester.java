@@ -64,6 +64,7 @@ public class RefactorPageTester implements Runnable {
 
             
             HomePage.Result result = home.run();
+            System.out.println("homePage.result is " + result);
             if (result.equals(HomePage.Result.PLAY_GAME)) {
             	mainWindow.setTitle("MAZE");
             	cardLayout.show(cardPanel, "maze panel");

@@ -55,7 +55,7 @@ public class DFSPlayer {
         	
         	int numAdj = 0;
         	for (Coordinate coord : cur.adj()) {
-        		if (maze.isSpace(coord.getX(), coord.getY())) {
+        		if (!seen.contains(coord) && maze.isSpace(coord.getX(), coord.getY())) {
         			s.push(coord);
         			numAdj++;
         		}
@@ -66,7 +66,6 @@ public class DFSPlayer {
         		branchPoints.push(new BranchCounter(cur, numAdj - 1));
         	}
         	if (numAdj == 0) {
-        		System.out.println("Deadend");
         		Coordinate curPath = null;
         		BranchCounter myBranchCounter = branchPoints.peek();
         		while (!myBranchCounter.pathEmpty()) {
