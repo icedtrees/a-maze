@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 public class Tester {
     public static void main(String[] args) {
-        final Maze myMaze = new Maze(15, 610, 1);
+        final Maze myMaze = new Maze(15, 610, 1, 2302);
         System.out.println(myMaze.getWidth() + " " + myMaze.getMazeWidth());
         
         final JFrame f = new JFrame();

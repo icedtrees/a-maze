@@ -67,13 +67,16 @@ public class Maze extends JComponent {
     }
     
     public Maze(int newHeight, int displayHeight, int newComplexity) {
-        this((int) (newHeight * DEFAULT_RATIO), newHeight,
+        this(newHeight, displayHeight, newComplexity, System.nanoTime());
+    }
+    public Maze(int newHeight, int displayHeight, int newComplexity, long seed) {
+    	this((int) (newHeight * DEFAULT_RATIO), newHeight,
                 (int) (displayHeight * DEFAULT_RATIO), displayHeight,
-                newComplexity);
+                newComplexity, seed);
     }
     public Maze(int newWidth, int newHeight,
             int displayWidth, int displayHeight,
-            int newComplexity) {
+            int newComplexity, long seed) {
     	player = new PlayerObject();
 
         mazeWidth = 2 * newWidth + 1;
@@ -88,7 +91,7 @@ public class Maze extends JComponent {
         
         complexity = newComplexity;
         
-        rand = new Random(System.nanoTime());
+        rand = new Random(seed);
     }
     
     /*

@@ -49,6 +49,9 @@ public abstract class MobileObject {
 	public double getCurY() {
 		return curY;
 	}
+	public boolean isMoving() {
+		return moving != null;
+	}
 	
 	public void nextFrame() {
 		if (moving == null) {
@@ -101,7 +104,7 @@ public abstract class MobileObject {
 		if (dir == null) {
 			return true;
 		}
-		if (moving != null) {
+		if (this.isMoving()) {
 			return false;
 		}
 		moving = dir;
