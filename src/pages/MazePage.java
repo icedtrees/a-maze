@@ -18,7 +18,7 @@ public class MazePage extends Page {
 	private JPanel mainPanel;
 	
 	public MazePage(JFrame frame) {
-		super(frame);
+		super();
 		mainPanel = new JPanel(new GridBagLayout());
 		// GridBagConstraints c = new GridBagConstraints();
 		
@@ -32,5 +32,11 @@ public class MazePage extends Page {
 	
 	public JPanel getMazePanel() {
 		return mainPanel;
+	}
+
+	@Override
+	public Result run() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

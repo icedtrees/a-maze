@@ -19,7 +19,7 @@ public class DFSPlayer {
         Stack<BranchCounter> branchPoints = new Stack<BranchCounter>();
         
         Coordinate startCoordinate = new Coordinate(1, 0, null);
-        Coordinate endCoordinate = new Coordinate(maze.getWidth() - 2, maze.getHeight() - 1, null);
+        Coordinate endCoordinate = new Coordinate(maze.getMazeWidth() - 2, maze.getMazeHeight() - 1, null);
         System.out.println("End goal is " + endCoordinate.toString());
         
         s.add(startCoordinate);
