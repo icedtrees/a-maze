@@ -35,7 +35,7 @@ public class RefactorPageTester implements Runnable {
         cardPanel.setLayout(cardLayout);
         
         mainWindow.setTitle("MAIN MENU");
-        home = new HomePage();
+        home = new HomePage(mainWindow);
         cardPanel.add(home.getHomePanel(), "main menu panel");
         
 
@@ -82,8 +82,8 @@ public class RefactorPageTester implements Runnable {
             	mainWindow.setTitle("HIGH SCORES");
             	cardLayout.show(cardPanel, "high scores panel");
             } else if (result.equals(HomePage.Result.QUIT_GAME)) {
+            	running = false;
             	mainWindow.dispose();
-                running = false;
             }
             
         }

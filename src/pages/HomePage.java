@@ -22,15 +22,16 @@ public class HomePage extends Page {
 	private static JPanel mainPanel;
     private static Result result;
 	
-    public HomePage() {
+    public HomePage(JFrame frame) {
     	super();
-        setLayout(new GridLayout(6, 1));
+    	mainPanel = new JPanel();
+        mainPanel.setLayout(new GridLayout(7, 1));
         
         JLabel blank = new JLabel("", JLabel.CENTER);
-        add(blank);
+        mainPanel.add(blank);
         
         JLabel titleLabel = new JLabel("MAZE", JLabel.CENTER);
-        add(titleLabel);
+        mainPanel.add(titleLabel);
         
         mainPanel = new JPanel();
         addStartButton();
@@ -41,17 +42,20 @@ public class HomePage extends Page {
         
         result = null;
     }
-    
+
     public HomePage.Result run() {
         // Wait until the user presses the button, and then return the result
-        while (result == null) {
-        	try {
+    	while (result == null) {
+    		// will need to modify this busy block to thread.notify and thread.wait?
+    		try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        }
+    	}
+    	
+        System.out.println("result is " + result);
         return result;
     }
     

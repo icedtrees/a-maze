@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 public class Tester {
     public static void main(String[] args) {
-        final Maze myMaze = new Maze(7, 610, 1, 2302);
+        final Maze myMaze = new Maze(15, 610, 1, 2302);
         System.out.println(myMaze.getWidth() + " " + myMaze.getMazeWidth());
         
         final JFrame f = new JFrame();
@@ -24,7 +24,7 @@ public class Tester {
         c.weighty = 1;
         f.add(myMaze, c);
         
-        final Maze maze2 = new Maze(7, 610, 1);
+        final Maze maze2 = new Maze(15, 610, 1);
         c.gridx = 1;
         f.add(maze2, c);
         
@@ -50,12 +50,12 @@ public class Tester {
          */
         Thread thread1 = new Thread() {
             public void run() {
-            	myMaze.genMazeDFS(5);
+            	myMaze.genMazeDFS(40);
             }
         };
         Thread thread2 = new Thread() {
             public void run() {
-            	maze2.genMazeDFSBranch(5, 5);
+            	maze2.genMazeDFSBranch(5, 40);
             }
         };
         
