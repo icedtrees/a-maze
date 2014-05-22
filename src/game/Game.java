@@ -16,11 +16,11 @@ public class Game implements Runnable {
     private static final String HIGH_SCORES_PAGE = "highscores";
     private static final String SETTINGS_PAGE = "settings";
     
-    //
+    // Main window and layout
     private JFrame mainWindow;
     private CardLayout layout;
     
-    //
+    // All the pages
     private HomePage homePage;
     private MazePage mazePage;
     private InstructionsPage instructionsPage;

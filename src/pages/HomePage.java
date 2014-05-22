@@ -1,14 +1,8 @@
 package pages;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class HomePage extends Page {
 	public enum Result implements Page.Result {
@@ -22,7 +16,7 @@ public class HomePage extends Page {
 	private static JPanel mainPanel;
     private static Result result;
 	
-    public HomePage(JFrame frame) {
+    public HomePage() {
     	super();
     	mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(7, 1));
