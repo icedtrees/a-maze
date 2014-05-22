@@ -9,27 +9,25 @@ import pages.*;
  * @author icedtrees
  *
  */
-public class Game {
+public class Game implements Runnable {
     
     private JFrame mainWindow;
     
     public static void main(String[] args) {
-        Game game = new Game();
-        game.run();
+        SwingUtilities.invokeLater(new Game());
     }
     
-    public Game() {
-         mainWindow = new JFrame();
-         CardLayout gameLayout = new CardLayout();
-         gameLayout.addLayoutComponent(new HomePage(), "home");
-    }
     
     public void run() {
+        mainWindow = new JFrame();
+        CardLayout gameLayout = new CardLayout();
+        gameLayout.addLayoutComponent(new HomePage(), "home");
+        
         boolean running = true;
         
         while (running) {
             mainWindow.setVisible(true);
-            HomePage home = new HomePage(mainWindow);
+            HomePage home = new HomePage();
             HomePage.Result result = home.run();
             if (result.equals(HomePage.Result.PLAY_GAME)) {
                 
