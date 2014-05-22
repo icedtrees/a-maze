@@ -165,34 +165,13 @@ public class Maze extends JComponent {
         
         // Create localised graphics context for player to draw to
         Graphics newG = g.create(
-        		(int) (player.getX() * tileSize + xMargin),
-        		(int) (player.getY() * tileSize + yMargin),
+        		(int) (player.getCurX() * tileSize + xMargin),
+        		(int) (player.getCurY() * tileSize + yMargin),
         		tileSize, tileSize);
         player.draw(newG, tileSize);
     }
     
-    // TEST
-    public void movePlayerRandom() {
-    	int x = (int) player.getX();
-    	int y = (int) player.getY();
-    	if (rand.nextBoolean() && tiles[x+1][y] != null && tiles[x+1][y].getValue() != Tile.WALL) {
-    		player.move(Direction.EAST);;
-    		return;
-    	}
-    	if (rand.nextBoolean() && tiles[x][y+1] != null && tiles[x][y+1].getValue() != Tile.WALL) {
-    		player.move(Direction.SOUTH);;
-    		return;
-    	}
-    	if (rand.nextBoolean() && tiles[x-1][y] != null && tiles[x-1][y].getValue() != Tile.WALL) {
-    		player.move(Direction.WEST);;
-    		return;
-    	}
-    	if (rand.nextBoolean() && tiles[x][y-1] != null && tiles[x][y-1].getValue() != Tile.WALL) {
-    		player.move(Direction.NORTH);;
-    		return;
-    	}
-    }
-    
+    // TEST    
     public boolean movePlayer(Direction dir) {
     	return player.move(dir);
     }
@@ -212,9 +191,10 @@ public class Maze extends JComponent {
     		return true;
     	}
     	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
+    		// Outside of map bounds
     		return false;
     	}
-    	return tiles[x][y].getValue() == Tile.SPACE;
+    	return tiles[x][y].getValue() != Tile.WALL;
     }
     
     public void setTile(int x, int y, int value) {

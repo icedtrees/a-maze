@@ -32,6 +32,7 @@ public class HomePage extends Page {
         JLabel titleLabel = new JLabel("MAZE", JLabel.CENTER);
         add(titleLabel);
         
+        mainPanel = new JPanel();
         addStartButton();
         addInstructionsButton();
         addSettingsButton();
@@ -43,7 +44,14 @@ public class HomePage extends Page {
     
     public HomePage.Result run() {
         // Wait until the user presses the button, and then return the result
-        while (result == null);
+        while (result == null) {
+        	try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
         return result;
     }
     
