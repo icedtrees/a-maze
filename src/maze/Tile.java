@@ -14,6 +14,7 @@ public class Tile {
     private int value;
     private int x;
     private int y;
+    private TileObject contents;
     
     public Tile(int newValue, int newX, int newY) {
         value = newValue;
@@ -31,29 +32,43 @@ public class Tile {
         return y;
     }
     
+    public void setContents(TileObject obj) {
+    	this.contents = obj;
+    }
+    
     public void setValue(int newValue) {
         value = newValue;
     }
     
     public void draw(Graphics g, int tileSize) {
         if (value == WALL) {
-    	    g.setColor(new Color(0, 0, 0));
+    	    g.setColor(Color.BLACK);
 	    }
 	    if (value == SPACE) {
-	        g.setColor(new Color(255, 255, 255));
+	        g.setColor(Color.WHITE);
 	    }
 	    
 	    // TEST
 	    if (value == EXPLORED) {
-	    	g.setColor(new Color(200, 200, 255));
+	    	g.setColor(Color.CYAN);
 	    }
 	    // TEST
 	    
     	g.fillRect(0, 0, tileSize, tileSize);
+    	if (contents != null) {
+    		contents.draw(g, tileSize);
+    	}
     }
     
     public void nextFrame() {
     	
+    }
+    
+    public void interact(Player player) {
+    	if (contents != null) {
+    		contents.interact(player);
+    		contents = null;
+    	}
     }
     
     public String toString() {

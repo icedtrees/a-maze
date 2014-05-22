@@ -6,11 +6,13 @@ import java.awt.Graphics;
 import maze.Maze.Direction;
 
 public abstract class MobileObject {
-	private double x;
-	private double y;
+//	private static final double EPSILON = 0.00000000001;
+	
+	private int realX;
+	private int realY;
+	private double curX;
+	private double curY;
 	private double speed; // Tiles traversed per second
-	private double goalX;
-	private double goalY;
 	private Color color;
 	
 	private Direction moving;
@@ -25,21 +27,30 @@ public abstract class MobileObject {
 		this(color, speed, 1, 0);
 	}
 	public MobileObject(Color color, int speed, int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.realX = x;
+		this.realY = y;
+		this.curX = x;
+		this.curY = y;
 		this.speed = speed;
-		this.goalX = x;
-		this.goalY = y;
 		this.color = color;
 		
 		this.moving = null;
 	}
 	
-	public double getX() {
-		return x;
+	public int getRealX() {
+		return realX;
 	}
-	public double getY() {
-		return y;
+	public int getRealY() {
+		return realY;
+	}
+	public double getCurX() {
+		return curX;
+	}
+	public double getCurY() {
+		return curY;
+	}
+	public boolean isMoving() {
+		return moving != null;
 	}
 	
 	public void nextFrame() {
@@ -47,26 +58,29 @@ public abstract class MobileObject {
 			return;
 		}
 		
-		x += moving.dx() * (speed/Maze.FPS);
-		y += moving.dy() * (speed/Maze.FPS);
+		double tilePerFrame = speed / Maze.FPS;
+		curX += moving.dx() * tilePerFrame;
+		curY += moving.dy() * tilePerFrame;
 		
 		boolean finishedMoving = true;
-		if (moving == Direction.EAST && lessThan(x, goalX)) {
+		if (moving == Direction.EAST && curX < realX + 1) {
 			finishedMoving = false;
 		}
-		if (moving == Direction.WEST && greaterThan(x, goalX)) {
+		if (moving == Direction.WEST && curX > realX - 1) {
 			finishedMoving = false;
 		}
-		if (moving == Direction.SOUTH && lessThan(y, goalY)) {
+		if (moving == Direction.SOUTH && curY < realY + 1) {
 			finishedMoving = false;
 		}
-		if (moving == Direction.NORTH && greaterThan(y, goalY)) {
+		if (moving == Direction.NORTH && curY > realY - 1) {
 			finishedMoving = false;
 		}
 		
 		if (finishedMoving) {
-			x = goalX;
-			y = goalY;
+			realX += moving.dx();
+			realY += moving.dy();
+			curX = realX;
+			curY = realY;
 			moving = null;
 		}
 		return;
@@ -77,26 +91,24 @@ public abstract class MobileObject {
 		g.fillOval(0, 0, tileSize, tileSize);
 	}
 	
-	private boolean equalTo(double a, double b) {
-		return Math.abs(a - b) < 0.00000000001;
-	}
-	private boolean lessThan(double a, double b) {
-		return (a < b) && (!equalTo(a, b));
-	}
-	private boolean greaterThan(double a, double b) {
-		return (a > b) && (!equalTo(a, b));
-	}
+//	private boolean equalTo(double a, double b) {
+//		return Math.abs(a - b) < EPSILON;
+//	}
+//	private boolean lessThan(double a, double b) {
+//		return (a < b) && (!equalTo(a, b));
+//	}
+//	private boolean greaterThan(double a, double b) {
+//		return (a > b) && (!equalTo(a, b));
+//	}
 	
 	public boolean move(Direction dir) {
 		if (dir == null) {
 			return true;
 		}
-		if (moving != null) {
+		if (this.isMoving()) {
 			return false;
 		}
 		moving = dir;
-		goalX = x + dir.dx();
-		goalY = y + dir.dy();
 		return true;
 	}
 }
