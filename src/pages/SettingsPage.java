@@ -22,16 +22,15 @@ public class SettingsPage extends Page {
         DEFAULTRESOLUTION
     };
 	private static final long serialVersionUID = 1L;
-	private JPanel mainPanel;
 	
-	public SettingsPage(JFrame frame) {
+	public SettingsPage() {
 		super();
 		
-		mainPanel = new JPanel(new GridLayout(0,1));
+		setLayout(new GridLayout(0,1));
 		
 		JLabel text = new JLabel("display settings", JLabel.CENTER);
 	
-        mainPanel.add(text);
+        add(text);
         
         JRadioButton resolution1 = new JRadioButton("resolution 1");
         JRadioButton resolution2 = new JRadioButton("resolution 2");
@@ -55,19 +54,15 @@ public class SettingsPage extends Page {
         
         // might need to register a listener for the radio buttons
        
-        mainPanel.add(resolution1);
-        mainPanel.add(resolution2);
-        mainPanel.add(resolution3);
-        mainPanel.add(defaultRes);
+        add(resolution1);
+        add(resolution2);
+        add(resolution3);
+        add(defaultRes);
         
-        add(mainPanel, BorderLayout.CENTER);
-        setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        //add(this, BorderLayout.CENTER);
+        //setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 	}
 	
-	public JPanel getHighScoresPanel() {
-		return mainPanel;
-	}
-
 	@Override
 	public pages.Page.Result run() {
 		// TODO Auto-generated method stub

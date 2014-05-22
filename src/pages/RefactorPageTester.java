@@ -13,6 +13,7 @@ public class RefactorPageTester implements Runnable {
     private JFrame mainWindow;
     private JPanel cardPanel;
     private HomePage home;
+    private MazePage startMaze;
     
     // might be better to just use new CardLayout() every time?
     private static CardLayout cardLayout = new CardLayout();
@@ -20,8 +21,7 @@ public class RefactorPageTester implements Runnable {
     public static void main(String[] args) {
     	RefactorPageTester game = new RefactorPageTester();
     	game.run();
-    	SwingUtilities.invokeLater(game);
-    	
+    	SwingUtilities.invokeLater(game);	
     }
     
     public RefactorPageTester() {
@@ -35,21 +35,21 @@ public class RefactorPageTester implements Runnable {
         cardPanel.setLayout(cardLayout);
         
         mainWindow.setTitle("MAIN MENU");
-        home = new HomePage(mainWindow);
-        cardPanel.add(home.getHomePanel(), "main menu panel");
+        home = new HomePage();
+        cardPanel.add(home, "main menu panel");
         
 
-        MazePage startMaze = new MazePage(mainWindow);
-        cardPanel.add(startMaze.getMazePanel(), "maze panel");
+        startMaze = new MazePage();
+        cardPanel.add(startMaze, "maze panel");
         
-        InstructionsPage instructions = new InstructionsPage(mainWindow);
-        cardPanel.add(instructions.getInstructionsPanel(), "instructions panel");
+        InstructionsPage instructions = new InstructionsPage();
+        cardPanel.add(instructions, "instructions panel");
         
-        SettingsPage settings = new SettingsPage(mainWindow);
-        cardPanel.add(settings.getHighScoresPanel(), "settings panel");
+        SettingsPage settings = new SettingsPage();
+        cardPanel.add(settings, "settings panel");
         
-        HighScoresPage highScores = new HighScoresPage(mainWindow);
-        cardPanel.add(highScores.getHighScoresPanel(), "high scores panel");
+        HighScoresPage highScores = new HighScoresPage();
+        cardPanel.add(highScores, "high scores panel");
         
         cardLayout.show(cardPanel, "main menu panel");
         mainWindow.add(cardPanel);
@@ -65,14 +65,16 @@ public class RefactorPageTester implements Runnable {
             
             HomePage.Result result = home.run();
             System.out.println("homePage.result is " + result);
-            if (result instanceof HomePage.Result)
             if (result.equals(HomePage.Result.PLAY_GAME)) {
             	mainWindow.setTitle("MAZE");
-            	System.out.println("will display maze now");
             	cardLayout.show(cardPanel, "maze panel");
+            	System.out.println("going to generate maze");
+            	result = null;
+            	home.setHomeResult(result);
+            	System.out.println("result should be null");
+            	startMaze.run();	
             } else if (result.equals(HomePage.Result.SHOW_INSTRUCTIONS)) {
             	mainWindow.setTitle("INSTRUCTIONS");
-            	System.out.println("will show instructions");
             	cardLayout.show(cardPanel, "instructions panel");
             } else if (result.equals(HomePage.Result.SHOW_SETTINGS)) {
             	mainWindow.setTitle("SETTINGS");

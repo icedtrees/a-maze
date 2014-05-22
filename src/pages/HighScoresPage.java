@@ -12,19 +12,14 @@ public class HighScoresPage extends Page {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel mainPanel;
 	
-	public HighScoresPage(JFrame frame) {
+	public HighScoresPage() {
 		super();
 		
-		mainPanel = new JPanel(new GridLayout(2,1));
+		setLayout(new GridLayout(2,1));
 		
 		JLabel text = new JLabel("display high scores", JLabel.CENTER);;
-        mainPanel.add(text);
-	}
-	
-	public JPanel getHighScoresPanel() {
-		return mainPanel;
+        add(text);
 	}
 
 	@Override
