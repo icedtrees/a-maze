@@ -21,15 +21,17 @@ public class Maze extends JComponent {
     private static final long serialVersionUID = 1L;
     
     private final static boolean DEBUGGING = false;
-    private final static double DEFAULT_RATIO = 1.2;
-    public final static int FPS = 50;
-    
+    private final static double DEFAULT_RATIO = 1.2;    
     private final Random rand;
     
+    public final static int FPS = 50;
+    
     private Tile[][] tiles;
-    private int width;
-    private int height;
+    private int mazeWidth;
+    private int mazeHeight;
     private int complexity;
+    
+    private PlayerObject player;
     
     public static enum Direction {
     	NORTH(0, -1),
@@ -64,8 +66,6 @@ public class Maze extends JComponent {
         }
     }
     
-    PlayerObject player;
-    
     public Maze(int newHeight, int displayHeight, int newComplexity) {
         this((int) (newHeight * DEFAULT_RATIO), newHeight,
                 (int) (displayHeight * DEFAULT_RATIO), displayHeight,
@@ -76,12 +76,12 @@ public class Maze extends JComponent {
             int newComplexity) {
     	player = new PlayerObject();
 
-        width = 2 * newWidth + 1;
-        height = 2 * newHeight + 1;
+        mazeWidth = 2 * newWidth + 1;
+        mazeHeight = 2 * newHeight + 1;
         setPreferredSize(new Dimension(displayWidth, displayHeight));
-        tiles = new Tile[width][height];
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
+        tiles = new Tile[mazeWidth][mazeHeight];
+        for (int row = 0; row < mazeHeight; row++) {
+            for (int col = 0; col < mazeWidth; col++) {
                 tiles[col][row] = new Tile(Tile.WALL, col, row);
             }
         }
@@ -91,29 +91,26 @@ public class Maze extends JComponent {
         rand = new Random(System.nanoTime());
     }
     
-    public int getWidth() {
-        return width;
+    /*
+     * Getters
+     */
+    public int getMazeWidth() {
+        return mazeWidth;
     }
-    public int getHeight() {
-        return height;
+    public int getMazeHeight() {
+        return mazeHeight;
     }
     public int getComplexity() {
         return complexity;
     }
-//    public Tile getTile(int x, int y) {
-//        if (x >= 0 && x < width && y >= 0 && y < height) {
-//            return tiles[x][y];
-//        } else {
-//            return null;
-//        }
-//    }
     
+    @Override
     public String toString() {
         String[] asciiOutput = new String[]{" ", "#"};
         String mazeString = "";
         
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
+        for (int row = 0; row < mazeHeight; row++) {
+            for (int col = 0; col < mazeWidth; col++) {
                 mazeString += asciiOutput[tiles[col][row].getValue()];
             }
             mazeString += "\n";
@@ -130,11 +127,11 @@ public class Maze extends JComponent {
     	
     	// Calculate tileSize based on our available width and height
         Rectangle bounds = this.getBounds();
-        int tileSize = Math.min(bounds.width/width, bounds.height/height);
+        int tileSize = Math.min(bounds.width/mazeWidth, bounds.height/mazeHeight);
         
         // Calculate how much margin to leave to center the maze
-        int xMargin = (bounds.width - (width * tileSize)) / 2;
-        int yMargin = (bounds.height - (height * tileSize)) / 2;
+        int xMargin = (bounds.width - (mazeWidth * tileSize)) / 2;
+        int yMargin = (bounds.height - (mazeHeight * tileSize)) / 2;
         
         // Set initial clipping to the entire bounds
         g.setClip(0, 0, bounds.width, bounds.height);
@@ -148,9 +145,9 @@ public class Maze extends JComponent {
     	 */
     	
     	// Set clipping to just the maze display area
-    	g.setClip(xMargin, yMargin, tileSize*width, tileSize*height);
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
+    	g.setClip(xMargin, yMargin, tileSize*mazeWidth, tileSize*mazeHeight);
+        for (int row = 0; row < mazeHeight; row++) {
+            for (int col = 0; col < mazeWidth; col++) {
             	int newX = col*tileSize + xMargin;
             	int newY = row*tileSize + yMargin;
             	
@@ -201,8 +198,8 @@ public class Maze extends JComponent {
     }
     
     public void nextFrame() {
-    	for (int row = 0; row < height; row++) {
-    		for (int col = 0; col < width; col++) {
+    	for (int row = 0; row < mazeHeight; row++) {
+    		for (int col = 0; col < mazeWidth; col++) {
     			tiles[col][row].nextFrame();
     		}
     	}
@@ -210,11 +207,11 @@ public class Maze extends JComponent {
     }
     
     public boolean isSpace(int x, int y) {
-    	if (x == width - 2 && y == height - 1) {
+    	if (x == mazeWidth - 2 && y == mazeHeight - 1) {
     		// End goal
     		return true;
     	}
-    	if (x < 1 || x > width - 2 || y < 1 || y > height - 2) {
+    	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
     		return false;
     	}
     	return tiles[x][y].getValue() == Tile.SPACE;
@@ -225,11 +222,18 @@ public class Maze extends JComponent {
     }
     // TEST
     
+    
+    /*
+     * Maze Generation algorithms
+     */
     public void genMazeDFS() {
+    	genMazeDFS(0);
+    }
+    public void genMazeDFS(int delay) {
         reset();
         
-        int startx = width / 2;
-        int starty = height / 2;
+        int startx = mazeWidth / 2;
+        int starty = mazeHeight / 2;
         if (startx % 2 == 0) {
             startx++;
         }
@@ -240,17 +244,20 @@ public class Maze extends JComponent {
         s.add(new MazeGenStep(tiles[startx][starty], tiles[startx][starty]));
         
         while (!s.empty()) {
-//        	try {
-//				Thread.sleep(10);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
             MazeGenStep curStep = s.pop();
             if (!curStep.isValidMove()) {
                 continue;
             }
             curStep.setValues(Tile.SPACE);
+            
+            if (delay > 0) {
+	        	try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	}
             
             List<MazeGenStep> possibleMoves = new ArrayList<MazeGenStep>();
             Tile curTile = curStep.getNewTile();
@@ -284,10 +291,13 @@ public class Maze extends JComponent {
             }
         }
         
-        tiles[width-2][height-1].setValue(Tile.SPACE);
+        tiles[mazeWidth-2][mazeHeight-1].setValue(Tile.SPACE);
     }
     
     public void genMazeDFSBranch(int firstBranchStep) {
+    	genMazeDFSBranch(firstBranchStep, 0);
+    }
+    public void genMazeDFSBranch(int firstBranchStep, int delay) {
     	reset();
         
         List<Stack<MazeGenStep>> branches = new ArrayList<Stack<MazeGenStep>>();
@@ -301,12 +311,6 @@ public class Maze extends JComponent {
         	curNumSteps++;
         	
         	for (int i = 0; i < branches.size(); i++) {
-//        		try {
-//					Thread.sleep(10);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
         		Stack<MazeGenStep> branch = branches.get(i);
 	        	
 		        if (!branch.isEmpty()) {
@@ -315,6 +319,15 @@ public class Maze extends JComponent {
 		                continue;
 		            }
 		            curStep.setValues(Tile.SPACE);
+		            
+		            if (delay > 0) {
+			            try {
+							Thread.sleep(delay);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+		            }
 		            
 		            List<MazeGenStep> possibleMoves = new ArrayList<MazeGenStep>();
 		            Tile curTile = curStep.getNewTile();
@@ -364,14 +377,17 @@ public class Maze extends JComponent {
 	        	branchAtStep += firstBranchStep;
 	        }
         }
-        tiles[width-2][height-1].setValue(Tile.SPACE);
+        tiles[mazeWidth-2][mazeHeight-1].setValue(Tile.SPACE);
     }
     
     public void genMazePrim() {
+    	genMazePrim(0);
+    }
+    public void genMazePrim(int delay) {
         reset();
         
-        int startx = width / 2;
-        int starty = height / 2;
+        int startx = mazeWidth / 2;
+        int starty = mazeHeight / 2;
         if (startx % 2 == 0) {
             startx++;
         }
@@ -382,12 +398,6 @@ public class Maze extends JComponent {
         possibleMoves.add(new MazeGenStep(tiles[startx][starty], tiles[1][0]));
         
         while (!possibleMoves.isEmpty()) {
-        	try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
             int index = rand.nextInt(possibleMoves.size());
             MazeGenStep curStep = possibleMoves.get(index);
             possibleMoves.remove(index);
@@ -396,6 +406,15 @@ public class Maze extends JComponent {
                 continue;
             }
             curStep.setValues(Tile.SPACE);
+            
+            if (delay > 0) {
+	            try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
             
             Tile curTile = curStep.getNewTile();
             Tile curMove;
@@ -420,12 +439,15 @@ public class Maze extends JComponent {
             }
         }
         
-        tiles[width-2][height-1].setValue(Tile.SPACE);
+        tiles[mazeWidth-2][mazeHeight-1].setValue(Tile.SPACE);
     }
     
+    /*
+     * Some private utility functions
+     */
     private void reset() {
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
+        for (int row = 0; row < mazeHeight; row++) {
+            for (int col = 0; col < mazeWidth; col++) {
                 tiles[col][row].setValue(Tile.WALL);
             }
         }
@@ -441,24 +463,11 @@ public class Maze extends JComponent {
         if (tile == null) {
             return null;
         }
-//        int[] dx = {1, 0, -1, 0}; // east, north, west, south
-//        int[] dy = {0, -1, 0, 1};
-//        int dir;
-//        if (direction == Direction.EAST) {
-//            dir = 0;
-//        } else if (direction == Direction.NORTH) {
-//            dir = 1;
-//        } else if (direction == Direction.WEST) {
-//            dir = 2;
-//        } else {
-//            assert(direction == Direction.SOUTH);
-//            dir = 3;
-//        }
         
         int newX = tile.getX() + n * direction.dx();
         int newY = tile.getY() + n * direction.dy();
         
-        if (newX < 0 || newX >= width || newY < 0 || newY >= height) {
+        if (newX < 0 || newX >= mazeWidth || newY < 0 || newY >= mazeHeight) {
             return null;
         } else {
             return tiles[newX][newY];
