@@ -36,8 +36,8 @@ public class RefactorPageTester implements Runnable {
     
     public RefactorPageTester() {
         mainWindow = new JFrame();
-        mainWindow.setSize(400, 600);
-        mainWindow.setMinimumSize(new Dimension(300, 400));
+        mainWindow.setSize(800, 600);
+        mainWindow.setMinimumSize(new Dimension(400, 300));
         mainWindow.setTitle("card layout panel");
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -69,37 +69,30 @@ public class RefactorPageTester implements Runnable {
         	System.out.println("currentPage is " + currentPage);
         	
             if (currentPage.equals(HOME_PAGE)) {
-            	mainWindow.setTitle("MENU");
+            	mainWindow.setTitle("MAIN MENU");
 	            HomePage.Result result = homePage.run();
 	            System.out.println("homePage.result is " + result);
 	            if (result.equals(HomePage.Result.PLAY_GAME)) {
 	            	currentPage = MAZE_PAGE;
-	            	mainWindow.setTitle("MAZE");
 	            	System.out.println("going to generate maze");
-	            	
-	            	result = null;
-	            	homePage.setHomeResult(result);
+	            	homePage.setHomeResult(null);
 	            } else if (result.equals(HomePage.Result.SHOW_INSTRUCTIONS)) {
 	            	currentPage = INSTRUCTIONS_PAGE;
-	            	mainWindow.setTitle("INSTRUCTIONS");
 	            	result = null;
 	            	homePage.setHomeResult(result);
 	            } else if (result.equals(HomePage.Result.SHOW_SETTINGS)) {
 	            	currentPage = SETTINGS_PAGE;
-	            	mainWindow.setTitle("SETTINGS");
-	            	result = null;
-	            	homePage.setHomeResult(result);
-	            	// how to get the resolution selected by the radio button?
+	            	homePage.setHomeResult(null);
 	            } else if (result.equals(HomePage.Result.SHOW_HIGH_SCORES)) {
 	            	currentPage = HIGH_SCORES_PAGE;
-	            	mainWindow.setTitle("HIGH SCORES");
-	            	result = null;
-	            	homePage.setHomeResult(result);
+	            	homePage.setHomeResult(null);
 	            } else if (result.equals(HomePage.Result.QUIT_GAME)) {
 	            	mainWindow.dispose();
 	            	currentPage = null;
 	            }
+	            
             } else if (currentPage.equals(MAZE_PAGE)) {
+            	mainWindow.setTitle("MAZE");
             	MazePage.Result result = mazePage.run();
 	            System.out.println("mazePage.result is " + result);
 	            if (result.equals(MazePage.Result.RETURN_HOME)) {
@@ -107,44 +100,56 @@ public class RefactorPageTester implements Runnable {
 	            	mainWindow.setTitle("MAZE");
 	            	layout.show(cardPanel, MAZE_PAGE);
 	            	System.out.println("going to generate maze");
-	            	result = null;
-	            	mazePage.setMazeResult(result);
+	            	mazePage.setMazeResult(null);
 	            	// should i have one for PLAYING_GAME?
 	            	//result = null;
 	            	//mazePage.setPageResult(result);
 	            }
+	            
             } else if (currentPage.equals(INSTRUCTIONS_PAGE)) {
+            	mainWindow.setTitle("INSTRUCTIONS");
             	InstructionsPage.Result result = instructionsPage.run();
 	            System.out.println("instructionsPage.result is " + result);
 	            if (result.equals(InstructionsPage.Result.RETURN_HOME)) {
 	            	currentPage = HOME_PAGE;
-	            	mainWindow.setTitle("MAIN MENU");
 	            	System.out.println("going to go back to home");
-	            	
-	            	result = null;
-	            	instructionsPage.setInstructionsResult(result);
+	            	instructionsPage.setInstructionsResult(null);
 	            }
+	            
             } else if (currentPage.equals(SETTINGS_PAGE)) {
+            	mainWindow.setTitle("SETTINGS");
             	SettingsPage.Result result = settingsPage.run();
 	            System.out.println("settingsPage.result is " + result);
 	            if (result.equals(SettingsPage.Result.RETURN_HOME)) {
 	            	currentPage = HOME_PAGE;
-	            	mainWindow.setTitle("MAIN MENU");
 	            	System.out.println("going to go back to home");
-	            	
-	            	result = null;
-	            	settingsPage.setSettingsResult(result);
+	            	settingsPage.setSettingsResult(null);
+	            } else if (result.equals(SettingsPage.Result.RESOLUTION_ONE)) {
+	            	System.out.println("changing resolution");
+	            	mainWindow.setSize(1000, 800);
+	            	settingsPage.setSettingsResult(null);
+	            } else if (result.equals(SettingsPage.Result.DEFAULTRESOLUTION)) {
+	            	System.out.println("changing resolution");
+	            	mainWindow.setSize(800, 600);
+	            	settingsPage.setSettingsResult(null);
+	            } else if (result.equals(SettingsPage.Result.RESOLUTION_TWO)) {
+	            	System.out.println("changing resolution");
+	            	mainWindow.setSize(600, 400);
+	            	settingsPage.setSettingsResult(null);
+	            } else if (result.equals(SettingsPage.Result.RESOLUTION_THREE)) {
+	            	System.out.println("changing resolution");
+	            	mainWindow.setSize(400, 300);
+	            	settingsPage.setSettingsResult(null);
 	            }
+	            
             } else if (currentPage.equals(HIGH_SCORES_PAGE)) {
+            	mainWindow.setTitle("HIGH SCORES");
             	HighScoresPage.Result result = highScoresPage.run();
 	            System.out.println("highScoresPage.result is " + result);
 	            if (result.equals(HighScoresPage.Result.RETURN_HOME)) {
 	            	currentPage = HOME_PAGE;
-	            	mainWindow.setTitle("MAIN MENU");
 	            	System.out.println("going to go back to home");
-	            	
-	            	result = null;
-	            	highScoresPage.setHighScoresResult(result);
+	            	highScoresPage.setHighScoresResult(null);
 	            }
             	
             }
