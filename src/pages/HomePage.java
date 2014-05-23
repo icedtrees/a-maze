@@ -1,25 +1,20 @@
 package pages;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class HomePage extends Page {
-	public enum Result implements Page.Result {
+    private static final long serialVersionUID = 1L;
+    public enum Result implements Page.Result {
         PLAY_GAME,
         SHOW_INSTRUCTIONS,
         SHOW_SETTINGS,
         SHOW_HIGH_SCORES,
         QUIT_GAME,
     };
-	private static final long serialVersionUID = 1L;
-    private static Result result;
+
+    private volatile Result result;
 	
     public HomePage() {
     	super();

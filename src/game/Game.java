@@ -16,11 +16,12 @@ public class Game implements Runnable {
     private static final String HIGH_SCORES_PAGE = "highscores";
     private static final String SETTINGS_PAGE = "settings";
     
-    //
+    // Main window and layout
     private JFrame mainWindow;
+    private JPanel mainPanel;
     private CardLayout layout;
     
-    //
+    // All the pages
     private HomePage homePage;
     private MazePage mazePage;
     private InstructionsPage instructionsPage;
@@ -30,13 +31,19 @@ public class Game implements Runnable {
     String currentPage;
     
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Game());
+    	Game game = new Game();
+        SwingUtilities.invokeLater(game);
     }
     
     public Game() {
         mainWindow = new JFrame();
+        mainWindow.setSize(400, 600);
+        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainWindow.setTitle("GAME's MAIN MENU");
+        
+        mainPanel = new JPanel();
         layout = new CardLayout();
-        mainWindow.setLayout(layout);
+        mainPanel.setLayout(layout);
         
         // Create all the Pages
         homePage = new HomePage();
@@ -46,12 +53,13 @@ public class Game implements Runnable {
         settingsPage = new SettingsPage();
         
         // Add all the Pages to the CardLayout
-        layout.addLayoutComponent(homePage, HOME_PAGE);
-        layout.addLayoutComponent(mazePage, MAZE_PAGE);
-        layout.addLayoutComponent(instructionsPage, INSTRUCTIONS_PAGE);
-        layout.addLayoutComponent(highScoresPage, HIGH_SCORES_PAGE);
-        layout.addLayoutComponent(settingsPage, SETTINGS_PAGE);
+        mainPanel.add(homePage, HOME_PAGE);
+        mainPanel.add(mazePage, MAZE_PAGE);
+        mainPanel.add(instructionsPage, INSTRUCTIONS_PAGE);
+        mainPanel.add(highScoresPage, HIGH_SCORES_PAGE);
+        mainPanel.add(settingsPage, SETTINGS_PAGE);
         
+        mainWindow.add(mainPanel);
     }
     
     public void run() {
@@ -60,7 +68,7 @@ public class Game implements Runnable {
         mainWindow.setVisible(true);
         
         while (currentPage != null) {
-            layout.show(mainWindow, currentPage);
+            layout.show(mainPanel, currentPage);
        
             if (currentPage.equals(HOME_PAGE)) {
                 HomePage.Result result = homePage.run();
@@ -68,10 +76,10 @@ public class Game implements Runnable {
                     currentPage = MAZE_PAGE;
                 } else if (result.equals(HomePage.Result.SHOW_INSTRUCTIONS)) {
                     currentPage = INSTRUCTIONS_PAGE;
-                } else if (result.equals(HomePage.Result.SHOW_HIGH_SCORES)) {
-                    currentPage = HIGH_SCORES_PAGE;
                 } else if (result.equals(HomePage.Result.SHOW_SETTINGS)) {
                     currentPage = SETTINGS_PAGE;
+                } else if (result.equals(HomePage.Result.SHOW_HIGH_SCORES)) {
+                    currentPage = HIGH_SCORES_PAGE;
                 } else if (result.equals(HomePage.Result.QUIT_GAME)) {
                     currentPage = null;
                 }
@@ -79,9 +87,9 @@ public class Game implements Runnable {
                 
             } else if (currentPage.equals(INSTRUCTIONS_PAGE)) {
                 
-            } else if (currentPage.equals(HIGH_SCORES_PAGE)) {
-                
             } else if (currentPage.equals(SETTINGS_PAGE)) {
+                
+            } else if (currentPage.equals(HIGH_SCORES_PAGE)) {
                 
             }
         }
