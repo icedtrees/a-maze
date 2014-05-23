@@ -19,21 +19,18 @@ public class HomePage extends Page {
         QUIT_GAME,
     };
 	private static final long serialVersionUID = 1L;
-	private static JPanel mainPanel;
     private static Result result;
 	
-    public HomePage(JFrame frame) {
+    public HomePage() {
     	super();
-    	mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(7, 1));
+        setLayout(new GridLayout(7, 1));
         
         JLabel blank = new JLabel("", JLabel.CENTER);
-        mainPanel.add(blank);
+        add(blank);
         
         JLabel titleLabel = new JLabel("MAZE", JLabel.CENTER);
-        mainPanel.add(titleLabel);
+        add(titleLabel);
         
-        mainPanel = new JPanel();
         addStartButton();
         addInstructionsButton();
         addSettingsButton();
@@ -42,9 +39,14 @@ public class HomePage extends Page {
         
         result = null;
     }
+    
+    public void setHomeResult(HomePage.Result newResult) {
+        result = newResult;
+    }
 
     public HomePage.Result run() {
         // Wait until the user presses the button, and then return the result
+
     	while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
     		try {
@@ -54,16 +56,11 @@ public class HomePage extends Page {
 				e.printStackTrace();
 			}
     	}
-    	
-        System.out.println("result is " + result);
+
         return result;
     }
     
-    public JPanel getHomePanel() {
-        return mainPanel;
-    }
-    
-    private synchronized static void addStartButton() {
+    private synchronized void addStartButton() {
         JPanel startPanel = new JPanel();
         startPanel.setLayout(new FlowLayout());
         
@@ -73,16 +70,15 @@ public class HomePage extends Page {
 				// some action to generate maze and display a MazePage
 				System.out.println("hello");
 				result = Result.PLAY_GAME;
-				System.out.println("pressedButton is now trueeeee");
 				System.out.println("Result.play_game is" + result);
 			}
 		});
 		
 		startPanel.add(startMaze);
-		mainPanel.add(startPanel);
+		add(startPanel);
     }
     
-	private synchronized static void addInstructionsButton() {
+	private synchronized void addInstructionsButton() {
 		JPanel instructionsPanel = new JPanel();
 		instructionsPanel.setLayout(new FlowLayout());
 
@@ -96,10 +92,10 @@ public class HomePage extends Page {
 			}
 		});
 		instructionsPanel.add(instructions);
-		mainPanel.add(instructionsPanel);
+		add(instructionsPanel);
 	}
     
-	private static void addSettingsButton() {
+	private void addSettingsButton() {
 		JPanel settingsPanel = new JPanel();
 		settingsPanel.setLayout(new FlowLayout());
 
@@ -111,10 +107,10 @@ public class HomePage extends Page {
 			}
 		});
 		settingsPanel.add(settings);
-		mainPanel.add(settingsPanel);
+		add(settingsPanel);
 	}
 	
-	private static void addHighScoresButton() {
+	private void addHighScoresButton() {
 		JPanel scoresPanel = new JPanel();
 		scoresPanel.setLayout(new FlowLayout());
 
@@ -126,10 +122,10 @@ public class HomePage extends Page {
 			}
 		});
 		scoresPanel.add(scores);
-		mainPanel.add(scoresPanel);
+		add(scoresPanel);
 	}
 	
-	private static void addExitButton() {
+	private void addExitButton() {
 		JPanel exitPanel = new JPanel();
 		exitPanel.setLayout(new FlowLayout());
 
@@ -140,7 +136,7 @@ public class HomePage extends Page {
 			}
 		});
 		exitPanel.add(exit);
-		mainPanel.add(exitPanel);
+		add(exitPanel);
 	}
 	
 }
