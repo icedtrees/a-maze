@@ -3,23 +3,33 @@ package maze;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import maze.Maze.Direction;
+
 public class Tile {
-    static final public int WALL = 1;
-    static final public int SPACE = 0;
+    public static final int WALL = 1;
+    public static final int SPACE = 0;
     
     // TEST
-    static final public int EXPLORED = 2;
+    public static final int EXPLORED = 2;
     // TEST
+    
+    private static final double SHIFT_SPEED = 1; // Shifts per second
     
     private int value;
     private int x;
     private int y;
     private TileObject contents;
     
+    private Direction shifting;
+    private double shifted;
+    
     public Tile(int newValue, int newX, int newY) {
         value = newValue;
         x = newX;
         y = newY;
+        
+        shifting = null;
+        shifted = 0;
     }
     
     public int getValue() {
@@ -31,6 +41,9 @@ public class Tile {
     public int getY() {
         return y;
     }
+    public boolean isShifting() {
+    	return shifting != null;
+    }
     
     public void setContents(TileObject obj) {
     	this.contents = obj;
@@ -40,28 +53,78 @@ public class Tile {
         value = newValue;
     }
     
-    public void draw(Graphics g, int tileSize) {
-        if (value == WALL) {
-    	    g.setColor(Color.BLACK);
+    public void draw(Graphics g, int tileSize) {	    
+	    if (isShifting()) {
+	    	// Draw background
+	    	if (value == WALL) {
+	    		g.setColor(Color.WHITE);
+	    	}
+	    	if (value == SPACE) {
+	    		g.setColor(Color.WHITE);
+	    	}
+	    	if (value == EXPLORED) {
+	    		g.setColor(Color.CYAN);
+	    	}
+	    	g.fillRect(0, 0, tileSize, tileSize);
+	    	
+	    	// Draw shifting wall
+	    	double shiftedAmount;
+	    	if (value == WALL) {
+	    		shiftedAmount = shifted;
+	    	} else {
+	    		shiftedAmount = 1 - shifted;
+	    	}
+	    	g.setColor(Color.BLACK);
+	    	g.fillRect((int) (shiftedAmount * tileSize * shifting.dx()),
+	    			(int) (shiftedAmount * tileSize * shifting.dy()),
+	    			tileSize, tileSize);
+	    } else {
+	    	if (value == WALL) {
+	    	    g.setColor(Color.BLACK);
+		    }
+		    if (value == SPACE) {
+		        g.setColor(Color.WHITE);
+		    }
+		    
+		    // TEST
+		    if (value == EXPLORED) {
+		    	g.setColor(Color.CYAN);
+		    }
+		    // TEST
+		    
+		    g.fillRect(0, 0, tileSize, tileSize);
 	    }
-	    if (value == SPACE) {
-	        g.setColor(Color.WHITE);
-	    }
-	    
-	    // TEST
-	    if (value == EXPLORED) {
-	    	g.setColor(Color.CYAN);
-	    }
-	    // TEST
-	    
-    	g.fillRect(0, 0, tileSize, tileSize);
-    	if (contents != null) {
+	    if (contents != null) {
     		contents.draw(g, tileSize);
     	}
     }
     
     public void nextFrame() {
-    	
+    	if (!isShifting()) {
+    		return;
+    	}
+    	shifted += SHIFT_SPEED / Maze.FPS;
+    	if (shifted >= 1) {
+    		shifting = null;
+    		shifted = 0;
+    		if (value == WALL) {
+    			value = SPACE;
+    		} else {
+    			value = WALL;
+    		}
+    		synchronized(this) {
+    			notifyAll();
+    		}
+    	}
+    }
+    
+    public synchronized void shiftWall(Direction dir) throws InterruptedException {
+    	while (isShifting()) {
+    		synchronized(this) {
+    			wait();
+    		}
+    	}
+    	shifting = dir;
     }
     
     public void interact(Player player) {
