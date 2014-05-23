@@ -1,14 +1,8 @@
 package pages;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
-import pages.InstructionsPage.Result;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class Components {
     public static JButton makeButton(String string) {
@@ -27,7 +21,7 @@ public class Components {
         returnBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	System.out.println("return to main menu");
-            	page.setResult(Result.RETURN_HOME);
+            	// page.setResult(Result.RETURN_HOME);
             }
         });
 		
