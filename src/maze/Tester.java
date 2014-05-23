@@ -2,10 +2,11 @@ package maze;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
+import javax.swing.AbstractAction;
 
 public class Tester {
     public static void main(String[] args) {
@@ -34,22 +35,19 @@ public class Tester {
         /*
          * The main event loop which gets run every frame based on a frame-rate
          * in the Maze.FPS variable.
+         * This runs on a Swing timer which runs on the event dispatch thread.
          */
-        Timer actionLoop = new Timer();
-        actionLoop.scheduleAtFixedRate(new TimerTask() {
-        	int numFrame = -250;
-        	@Override
-        	public void run() {
-        		if (numFrame == 100) {
-//        			myMaze.shiftTiles(3);
-        			numFrame = 0;
-        		}
+        Timer actionLoop = new Timer(1000/Maze.FPS, new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+        	public void actionPerformed(ActionEvent e) {
         		myMaze.nextFrame();
         		maze2.nextFrame();
-        		numFrame++;
         		f.repaint();
         	}
-        }, 1000/Maze.FPS, 1000/Maze.FPS);
+        });
+        actionLoop.start();
         
         /*
          * Generate two mazes side by side in parallel
