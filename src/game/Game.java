@@ -1,9 +1,7 @@
 package game;
 
 import java.awt.*;
-
 import javax.swing.*;
-
 import pages.*;
 
 /**
@@ -34,9 +32,7 @@ public class Game implements Runnable {
     
     public static void main(String[] args) {
     	Game game = new Game();
-    	game.run();
         SwingUtilities.invokeLater(game);
-        // was SwingUtilities.invokeLater(new Game());
     }
     
     public Game() {

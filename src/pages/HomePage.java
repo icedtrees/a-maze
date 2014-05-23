@@ -5,15 +5,16 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class HomePage extends Page {
-	public enum Result implements Page.Result {
+    private static final long serialVersionUID = 1L;
+    public enum Result implements Page.Result {
         PLAY_GAME,
         SHOW_INSTRUCTIONS,
         SHOW_SETTINGS,
         SHOW_HIGH_SCORES,
         QUIT_GAME,
     };
-	private static final long serialVersionUID = 1L;
-    private static Result result;
+
+    private volatile Result result;
 	
     public HomePage() {
     	super();

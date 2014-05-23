@@ -1,15 +1,11 @@
 package pages;
 
 
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import maze.Maze;
 
@@ -20,7 +16,7 @@ public class MazePage extends Page {
         RETURN_HOME
     };
 	private static final long serialVersionUID = 1L;
-	public static Result result;
+	public volatile Result result;
 	
 	// in mainPanel will be a mazePanel where the maze game will be shown
 	// and sidebarPanel on the right 

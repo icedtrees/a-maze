@@ -1,23 +1,15 @@
 package pages;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import pages.InstructionsPage.Result;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class HighScoresPage extends Page {
 	public enum Result implements Page.Result {
         RETURN_HOME
     };
 	private static final long serialVersionUID = 1L;
-	private static Result result;
+	private volatile Result result;
 	
 	public HighScoresPage() {
 		super();
