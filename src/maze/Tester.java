@@ -37,11 +37,11 @@ public class Tester {
          */
         Timer actionLoop = new Timer();
         actionLoop.scheduleAtFixedRate(new TimerTask() {
-        	int numFrame = 0;
+        	int numFrame = -250;
         	@Override
         	public void run() {
         		if (numFrame == 100) {
-        			myMaze.shiftTiles(10);
+//        			myMaze.shiftTiles(3);
         			numFrame = 0;
         		}
         		myMaze.nextFrame();
@@ -56,12 +56,13 @@ public class Tester {
          */
         Thread thread1 = new Thread() {
             public void run() {
-            	myMaze.genMazeDFS(10);
+//            	myMaze.genMazeDFS(10);
+            	myMaze.genMazeOnePath(90, 50);
             }
         };
         Thread thread2 = new Thread() {
             public void run() {
-            	maze2.genMazeDFSBranch(5, 10);
+            	maze2.genMazeDFSBranch(5, 50);
             }
         };
         
@@ -80,7 +81,7 @@ public class Tester {
          */
         thread1 = new Thread() {
             public void run() {
-//            	maze.autoplayer.DFSPlayer.play(myMaze);
+            	maze.autoplayer.DFSPlayer.play(myMaze);
             }
         };
         
@@ -96,7 +97,6 @@ public class Tester {
 			thread1.join();
 			thread2.join();
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
     }

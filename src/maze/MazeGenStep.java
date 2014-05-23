@@ -1,11 +1,25 @@
 package maze;
 
-public class MazeGenStep {
+public class MazeGenStep implements Comparable<MazeGenStep> {
     private Tile newTile;
     private Tile wallTile;
+    private double weight;
+    private int dijkstraWeight;
+    
     public MazeGenStep(Tile newNewTile, Tile newWallTile) {
-        newTile = newNewTile;
+        this(newNewTile, newWallTile, 0, 0);
+    }
+    public MazeGenStep(Tile newNewTile, int dijkstraWeight) {
+        this(newNewTile, null, 0, dijkstraWeight);
+    }
+    public MazeGenStep(Tile newNewTile, Tile newWallTile, double newWeight) {
+        this(newNewTile, newWallTile, newWeight, 0);
+    }
+    public MazeGenStep(Tile newNewTile, Tile newWallTile, double newWeight, int dijkstraWeight) {
+    	newTile = newNewTile;
         wallTile = newWallTile;
+        weight = newWeight;
+        this.dijkstraWeight = dijkstraWeight;
     }
     
     public Tile getNewTile() {
@@ -13,6 +27,12 @@ public class MazeGenStep {
     }
     public Tile getWallTile() {
         return wallTile;
+    }
+    public double getWeight() {
+    	return weight;
+    }
+    public int getDijkstraWeight() {
+    	return dijkstraWeight;
     }
     
     public void setValues(int value) {
@@ -25,4 +45,8 @@ public class MazeGenStep {
         }
         return true;
     }
+	@Override
+	public int compareTo(MazeGenStep o) {
+		return Double.compare(this.dijkstraWeight, o.dijkstraWeight);
+	}
 }
