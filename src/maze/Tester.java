@@ -9,8 +9,8 @@ import javax.swing.JFrame;
 
 public class Tester {
     public static void main(String[] args) {
-        final Maze myMaze = new Maze(15, 610, 1, 2302);
-        System.out.println(myMaze.getWidth() + " " + myMaze.getMazeWidth());
+        final Maze myMaze = new Maze(15, 610, 1);
+        System.out.println(myMaze.getMazeWidth() + " " + myMaze.getMazeHeight());
         
         final JFrame f = new JFrame();
         f.setLayout(new GridBagLayout());
@@ -37,10 +37,16 @@ public class Tester {
          */
         Timer actionLoop = new Timer();
         actionLoop.scheduleAtFixedRate(new TimerTask() {
+        	int numFrame = 0;
         	@Override
         	public void run() {
+        		if (numFrame == 100) {
+        			myMaze.shiftTiles(10);
+        			numFrame = 0;
+        		}
         		myMaze.nextFrame();
         		maze2.nextFrame();
+        		numFrame++;
         		f.repaint();
         	}
         }, 1000/Maze.FPS, 1000/Maze.FPS);
@@ -74,7 +80,7 @@ public class Tester {
          */
         thread1 = new Thread() {
             public void run() {
-            	maze.autoplayer.DFSPlayer.play(myMaze);
+//            	maze.autoplayer.DFSPlayer.play(myMaze);
             }
         };
         

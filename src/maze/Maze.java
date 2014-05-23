@@ -6,9 +6,11 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.Stack;
 
 import javax.swing.JComponent;
@@ -172,6 +174,123 @@ public class Maze extends JComponent {
         		(int) (player.getCurY() * tileSize + yMargin),
         		tileSize, tileSize);
         player.draw(newG, tileSize);
+    }
+    
+    public void shiftTile(int x, int y) throws InterruptedException {
+    	for (Direction dir : Direction.values()) {
+    		if (isSpace(x + dir.dx(), y + dir.dy())) {
+    			continue;
+    		}
+    		tiles[x][y].shiftWall(dir);
+    		break;
+    	}
+    }
+    
+    public void shiftTiles(int n) {
+    	boolean[][] curTileWalls = new boolean[mazeWidth][mazeHeight];
+    	for (int col = 0; col < mazeWidth; col++) {
+    		for (int row = 0; row < mazeHeight; row++) {
+    			if (tiles[col][row].getValue() == Tile.WALL) {
+    				curTileWalls[col][row] = true;
+    			} else {
+    				curTileWalls[col][row] = false;
+    			}
+    		}
+    	}
+    	
+    	List<Coord> currentWalls = new ArrayList<Coord>();
+    	List<Coord> currentSpaces = new ArrayList<Coord>();
+    	int rowMagicNumber = 1;
+    	for (int col = 1; col < mazeWidth - 1; col ++) {
+    		rowMagicNumber = 3 - rowMagicNumber;
+    		for (int row = rowMagicNumber; row < mazeHeight - rowMagicNumber; row += 2) {
+    			if (curTileWalls[col][row]) {
+    				currentWalls.add(new Coord(col, row));
+    			} else {
+    				currentSpaces.add(new Coord(col, row));
+    			}
+    		}
+    	}
+    	Collections.shuffle(currentWalls, rand);
+    	Collections.shuffle(currentSpaces, rand);
+    	
+    	for (int i = 0; i < n; i++) {
+    		Coord newWall;
+    		newWall = currentSpaces.remove(0);
+    		
+    		int x = newWall.getX();
+    		int y = newWall.getY();
+    		curTileWalls[x][y] = true;
+    		Coord firstCoord = null;
+    		for (Direction dir : Direction.values()) {
+    			if (!curTileWalls[x + dir.dx()][y + dir.dy()]) {
+    				firstCoord = newWall.inDirection(dir);
+    				break;
+    			}
+    		}
+    		
+    		Stack<Coord> s = new Stack<Coord>();
+    		s.add(firstCoord);
+    		
+    		Set<Coord> seen = new HashSet<Coord>();
+    		while (!s.isEmpty()) {
+    			Coord cur = s.pop();
+    			
+    			if (seen.contains(cur)) {
+    				continue;
+    			}
+    			seen.add(cur);
+    			
+    			System.out.println(cur);
+    			
+    			for (Direction dir : Direction.values()) {
+    				int newX = cur.getX() + dir.dx();
+    				int newY = cur.getY() + dir.dy();
+    				if (newX < 0 || newX > mazeWidth - 1 || newY < 0 || newY > mazeHeight - 1) {
+    					continue;
+    				}
+    				if (!curTileWalls[newX][newY]) {
+    					s.push(new Coord(newX, newY));
+    				}
+    			}
+    		}
+    		
+    		/*
+    		 * Go through list of current walls and pick first one that
+    		 * borders on one space in the seen set and one set not in
+    		 */
+    		Coord wallToRemove = null;
+    		for (Coord cur : currentWalls) {
+    			int numInSet = 0;
+    			for (Direction dir : Direction.values()) {
+    				int newX = cur.getX() + dir.dx();
+    				int newY = cur.getY() + dir.dy();
+    				Coord newCoord = cur.inDirection(dir);
+    				if (newX < 0 || newX > mazeWidth - 1 || newY < 0 || newY > mazeHeight - 1) {
+    					continue;
+    				}
+    				if (!curTileWalls[newX][newY] && seen.contains(newCoord)) {
+    					numInSet++;
+    				}
+    			}
+    			if (numInSet == 1) {
+    				wallToRemove = cur;
+    				break;
+    			}
+    		}
+    		currentWalls.remove(wallToRemove);
+    		curTileWalls[wallToRemove.getX()][wallToRemove.getY()] = false;
+    		
+    		// Shift the new wall/space tiles
+    		try {
+				shiftTile(newWall.getX(), newWall.getY());
+				shiftTile(wallToRemove.getX(), wallToRemove.getY());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	
     }
     
     // TEST    
