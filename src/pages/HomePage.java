@@ -41,7 +41,7 @@ public class HomePage extends Page {
 
     public HomePage.Result run() {
         // Wait until the user presses the button, and then return the result
-
+        System.out.println("asdf");
     	while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
     		try {
@@ -50,6 +50,7 @@ public class HomePage extends Page {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+    		System.out.println("asdf");
     	}
 
         return result;

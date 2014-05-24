@@ -41,11 +41,7 @@ public class Game {
     
     public Game() {
         settings = new Settings();
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                initialiseGUI();
-            }
-        });
+        initialiseGUI();
     }
     
     public void run() {
@@ -53,11 +49,7 @@ public class Game {
         currentPage = HOME_PAGE;
         
         while (currentPage != null) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    layout.show(mainPanel, currentPage);
-                }
-            });
+            layout.show(mainPanel, currentPage);
        
             if (currentPage.equals(HOME_PAGE)) {
                 HomePage.Result result = homePage.run();
