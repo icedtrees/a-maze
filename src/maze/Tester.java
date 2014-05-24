@@ -54,13 +54,12 @@ public class Tester {
          */
         Thread thread1 = new Thread() {
             public void run() {
-//            	myMaze.genMazeDFS(10);
-//            	myMaze.genMazeOnePath(70, 50);
+            	myMaze.genMazeDFS(10);
             }
         };
         Thread thread2 = new Thread() {
             public void run() {
-            	maze2.genMazeDFSBranch(5, 10);
+            	maze2.genMazeDFSBranch(5, 0, 10);
             }
         };
         

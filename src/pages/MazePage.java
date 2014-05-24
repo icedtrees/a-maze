@@ -32,7 +32,7 @@ public class MazePage extends Page {
 		
 	
 		final Maze maze = new Maze(15, 600, 1);
-		maze.genMazeDFSBranch(5);
+		maze.genMazeDFSBranch(5, 100);
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;

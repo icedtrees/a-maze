@@ -623,11 +623,39 @@ public class Maze extends JComponent {
     	
     	return x > 0 && x < mazeWidth-1 && y > 0 && y < mazeHeight-1;
     }
-    
-    public void genMazeDFSBranch(int firstBranchStep) {
-    	genMazeDFSBranch(firstBranchStep, 0);
+    private List<Step> weightedShuffle(List<Step> moves, Random rand) {
+    	List<Step> shuffledMoves = new ArrayList<Step>();
+    	int weightSum = 0;
+    	for (Step move : moves) {
+    		weightSum += move.getWeighting();
+    	}
+    	
+    	while (!moves.isEmpty()) {
+    		int randomNum = rand.nextInt(weightSum);
+	    	for (Step move : moves) {
+	    		randomNum -= move.getWeighting();
+	    		if (randomNum < 0) {
+	    			moves.remove(move);
+	    			shuffledMoves.add(0, move);
+	    			weightSum -= move.getWeighting();
+	    			break;
+	    		}
+	    	}
+    	}
+    	
+    	return shuffledMoves;
     }
-    public void genMazeDFSBranch(int branchFrequency, int delay) {
+    
+    public void genMazeDFSBranch() {
+    	genMazeDFSBranch(5, 0, 0);
+    }
+    public void genMazeDFSBranch(int branchFrequency) {
+    	genMazeDFSBranch(branchFrequency, 0, 0);
+    }
+    public void genMazeDFSBranch(int branchFrequency, int straightness) {
+    	genMazeDFSBranch(branchFrequency, straightness, 0);
+    }
+    public void genMazeDFSBranch(int branchFrequency, int straightness, int delay) {
     	reset();
     	
     	List<MazeBranch> branches = new ArrayList<MazeBranch>();
@@ -685,10 +713,15 @@ public class Maze extends JComponent {
     					if (!validCoord(newCell)) {
     						continue;
     					}
-    					Step newStep = new Step(newCell, dir, curStep.getDist() + 1);
+    					int weighting = 50;
+    					if (dir == curStep.getDir()) {
+    						weighting += straightness;
+    					}
+    					Step newStep = new Step(newCell, dir, curStep.getDist() + 1, weighting);
     					possibleMoves.add(newStep);
     				}
-    				Collections.shuffle(possibleMoves, rand);
+    				possibleMoves = weightedShuffle(possibleMoves, rand);
+//    				Collections.shuffle(possibleMoves, rand);
     				
     				for (Step step : possibleMoves) {
     					branch.push(step);
@@ -722,8 +755,8 @@ public class Maze extends JComponent {
     	}
     	
     	/*
-    	 * Now that the two sides have been completed, pick a random wall
-    	 * to break which will join the two halves
+    	 * Now that the two sides have been completed, pick the wall
+    	 * which creates the longest path to break and join the two halves
     	 */
     	Coord wallToRemove = null;
     	int largestDist = 0;
@@ -769,6 +802,8 @@ public class Maze extends JComponent {
 				e.printStackTrace();
 			}
         }
+    	
+    	System.out.println("Path of length " + largestDist + " in a total of " + (mazeWidth/2)*(mazeHeight/2) + " cells");
     	
 //    	setTileValue(wallToRemove, Tile.SPACE);
     	try {
