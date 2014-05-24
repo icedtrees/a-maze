@@ -55,12 +55,12 @@ public class Tester {
         Thread thread1 = new Thread() {
             public void run() {
 //            	myMaze.genMazeDFS(10);
-            	myMaze.genMazeOnePath(90, 50);
+//            	myMaze.genMazeOnePath(70, 50);
             }
         };
         Thread thread2 = new Thread() {
             public void run() {
-            	maze2.genMazeDFSBranch(5, 50);
+            	maze2.genMazeDFSBranch(5, 10);
             }
         };
         
@@ -79,13 +79,13 @@ public class Tester {
          */
         thread1 = new Thread() {
             public void run() {
-            	maze.autoplayer.DFSPlayer.play(myMaze);
+//            	maze.autoplayer.DFSPlayer.play(myMaze);
             }
         };
         
         thread2 = new Thread() {
             public void run() {
-            	maze.autoplayer.DFSPlayer.play(maze2);
+//            	maze.autoplayer.DFSPlayer.play(maze2);
             }
         };
         
