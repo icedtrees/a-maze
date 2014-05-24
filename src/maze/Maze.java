@@ -6,9 +6,11 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -329,6 +331,216 @@ public class Maze extends JComponent {
     /*
      * Maze Generation algorithms
      */
+    private int shortestLengthThruWalls(int x, int y) {
+    	PriorityQueue<MazeGenStep> pq = new PriorityQueue<MazeGenStep>();
+    	pq.add(new MazeGenStep(tiles[x][y], 0));
+    	
+    	Set<Coord> seen = new HashSet<Coord>();
+    	
+    	int length = -1;
+    	while (!pq.isEmpty()) {
+    		MazeGenStep curStep = pq.poll();
+    		Tile curTile = curStep.getNewTile();
+    		Coord tileCoords = new Coord(curTile.getX(), curTile.getY());
+    		if (seen.contains(tileCoords)) {
+    			continue;
+    		}
+    		seen.add(tileCoords);
+    		
+    		if (tileCoords.getX() == mazeWidth - 2 && tileCoords.getY() == mazeHeight - 2) {
+    			length = curStep.getDijkstraWeight();
+    			break;
+    		}
+    		
+    		Tile curMove;
+    		for (Direction dir : Direction.values()) {
+                curMove = getRelativeTile(curTile, 2, dir);
+                if (curMove != null && curMove.getValue() == Tile.WALL) {
+                    pq.add(new MazeGenStep(curMove, curStep.getDijkstraWeight() + 1));
+                }
+            }
+    	}
+    	
+    	return length;
+    }
+    public void genMazeOnePath(int length) {
+    	genMazeOnePath(length, 0);
+    }
+    public void genMazeOnePath(int length, int delay) {
+    	if (length < (mazeWidth + mazeHeight) / 2) {
+    		return;
+    	}
+    	reset();
+    	
+    	Stack<MazeGenStep> s = new Stack<MazeGenStep>();
+    	s.add(new MazeGenStep(tiles[1][1], tiles[1][0]));
+    	
+    	int finalPathLength = 0;
+    	int curNeededLength = length;
+    	double k = (double) length / (mazeWidth + mazeHeight - 4);
+    	while (!s.isEmpty()) {
+    		MazeGenStep curStep = s.pop();
+    		if (!curStep.isValidMove()) {
+    			continue;
+    		}
+    		curStep.setValues(Tile.SPACE);
+    		curNeededLength --;
+    		finalPathLength ++;
+    		
+    		List<MazeGenStep> possibleMoves = new ArrayList<MazeGenStep>();
+    		List<MazeGenStep> orderedMoves = new ArrayList<MazeGenStep>();
+            Tile curTile = curStep.getNewTile();
+            if (curTile.getX() == mazeWidth - 2 && curTile.getY() == mazeHeight - 2) {
+            	System.out.println("Final path length: " + finalPathLength);
+            	break;
+            }
+            
+            Tile curMove;
+            double totalWeight = 0;
+//            int manhattanDistance = (mazeWidth - curTile.getX()) + (mazeHeight - curTile.getY()) - 4;
+//            k = (double) curNeededLength  / (manhattanDistance);
+            for (Direction dir : Direction.values()) {
+                curMove = getRelativeTile(curTile, 2, dir);
+                if (curMove != null && curMove.getValue() == Tile.WALL) {
+                	System.out.println("Considering " + dir);
+                	int shortestLength = shortestLengthThruWalls(curMove.getX(), curMove.getY());
+                	if (shortestLength == 0) {
+                		shortestLength = 1;
+                	}
+                	System.out.println("Shortest length to end is " + shortestLength);
+                	
+                	double weight;
+                	if (shortestLength == -1) {
+                		System.out.println("Not valid move, weight is 100 (bad move");
+                		weight = 100;
+                	} else {
+	                	System.out.println("We still need " + curNeededLength);
+	                    
+	                    if ((double) curNeededLength / shortestLength < 1) {
+	                    	System.out.println("L < S so weight is 100 (bad move)");
+	                    	weight = 100;
+	                    } else {
+	                    	weight = Math.abs(((double) curNeededLength / shortestLength) - k);
+	                    	if (weight == 0) {
+	                    		weight = 0.01;
+	                    	}
+	                    	System.out.println("Weight is " + weight);
+	                    }
+                	}
+                	
+                	// Adjust for greater exploration
+                	int degree = 0;
+                	for (Direction dir2 : Direction.values()) {
+                		Tile curMoveMove = getRelativeTile(curMove, 2, dir2);
+                		if (curMoveMove != null && curMoveMove.getValue() == Tile.WALL) {
+                			degree += 10;
+                		}
+                	}
+                	if (degree == 0) {
+                		degree = 1;
+                	} else {
+                		System.out.println("NOT BROKEN");
+                	}
+                	weight = weight / degree;
+                	
+                    System.out.println();
+                    totalWeight += weight;
+                    possibleMoves.add(new MazeGenStep(curMove,
+                            getRelativeTile(curTile, dir),
+                            weight));
+                }
+            }
+            System.out.println("-----------------------------");
+            
+            if (delay > 0) {
+	        	try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	}
+            
+            while (!possibleMoves.isEmpty()) {
+            	double randomNum = rand.nextDouble() * totalWeight;
+	            for (MazeGenStep ms : possibleMoves) {
+	            	randomNum -= ms.getWeight();
+	            	if (randomNum < 0) {
+	            		orderedMoves.add(ms);
+	            		possibleMoves.remove(ms);
+	            		break;
+	            	}
+	            }
+            }
+            
+            for (MazeGenStep nextMove : orderedMoves) {
+            	s.push(nextMove);
+            }
+    	}
+    	
+    	/*
+    	 * Path to end has been generated, now DFS the rest
+    	 */
+    	if (delay > 0) {
+        	try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+//    	int numSteps = 5;
+//    	int curSteps = 0;
+    	MazeGenStep fix = s.remove(s.size() - 5);
+    	s.add(fix);
+    	fix = s.remove(5);
+    	s.add(fix);
+    	while (!s.isEmpty()) {
+    		MazeGenStep curStep = null;
+//    		if (curSteps == numSteps) {
+//    			curStep = s.get(rand.nextInt(s.size()));
+//    			curSteps = 0;
+//    		} else {
+    			curStep = s.pop();
+//    		}
+    		
+            if (!curStep.isValidMove()) {
+                continue;
+            }
+            curStep.setValues(Tile.SPACE);
+//            curSteps++;
+            
+            if (delay > 0) {
+	        	try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	}
+            
+            List<MazeGenStep> possibleMoves = new ArrayList<MazeGenStep>();
+            Tile curTile = curStep.getNewTile();
+            Tile curMove;
+            for (Direction dir : Direction.values()) {
+                curMove = getRelativeTile(curTile, 2, dir);
+                if (curMove != null && curMove.getValue() == Tile.WALL) {
+                    possibleMoves.add(new MazeGenStep(curMove,
+                            getRelativeTile(curTile, dir)));
+                }
+            }
+            
+            Collections.shuffle(possibleMoves, rand);
+            for (MazeGenStep nextMove : possibleMoves) {
+                s.add(nextMove);
+            }
+    	}
+    	
+    	tiles[1][0].setValue(Tile.SPACE);
+        tiles[mazeWidth-2][mazeHeight-1].setValue(Tile.SPACE);
+        tiles[mazeWidth-2][mazeHeight-1].setContents(new Treasure(100));
+    }
+    
     public void genMazeDFS() {
     	genMazeDFS(0);
     }
@@ -399,91 +611,294 @@ public class Maze extends JComponent {
         tiles[mazeWidth-2][mazeHeight-1].setContents(new Treasure(100));
     }
     
-    public void genMazeDFSBranch(int firstBranchStep) {
-    	genMazeDFSBranch(firstBranchStep, 0);
+    private int getTileValue(Coord coord) {
+    	return tiles[coord.getX()][coord.getY()].getValue();
     }
-    public void genMazeDFSBranch(int firstBranchStep, int delay) {
+    private void setTileValue(Coord coord, int value) {
+    	tiles[coord.getX()][coord.getY()].setValue(value);
+    }
+    private boolean validCoord(Coord coord) {
+    	int x = coord.getX();
+    	int y = coord.getY();
+    	
+    	return x > 0 && x < mazeWidth-1 && y > 0 && y < mazeHeight-1;
+    }
+    private List<Step> weightedShuffle(List<Step> moves, Random rand) {
+    	List<Step> shuffledMoves = new ArrayList<Step>();
+    	int weightSum = 0;
+    	for (Step move : moves) {
+    		weightSum += move.getWeighting();
+    	}
+    	
+    	while (!moves.isEmpty()) {
+    		int randomNum = rand.nextInt(weightSum);
+	    	for (Step move : moves) {
+	    		randomNum -= move.getWeighting();
+	    		if (randomNum < 0) {
+	    			moves.remove(move);
+	    			shuffledMoves.add(0, move);
+	    			weightSum -= move.getWeighting();
+	    			break;
+	    		}
+	    	}
+    	}
+    	
+    	return shuffledMoves;
+    }
+    
+    public void genMazeDFSBranch() {
+    	genMazeDFSBranch(5, 0, 0);
+    }
+    public void genMazeDFSBranch(int branchFrequency) {
+    	genMazeDFSBranch(branchFrequency, 0, 0);
+    }
+    public void genMazeDFSBranch(int branchFrequency, int straightness) {
+    	genMazeDFSBranch(branchFrequency, straightness, 0);
+    }
+    public void genMazeDFSBranch(int branchFrequency, int straightness, int delay) {
     	reset();
-        
-        List<Stack<MazeGenStep>> branches = new ArrayList<Stack<MazeGenStep>>();
-        Stack<MazeGenStep> firstBranch = new Stack<MazeGenStep>();
-        firstBranch.push(new MazeGenStep(tiles[1][1], tiles[1][0]));
-        branches.add(firstBranch);
-        
-        int curNumSteps = 0;
-        int branchAtStep = firstBranchStep;
-        while (!branches.isEmpty()) {
-        	curNumSteps++;
-        	
-        	for (int i = 0; i < branches.size(); i++) {
-        		Stack<MazeGenStep> branch = branches.get(i);
-	        	
-		        if (!branch.isEmpty()) {
-		            MazeGenStep curStep = branch.pop();
-		            if (!curStep.isValidMove()) {
-		                continue;
-		            }
-		            curStep.setValues(Tile.SPACE);
-		            
-		            if (delay > 0) {
+    	
+    	List<MazeBranch> branches = new ArrayList<MazeBranch>();
+    	MazeBranch branchFromStart = new MazeBranch(new Coord(1, 1), Direction.SOUTH, 0);
+    	MazeBranch branchFromEnd = new MazeBranch(new Coord(mazeWidth-2, mazeHeight-2), Direction.NORTH, 1);
+    	branches.add(branchFromStart);
+    	branches.add(branchFromEnd);
+    	
+    	HashMap<Coord,Integer> cellID = new HashMap<Coord,Integer>();
+    	HashMap<Coord,Integer> cellDist = new HashMap<Coord,Integer>();
+    	
+    	int stepsTaken = 0;
+    	int branchAtStep = branchFrequency;
+    	while (!branches.isEmpty()) {
+    		stepsTaken++;
+    		
+    		int numBranches = branches.size();
+    		for (int i = 0; i < numBranches; i++) {
+    			MazeBranch branch = branches.get(i);
+    			if (!branch.isEmpty()) {
+    				Step curStep = null;
+    				Coord curCell = null;
+    				boolean validMoveFound = false;
+    				while (!branch.isEmpty()) {
+	    				curStep= branch.pop();
+	    				curCell = curStep.getCell();
+	    				
+	    				if (getTileValue(curCell) == Tile.WALL) {
+	    					// We found a valid move
+	    					validMoveFound = true;
+	    					break;
+	    				}
+    				}
+    				if (!validMoveFound) {
+    					// Stack was full of invalid moves
+    					continue;
+    				}
+    				
+    				cellID.put(curCell, branch.getID());
+    				cellDist.put(curCell, curStep.getDist());
+    				setTileValue(curCell, Tile.SPACE);
+    				setTileValue(curCell.inDirection(curStep.getDir().reverse()), Tile.SPACE);
+    				
+    				if (delay > 0) {
 			            try {
 							Thread.sleep(delay);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 		            }
-		            
-		            List<MazeGenStep> possibleMoves = new ArrayList<MazeGenStep>();
-		            Tile curTile = curStep.getNewTile();
-		            debug("Currently at " + curTile.toString());
-		            Tile curMove;
-		            // TODO use a for-each loop to iterative over the directions
-		            for (Direction dir : Direction.values()) {
-		                curMove = getRelativeTile(curTile, 2, dir);
-		                String dirString;
-		                if (dir == Direction.NORTH) {
-		                    dirString = "north";
-		                } else if (dir == Direction.EAST) {
-		                    dirString = "east";
-		                } else if (dir == Direction.SOUTH) {
-		                    dirString = "south";
-		                } else {
-		                    dirString = "west";
-		                }
-		                if (curMove != null) {
-		                    debug(String.format("    Consider move %s to %s", dirString,
-		                            curMove.toString()));
-		                    possibleMoves.add(new MazeGenStep(curMove,
-		                            getRelativeTile(curTile, dir)));
-		                }
-		            }
-		            // TODO see if you can attach multiple values to a part of the enum
-		            
-		            Collections.shuffle(possibleMoves, rand);
-		            for (MazeGenStep nextMove : possibleMoves) {
-		                branch.push(nextMove);
-		            }
-		            if (curNumSteps == branchAtStep) {
-		            	Stack<MazeGenStep> newBranch = new Stack<MazeGenStep>();
-		            	newBranch.push(possibleMoves.get(possibleMoves.size() - 1));
-		            	branches.add(newBranch);
-		            }
-		        }
-	        }
-        	Iterator<Stack<MazeGenStep>> iter = branches.iterator();
+    				
+    				List<Step> possibleMoves = new ArrayList<Step>();
+    				for (Direction dir : Direction.values()) {
+    					Coord newCell = curCell.inDirection(dir, 2);
+    					if (!validCoord(newCell)) {
+    						continue;
+    					}
+    					int weighting = 50;
+    					if (dir == curStep.getDir()) {
+    						weighting += straightness;
+    					}
+    					Step newStep = new Step(newCell, dir, curStep.getDist() + 1, weighting);
+    					possibleMoves.add(newStep);
+    				}
+    				possibleMoves = weightedShuffle(possibleMoves, rand);
+//    				Collections.shuffle(possibleMoves, rand);
+    				
+    				for (Step step : possibleMoves) {
+    					branch.push(step);
+    				}
+    				if (stepsTaken == branchAtStep) {
+    					branch.setBranchDue(true);
+    				}
+    				if (branch.branchDue()) {
+    					if (possibleMoves.size() > 1) {
+    						MazeBranch newBranch = new MazeBranch(possibleMoves.get(0), branch.getID());
+    						branches.add(newBranch);
+    						branch.setBranchDue(false);
+    					} else {
+    						System.out.println("Failed to branch");
+    					}
+    				}
+    			}
+    		}
+    		
+    		// Prune empty branches
+    		Iterator<MazeBranch> iter = branches.iterator();
 	        while (iter.hasNext()) {
 	        	if (iter.next().isEmpty()) {
 	        		iter.remove();
 	        	}
 	        }
-	        if (curNumSteps == branchAtStep) {
-	        	curNumSteps = 0;
-	        	branchAtStep += firstBranchStep;
+	        if (stepsTaken == branchAtStep) {
+	        	stepsTaken = 0;
+	        	branchAtStep += branchFrequency;
 	        }
+    	}
+    	
+    	/*
+    	 * Now that the two sides have been completed, pick the wall
+    	 * which creates the longest path to break and join the two halves
+    	 */
+    	Coord wallToRemove = null;
+    	int largestDist = 0;
+    	int rowMagicNumber = 1;
+    	for (int col = 1; col < mazeWidth - 1; col ++) {
+    		rowMagicNumber = 3 - rowMagicNumber;
+    		for (int row = rowMagicNumber; row < mazeHeight - rowMagicNumber; row += 2) {
+    			if (tiles[col][row].getValue() == Tile.WALL) {
+    				Coord curWall = new Coord(col, row);
+    				if (rowMagicNumber == 2) {
+    					// We are looking at horizontal walls
+    					int northID = cellID.get(curWall.inDirection(Direction.NORTH));
+    					int southID = cellID.get(curWall.inDirection(Direction.SOUTH));
+    					if (northID != southID) {
+    						int northDist = cellDist.get(curWall.inDirection(Direction.NORTH));
+    						int southDist = cellDist.get(curWall.inDirection(Direction.SOUTH));
+    						if (northDist + southDist > largestDist) {
+    							largestDist = northDist + southDist;
+    							wallToRemove = curWall;
+    						}
+    					}
+    				} else if (rowMagicNumber == 1) {
+    					// We are looking at vertical walls
+    					int eastID = cellID.get(curWall.inDirection(Direction.EAST));
+    					int westID = cellID.get(curWall.inDirection(Direction.WEST));
+    					if (eastID != westID) {
+    						int eastDist = cellDist.get(curWall.inDirection(Direction.EAST));
+    						int westDist = cellDist.get(curWall.inDirection(Direction.WEST));
+    						if (eastDist + westDist > largestDist) {
+    							largestDist = eastDist + westDist;
+    							wallToRemove = curWall;
+    						}
+    					}
+    				}
+    			}
+    		}
+    	}
+    	
+    	if (delay > 0) {
+            try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
         }
-        tiles[mazeWidth-2][mazeHeight-1].setValue(Tile.SPACE);
+    	
+    	System.out.println("Path of length " + largestDist + " in a total of " + (mazeWidth/2)*(mazeHeight/2) + " cells");
+    	
+//    	setTileValue(wallToRemove, Tile.SPACE);
+    	try {
+			shiftTile(wallToRemove.getX(), wallToRemove.getY());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
+    
+//    public void genMazeDFSBranch(int firstBranchStep, int delay) {
+//    	reset();
+//        
+//        List<Stack<MazeGenStep>> branches = new ArrayList<Stack<MazeGenStep>>();
+//        Stack<MazeGenStep> firstBranch = new Stack<MazeGenStep>();
+//        firstBranch.push(new MazeGenStep(tiles[1][1], tiles[1][0]));
+//        Stack<MazeGenStep> endBranch = new Stack<MazeGenStep>();
+//        endBranch.push(new MazeGenStep(tiles[mazeWidth-2][mazeHeight-2], tiles[mazeWidth-2][mazeHeight-1]));
+//        branches.add(firstBranch);
+//        branches.add(endBranch);
+//        
+//        int curNumSteps = 0;
+//        int branchAtStep = firstBranchStep;
+//        while (!branches.isEmpty()) {
+//        	curNumSteps++;
+//        	
+//        	for (int i = 0; i < branches.size(); i++) {
+//        		Stack<MazeGenStep> branch = branches.get(i);
+//	        	
+//		        if (!branch.isEmpty()) {
+//		            MazeGenStep curStep = branch.pop();
+//		            if (!curStep.isValidMove()) {
+//		                continue;
+//		            }
+//		            curStep.setValues(Tile.SPACE);
+//		            
+//		            if (delay > 0) {
+//			            try {
+//							Thread.sleep(delay);
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//		            }
+//		            
+//		            List<MazeGenStep> possibleMoves = new ArrayList<MazeGenStep>();
+//		            Tile curTile = curStep.getNewTile();
+//		            debug("Currently at " + curTile.toString());
+//		            Tile curMove;
+//		            // TODO use a for-each loop to iterative over the directions
+//		            for (Direction dir : Direction.values()) {
+//		                curMove = getRelativeTile(curTile, 2, dir);
+//		                String dirString;
+//		                if (dir == Direction.NORTH) {
+//		                    dirString = "north";
+//		                } else if (dir == Direction.EAST) {
+//		                    dirString = "east";
+//		                } else if (dir == Direction.SOUTH) {
+//		                    dirString = "south";
+//		                } else {
+//		                    dirString = "west";
+//		                }
+//		                if (curMove != null) {
+//		                    debug(String.format("    Consider move %s to %s", dirString,
+//		                            curMove.toString()));
+//		                    possibleMoves.add(new MazeGenStep(curMove,
+//		                            getRelativeTile(curTile, dir)));
+//		                }
+//		            }
+//		            // TODO see if you can attach multiple values to a part of the enum
+//		            
+//		            Collections.shuffle(possibleMoves, rand);
+//		            for (MazeGenStep nextMove : possibleMoves) {
+//		                branch.push(nextMove);
+//		            }
+//		            if (curNumSteps == branchAtStep) {
+//		            	Stack<MazeGenStep> newBranch = new Stack<MazeGenStep>();
+//		            	newBranch.push(possibleMoves.get(possibleMoves.size() - 1));
+//		            	branches.add(newBranch);
+//		            }
+//		        }
+//	        }
+//        	Iterator<Stack<MazeGenStep>> iter = branches.iterator();
+//	        while (iter.hasNext()) {
+//	        	if (iter.next().isEmpty()) {
+//	        		iter.remove();
+//	        	}
+//	        }
+//	        if (curNumSteps == branchAtStep) {
+//	        	curNumSteps = 0;
+//	        	branchAtStep += firstBranchStep;
+//	        }
+//        }
+//        tiles[mazeWidth-2][mazeHeight-1].setValue(Tile.SPACE);
+//    }
     
     public void genMazePrim() {
     	genMazePrim(0);

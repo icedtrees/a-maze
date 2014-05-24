@@ -19,7 +19,10 @@ public class Coord {
 	}
 	
 	public Coord inDirection(Direction dir) {
-		return new Coord(x + dir.dx(), y + dir.dy());
+		return inDirection(dir, 1);
+	}
+	public Coord inDirection(Direction dir, int n) {
+		return new Coord(x + (n * dir.dx()), y + (n * dir.dy()));
 	}
 	
 	public String toString() {
