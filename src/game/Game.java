@@ -8,7 +8,7 @@ import pages.*;
  * @author icedtrees
  *
  */
-public class Game implements Runnable {
+public class Game {
     // CardLayout keys can only be strings, so we define constant strings for the CardLayout
     private static final String HOME_PAGE = "home";
     private static final String MAZE_PAGE = "maze";
@@ -28,47 +28,36 @@ public class Game implements Runnable {
     private HighScoresPage highScoresPage;
     private SettingsPage settingsPage;
     
+    // Current page
     String currentPage;
+    
+    // Settings
+    private Settings settings;
     
     public static void main(String[] args) {
     	Game game = new Game();
-        SwingUtilities.invokeLater(game);
+        game.run();
     }
     
     public Game() {
-        mainWindow = new JFrame();
-        mainWindow.setSize(400, 600);
-        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainWindow.setTitle("GAME's MAIN MENU");
-        
-        mainPanel = new JPanel();
-        layout = new CardLayout();
-        mainPanel.setLayout(layout);
-        
-        // Create all the Pages
-        homePage = new HomePage();
-        mazePage = new MazePage();
-        instructionsPage = new InstructionsPage();
-        highScoresPage = new HighScoresPage();
-        settingsPage = new SettingsPage();
-        
-        // Add all the Pages to the CardLayout
-        mainPanel.add(homePage, HOME_PAGE);
-        mainPanel.add(mazePage, MAZE_PAGE);
-        mainPanel.add(instructionsPage, INSTRUCTIONS_PAGE);
-        mainPanel.add(highScoresPage, HIGH_SCORES_PAGE);
-        mainPanel.add(settingsPage, SETTINGS_PAGE);
-        
-        mainWindow.add(mainPanel);
+        settings = new Settings();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                initialiseGUI();
+            }
+        });
     }
     
     public void run() {
         // The starting page is the Home Page
         currentPage = HOME_PAGE;
-        mainWindow.setVisible(true);
         
         while (currentPage != null) {
-            layout.show(mainPanel, currentPage);
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    layout.show(mainPanel, currentPage);
+                }
+            });
        
             if (currentPage.equals(HOME_PAGE)) {
                 HomePage.Result result = homePage.run();
@@ -93,5 +82,34 @@ public class Game implements Runnable {
                 
             }
         }
+    }
+    
+    private void initialiseGUI() {
+        mainWindow = new JFrame();
+        mainWindow.setSize(settings.getScreenDimension());
+        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainWindow.setTitle("GAME's MAIN MENU");
+        mainWindow.setResizable(false);
+        
+        mainPanel = new JPanel();
+        layout = new CardLayout();
+        mainPanel.setLayout(layout);
+        
+        // Create all the Pages
+        homePage = new HomePage();
+        mazePage = new MazePage();
+        instructionsPage = new InstructionsPage();
+        highScoresPage = new HighScoresPage();
+        settingsPage = new SettingsPage();
+        
+        // Add all the Pages to the CardLayout
+        mainPanel.add(homePage, HOME_PAGE);
+        mainPanel.add(mazePage, MAZE_PAGE);
+        mainPanel.add(instructionsPage, INSTRUCTIONS_PAGE);
+        mainPanel.add(highScoresPage, HIGH_SCORES_PAGE);
+        mainPanel.add(settingsPage, SETTINGS_PAGE);
+        
+        mainWindow.add(mainPanel);  
+        mainWindow.setVisible(true);
     }
 }
