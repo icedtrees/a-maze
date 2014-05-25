@@ -9,6 +9,7 @@ public class PageTester {
         JFrame main = new JFrame();
         CardLayout layout = new CardLayout();
         main.add(new HomePage());
+        main.setLayout(layout);
         main.setVisible(true);
     }
     /*
