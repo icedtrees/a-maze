@@ -29,6 +29,7 @@ public class HighScoresPage extends Page {
 	
 	@Override
 	public HighScoresPage.Result run() {
+	    result = null;
     	while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
     		try {

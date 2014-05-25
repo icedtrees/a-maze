@@ -65,13 +65,25 @@ public class Game {
                     currentPage = null;
                 }
             } else if (currentPage.equals(MAZE_PAGE)) {
-                
+                MazePage.Result result = mazePage.run();
+                if (result.equals(MazePage.Result.RETURN_HOME)) {
+                    currentPage = HOME_PAGE;
+                }
             } else if (currentPage.equals(INSTRUCTIONS_PAGE)) {
-                
+                InstructionsPage.Result result = instructionsPage.run();
+                if (result.equals(InstructionsPage.Result.RETURN_HOME)) {
+                    currentPage = HOME_PAGE;
+                }
             } else if (currentPage.equals(SETTINGS_PAGE)) {
-                
+                SettingsPage.Result result = settingsPage.run();
+                if (result.equals(InstructionsPage.Result.RETURN_HOME)) {
+                    currentPage = HOME_PAGE;
+                }
             } else if (currentPage.equals(HIGH_SCORES_PAGE)) {
-                
+                HighScoresPage.Result result = highScoresPage.run();
+                if (result.equals(InstructionsPage.Result.RETURN_HOME)) {
+                    currentPage = HOME_PAGE;
+                }
             }
         }
     }

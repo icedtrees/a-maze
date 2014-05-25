@@ -40,6 +40,7 @@ public class HomePage extends Page {
     }
 
     public HomePage.Result run() {
+        result = null;
         // Wait until the user presses the button, and then return the result
     	while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?

@@ -63,6 +63,7 @@ public class MazePage extends Page {
 
 	@Override
 	public MazePage.Result run() {
+	    result = null;
 		while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
     		try {
