@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.swing.*;
 
 import maze.Maze;
@@ -16,6 +17,7 @@ public class MazePage extends Page {
         RETURN_HOME
     };
 	private static final long serialVersionUID = 1L;
+	private JPanel sidePanel;
 	public volatile Result result;
 	
 	// in mainPanel will be a mazePanel where the maze game will be shown
@@ -24,12 +26,22 @@ public class MazePage extends Page {
 	public MazePage() {
 		super();
 		setLayout(new GridBagLayout());
-		
-		addReturnButton();
+
 		result = null;
 
 		GridBagConstraints c = new GridBagConstraints();
+        sidePanel = new JPanel();
+        sidePanel.setLayout(new GridLayout(5, 1));
+		c.gridx = 1;
+		c.weightx = 0.25;
+		add(sidePanel, c);
 		
+		JLabel mazeTitle = new JLabel("MAZE", JLabel.CENTER);
+		
+		sidePanel.add(mazeTitle);
+		
+		addReturnButton();
+
 	
 		final Maze maze = new Maze(15, 600, 1);
 		maze.genMazeDFSBranch(5, 100);
@@ -105,10 +117,7 @@ public class MazePage extends Page {
 		return result;
 	}
 	
-	private void addReturnButton() {
-        JPanel returnPanel = new JPanel();
-        returnPanel.setLayout(new FlowLayout());
-		
+	private void addReturnButton() {		
         JButton returnBut = Components.makeButton("return");
         returnBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -117,8 +126,7 @@ public class MazePage extends Page {
             }
         });
 		
-		returnPanel.add(returnBut);
-		add(returnPanel);
+		sidePanel.add(returnBut);
 	}
 
 }
