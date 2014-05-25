@@ -41,7 +41,6 @@ public class HomePage extends Page {
 
     public HomePage.Result run() {
         // Wait until the user presses the button, and then return the result
-        System.out.println("asdf");
     	while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
     		try {
@@ -50,7 +49,6 @@ public class HomePage extends Page {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		System.out.println("asdf");
     	}
 
         return result;
@@ -64,9 +62,7 @@ public class HomePage extends Page {
 		startMaze.addActionListener(new ActionListener() {
 			public synchronized void actionPerformed(ActionEvent e) {
 				// some action to generate maze and display a MazePage
-				System.out.println("hello");
 				result = Result.PLAY_GAME;
-				System.out.println("Result.play_game is" + result);
 			}
 		});
 		
@@ -82,9 +78,7 @@ public class HomePage extends Page {
 		instructions.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// some action to show instructions screen for each feature
-				System.out.println("show instructions");
 				result = Result.SHOW_INSTRUCTIONS;
-				System.out.println("Result.play_game is" + result);
 			}
 		});
 		instructionsPanel.add(instructions);
@@ -98,7 +92,6 @@ public class HomePage extends Page {
 		JButton settings = Components.makeButton("Settings");
 		settings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("show settings");
 				result = Result.SHOW_SETTINGS;
 			}
 		});
@@ -113,7 +106,6 @@ public class HomePage extends Page {
 		JButton scores = Components.makeButton("High Scores");
 		scores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("show high scores");
 				result = Result.SHOW_HIGH_SCORES;
 			}
 		});
