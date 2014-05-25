@@ -3,6 +3,7 @@ package pages;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -38,7 +39,10 @@ public class RefactorPageTester implements Runnable {
         mainWindow = new JFrame();
         mainWindow.setSize(800, 600);
         mainWindow.setMinimumSize(new Dimension(400, 300));
-        mainWindow.setTitle("card layout panel");
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        mainWindow.setMaximumSize(screenSize);
+        // do we want it to be unresizable?
+        //mainWindow.setResizable(false);
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         cardPanel = new JPanel();
