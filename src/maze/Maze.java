@@ -3,6 +3,7 @@ package maze;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +11,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -34,6 +34,7 @@ public class Maze extends JComponent {
     private int mazeWidth;
     private int mazeHeight;
     private int complexity;
+    private int fogOfWar;
     
     private Player player;
     
@@ -94,6 +95,7 @@ public class Maze extends JComponent {
         }
         
         complexity = newComplexity;
+        fogOfWar = 6;
         
         rand = new Random(seed);
     }
@@ -152,7 +154,13 @@ public class Maze extends JComponent {
     	 */
     	
     	// Set clipping to just the maze display area
-    	g.setClip(xMargin, yMargin, tileSize*mazeWidth, tileSize*mazeHeight);
+    	if (fogOfWar > 0) {
+    		int x = (int) (((player.getCurX() - fogOfWar) * tileSize) + xMargin);
+    		int y = (int) (((player.getCurY() - fogOfWar) * tileSize) + yMargin);
+    		g.setClip(x, y, tileSize*fogOfWar*2, tileSize*fogOfWar*2);
+    	} else {
+    		g.setClip(xMargin, yMargin, tileSize*mazeWidth, tileSize*mazeHeight);
+    	}
         for (int row = 0; row < mazeHeight; row++) {
             for (int col = 0; col < mazeWidth; col++) {
             	int newX = col*tileSize + xMargin;

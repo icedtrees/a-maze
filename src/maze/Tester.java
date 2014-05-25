@@ -107,21 +107,34 @@ public class Tester {
          */
         thread1 = new Thread() {
             public void run() {
-//            	maze.autoplayer.DFSPlayer.play(myMaze);
+            	maze.autoplayer.DFSPlayer.play(maze1);
             }
         };
-        
         thread2 = new Thread() {
             public void run() {
-//            	maze.autoplayer.DFSPlayer.play(maze2);
+            	maze.autoplayer.DFSPlayer.play(maze2);
+            }
+        };
+        thread3 = new Thread() {
+            public void run() {
+            	maze.autoplayer.DFSPlayer.play(maze3);
+            }
+        };
+        thread4 = new Thread() {
+            public void run() {
+            	maze.autoplayer.DFSPlayer.play(maze4);
             }
         };
         
         thread1.start();
         thread2.start();
+        thread3.start();
+        thread4.start();
         try {
 			thread1.join();
 			thread2.join();
+			thread3.join();
+			thread4.join();
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
