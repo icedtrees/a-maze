@@ -35,10 +35,6 @@ public class HomePage extends Page {
         result = null;
     }
     
-    public void setHomeResult(HomePage.Result newResult) {
-        result = newResult;
-    }
-
     public HomePage.Result run() {
         result = null;
         // Wait until the user presses the button, and then return the result

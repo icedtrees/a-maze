@@ -42,12 +42,7 @@ public class MazePage extends Page {
 		
 		addReturnButton();
 	}
-	
-    public void setMazeResult(MazePage.Result newResult) {
-        result = newResult;
-    }
 
-	@Override
 	public MazePage.Result run() {
 	    result = null;
 		GridBagConstraints c = new GridBagConstraints();

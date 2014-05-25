@@ -23,10 +23,7 @@ public class HighScoresPage extends Page {
         result = null;
 	}
 
-    public void setHighScoresResult(HighScoresPage.Result newResult) {
-        result = newResult;
-    }
-	
+
 	@Override
 	public HighScoresPage.Result run() {
 	    result = null;
