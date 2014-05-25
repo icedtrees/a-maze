@@ -23,12 +23,8 @@ public class InstructionsPage extends Page {
         result = null;
 	}
 
-    public void setInstructionsResult(InstructionsPage.Result newResult) {
-        result = newResult;
-    }
-	
-	@Override
 	public InstructionsPage.Result run() {
+	    result = null;
     	while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
     		try {

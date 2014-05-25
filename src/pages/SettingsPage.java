@@ -73,12 +73,9 @@ public class SettingsPage extends Page {
         addReturnButton();
 	}
 	
-    public void setSettingsResult(SettingsPage.Result newResult) {
-        result = newResult;
-    }
-	
 	@Override
 	public SettingsPage.Result run() {
+	    result = null;
     	while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
     		try {
