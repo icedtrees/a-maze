@@ -19,6 +19,11 @@ public class Settings {
         return new Dimension(screenWidth, screenHeight);
     }
     
+    public void setScreenDimension(Dimension newDimension) {
+        screenWidth = newDimension.width;
+        screenHeight = newDimension.height;
+    }
+    
     public void setScreenWidth(int newWidth) {
         screenWidth = newWidth;
     }
