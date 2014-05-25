@@ -76,24 +76,26 @@ public class Game {
                 }
             } else if (currentPage.equals(SETTINGS_PAGE)) {
                 SettingsPage.Result result = settingsPage.run();
-                if (result.equals(InstructionsPage.Result.RETURN_HOME)) {
+                if (result.equals(SettingsPage.Result.RETURN_HOME)) {
                     currentPage = HOME_PAGE;
                 }
             } else if (currentPage.equals(HIGH_SCORES_PAGE)) {
                 HighScoresPage.Result result = highScoresPage.run();
-                if (result.equals(InstructionsPage.Result.RETURN_HOME)) {
+                if (result.equals(HighScoresPage.Result.RETURN_HOME)) {
                     currentPage = HOME_PAGE;
                 }
             }
         }
+        
+        mainWindow.dispose();
     }
     
     private void initialiseGUI() {
         mainWindow = new JFrame();
         mainWindow.setSize(settings.getScreenDimension());
-        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainWindow.setTitle("GAME's MAIN MENU");
         mainWindow.setResizable(false);
+        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         mainPanel = new JPanel();
         layout = new CardLayout();
