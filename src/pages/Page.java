@@ -7,7 +7,6 @@ public abstract class Page extends JPanel {
 
     public Page() {
         this.setFocusable(true);
-        this.requestFocusInWindow();
     }
     
     private static final long serialVersionUID = 1L;

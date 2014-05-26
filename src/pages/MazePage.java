@@ -13,7 +13,7 @@ import javax.swing.*;
 import maze.Maze;
 
 
-public class MazePage extends Page implements KeyListener {
+public class MazePage extends Page implements KeyListener{
 	public enum Result implements Page.Result {
 		
         RETURN_HOME
@@ -45,11 +45,13 @@ public class MazePage extends Page implements KeyListener {
 		
 		addReturnButton();
 		
+		addKeyListener(this);
 		currentPress = null;
 	}
 
 	public MazePage.Result run() {
 	    result = null;
+        this.requestFocusInWindow();
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
@@ -121,14 +123,13 @@ public class MazePage extends Page implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println(e);
-        if (e.equals(KeyEvent.VK_LEFT)) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             currentPress = Maze.Direction.WEST;
-        } else if (e.equals(KeyEvent.VK_RIGHT)) {
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             currentPress = Maze.Direction.EAST;
-        } else if (e.equals(KeyEvent.VK_UP)) {
+        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             currentPress = Maze.Direction.NORTH;
-        } else if (e.equals(KeyEvent.VK_DOWN)) {
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             currentPress = Maze.Direction.SOUTH;
         }
         
