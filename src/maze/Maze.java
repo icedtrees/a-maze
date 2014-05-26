@@ -32,7 +32,10 @@ public class Maze extends JComponent {
     private Tile[][] tiles;
     private int mazeWidth;
     private int mazeHeight;
-    private int complexity;
+    
+    private int straightness;
+    private int branching;
+    
     private int fogOfWar;
     
     private Player player;
@@ -70,17 +73,19 @@ public class Maze extends JComponent {
         }
     }
     
-    public Maze(int newHeight, int displayHeight, int newComplexity) {
-        this(newHeight, displayHeight, newComplexity, System.nanoTime());
+    public Maze(int newHeight, int displayHeight,
+    		int straightness, int branching) {
+        this(newHeight, displayHeight, straightness, branching, System.nanoTime());
     }
-    public Maze(int newHeight, int displayHeight, int newComplexity, long seed) {
+    public Maze(int newHeight, int displayHeight,
+    		int straightness, int branching, long seed) {
     	this((int) (newHeight * DEFAULT_RATIO), newHeight,
                 (int) (displayHeight * DEFAULT_RATIO), displayHeight,
-                newComplexity, seed);
+                straightness, branching, seed);
     }
     public Maze(int newWidth, int newHeight,
             int displayWidth, int displayHeight,
-            int newComplexity, long seed) {
+            int straightness, int branching, long seed) {
     	player = new Player();
 
         mazeWidth = 2 * newWidth + 1;
@@ -93,7 +98,8 @@ public class Maze extends JComponent {
             }
         }
         
-        complexity = newComplexity;
+        this.straightness = straightness;
+        this.branching = branching;
         fogOfWar = 0;
         
         rand = new Random(seed);
@@ -107,9 +113,6 @@ public class Maze extends JComponent {
     }
     public int getMazeHeight() {
         return mazeHeight;
-    }
-    public int getComplexity() {
-        return complexity;
     }
     
     @Override
@@ -342,15 +345,9 @@ public class Maze extends JComponent {
      * Maze Generation algorithm
      */    
     public void genMazeDFSBranch() {
-    	genMazeDFSBranch(5, 0, 0);
+    	genMazeDFSBranch(0);
     }
-    public void genMazeDFSBranch(int branchFrequency) {
-    	genMazeDFSBranch(branchFrequency, 0, 0);
-    }
-    public void genMazeDFSBranch(int branchFrequency, int straightness) {
-    	genMazeDFSBranch(branchFrequency, straightness, 0);
-    }
-    public void genMazeDFSBranch(int branchFrequency, int straightness, int delay) {
+    public void genMazeDFSBranch(int delay) {
     	reset();
     	
     	List<MazeBranch> branches = new ArrayList<MazeBranch>();
@@ -363,7 +360,7 @@ public class Maze extends JComponent {
     	HashMap<Coord,Integer> cellDist = new HashMap<Coord,Integer>();
     	
     	int stepsTaken = 0;
-    	int branchAtStep = branchFrequency;
+    	int branchAtStep = branching;
     	while (!branches.isEmpty()) {
     		stepsTaken++;
     		
@@ -444,7 +441,7 @@ public class Maze extends JComponent {
 	        }
 	        if (stepsTaken == branchAtStep) {
 	        	stepsTaken = 0;
-	        	branchAtStep += branchFrequency;
+	        	branchAtStep += branching;
 	        }
     	}
     	
