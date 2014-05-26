@@ -68,7 +68,9 @@ public class Game {
                     currentPage = null;
                 }
             } else if (currentPage.equals(MAZE_PAGE)) {
+                mainWindow.addKeyListener(mazePage);
                 MazePage.Result result = mazePage.run();
+                mainWindow.removeKeyListener(mazePage);
                 if (result.equals(MazePage.Result.RETURN_HOME)) {
                     currentPage = HOME_PAGE;
                 }

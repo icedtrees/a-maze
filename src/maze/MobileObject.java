@@ -119,6 +119,7 @@ public abstract class MobileObject {
 //	}
 	
 	public void move(Direction dir) throws InterruptedException {
+	    System.out.println("asdf");
 		if (dir == null) {
 			return;
 		}
