@@ -36,7 +36,7 @@ public class Game {
     String currentPage;
     
     // Settings
-    private Settings settings;
+    public static Settings settings = new Settings();
     
     public static void main(String[] args) {
     	Game game = new Game();
@@ -44,7 +44,6 @@ public class Game {
     }
     
     public Game() {
-        settings = new Settings();
         initialiseGUI();
     }
     

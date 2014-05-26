@@ -7,37 +7,28 @@ import java.awt.Dimension;
  *
  */
 public class Settings {
-    private int screenWidth;
-    private int screenHeight;
+    private enum ScreenSize {
+        SMALL(800, 600),
+        MEDIUM(1280, 720),
+        LARGE(1600, 900);
+        
+        private int width;
+        private int height;
+        
+        private ScreenSize(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+    }
+    
+    private ScreenSize screenSize;
     
     public Settings() {
-        screenWidth = 800;
-        screenHeight = 600;
+        this.screenSize = ScreenSize.SMALL;
     }
     
     public Dimension getScreenDimension() {
-        return new Dimension(screenWidth, screenHeight);
-    }
-    
-    public void setScreenDimension(Dimension newDimension) {
-        screenWidth = newDimension.width;
-        screenHeight = newDimension.height;
-    }
-    
-    public void setScreenWidth(int newWidth) {
-        screenWidth = newWidth;
-    }
-    
-    public void setScreenHeight(int newHeight)  {
-        screenHeight = newHeight;
-    }
-    
-    public int getScreenWidth() {
-        return screenWidth;
-    }
-    
-    public int getScreenHeight() {
-        return screenHeight;
+        return new Dimension(screenSize.width, screenSize.height);
     }
     
 }
