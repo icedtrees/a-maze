@@ -28,8 +28,6 @@ public class Maze extends JComponent {
     private final static double DEFAULT_RATIO = 1.2;    
     private final Random rand;
     
-    public final static int FPS = 50;
-    
     private Tile[][] tiles;
     private int mazeWidth;
     private int mazeHeight;

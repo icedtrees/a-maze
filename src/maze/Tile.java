@@ -1,5 +1,7 @@
 package maze;
 
+import game.Game;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -103,7 +105,7 @@ public class Tile {
     	if (!isShifting()) {
     		return;
     	}
-    	shifted += SHIFT_SPEED / Maze.FPS;
+    	shifted += SHIFT_SPEED / Game.settings.FPS;
     	if (shifted >= 1) {
     		shifting = null;
     		shifted = 0;

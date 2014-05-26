@@ -1,6 +1,8 @@
 package pages;
 
 
+import game.Game;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Timer;
@@ -68,7 +70,7 @@ public class MazePage extends Page {
         		mazepage.getParent().repaint();
         		maze.nextFrame();
         	}
-        }, 1000/Maze.FPS, 1000/Maze.FPS);
+        }, 1000/Game.settings.FPS, 1000/Game.settings.FPS);
 		
         // TODO this takes a long time - third argument is delay
  		// You can set it to 0 or remove it entirely if you want

@@ -1,5 +1,7 @@
 package maze;
 
+import game.Game;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -50,7 +52,7 @@ public class Tester {
          * in the Maze.FPS variable.
          * This runs on a Swing timer which runs on the event dispatch thread.
          */
-        Timer actionLoop = new Timer(1000/Maze.FPS, new AbstractAction() {
+        Timer actionLoop = new Timer(1000/Game.settings.FPS, new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
 			@Override

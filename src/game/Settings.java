@@ -19,18 +19,12 @@ public class Settings {
         }
     }
     
-    private ScreenSize screenSize;
+    public ScreenSize screenSize;
+    public int FPS;
     
     public Settings() {
         this.screenSize = ScreenSize.SMALL;
-    }
-    
-    public ScreenSize getScreenSize() {
-        return screenSize;
-    }
-    
-    public void setScreenSize(ScreenSize newSize) {
-        screenSize = newSize;
+        this.FPS = 50;
     }
     
 }
