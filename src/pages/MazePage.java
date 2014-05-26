@@ -59,7 +59,11 @@ public class MazePage extends Page implements KeyListener{
 		c.weightx = 1;
 		c.weighty = 1;
 		
-		final Maze maze = new Maze(15, 600, 1);
+		int difficulty = 1;
+    	int mazeHeight = 5 + ((difficulty*3)/10);
+    	int straightness = 900 - ((difficulty % 10) * 100);
+    	int branching = 93 - ((difficulty % 10) * 10);
+		final Maze maze = new Maze(mazeHeight, 600, straightness, branching);
 		add(maze, c);
 		validate();
 		
@@ -79,7 +83,7 @@ public class MazePage extends Page implements KeyListener{
 		
         // TODO this takes a long time - third argument is delay
  		// You can set it to 0 or remove it entirely if you want
- 		maze.genMazeDFSBranch(5, 0, 10);
+ 		maze.genMazeDFSBranch();
         
 		while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?

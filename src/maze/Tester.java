@@ -21,25 +21,40 @@ public class Tester {
         c.weightx = 1;
         c.weighty = 1;
         
-        int mazeHeight = 15;
         int windowHeight = 500;
         
-        final Maze maze1 = new Maze(mazeHeight, windowHeight, 0);
+        int difficulty = 1;
+    	int mazeHeight = 5 + ((difficulty*3)/10);
+    	int straightness = 900 - ((difficulty % 10) * 100);
+    	int branching = 93 - ((difficulty % 10) * 10);
+        final Maze maze1 = new Maze(mazeHeight, windowHeight, straightness, branching);
         c.gridx = 0;
         c.gridy = 0;
         f.add(maze1, c);
         
-        final Maze maze2 = new Maze(mazeHeight, windowHeight, 0);
+        difficulty = 5;
+    	mazeHeight = 5 + ((difficulty*3)/10);
+    	straightness = 900 - ((difficulty % 10) * 100);
+    	branching = 93 - ((difficulty % 10) * 10);
+        final Maze maze2 = new Maze(mazeHeight, windowHeight, straightness, branching);
         c.gridx = 1;
         c.gridy = 0;
         f.add(maze2, c);
         
-        final Maze maze3 = new Maze(mazeHeight, windowHeight, 0);
+        difficulty = 9;
+    	mazeHeight = 5 + ((difficulty*3)/10);
+    	straightness = 900 - ((difficulty % 10) * 100);
+    	branching = 93 - ((difficulty % 10) * 10);
+        final Maze maze3 = new Maze(mazeHeight, windowHeight, straightness, branching);
         c.gridx = 0;
         c.gridy = 1;
         f.add(maze3, c);
         
-        final Maze maze4 = new Maze(mazeHeight, windowHeight, 0);
+        difficulty = 11;
+    	mazeHeight = 5 + ((difficulty*3)/10);
+    	straightness = 900 - ((difficulty % 10) * 100);
+    	branching = 93 - ((difficulty % 10) * 10);
+        final Maze maze4 = new Maze(mazeHeight, windowHeight, straightness, branching);
         c.gridx = 1;
         c.gridy = 1;
         f.add(maze4, c);
@@ -71,22 +86,22 @@ public class Tester {
          */
         Thread thread1 = new Thread() {
             public void run() {
-            	maze1.genMazeDFSBranch(100, 200, 10);
+            	maze1.genMazeDFSBranch(10);
             }
         };
         Thread thread2 = new Thread() {
             public void run() {
-            	maze2.genMazeDFSBranch(100, 0, 10);
+            	maze2.genMazeDFSBranch(10);
             }
         };
         Thread thread3 = new Thread() {
             public void run() {
-            	maze3.genMazeDFSBranch(5, 200, 10);
+            	maze3.genMazeDFSBranch(10);
             }
         };
         Thread thread4 = new Thread() {
             public void run() {
-            	maze4.genMazeDFSBranch(5, 0, 10);
+            	maze4.genMazeDFSBranch(10);
             }
         };
         
@@ -128,18 +143,18 @@ public class Tester {
             }
         };
         
-        thread1.start();
-        thread2.start();
-        thread3.start();
-        thread4.start();
-        try {
-			thread1.join();
-			thread2.join();
-			thread3.join();
-			thread4.join();
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+//        thread1.start();
+//        thread2.start();
+//        thread3.start();
+//        thread4.start();
+//        try {
+//			thread1.join();
+//			thread2.join();
+//			thread3.join();
+//			thread4.join();
+//		} catch (InterruptedException e1) {
+//			e1.printStackTrace();
+//		}
     }
 
 }
