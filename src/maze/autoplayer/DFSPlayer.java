@@ -35,7 +35,7 @@ public class DFSPlayer {
         	seen.add(cur);
         	
         	// Make the move
-			maze.movePlayerWait(cur.getDir());
+			maze.movePlayerWait(1, cur.getDir());
         	maze.setTile(cur.getX(), cur.getY(), Tile.EXPLORED);
         	
         	// Check if we're at the end
@@ -61,7 +61,7 @@ public class DFSPlayer {
         		while (!myBranchCounter.pathEmpty()) {
         			curPath = myBranchCounter.popPath();
         			Direction reverseDir = curPath.getDir().reverse();
-					maze.movePlayerWait(reverseDir);
+					maze.movePlayerWait(1, reverseDir);
         		}
         		myBranchCounter.decBranchCount();
         		if (myBranchCounter.getBranchCount() == 0) {

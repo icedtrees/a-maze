@@ -63,7 +63,7 @@ public class MazePage extends Page implements KeyListener{
     	int mazeHeight = 5 + ((difficulty*3)/10);
     	int straightness = 900 - ((difficulty % 10) * 100);
     	int branching = 93 - ((difficulty % 10) * 10);
-		final Maze maze = new Maze(mazeHeight, 600, straightness, branching);
+		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, 2);
 		add(maze, c);
 		validate();
 		
@@ -94,7 +94,7 @@ public class MazePage extends Page implements KeyListener{
 				e.printStackTrace();
 			}
             if (currentPress != null) {
-                maze.movePlayer(currentPress);
+                maze.movePlayer(1, currentPress);
                 SwingUtilities.getWindowAncestor(this).repaint();
                 // currentPress = null;
             }

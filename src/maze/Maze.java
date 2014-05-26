@@ -3,6 +3,7 @@ package maze;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,9 +35,11 @@ public class Maze extends JComponent {
     private int straightness;
     private int branching;
     
-    private int fogOfWar;
+    private boolean fogOfWar;
+    private boolean shiftingWalls;
     
-    private Player player;
+    private Player player1;
+    private Player player2;
     
     public enum Direction {
     	NORTH(0, -1),
@@ -72,19 +75,27 @@ public class Maze extends JComponent {
     }
     
     public Maze(int newHeight, int displayHeight,
-    		int straightness, int branching) {
-        this(newHeight, displayHeight, straightness, branching, System.nanoTime());
+    		int straightness, int branching, int numPlayers) {
+        this(newHeight, displayHeight, straightness, branching,
+        		numPlayers, System.nanoTime());
     }
     public Maze(int newHeight, int displayHeight,
-    		int straightness, int branching, long seed) {
+    		int straightness, int branching, int numPlayers, long seed) {
     	this((int) (newHeight * DEFAULT_RATIO), newHeight,
                 (int) (displayHeight * DEFAULT_RATIO), displayHeight,
-                straightness, branching, seed);
+                straightness, branching, numPlayers, seed);
     }
     public Maze(int newWidth, int newHeight,
             int displayWidth, int displayHeight,
-            int straightness, int branching, long seed) {
-    	player = new Player();
+            int straightness, int branching, int numPlayers, long seed) {
+    	player1 = null;
+    	player2 = null;
+    	if (numPlayers >= 1) {
+    		player1 = new Player(1, 0, Color.RED);
+    	}
+    	if (numPlayers >= 2) {
+    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE);
+    	}
 
         mazeWidth = 2 * newWidth + 1;
         mazeHeight = 2 * newHeight + 1;
@@ -98,7 +109,6 @@ public class Maze extends JComponent {
         
         this.straightness = straightness;
         this.branching = branching;
-        fogOfWar = 0;
         
         rand = new Random(seed);
     }
@@ -153,14 +163,15 @@ public class Maze extends JComponent {
     	 * Draw each tile
     	 */
     	
-    	// Set clipping to just the maze display area
-    	if (fogOfWar > 0) {
-    		int x = (int) (((player.getCurX() - fogOfWar) * tileSize) + xMargin);
-    		int y = (int) (((player.getCurY() - fogOfWar) * tileSize) + yMargin);
-    		g.setClip(x, y, tileSize*fogOfWar*2, tileSize*fogOfWar*2);
-    	} else {
-    		g.setClip(xMargin, yMargin, tileSize*mazeWidth, tileSize*mazeHeight);
+    	// Set clipping if there is fog of war
+    	if (player1 != null && fogOfWar) {
+    		int vision = player1.getVision();
+    		int x = (int) (((player1.getCurX() - vision) * tileSize) + xMargin);
+    		int y = (int) (((player1.getCurY() - vision) * tileSize) + yMargin);
+    		g.setClip(x, y, tileSize*vision*2, tileSize*vision*2);
     	}
+    	// TODO union clipping for player 2
+    	
         for (int row = 0; row < mazeHeight; row++) {
             for (int col = 0; col < mazeWidth; col++) {
             	int newX = col*tileSize + xMargin;
@@ -179,11 +190,20 @@ public class Maze extends JComponent {
          */
         
         // Create localised graphics context for player to draw to
-        Graphics newG = g.create(
-        		(int) (player.getCurX() * tileSize + xMargin),
-        		(int) (player.getCurY() * tileSize + yMargin),
-        		tileSize, tileSize);
-        player.draw(newG, tileSize);
+        if (player1 != null) {
+	        Graphics newG = g.create(
+	        		(int) (player1.getCurX() * tileSize + xMargin),
+	        		(int) (player1.getCurY() * tileSize + yMargin),
+	        		tileSize, tileSize);
+	        player1.draw(newG, tileSize);
+        }
+        if (player2 != null) {
+	        Graphics newG = g.create(
+	        		(int) (player2.getCurX() * tileSize + xMargin),
+	        		(int) (player2.getCurY() * tileSize + yMargin),
+	        		tileSize, tileSize);
+	        player2.draw(newG, tileSize);
+        }
     }
     
     public void shiftTile(int x, int y) {
@@ -298,8 +318,15 @@ public class Maze extends JComponent {
     	
     }
     
-    public boolean movePlayer(Direction dir) {
-    	if (dir == null) {
+    public boolean movePlayer(int playerNum, Direction dir) {
+    	Player player = null;
+    	if (playerNum == 1) {
+    		player = player1;
+    	} else if (playerNum == 2) {
+    		player = player2;
+    	}
+    	
+    	if (player == null || dir == null) {
     		return false;
     	}
     	if (isSpace(player.getGoalX() + dir.dx(), player.getGoalY() + dir.dy())) {
@@ -308,7 +335,14 @@ public class Maze extends JComponent {
     		return false;
     	}
     }
-    public void movePlayerWait(Direction dir) {
+    public void movePlayerWait(int playerNum, Direction dir) {
+    	Player player = null;
+    	if (playerNum == 1) {
+    		player = player1;
+    	} else if (playerNum == 2) {
+    		player = player2;
+    	}
+    	
     	if (dir == null) {
     		return;
     	}
@@ -323,8 +357,15 @@ public class Maze extends JComponent {
     			tiles[col][row].nextFrame();
     		}
     	}
-    	player.nextFrame();
-    	tiles[player.getRealX()][player.getRealY()].interact(player);
+    	if (player1 != null) {
+    		player1.nextFrame();
+    	}
+    	if (player2 != null) {
+    		player2.nextFrame();
+    	}
+    	
+    	// TODO tile interaction
+//    	tiles[player.getRealX()][player.getRealY()].interact(player);
     }
     
     public boolean isSpace(int x, int y) {
