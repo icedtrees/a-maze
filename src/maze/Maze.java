@@ -27,8 +27,6 @@ public class Maze extends JComponent {
     private final static double DEFAULT_RATIO = 1.2;    
     private final Random rand;
     
-    public final static int FPS = 50;
-    
     private Tile[][] tiles;
     private int mazeWidth;
     private int mazeHeight;
@@ -40,14 +38,14 @@ public class Maze extends JComponent {
     
     private Player player;
     
-    public static enum Direction {
+    public enum Direction {
     	NORTH(0, -1),
     	EAST(1, 0),
     	SOUTH(0, 1),
     	WEST(-1, 0);
         
-        private int dx;
-        private int dy;
+        private final int dx;
+        private final int dy;
         private Direction reverse;
         
         static {

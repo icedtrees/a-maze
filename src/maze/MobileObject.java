@@ -1,5 +1,7 @@
 package maze;
 
+import game.Game;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -72,7 +74,7 @@ public abstract class MobileObject {
 			return;
 		}
 		
-		double tilePerFrame = speed / Maze.FPS;
+		double tilePerFrame = speed / Game.settings.FPS;
 		curX += moving.dx() * tilePerFrame;
 		curY += moving.dy() * tilePerFrame;
 		
