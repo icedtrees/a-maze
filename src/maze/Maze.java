@@ -88,15 +88,6 @@ public class Maze extends JComponent {
     public Maze(int newWidth, int newHeight,
             int displayWidth, int displayHeight,
             int straightness, int branching, int numPlayers, long seed) {
-    	player1 = null;
-    	player2 = null;
-    	if (numPlayers >= 1) {
-    		player1 = new Player(1, 0, Color.RED);
-    	}
-    	if (numPlayers >= 2) {
-    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE);
-    	}
-
         mazeWidth = 2 * newWidth + 1;
         mazeHeight = 2 * newHeight + 1;
         setPreferredSize(new Dimension(displayWidth, displayHeight));
@@ -106,6 +97,15 @@ public class Maze extends JComponent {
                 tiles[col][row] = new Tile(Tile.WALL, col, row);
             }
         }
+        
+        player1 = null;
+    	player2 = null;
+    	if (numPlayers >= 1) {
+    		player1 = new Player(1, 0, Color.RED);
+    	}
+    	if (numPlayers >= 2) {
+    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE);
+    	}
         
         this.straightness = straightness;
         this.branching = branching;
