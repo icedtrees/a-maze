@@ -135,13 +135,13 @@ public class MazePage extends Page implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        if (e.getKeyCode() == KeyEvent.VK_LEFT && currentPress == Maze.Direction.WEST) {
             currentPress = null;
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentPress == Maze.Direction.EAST) {
             currentPress = null;
-        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+        } else if (e.getKeyCode() == KeyEvent.VK_UP && currentPress == Maze.Direction.NORTH) {
             currentPress = null;
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN && currentPress == Maze.Direction.SOUTH) {
             currentPress = null;
         }
     }
