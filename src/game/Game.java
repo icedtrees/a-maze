@@ -1,7 +1,11 @@
 package game;
 
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.swing.*;
+
 import pages.*;
 
 /**
@@ -98,6 +102,7 @@ public class Game {
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         mainPanel = new JPanel();
+
         layout = new CardLayout();
         mainPanel.setLayout(layout);
         
@@ -109,13 +114,40 @@ public class Game {
         settingsPage = new SettingsPage();
         
         // Add all the Pages to the CardLayout
+        
         mainPanel.add(homePage, HOME_PAGE);
         mainPanel.add(mazePage, MAZE_PAGE);
         mainPanel.add(instructionsPage, INSTRUCTIONS_PAGE);
         mainPanel.add(highScoresPage, HIGH_SCORES_PAGE);
         mainPanel.add(settingsPage, SETTINGS_PAGE);
         
-        mainWindow.add(mainPanel);  
+        
+
+        // Adds image to imagePanel. 
+        // OverlayLayout allows components to be overlayed
+        // and thus we can use imagePanel as a background
+        JLabel label = new JLabel();
+        label.setLayout(new BorderLayout());
+        URL hello;
+		try {
+			hello = new URL("http://www.vippetfoods.com.au/Uploads/cat%20for%20cats%20page.png");
+			ImageIcon image = new ImageIcon(hello);
+			label.setIcon(image);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        JPanel imagePanel = new JPanel(new BorderLayout());
+        JPanel bothPanel = new JPanel(new BorderLayout());
+        OverlayLayout overlay = new OverlayLayout(bothPanel);
+        bothPanel.setLayout(overlay);
+        imagePanel.add(label);
+        imagePanel.setBackground(Color.BLACK);
+        bothPanel.add(mainPanel);
+        mainPanel.setOpaque(false);
+        bothPanel.add(imagePanel);
+        mainWindow.add(bothPanel);  
+        
         mainWindow.setVisible(true);
     }
 }

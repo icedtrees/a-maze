@@ -7,6 +7,8 @@ public class PageTester {
 
     public static void main(String args[]) {
         JFrame main = new JFrame();
+        main.setSize(800, 600);
+        main.setBackground(Color.CYAN);
         CardLayout layout = new CardLayout();
         main.add(new HomePage());
         main.setLayout(layout);

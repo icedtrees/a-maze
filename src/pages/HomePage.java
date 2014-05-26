@@ -19,6 +19,7 @@ public class HomePage extends Page {
     public HomePage() {
     	super();
         setLayout(new GridLayout(7, 1));
+        setOpaque(false);
         
         JLabel blank = new JLabel("", JLabel.CENTER);
         add(blank);
@@ -52,7 +53,7 @@ public class HomePage extends Page {
     }
     
     private synchronized void addStartButton() {
-        JPanel startPanel = new JPanel();
+        JPanel startPanel = Components.makePanel();
         startPanel.setLayout(new FlowLayout());
         
         JButton startMaze = Components.makeButton("Start maze");
@@ -68,7 +69,7 @@ public class HomePage extends Page {
     }
     
 	private synchronized void addInstructionsButton() {
-		JPanel instructionsPanel = new JPanel();
+		JPanel instructionsPanel = Components.makePanel();
 		instructionsPanel.setLayout(new FlowLayout());
 
 		JButton instructions = Components.makeButton("Instructions");
@@ -83,7 +84,7 @@ public class HomePage extends Page {
 	}
     
 	private void addSettingsButton() {
-		JPanel settingsPanel = new JPanel();
+		JPanel settingsPanel = Components.makePanel();
 		settingsPanel.setLayout(new FlowLayout());
 
 		JButton settings = Components.makeButton("Settings");
@@ -97,7 +98,7 @@ public class HomePage extends Page {
 	}
 	
 	private void addHighScoresButton() {
-		JPanel scoresPanel = new JPanel();
+		JPanel scoresPanel = Components.makePanel();
 		scoresPanel.setLayout(new FlowLayout());
 
 		JButton scores = Components.makeButton("High Scores");
@@ -111,7 +112,7 @@ public class HomePage extends Page {
 	}
 	
 	private void addExitButton() {
-		JPanel exitPanel = new JPanel();
+		JPanel exitPanel = Components.makePanel();
 		exitPanel.setLayout(new FlowLayout());
 
 		JButton exit = Components.makeButton("Exit");

@@ -20,6 +20,7 @@ public class SettingsPage extends Page {
 		super();
 		
 		setLayout(new GridLayout(0,1));
+		setOpaque(false);
 		
 		JLabel text = new JLabel("Select your desired resolution:", JLabel.CENTER);
 	
@@ -65,6 +66,11 @@ public class SettingsPage extends Page {
         add(defaultRes);
         add(resolution2);
         add(resolution3);
+        
+        resolution1.setOpaque(false);
+        defaultRes.setOpaque(false);
+        resolution2.setOpaque(false);
+        resolution3.setOpaque(false);
 
         
         //add(this, BorderLayout.CENTER);
@@ -90,7 +96,7 @@ public class SettingsPage extends Page {
 	}
 	
 	private void addReturnButton() {
-        JPanel returnPanel = new JPanel();
+        JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
 		
         JButton returnBut = Components.makeButton("return");

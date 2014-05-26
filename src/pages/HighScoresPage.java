@@ -15,6 +15,7 @@ public class HighScoresPage extends Page {
 		super();
 		
 		setLayout(new GridLayout(2,1));
+		setOpaque(false);
 		
 		JLabel text = new JLabel("display high scores", JLabel.CENTER);;
         add(text);
@@ -40,7 +41,7 @@ public class HighScoresPage extends Page {
 	}
 	
 	private void addReturnButton() {
-        JPanel returnPanel = new JPanel();
+        JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
 		
         JButton returnBut = Components.makeButton("return");

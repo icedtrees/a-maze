@@ -90,6 +90,7 @@ public class MazePage extends Page {
 	
 	private void addReturnButton() {		
         JButton returnBut = Components.makeButton("return");
+        returnBut.setForeground(Color.BLACK);
         returnBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	System.out.println("return to main menu");
