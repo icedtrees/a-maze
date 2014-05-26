@@ -95,8 +95,8 @@ public class Game {
     
     private void initialiseGUI() {
         mainWindow = new JFrame();
-        mainWindow.setSize(settings.getScreenDimension());
-        mainWindow.setTitle("GAME's MAIN MENU");
+        mainWindow.setSize(settings.getScreenSize().width, settings.getScreenSize().height);
+        mainWindow.setTitle("A*maze-d yet?");
         mainWindow.setResizable(false);
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
