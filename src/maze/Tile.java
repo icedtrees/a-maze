@@ -33,6 +33,9 @@ public class Tile {
     }
     
     public int getValue() {
+    	if (isShifting()) {
+    		return WALL;
+    	}
         return value;
     }
     public int getX() {
@@ -118,10 +121,15 @@ public class Tile {
     	}
     }
     
-    public synchronized void shiftWall(Direction dir) throws InterruptedException {
+    public synchronized void shiftWall(Direction dir) {
     	while (isShifting()) {
     		synchronized(this) {
-    			wait();
+    			try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     		}
     	}
     	shifting = dir;

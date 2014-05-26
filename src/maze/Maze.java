@@ -95,7 +95,7 @@ public class Maze extends JComponent {
         }
         
         complexity = newComplexity;
-        fogOfWar = 6;
+        fogOfWar = 0;
         
         rand = new Random(seed);
     }
@@ -186,7 +186,7 @@ public class Maze extends JComponent {
         player.draw(newG, tileSize);
     }
     
-    public void shiftTile(int x, int y) throws InterruptedException {
+    public void shiftTile(int x, int y) {
     	for (Direction dir : Direction.values()) {
     		if (isSpace(x + dir.dx(), y + dir.dy())) {
     			continue;
@@ -292,19 +292,29 @@ public class Maze extends JComponent {
     		curTileWalls[wallToRemove.getX()][wallToRemove.getY()] = false;
     		
     		// Shift the new wall/space tiles
-    		try {
-				shiftTile(newWall.getX(), newWall.getY());
-				shiftTile(wallToRemove.getX(), wallToRemove.getY());
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			shiftTile(newWall.getX(), newWall.getY());
+			shiftTile(wallToRemove.getX(), wallToRemove.getY());
     	}
     	
     }
     
-    public void movePlayer(Direction dir) throws InterruptedException {
-    	player.move(dir);
+    public boolean movePlayer(Direction dir) {
+    	if (dir == null) {
+    		return false;
+    	}
+    	if (isSpace(player.getGoalX() + dir.dx(), player.getGoalY() + dir.dy())) {
+    		return player.move(dir);
+    	} else {
+    		return false;
+    	}
+    }
+    public void movePlayerWait(Direction dir) {
+    	if (dir == null) {
+    		return;
+    	}
+    	if (isSpace(player.getGoalX() + dir.dx(), player.getGoalY() + dir.dy())) {
+    		player.moveWait(dir);
+    	}
     }
     
     public void nextFrame() {
