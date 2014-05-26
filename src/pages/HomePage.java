@@ -18,13 +18,13 @@ public class HomePage extends Page {
 	
     public HomePage() {
     	super();
-        setLayout(new GridLayout(7, 1));
+        setLayout(new GridLayout(6, 1));
         setOpaque(false);
         
-        JLabel blank = new JLabel("", JLabel.CENTER);
-        add(blank);
+        //JLabel blank = new JLabel("", JLabel.CENTER);
+        //add(blank);
         
-        JLabel titleLabel = new JLabel("MAZE", JLabel.CENTER);
+        JLabel titleLabel = Components.makeTitle("MAZE");
         add(titleLabel);
         
         addStartButton();

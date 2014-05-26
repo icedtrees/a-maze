@@ -2,6 +2,7 @@ package pages;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class HighScoresPage extends Page {
@@ -14,11 +15,25 @@ public class HighScoresPage extends Page {
 	public HighScoresPage() {
 		super();
 		
-		setLayout(new GridLayout(2,1));
+		setLayout(new GridBagLayout());
 		setOpaque(false);
+		GridBagConstraints c = new GridBagConstraints();
 		
-		JLabel text = new JLabel("display high scores", JLabel.CENTER);;
-        add(text);
+		JLabel titleLabel = Components.makeTitle("High Scores");
+		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
+		c.gridx = 0;
+		c.gridy = 0;
+		c.ipady = 40;
+		c.weighty = 0.25;
+        add(titleLabel, c);
+        
+        JPanel content = Components.makePanel();
+		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
+		c.gridx = 0;
+		c.gridy = 1;
+		c.ipady = 320;
+		c.weighty = 0.75;
+		add(content, c);
         
         addReturnButton();
         result = null;
@@ -53,7 +68,13 @@ public class HighScoresPage extends Page {
         });
 		
 		returnPanel.add(returnBut);
-		add(returnPanel);
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
+		c.anchor = GridBagConstraints.PAGE_END; //bottom of space
+		c.gridx = 0;
+		c.gridy = 2;
+		c.weighty = 0.50;
+		add(returnPanel, c);
 	}
 	
 }
