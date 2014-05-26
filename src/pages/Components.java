@@ -2,17 +2,37 @@ package pages;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 public class Components {
     public static JButton makeButton(String string) {
         // Possible helper function
     	JButton button = new JButton(string);
+    	
+    	// gets rid of rectangle around text
+    	button.setFocusPainted(false);
+    	
+    	// sets text colour
     	button.setForeground(Color.WHITE);
+    	// makes jbutton transparent
     	button.setOpaque(false);
     	button.setContentAreaFilled(false);
-    	button.setPreferredSize(new Dimension(120, 40));
+    	
+    	// change font size
+    	Font font = button.getFont();
+    	button.setFont(new Font(font.getName(), Font.PLAIN, 20));
+    	
+    	button.setPreferredSize(new Dimension(200, 60));
         return button;
+    }
+    
+    public static JLabel makeTitle(String string) {
+        JLabel titleLabel = new JLabel(string, JLabel.CENTER);
+        Font font = titleLabel.getFont();
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(new Font(font.getName(), Font.PLAIN, 40));
+        return titleLabel;
     }
     
     public static JPanel makePanel() {

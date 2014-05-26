@@ -2,6 +2,7 @@ package pages;
 
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 
@@ -19,17 +20,33 @@ public class SettingsPage extends Page {
 	public SettingsPage() {
 		super();
 		
-		setLayout(new GridLayout(0,1));
+		setLayout(new GridBagLayout());
 		setOpaque(false);
 		
-		JLabel text = new JLabel("Select your desired resolution:", JLabel.CENTER);
-	
-        add(text);
+		GridBagConstraints c = new GridBagConstraints();
+		JLabel titleLabel = Components.makeTitle("Settings");
+		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
+		c.gridx = 0;
+		c.gridy = 0;
+		c.ipady = 30;
+		c.weighty = 0.25;
+        add(titleLabel, c);
         
-        JRadioButton resolution1 = new JRadioButton("1000 by 800");
+        JPanel content = Components.makePanel();
+        content.setLayout(new GridLayout(5,0));
+		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
+		c.gridx = 0;
+		c.gridy = 1;
+		c.ipady = 120;
+		c.weighty = 0.75;
+		
+		//content.setSize(new Dimension(400, 400));
+		add(content, c);
+		JLabel text = new JLabel("Select your desired resolution:", JLabel.CENTER);
+        content.add(text);
+        JRadioButton resolution1 = new JRadioButton("1600 by 900");
+        JRadioButton resolution2 = new JRadioButton("1280 by 720");
         JRadioButton defaultRes = new JRadioButton("800 by 600 (default)");
-        JRadioButton resolution2 = new JRadioButton("600 by 400");
-        JRadioButton resolution3 = new JRadioButton("400 by 300");
         defaultRes.setSelected(true);
         
         ButtonGroup pickResolution = new ButtonGroup();
@@ -54,28 +71,15 @@ public class SettingsPage extends Page {
 				result = Result.RESOLUTION_TWO;
 			}
 		});
-        pickResolution.add(resolution3);
-		resolution3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("change resolution to res3");
-				result = Result.RESOLUTION_THREE;
-			}
-		});
   
-        add(resolution1);
-        add(defaultRes);
-        add(resolution2);
-        add(resolution3);
+        content.add(resolution1);
+        content.add(resolution2);
+        content.add(defaultRes);
         
         resolution1.setOpaque(false);
         defaultRes.setOpaque(false);
         resolution2.setOpaque(false);
-        resolution3.setOpaque(false);
-
-        
-        //add(this, BorderLayout.CENTER);
-        //setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-        
+               
         addReturnButton();
 	}
 	
@@ -108,6 +112,12 @@ public class SettingsPage extends Page {
         });
 		
 		returnPanel.add(returnBut);
-		add(returnPanel);
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
+		c.anchor = GridBagConstraints.PAGE_END; //bottom of space
+		c.gridx = 0;
+		c.gridy = 2;
+		c.weighty = 0.25;
+		add(returnPanel, c);
 	}
 }
