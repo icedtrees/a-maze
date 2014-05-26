@@ -3,7 +3,6 @@ package maze;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -558,24 +557,4 @@ public class Maze extends JComponent {
             System.out.println("> " + message);
         }
     }
-    
-    private Tile getRelativeTile(Tile tile, int n, Direction direction) {
-        if (tile == null) {
-            return null;
-        }
-        
-        int newX = tile.getX() + n * direction.dx();
-        int newY = tile.getY() + n * direction.dy();
-        
-        if (newX < 0 || newX >= mazeWidth || newY < 0 || newY >= mazeHeight) {
-            return null;
-        } else {
-            return tiles[newX][newY];
-        }
-    }
-    
-    private Tile getRelativeTile(Tile tile, Direction direction) {
-        return getRelativeTile(tile, 1, direction);
-    }
-    
 }
