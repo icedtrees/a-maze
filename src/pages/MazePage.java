@@ -92,7 +92,7 @@ public class MazePage extends Page implements KeyListener{
             if (currentPress != null) {
                 maze.movePlayer(currentPress);
                 SwingUtilities.getWindowAncestor(this).repaint();
-                currentPress = null;
+                // currentPress = null;
             }
 		}
 		
@@ -131,8 +131,15 @@ public class MazePage extends Page implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-        
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            currentPress = null;
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            currentPress = null;
+        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+            currentPress = null;
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            currentPress = null;
+        }
     }
 
     @Override
