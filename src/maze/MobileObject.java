@@ -25,10 +25,10 @@ public abstract class MobileObject {
 	public MobileObject(Color color) {
 		this(color, 1);
 	}
-	public MobileObject(Color color, int speed) {
+	public MobileObject(Color color, double speed) {
 		this(color, speed, 1, 0);
 	}
-	public MobileObject(Color color, int speed, int x, int y) {
+	public MobileObject(Color color, double speed, int x, int y) {
 		this.realX = x;
 		this.realY = y;
 		this.curX = x;
