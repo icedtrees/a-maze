@@ -89,17 +89,11 @@ public class MazePage extends Page implements KeyListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    		if (currentPress != null) {
-    		    try {
-                    maze.movePlayer(currentPress);
-                    SwingUtilities.getWindowAncestor(this).repaint();
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } finally {
-                    currentPress = null;
-                }
-    		}
+            if (currentPress != null) {
+                maze.movePlayer(currentPress);
+                SwingUtilities.getWindowAncestor(this).repaint();
+                currentPress = null;
+            }
 		}
 		
 		remove(maze);

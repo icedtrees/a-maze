@@ -4,17 +4,11 @@ import game.Game;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import maze.Maze.Direction;
 
 public abstract class MobileObject {
 //	private static final double EPSILON = 0.00000000001;
-	
-	private Lock lock;
-	private Condition canMakeNewMove;
 	
 	private int realX;
 	private int realY;
@@ -43,8 +37,6 @@ public abstract class MobileObject {
 		this.color = color;
 		
 		this.moving = null;
-		this.lock = new ReentrantLock();
-		this.canMakeNewMove = lock.newCondition();
 	}
 	
 	public int getRealX() {
@@ -58,6 +50,20 @@ public abstract class MobileObject {
 	}
 	public double getCurY() {
 		return curY;
+	}
+	public int getGoalX() {
+		if (moving != null) {
+			return realX + moving.dx();
+		} else {
+			return realX;
+		}
+	}
+	public int getGoalY() {
+		if (moving != null) {
+			return realY + moving.dy();
+		} else {
+			return realY;
+		}
 	}
 	public boolean isMoving() {
 		return moving != null;
@@ -93,11 +99,8 @@ public abstract class MobileObject {
 			curY = realY;
 			moving = null;
 			
-			lock.lock();
-			try {
-				canMakeNewMove.signalAll();
-			} finally {
-				lock.unlock();
+			synchronized(this) {
+				notifyAll();
 			}
 		}
 		return;
@@ -118,21 +121,34 @@ public abstract class MobileObject {
 //		return (a > b) && (!equalTo(a, b));
 //	}
 	
-	public void move(Direction dir) throws InterruptedException {
-	    System.out.println("asdf");
+	public boolean move(Direction dir) {
+		if (dir == null) {
+			return false;
+		}
+		if (this.isMoving()) {
+			return false;
+		}
+		
+		moving = dir;
+		return true;
+	}
+	
+	public void moveWait(Direction dir) {
 		if (dir == null) {
 			return;
 		}
 		
-		lock.lock();
-		try {
+		synchronized(this) {
 			while (this.isMoving()) {
-				canMakeNewMove.await();
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			moving = dir;
-		} finally {
-			lock.unlock();
 		}
 		
+		moving = dir;
 	}
 }
