@@ -5,6 +5,9 @@ import game.Game;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+
 import maze.Maze.Direction;
 
 public abstract class MobileObject {
@@ -103,7 +106,7 @@ public abstract class MobileObject {
 				notifyAll();
 			}
 		}
-		return;
+		return;   
 	}
 	
 	public void draw(Graphics g, int tileSize) {
@@ -130,6 +133,15 @@ public abstract class MobileObject {
 		}
 		
 		moving = dir;
+		if (dir == Direction.EAST) {
+		    color = Color.BLUE;
+		} else if (dir == Direction.NORTH) {
+		    color = Color.GREEN;
+		} else if (dir == Direction.SOUTH) {
+		    color = Color.PINK;
+		} else {
+		    color = Color.GRAY;
+		}
 		return true;
 	}
 	
