@@ -1,7 +1,10 @@
-package maze;
+package maze.modification;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import maze.Player;
+import maze.TileObject;
 
 public class Torch implements TileObject {
 	

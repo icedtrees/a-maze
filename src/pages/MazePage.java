@@ -10,11 +10,11 @@ import java.util.TimerTask;
 
 import javax.swing.*;
 
-import maze.FogOfWar;
 import maze.Maze;
-import maze.Modification;
-import maze.ShiftingWallsMod;
-import maze.TreasureMod;
+import maze.modification.FogOfWar;
+import maze.modification.Modification;
+import maze.modification.ShiftingWallsMod;
+import maze.modification.TreasureMod;
 
 
 public class MazePage extends Page implements KeyListener{

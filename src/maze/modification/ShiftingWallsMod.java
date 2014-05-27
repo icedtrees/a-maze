@@ -1,6 +1,8 @@
-package maze;
+package maze.modification;
 
 import java.util.Random;
+
+import maze.Maze;
 
 public class ShiftingWallsMod implements Modification{
 	private int numWalls;

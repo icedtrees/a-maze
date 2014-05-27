@@ -19,6 +19,8 @@ import java.util.Stack;
 
 import javax.swing.JComponent;
 
+import maze.modification.Modification;
+
 
 public class Maze extends JComponent {
     /**
