@@ -90,6 +90,9 @@ public abstract class MobileObject {
 	public boolean isMoving() {
 		return moving != null;
 	}
+	public Color getColor() {
+		return color;
+	}
 	
 	public void nextFrame() {
 		if (moving == null) {

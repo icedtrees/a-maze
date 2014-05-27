@@ -163,6 +163,13 @@ public class Maze extends JComponent {
     	for (Modification mod : mods) {
     		mod.apply(this, rand);
     	}
+    	
+    	if (player1 != null) {
+    		tiles[mazeWidth-2][mazeHeight-1].setContents(new GoalFlag(player1));
+    	}
+    	if (player2 != null) {
+    		tiles[1][0].setContents(new GoalFlag(player2));
+    	}
     }
     
     @Override
