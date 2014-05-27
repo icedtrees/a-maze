@@ -14,8 +14,14 @@ public class Torch implements TileObject {
 	
 	@Override
 	public void interact(Player player) {
-		System.out.println("Player got torch!");
-		player.setVision(player.getVision() + 5);
+		Player friend = player.getFriend();
+		if (friend != null) {
+			friend.setVision(friend.getVision() + 5);
+			System.out.println("Player got torch for friend!");
+		} else {
+			player.setVision(player.getVision() + 5);
+			System.out.println("Player got torch!");
+		}
 	}
 
 	@Override

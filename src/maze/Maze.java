@@ -117,6 +117,9 @@ public class Maze extends JComponent {
     	if (numPlayers >= 2) {
     		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE);
     		player2Last = new Coord(mazeWidth - 2, mazeHeight - 1);
+    		
+    		player1.setFriend(player2);
+    		player2.setFriend(player1);
     	}
         
         this.straightness = straightness;
