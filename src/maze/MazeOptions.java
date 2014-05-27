@@ -1,11 +1,11 @@
 package maze;
 
-public class MazeStats {
+public class MazeOptions {
 	private int numPlayers;
 	private int[] playerTimer;
 	private boolean[] playerFinished;
 	
-	public MazeStats(int numPlayers, int timer) {
+	public MazeOptions(int numPlayers, int timer) {
 		this.numPlayers = numPlayers;
 		this.playerTimer = new int[]{timer, timer};
 		this.playerFinished = new boolean[]{false, false};

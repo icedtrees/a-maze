@@ -15,7 +15,7 @@ public class GoalFlag implements TileObject {
 	}
 
 	@Override
-	public boolean interact(Player player, MazeStats stats) {
+	public boolean interact(Player player, MazeOptions stats) {
 		// TODO Auto-generated method stub
 		if (player == expectedPlayer) {
 			stats.setPlayerFinished(player.getPlayerNum(), true);
