@@ -95,7 +95,7 @@ public class Game {
         mainWindow = new JFrame();
         mainWindow.setSize(settings.screenSize.width, settings.screenSize.height);
         mainWindow.setTitle("A*maze-d yet?");
-        mainWindow.setResizable(false);
+        //mainWindow.setResizable(false);
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         mainPanel = new JPanel();
@@ -117,26 +117,8 @@ public class Game {
         mainPanel.add(instructionsPage, INSTRUCTIONS_PAGE);
         mainPanel.add(highScoresPage, HIGH_SCORES_PAGE);
         mainPanel.add(settingsPage, SETTINGS_PAGE);
-        
-        
 
-        // Adds image to imagePanel. 
-        // OverlayLayout allows components to be overlayed
-        // and thus we can use imagePanel as a background
-        JLabel label = new JLabel();
-        label.setLayout(new BorderLayout());
-		ImageIcon image = new ImageIcon("src/catsBackground.png");
-		label.setIcon(image);
-        JPanel imagePanel = new JPanel(new BorderLayout());
-        JPanel bothPanel = new JPanel(new BorderLayout());
-        OverlayLayout overlay = new OverlayLayout(bothPanel);
-        bothPanel.setLayout(overlay);
-        imagePanel.add(label);
-        imagePanel.setBackground(Color.BLACK);
-        bothPanel.add(mainPanel);
-        mainPanel.setOpaque(false);
-        bothPanel.add(imagePanel);
-        mainWindow.add(bothPanel);  
+        mainWindow.add(mainPanel);  
         
         mainWindow.setVisible(true);
     }

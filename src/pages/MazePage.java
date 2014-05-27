@@ -48,7 +48,7 @@ public class MazePage extends Page implements KeyListener{
         mazeInfo = new MazeStats(2, 100);
 		
 		GridBagConstraints c = new GridBagConstraints();
-        sidePanel = new JPanel();
+        sidePanel = Components.makePanel();
         sidePanel.setLayout(new GridLayout(5, 1));
 		c.gridx = 1;
 		c.weightx = 0.25;
@@ -160,7 +160,9 @@ public class MazePage extends Page implements KeyListener{
 	}
 	
     private void drawSidebar() {
-        JLabel mazeTitle = new JLabel("MAZE", JLabel.CENTER);
+        JLabel mazeTitle = Components.makeText("MAZE", 20);
+        mazeTitle.setAlignmentX(JLabel.CENTER);
+        mazeTitle.setForeground(Color.BLACK);
         sidePanel.add(mazeTitle);
 
         timeLeft1 = new JLabel("Player1: ", JLabel.CENTER);

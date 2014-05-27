@@ -16,7 +16,6 @@ public class HighScoresPage extends Page {
 		super();
 		
 		setLayout(new GridBagLayout());
-		setOpaque(false);
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JLabel titleLabel = Components.makeTitle("High Scores");
@@ -58,6 +57,7 @@ public class HighScoresPage extends Page {
 	private void addReturnButton() {
         JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
+        returnPanel.setOpaque(false);
 		
         JButton returnBut = Components.makeButton("return");
         returnBut.addActionListener(new ActionListener() {

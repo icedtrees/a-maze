@@ -21,7 +21,6 @@ public class SettingsPage extends Page {
 		super();
 		
 		setLayout(new GridBagLayout());
-		setOpaque(false);
 		
 		GridBagConstraints c = new GridBagConstraints();
 		JLabel titleLabel = Components.makeTitle("Settings");
@@ -73,6 +72,10 @@ public class SettingsPage extends Page {
         resolution1.setForeground(Color.WHITE);
         resolution2.setForeground(Color.WHITE);
         defaultRes.setForeground(Color.WHITE);
+        
+        resolution1.setFocusable(false);
+        resolution2.setFocusable(false);
+        defaultRes.setFocusable(false);
   
         content.add(resolution1);
         content.add(resolution2);

@@ -18,7 +18,6 @@ public class InstructionsPage extends Page {
 	public InstructionsPage() {
 		super();
 		setLayout(new GridBagLayout());
-		setOpaque(false);
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JLabel titleLabel = Components.makeTitle("Instructions");
@@ -43,6 +42,7 @@ public class InstructionsPage extends Page {
         content.add(imageLabel);
         content.add(instructions1);
         //content.add(instructions2);
+        content.setOpaque(false);
 		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
 		c.gridx = 0;
 		c.gridy = 1;
@@ -71,6 +71,7 @@ public class InstructionsPage extends Page {
 	private void addReturnButton() {
         JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
+        returnPanel.setOpaque(false);
 		
         JButton returnBut = Components.makeButton("return");
         returnBut.addActionListener(new ActionListener() {
