@@ -146,6 +146,9 @@ public class Tile {
     		contents.interact(player);
     		contents = null;
     	}
+    	if (Game.settings.leaveTrail) {
+    		this.value = EXPLORED;
+    	}
     }
     
     public String toString() {

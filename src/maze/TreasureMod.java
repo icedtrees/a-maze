@@ -11,8 +11,19 @@ public class TreasureMod implements Modification {
 
 	@Override
 	public void apply(Maze maze, Random rand) {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < numTreasure; i++) {
+			int x;
+			int y;
+			boolean validSpot = false;
+			while (!validSpot) {
+				x = rand.nextInt(maze.getMazeWidth());
+				y = rand.nextInt(maze.getMazeHeight());
+				if (maze.isSpace(x, y) && !maze.hasTileObject(x, y)) {
+					validSpot = true;
+					maze.setTileObject(x, y, new Treasure(100));
+				}
+			}
+		}
 	}
 
 }
