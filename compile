@@ -1,1 +1,20 @@
-javac -cp "src/game; src/maze; src/page" -d "bin" src/game/*.java src/maze/*.java src/page/*.java
+#! /bin/sh
+
+# find all java source files in src directory
+FILES=$(find src -iname "*.java")
+
+rm -rf bin
+mkdir -p bin
+
+# compile each source file into bin directory, exiting on compilation failure
+for file in $FILES
+do
+    echo "compiling $file"
+    javac -cp "./src/" -d bin $file
+    if [ $? -ne 0 ]
+    then
+        exit 1
+    fi
+done
+
+echo "done"
