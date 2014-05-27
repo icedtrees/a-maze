@@ -13,10 +13,7 @@ import javax.swing.*;
 
 import maze.Maze;
 import maze.MazeStats;
-import maze.modification.FogMod;
-import maze.modification.Modification;
-import maze.modification.ShiftingWallsMod;
-import maze.modification.ClockMod;
+import maze.modification.*;
 
 
 public class MazePage extends Page implements KeyListener{

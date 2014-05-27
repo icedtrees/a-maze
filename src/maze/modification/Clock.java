@@ -1,11 +1,8 @@
 package maze.modification;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
-import maze.MazeStats;
-import maze.Player;
-import maze.TileObject;
+import maze.*;
 
 public class Clock implements TileObject {
 	private int value;
