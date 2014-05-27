@@ -2,22 +2,22 @@ package maze;
 
 public class MazeStats {
 	private int numPlayers;
-	private int[] playerTimer;
+	private double[] playerTimer;
 	private boolean[] playerFinished;
 	
-	public MazeStats(int numPlayers, int timer) {
+	public MazeStats(int numPlayers, double timer) {
 		this.numPlayers = numPlayers;
-		this.playerTimer = new int[] {timer, timer};
+		this.playerTimer = new double[] {timer, timer};
 		this.playerFinished = new boolean[] {false, false};
 	}
 	
 	public int getNumPlayers() {
 		return numPlayers;
 	}
-	public int getTimer(int playerNum) {
+	public double getTimer(int playerNum) {
 		return playerTimer[playerNum - 1];
 	}
-	public void setTimer(int playerNum, int timer) {
+	public void setTimer(int playerNum, double timer) {
 		playerTimer[playerNum - 1] = timer;
 	}
 	public void setTimerRelative(int playerNum, int timer) {

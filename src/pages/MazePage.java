@@ -101,9 +101,9 @@ public class MazePage extends Page implements KeyListener{
         	@Override
         	public void run() {
         	    
-        	    mazeInfo.setTimer(1, mazeInfo.getTimer(1) - 1);
+        	    mazeInfo.setTimer(1, mazeInfo.getTimer(1) - (1.0 / Game.settings.FPS));
         	    if (mazeInfo.getNumPlayers() > 1) {
-        	        mazeInfo.setTimer(2, mazeInfo.getTimer(2) - 1);
+        	        mazeInfo.setTimer(2, mazeInfo.getTimer(2) - (1.0 / Game.settings.FPS));
         	    }
         	    updateTimers();
         	    
@@ -153,9 +153,9 @@ public class MazePage extends Page implements KeyListener{
 	}
 	
 	private void updateTimers() {
-	    timeLeft1.setText("Player1: " + mazeInfo.getTimer(1));
+	    timeLeft1.setText("Player1: " + (int) mazeInfo.getTimer(1));
         if (mazeInfo.getNumPlayers() > 1) {
-            timeLeft2.setText("Player2: " + mazeInfo.getTimer(2));
+            timeLeft2.setText("Player2: " + (int) mazeInfo.getTimer(2));
         }
 	}
 	
