@@ -10,7 +10,11 @@ import java.util.TimerTask;
 
 import javax.swing.*;
 
+import maze.FogOfWar;
 import maze.Maze;
+import maze.Modification;
+import maze.ShiftingWallsMod;
+import maze.TreasureMod;
 
 
 public class MazePage extends Page implements KeyListener{
@@ -59,11 +63,11 @@ public class MazePage extends Page implements KeyListener{
 		c.weightx = 1;
 		c.weighty = 1;
 		
-		int difficulty = 99;
+		int difficulty = 28;
     	int mazeHeight = 5 + ((difficulty*3)/10);
     	int straightness = 900 - ((difficulty % 10) * 100);
     	int branching = 93 - ((difficulty % 10) * 10);
-		final Maze maze = new Maze(mazeHeight, 600, straightness, branching);
+		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, 2);
 		add(maze, c);
 		validate();
 		
@@ -77,7 +81,7 @@ public class MazePage extends Page implements KeyListener{
         	@Override
         	public void run() {
                 if (currentPress != null) {
-                    maze.movePlayer(currentPress);
+                    maze.movePlayer(1, currentPress);
                 }
         	    maze.nextFrame();
         	    SwingUtilities.getWindowAncestor(mazePage).repaint();
@@ -87,6 +91,11 @@ public class MazePage extends Page implements KeyListener{
         // TODO this takes a long time - third argument is delay
  		// You can set it to 0 or remove it entirely if you want
  		maze.genMazeDFSBranch();
+ 		java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
+//		mods.add(new FogOfWar(2, 3));
+		mods.add(new TreasureMod(5));
+		mods.add(new ShiftingWallsMod(10, 8));
+		maze.applyMods(mods);
         
 		while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
@@ -96,11 +105,11 @@ public class MazePage extends Page implements KeyListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//            if (currentPress != null) {
-//                maze.movePlayer(currentPress);
-//                SwingUtilities.getWindowAncestor(this).repaint();
-//                // currentPress = null;
-//            }
+            if (currentPress != null) {
+                maze.movePlayer(1, currentPress);
+                SwingUtilities.getWindowAncestor(this).repaint();
+                // currentPress = null;
+            }
 		}
 		
 		remove(maze);

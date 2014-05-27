@@ -21,10 +21,12 @@ public class Settings {
     
     public ScreenSize screenSize;
     public int FPS;
+    public boolean leaveTrail;
     
     public Settings() {
         this.screenSize = ScreenSize.SMALL;
         this.FPS = 50;
+        this.leaveTrail = true;
     }
     
 }

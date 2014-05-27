@@ -29,6 +29,7 @@ public class Tile {
         value = newValue;
         x = newX;
         y = newY;
+        contents = null;
         
         shifting = null;
         shifted = 0;
@@ -50,6 +51,9 @@ public class Tile {
     	return shifting != null;
     }
     
+    public boolean hasContents() {
+    	return contents != null;
+    }
     public void setContents(TileObject obj) {
     	this.contents = obj;
     }
@@ -141,6 +145,9 @@ public class Tile {
     	if (contents != null) {
     		contents.interact(player);
     		contents = null;
+    	}
+    	if (Game.settings.leaveTrail) {
+    		this.value = EXPLORED;
     	}
     }
     
