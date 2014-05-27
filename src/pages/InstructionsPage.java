@@ -30,22 +30,19 @@ public class InstructionsPage extends Page {
         add(titleLabel, c);
         
         JPanel content = Components.makePanel();
-        JLabel instructions = new JLabel("    Use the arrow keys to move.");
-        instructions.setOpaque(false);
+        content.setLayout(new GridLayout(2, 0));
+        JLabel instructions1 = Components.makeText("Single Player: Use the arrow keys to move.", 20);
+        //JLabel instructions2 = Components.makeText("Multi Player: Player 1 WASD, Player 2 Arrow Keys", 20);
+        instructions1.setOpaque(false);
         JLabel imageLabel = new JLabel();
         imageLabel.setOpaque(false);
         imageLabel.setLayout(new BorderLayout());
-        URL arrows;
-		try {
-			arrows = new URL("http://24.media.tumblr.com/795e1d41222cc28485232ac3fb797d62/tumblr_n66q9zJErr1qeu7d7o1_400.png");
-			ImageIcon image = new ImageIcon(arrows);
-			imageLabel.setIcon(image);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ImageIcon image = new ImageIcon("src/WASDarrowKeys.png");
+		imageLabel.setIcon(image);
+
         content.add(imageLabel);
-        content.add(instructions);
+        content.add(instructions1);
+        //content.add(instructions2);
 		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
 		c.gridx = 0;
 		c.gridy = 1;
@@ -78,7 +75,6 @@ public class InstructionsPage extends Page {
         JButton returnBut = Components.makeButton("return");
         returnBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	System.out.println("return to main menu");
             	result = Result.RETURN_HOME;
             }
         });

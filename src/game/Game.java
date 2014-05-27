@@ -127,15 +127,8 @@ public class Game {
         // and thus we can use imagePanel as a background
         JLabel label = new JLabel();
         label.setLayout(new BorderLayout());
-        URL hello;
-		try {
-			hello = new URL("http://www.vippetfoods.com.au/Uploads/cat%20for%20cats%20page.png");
-			ImageIcon image = new ImageIcon(hello);
-			label.setIcon(image);
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ImageIcon image = new ImageIcon("src/catsBackground.png");
+		label.setIcon(image);
         JPanel imagePanel = new JPanel(new BorderLayout());
         JPanel bothPanel = new JPanel(new BorderLayout());
         OverlayLayout overlay = new OverlayLayout(bothPanel);

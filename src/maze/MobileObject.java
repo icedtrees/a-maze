@@ -4,6 +4,12 @@ import game.Game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import maze.Maze.Direction;
 
@@ -18,6 +24,12 @@ public abstract class MobileObject {
 	private Color color;
 	
 	private Direction moving;
+	private BufferedImage sprite;
+
+	private BufferedImage spriteEast;
+	private BufferedImage spriteNorth;
+	private BufferedImage spriteWest;
+	private BufferedImage spriteSouth;
 	
 	public MobileObject() {
 		this(new Color(0, 0, 0));
@@ -37,6 +49,16 @@ public abstract class MobileObject {
 		this.color = color;
 		
 		this.moving = null;
+		try {
+            this.sprite = ImageIO.read(new File("img/sprite-test-south.png"));
+            this.spriteEast = ImageIO.read(new File("img/sprite-test-east.png"));
+            this.spriteNorth = ImageIO.read(new File("img/sprite-test-north.png"));
+            this.spriteWest = ImageIO.read(new File("img/sprite-test-west.png"));
+            this.spriteSouth = this.sprite;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 	}
 	
 	public int getRealX() {
@@ -103,12 +125,20 @@ public abstract class MobileObject {
 				notifyAll();
 			}
 		}
-		return;
+		return;   
 	}
 	
+	/**
+	 * Overridable method: each <code>MobileObject</code> is
+	 * allowed to override this based on the current direction of
+	 * direction
+	 * @param g
+	 * @param tileSize
+	 */
 	public void draw(Graphics g, int tileSize) {
-		g.setColor(color);
-		g.fillOval(0, 0, tileSize, tileSize);
+//		g.setColor(color);
+//		g.fillOval(0, 0, tileSize, tileSize);
+	    g.drawImage(sprite, 10, 10, null);
 	}
 	
 //	private boolean equalTo(double a, double b) {
@@ -130,6 +160,19 @@ public abstract class MobileObject {
 		}
 		
 		moving = dir;
+		if (dir == Direction.EAST) {
+		    color = Color.BLUE;
+		    sprite = spriteEast;
+		} else if (dir == Direction.NORTH) {
+		    color = Color.GREEN;
+		    sprite = spriteNorth;
+		} else if (dir == Direction.SOUTH) {
+		    color = Color.PINK;
+		    sprite = spriteSouth;
+		} else {
+		    color = Color.GRAY;
+		    sprite = spriteWest;
+		}
 		return true;
 	}
 	
