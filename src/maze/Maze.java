@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -204,13 +206,24 @@ public class Maze extends JComponent {
     	 */
     	
     	// Set clipping if there is fog of war
-    	if (player1 != null && fogOfWar) {
-    		int vision = player1.getVision();
-    		int x = (int) (((player1.getCurX() - vision) * tileSize) + xMargin);
-    		int y = (int) (((player1.getCurY() - vision) * tileSize) + yMargin);
-    		g.setClip(x, y, tileSize*vision*2, tileSize*vision*2);
+    	if (fogOfWar) {
+	    	Area fogClip = new Area();
+	    	if (player1 != null) {
+	    		int vision = player1.getVision();
+	    		int x = (int) (((player1.getCurX() - vision) * tileSize) + xMargin);
+	    		int y = (int) (((player1.getCurY() - vision) * tileSize) + yMargin);
+	    		
+	    		fogClip.add(new Area(new Rectangle(x, y, tileSize*vision*2, tileSize*vision*2)));
+	    	}
+	    	if (player2 != null) {
+	    		int vision = player2.getVision();
+	    		int x = (int) (((player2.getCurX() - vision) * tileSize) + xMargin);
+	    		int y = (int) (((player2.getCurY() - vision) * tileSize) + yMargin);
+	    		
+	    		fogClip.add(new Area(new Rectangle(x, y, tileSize*vision*2, tileSize*vision*2)));
+	    	}
+	    	g.setClip(fogClip);
     	}
-    	// TODO union clipping for player 2
     	
         for (int row = 0; row < mazeHeight; row++) {
             for (int col = 0; col < mazeWidth; col++) {
