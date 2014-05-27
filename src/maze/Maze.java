@@ -36,10 +36,16 @@ public class Maze extends JComponent {
     private int branching;
     
     private boolean fogOfWar;
+    
     private boolean shiftingWalls;
+    private int wallsToShift;
+    private int stepsTaken;
+    private int stepsToTake;
     
     private Player player1;
     private Player player2;
+    private Coord player1Last;
+    private Coord player2Last;
     
     public enum Direction {
     	NORTH(0, -1),
@@ -102,9 +108,11 @@ public class Maze extends JComponent {
     	player2 = null;
     	if (numPlayers >= 1) {
     		player1 = new Player(1, 0, Color.RED);
+    		player1Last = new Coord(1, 0);
     	}
     	if (numPlayers >= 2) {
     		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE);
+    		player2Last = new Coord(mazeWidth - 2, mazeHeight - 1);
     	}
         
         this.straightness = straightness;
@@ -142,6 +150,12 @@ public class Maze extends JComponent {
     	if (player2 != null) {
     		player2.setVision(vision);
     	}
+    }
+    public void setShiftingWalls(boolean on, int numWalls, int stepsToTake) {
+    	shiftingWalls = on;
+    	wallsToShift = numWalls;
+    	this.stepsToTake = stepsToTake;
+    	stepsTaken = 0;
     }
     public void applyMods(List<Modification> mods) {
     	for (Modification mod : mods) {
@@ -297,8 +311,6 @@ public class Maze extends JComponent {
     			}
     			seen.add(cur);
     			
-    			System.out.println(cur);
-    			
     			for (Direction dir : Direction.values()) {
     				int newX = cur.getX() + dir.dx();
     				int newY = cur.getY() + dir.dy();
@@ -391,7 +403,17 @@ public class Maze extends JComponent {
     	}
     	
     	// TODO tile interaction
-    	tiles[player1.getRealX()][player1.getRealY()].interact(player1);
+    	if (player1.getRealX() != player1Last.getX() || player1.getRealY() != player1Last.getY()) {
+    		// Player has moved since we last saw
+    		tiles[player1.getRealX()][player1.getRealY()].interact(player1);
+    		player1Last = new Coord(player1.getRealX(), player1.getRealY());
+    		
+			stepsTaken++;
+			if (stepsTaken == stepsToTake) {
+				shiftTiles(wallsToShift);
+				stepsTaken = 0;
+			}
+    	}
     }
     
     public boolean isSpace(int x, int y) {

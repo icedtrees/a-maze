@@ -3,7 +3,7 @@ package maze;
 import java.util.Random;
 
 public class TreasureMod implements Modification {
-	int numTreasure;
+	private int numTreasure;
 	
 	public TreasureMod(int numTreasure) {
 		this.numTreasure = numTreasure;

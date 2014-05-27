@@ -13,6 +13,7 @@ import javax.swing.*;
 import maze.FogOfWar;
 import maze.Maze;
 import maze.Modification;
+import maze.ShiftingWallsMod;
 import maze.TreasureMod;
 
 
@@ -88,8 +89,9 @@ public class MazePage extends Page implements KeyListener{
  		// You can set it to 0 or remove it entirely if you want
  		maze.genMazeDFSBranch();
  		java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
-		mods.add(new FogOfWar(2, 3));
+//		mods.add(new FogOfWar(2, 3));
 		mods.add(new TreasureMod(5));
+		mods.add(new ShiftingWallsMod(10, 8));
 		maze.applyMods(mods);
         
 		while (result == null) {
