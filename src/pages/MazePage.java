@@ -59,7 +59,7 @@ public class MazePage extends Page implements KeyListener{
 		c.weightx = 1;
 		c.weighty = 1;
 		
-		int difficulty = 1;
+		int difficulty = 99;
     	int mazeHeight = 5 + ((difficulty*3)/10);
     	int straightness = 900 - ((difficulty % 10) * 100);
     	int branching = 93 - ((difficulty % 10) * 10);
@@ -76,8 +76,11 @@ public class MazePage extends Page implements KeyListener{
         actionLoop.scheduleAtFixedRate(new TimerTask() {
         	@Override
         	public void run() {
+                if (currentPress != null) {
+                    maze.movePlayer(currentPress);
+                }
+        	    maze.nextFrame();
         	    SwingUtilities.getWindowAncestor(mazePage).repaint();
-        		maze.nextFrame();
         	}
         }, 1000/Game.settings.FPS, 1000/Game.settings.FPS);
 		
@@ -88,16 +91,16 @@ public class MazePage extends Page implements KeyListener{
 		while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
     		try {
-				Thread.sleep(50);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            if (currentPress != null) {
-                maze.movePlayer(currentPress);
-                SwingUtilities.getWindowAncestor(this).repaint();
-                // currentPress = null;
-            }
+//            if (currentPress != null) {
+//                maze.movePlayer(currentPress);
+//                SwingUtilities.getWindowAncestor(this).repaint();
+//                // currentPress = null;
+//            }
 		}
 		
 		remove(maze);
