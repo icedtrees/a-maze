@@ -12,7 +12,7 @@ public class Clock implements TileObject {
 	}
 
 	@Override
-	public boolean interact(Player player, MazeOptions stats) {
+	public boolean interact(Player player, MazeStats stats) {
 		Player friend = player.getFriend();
 		if (friend != null) {
 			stats.setTimerRelative(friend.getPlayerNum(), value);

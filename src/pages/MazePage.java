@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 import javax.swing.*;
 
 import maze.Maze;
-import maze.MazeOptions;
+import maze.MazeStats;
 import maze.modification.*;
 
 
@@ -28,10 +28,13 @@ public class MazePage extends Page implements KeyListener{
     private static final int KEY_UNPRESSED = 0;
 
 	private JPanel sidePanel;
+	private JLabel timeLeft1;
+	private JLabel timeLeft2;
+	
 	public volatile Result result;
 	public AtomicIntegerArray pressedKeys;
 	
-	private MazeOptions stats;
+	private MazeStats mazeInfo;
 	
 	// in mainPanel will be a mazePanel where the maze game will be shown
 	// and sidebarPanel on the right 
@@ -42,6 +45,8 @@ public class MazePage extends Page implements KeyListener{
 
 		result = null;
 
+        mazeInfo = new MazeStats(2, 100);
+		
 		GridBagConstraints c = new GridBagConstraints();
         sidePanel = new JPanel();
         sidePanel.setLayout(new GridLayout(5, 1));
@@ -49,16 +54,12 @@ public class MazePage extends Page implements KeyListener{
 		c.weightx = 0.25;
 		add(sidePanel, c);
 		
-		JLabel mazeTitle = new JLabel("MAZE", JLabel.CENTER);
-		
-		sidePanel.add(mazeTitle);
-		
-		addReturnButton();
+		drawSidebar();
 		
 		addKeyListener(this);
 		pressedKeys = new AtomicIntegerArray(256);
 		
-		stats = null;
+
 	}
 
 	public MazePage.Result run() {
@@ -84,9 +85,9 @@ public class MazePage extends Page implements KeyListener{
 		mods.add(new ClockMod(5));
  		mods.add(new ShiftingWallsMod(10, 8));
 		
-		stats = new MazeOptions(2, 100);
+		mazeInfo = new MazeStats(2, 100);
 		
-		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, stats, mods);
+		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, mazeInfo, mods);
 		add(maze, c);
 		validate();
 		
@@ -99,6 +100,13 @@ public class MazePage extends Page implements KeyListener{
         actionLoop.scheduleAtFixedRate(new TimerTask() {
         	@Override
         	public void run() {
+        	    
+        	    mazeInfo.setTimer(1, mazeInfo.getTimer(1) - 1);
+        	    if (mazeInfo.getNumPlayers() > 1) {
+        	        mazeInfo.setTimer(2, mazeInfo.getTimer(2) - 1);
+        	    }
+        	    updateTimers();
+        	    
                 if (pressedKeys.get(KeyEvent.VK_LEFT) == KEY_PRESSED) {
                     maze.movePlayer(1, Maze.Direction.WEST);
                 }
@@ -144,18 +152,36 @@ public class MazePage extends Page implements KeyListener{
 		return result;
 	}
 	
-	private void addReturnButton() {		
-        JButton returnBut = Components.makeButton("return");
-        returnBut.setForeground(Color.BLACK);
-        returnBut.addActionListener(new ActionListener() {
+	private void updateTimers() {
+	    timeLeft1.setText("Player1: " + mazeInfo.getTimer(1));
+        if (mazeInfo.getNumPlayers() > 1) {
+            timeLeft2.setText("Player2: " + mazeInfo.getTimer(2));
+        }
+	}
+	
+    private void drawSidebar() {
+        JLabel mazeTitle = new JLabel("MAZE", JLabel.CENTER);
+        sidePanel.add(mazeTitle);
+
+        timeLeft1 = new JLabel("Player1: ", JLabel.CENTER);
+        sidePanel.add(timeLeft1);
+        
+        if (mazeInfo.getNumPlayers() > 1) {
+            timeLeft2 = new JLabel("Player2: ", JLabel.CENTER);
+            sidePanel.add(timeLeft2);
+        }
+        
+        JButton returnButton = Components.makeButton("return");
+        returnButton.setForeground(Color.BLACK);
+        returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	System.out.println("return to main menu");
-            	result = Result.RETURN_HOME;
+                System.out.println("return to main menu");
+                result = Result.RETURN_HOME;
             }
         });
-		
-		sidePanel.add(returnBut);
-	}
+        sidePanel.add(returnButton);
+    }
+	
 
     @Override
     public void keyPressed(KeyEvent e) {
