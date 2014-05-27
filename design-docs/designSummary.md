@@ -87,15 +87,15 @@ Non-base functionality that varies with difficulty level
 - MobileObjects
     *  [Enemies]
 
-
 Stuff done
------------
+----------
 0. Multiple buttons + co-op buttons: Davy
+1. Level completion: Leo
 2. Compile and run scripts: Davy
+
 
 Stuff to do
 -----------
-1. Level completion: Leo
 3. Colour tuning: Andy
 4. Sprites + fix sprite size + sprite animations: Torches, clocks, player + walls: Andy
 4. Page backgrounds + move to Page: Nara

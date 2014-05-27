@@ -10,6 +10,8 @@
 
 <p>The Page class is an abstract class that other Pages will extend. The constructor will accept a JFrame as a parameter that all GUI elements can be packed into.</p>
 
+<p>Generally each Page will have a constructor, which will set up all required page elements, and a run() function, which fills the Frame with the Page and assumes control until the termination of the page. At the termination of the page, the Page will return an exit code defined in an enumeration within the Page. </p>
+
 <h2>HomePage extends Page</h2>
 
 <p>The HomePage is the main menu screen, where the user can navigate to the other </p>
@@ -48,7 +50,7 @@
 
 <h2>TileObject</h2>
 
-<p>An object can be shown on an empty Tile. Each TileObject is initialised with a reference to an image file in the resources directory, indicating what image should be displayed for the given object.</p>
+<p>An object can be shown on an empty Tile. Each TileObject is initialised with a reference to an image file in the resources directory. The Tile contains the TileObject</p>
 
 <h2>MobileObject</h2>
 
@@ -61,30 +63,56 @@
 <h2>Non-base functionality to design later</h2>
 
 <ul>
-<li>Page transitions</li>
+<li>[Page transitions]</li>
 <li>Background images for the pages</li>
-<li>Walking on the main menu</li>
-<li>Instructions for each level</li>
+<li>Instructions for each feature</li>
+<li>Level select</li>
+<li>Co-op [versus/versus AI]</li>
 </ul>
 
 <p>Non-base functionality that varies with difficulty level</p>
 
 <ul>
-<li>Time limits (planning + solving) and high scores</li>
-<li>Hints and other assistance</li>
+<li>Time limits (solving) and high scores</li>
+<li>[Hints and other assistance]</li>
 <li>TileObjects
 <ul>
-<li>Portals</li>
-<li>Switches/Doors</li>
-<li>Treasure</li>
-<li>Extra time item</li>
+<li>[Portals]</li>
+<li>[Switches/Doors]</li>
+<li>Treasure: extra time item</li>
 <li>Movement speed item</li>
-<li>Move back in time item</li>
-<li>Transparent walls, moving walls</li>
-<li>Fog of war/line of sight</li>
+<li>Moving walls</li>
+<li>Fog of war</li>
 </ul></li>
 <li>MobileObjects
 <ul>
-<li>Enemies</li>
+<li>[Enemies]</li>
 </ul></li>
 </ul>
+
+<h2>Stuff done</h2>
+
+<ol>
+<li>Multiple buttons + co-op buttons: Davy</li>
+<li>Level completion: Leo</li>
+<li>Compile and run scripts: Davy</li>
+</ol>
+
+<h2>Stuff to do</h2>
+
+<ol>
+<li>Colour tuning: Andy</li>
+<li>Sprites + fix sprite size + sprite animations: Torches, clocks, player + walls: Andy</li>
+<li>Page backgrounds + move to Page: Nara</li>
+<li>Instructions: Nara</li>
+<li>Implement timer on MazePage: Davy</li>
+<li>Establish the difficulty and feature count for each level: Leo</li>
+<li>MazeStats: Leo</li>
+<li>Figure out GameOptions: Davy</li>
+<li>SettingsPage: Davy</li>
+<li>Co-op mode: Leo</li>
+<li>Update UML: Davy</li>
+</ol>
+
+<p>Sprite colour: Andy
+Make threads safe: Leo/Davy</p>
