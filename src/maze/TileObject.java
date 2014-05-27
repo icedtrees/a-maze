@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 public interface TileObject {
 	
-	public void interact(Player player);
+	public boolean interact(Player player, MazeStats stats);
 	
 	public void draw(Graphics g, int tileSize);
 

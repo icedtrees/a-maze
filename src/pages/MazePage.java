@@ -12,10 +12,11 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 import javax.swing.*;
 
 import maze.Maze;
-import maze.modification.FogOfWar;
+import maze.MazeStats;
+import maze.modification.FogMod;
 import maze.modification.Modification;
 import maze.modification.ShiftingWallsMod;
-import maze.modification.TreasureMod;
+import maze.modification.ClockMod;
 
 
 public class MazePage extends Page implements KeyListener{
@@ -32,6 +33,8 @@ public class MazePage extends Page implements KeyListener{
 	private JPanel sidePanel;
 	public volatile Result result;
 	public AtomicIntegerArray pressedKeys;
+	
+	private MazeStats stats;
 	
 	// in mainPanel will be a mazePanel where the maze game will be shown
 	// and sidebarPanel on the right 
@@ -57,6 +60,8 @@ public class MazePage extends Page implements KeyListener{
 		
 		addKeyListener(this);
 		pressedKeys = new AtomicIntegerArray(256);
+		
+		stats = null;
 	}
 
 	public MazePage.Result run() {
@@ -76,7 +81,15 @@ public class MazePage extends Page implements KeyListener{
     	int mazeHeight = 5 + ((difficulty*3)/10);
     	int straightness = 900 - ((difficulty % 10) * 100);
     	int branching = 93 - ((difficulty % 10) * 10);
-		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, 2);
+    	
+    	java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
+		mods.add(new FogMod(4, 4));
+		mods.add(new ClockMod(5));
+//		mods.add(new ShiftingWallsMod(10, 8));
+		
+		stats = new MazeStats(2, 100);
+		
+		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, stats, mods);
 		add(maze, c);
 		validate();
 		
@@ -117,15 +130,6 @@ public class MazePage extends Page implements KeyListener{
         	    SwingUtilities.getWindowAncestor(mazePage).repaint();
         	}
         }, 1000/Game.settings.FPS, 1000/Game.settings.FPS);
-		
-        // TODO this takes a long time - third argument is delay
- 		// You can set it to 0 or remove it entirely if you want
- 		maze.genMazeDFSBranch();
- 		java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
-		mods.add(new FogOfWar(2, 3));
-		mods.add(new TreasureMod(5));
-//		mods.add(new ShiftingWallsMod(10, 8));
-		maze.applyMods(mods);
         
 		while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?

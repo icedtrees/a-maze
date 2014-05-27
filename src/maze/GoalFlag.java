@@ -15,9 +15,15 @@ public class GoalFlag implements TileObject {
 	}
 
 	@Override
-	public void interact(Player player) {
+	public boolean interact(Player player, MazeStats stats) {
 		// TODO Auto-generated method stub
-		System.out.println("Game finished!");
+		if (player == expectedPlayer) {
+			stats.setPlayerFinished(player.getPlayerNum(), true);
+			System.out.println("Game finished!");
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override

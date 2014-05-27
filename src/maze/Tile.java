@@ -141,10 +141,11 @@ public class Tile {
     	shifting = dir;
     }
     
-    public void interact(Player player) {
+    public void interact(Player player, MazeStats stats) {
     	if (contents != null) {
-    		contents.interact(player);
-    		contents = null;
+    		if (contents.interact(player, stats)) {
+    			contents = null;
+    		}
     	}
     	if (Game.settings.leaveTrail) {
     		this.value = EXPLORED;

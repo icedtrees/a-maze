@@ -4,16 +4,20 @@ import java.util.Random;
 
 import maze.Maze;
 
-public class TreasureMod implements Modification {
-	private int numTreasure;
+public class FogMod implements Modification {
+	private int defaultVision;
+	private int numTorches;
 	
-	public TreasureMod(int numTreasure) {
-		this.numTreasure = numTreasure;
+	public FogMod(int defaultVision, int numTorches) {
+		this.defaultVision = defaultVision;
+		this.numTorches = numTorches;
 	}
 
 	@Override
 	public void apply(Maze maze, Random rand) {
-		for (int i = 0; i < numTreasure; i++) {
+		maze.setFogOfWar(true, defaultVision);
+		
+		for (int i = 0; i < numTorches; i++) {
 			int x;
 			int y;
 			boolean validSpot = false;
@@ -22,7 +26,7 @@ public class TreasureMod implements Modification {
 				y = rand.nextInt(maze.getMazeHeight());
 				if (maze.isSpace(x, y) && !maze.hasTileObject(x, y)) {
 					validSpot = true;
-					maze.setTileObject(x, y, new Treasure(100));
+					maze.setTileObject(x, y, new Torch());
 				}
 			}
 		}
