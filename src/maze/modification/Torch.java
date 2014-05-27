@@ -13,7 +13,7 @@ public class Torch implements TileObject {
 	}
 	
 	@Override
-	public void interact(Player player) {
+	public boolean interact(Player player) {
 		Player friend = player.getFriend();
 		if (friend != null) {
 			friend.setVision(friend.getVision() + 5);
@@ -22,6 +22,8 @@ public class Torch implements TileObject {
 			player.setVision(player.getVision() + 5);
 			System.out.println("Player got torch!");
 		}
+		
+		return true;
 	}
 
 	@Override

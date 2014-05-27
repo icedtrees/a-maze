@@ -143,8 +143,9 @@ public class Tile {
     
     public void interact(Player player) {
     	if (contents != null) {
-    		contents.interact(player);
-    		contents = null;
+    		if (contents.interact(player)) {
+    			contents = null;
+    		}
     	}
     	if (Game.settings.leaveTrail) {
     		this.value = EXPLORED;

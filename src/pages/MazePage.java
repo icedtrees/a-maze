@@ -67,7 +67,13 @@ public class MazePage extends Page implements KeyListener{
     	int mazeHeight = 5 + ((difficulty*3)/10);
     	int straightness = 900 - ((difficulty % 10) * 100);
     	int branching = 93 - ((difficulty % 10) * 10);
-		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, 2);
+    	
+    	java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
+		mods.add(new FogOfWar(4, 4));
+		mods.add(new TreasureMod(5));
+//		mods.add(new ShiftingWallsMod(10, 8));
+		
+		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, 2, mods);
 		add(maze, c);
 		validate();
 		
@@ -87,15 +93,6 @@ public class MazePage extends Page implements KeyListener{
         	    SwingUtilities.getWindowAncestor(mazePage).repaint();
         	}
         }, 1000/Game.settings.FPS, 1000/Game.settings.FPS);
-		
-        // TODO this takes a long time - third argument is delay
- 		// You can set it to 0 or remove it entirely if you want
- 		maze.genMazeDFSBranch();
- 		java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
-		mods.add(new FogOfWar(2, 3));
-		mods.add(new TreasureMod(5));
-//		mods.add(new ShiftingWallsMod(10, 8));
-		maze.applyMods(mods);
         
 		while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?

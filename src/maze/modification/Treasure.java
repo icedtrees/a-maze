@@ -14,13 +14,15 @@ public class Treasure implements TileObject {
 	}
 
 	@Override
-	public void interact(Player player) {
+	public boolean interact(Player player) {
 		Player friend = player.getFriend();
 		if (friend != null) {
 			System.out.println("Player got treasure for friend worth " + value);
 		} else {
 			System.out.println("Player got treasure worth " + value);
 		}
+		
+		return true;
 	}
 
 	@Override
