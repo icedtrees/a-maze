@@ -122,6 +122,32 @@ public class Maze extends JComponent {
     public int getMazeHeight() {
         return mazeHeight;
     }
+    public boolean hasTileObject(int x, int y) {
+    	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
+    		return true;
+    	}
+    	return tiles[x][y].hasContents();
+    }
+    public void setTileObject(int x, int y, TileObject obj) {
+    	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
+    		return;
+    	}
+    	tiles[x][y].setContents(obj);
+    }
+    public void setFogOfWar(boolean on, int vision) {
+    	fogOfWar = on;
+    	if (player1 != null) {
+    		player1.setVision(vision);
+    	}
+    	if (player2 != null) {
+    		player2.setVision(vision);
+    	}
+    }
+    public void applyMods(List<Modification> mods) {
+    	for (Modification mod : mods) {
+    		mod.apply(this, rand);
+    	}
+    }
     
     @Override
     public String toString() {
@@ -365,7 +391,7 @@ public class Maze extends JComponent {
     	}
     	
     	// TODO tile interaction
-//    	tiles[player.getRealX()][player.getRealY()].interact(player);
+    	tiles[player1.getRealX()][player1.getRealY()].interact(player1);
     }
     
     public boolean isSpace(int x, int y) {
