@@ -35,12 +35,10 @@ public class Maze extends JComponent {
     private Tile[][] tiles;
     private int mazeWidth;
     private int mazeHeight;
-    
     private int straightness;
     private int branching;
     
     private boolean fogOfWar;
-    
     private boolean shiftingWalls;
     private int wallsToShift;
     private int stepsTaken;
@@ -50,6 +48,8 @@ public class Maze extends JComponent {
     private Player player2;
     private Coord player1Last;
     private Coord player2Last;
+    
+    private MazeStats stats;
     
     public enum Direction {
     	NORTH(0, -1),
@@ -86,20 +86,20 @@ public class Maze extends JComponent {
     
     public Maze(int newHeight, int displayHeight,
     		int straightness, int branching,
-    		int numPlayers, List<Modification> mods) {
+    		MazeStats stats, List<Modification> mods) {
         this(newHeight, displayHeight, straightness, branching,
-        		numPlayers, mods, System.nanoTime());
+        		stats, mods, System.nanoTime());
     }
     public Maze(int newHeight, int displayHeight,
-    		int straightness, int branching, int numPlayers,
+    		int straightness, int branching, MazeStats stats,
     		List<Modification> mods, long seed) {
     	this((int) (newHeight * DEFAULT_RATIO), newHeight,
                 (int) (displayHeight * DEFAULT_RATIO), displayHeight,
-                straightness, branching, numPlayers, mods, seed);
+                straightness, branching, stats, mods, seed);
     }
     public Maze(int newWidth, int newHeight,
             int displayWidth, int displayHeight,
-            int straightness, int branching, int numPlayers,
+            int straightness, int branching, MazeStats stats,
             List<Modification> mods, long seed) {
         mazeWidth = 2 * newWidth + 1;
         mazeHeight = 2 * newHeight + 1;
@@ -118,12 +118,14 @@ public class Maze extends JComponent {
         
         player1 = null;
     	player2 = null;
+    	this.stats = stats;
+    	int numPlayers = stats.getNumPlayers();
     	if (numPlayers >= 1) {
-    		player1 = new Player(1, 0, Color.RED);
+    		player1 = new Player(1, 1, 0, Color.RED);
     		player1Last = new Coord(1, 0);
     	}
     	if (numPlayers >= 2) {
-    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE);
+    		player2 = new Player(2, mazeWidth - 2, mazeHeight - 1, Color.BLUE);
     		player2Last = new Coord(mazeWidth - 2, mazeHeight - 1);
     		
     		player1.setFriend(player2);
@@ -437,7 +439,7 @@ public class Maze extends JComponent {
     	
     	if (player1.getRealX() != player1Last.getX() || player1.getRealY() != player1Last.getY()) {
     		// Player has moved since we last saw
-    		tiles[player1.getRealX()][player1.getRealY()].interact(player1);
+    		tiles[player1.getRealX()][player1.getRealY()].interact(player1, stats);
     		player1Last = new Coord(player1.getRealX(), player1.getRealY());
     		
     		if (shiftingWalls) {
@@ -450,7 +452,7 @@ public class Maze extends JComponent {
     	}
     	if (player2.getRealX() != player2Last.getX() || player2.getRealY() != player2Last.getY()) {
     		// Player has moved since we last saw
-    		tiles[player2.getRealX()][player2.getRealY()].interact(player2);
+    		tiles[player2.getRealX()][player2.getRealY()].interact(player2, stats);
     		player2Last = new Coord(player2.getRealX(), player2.getRealY());
     		
     		if (shiftingWalls) {

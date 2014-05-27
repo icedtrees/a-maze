@@ -3,11 +3,13 @@ package maze;
 import java.awt.Color;
 
 public class Player extends MobileObject {
+	private int playerNum;
 	private int vision;
 	private Player friend;
 	
-	public Player(int startX, int startY, Color color) {
+	public Player(int playerNum, int startX, int startY, Color color) {
 		super(color, 5, startX, startY);
+		this.playerNum = playerNum;
 	}
 	
 	public int getVision() {
@@ -21,5 +23,8 @@ public class Player extends MobileObject {
 	}
 	public Player getFriend() {
 		return friend;
+	}
+	public int getPlayerNum() {
+		return playerNum;
 	}
 }

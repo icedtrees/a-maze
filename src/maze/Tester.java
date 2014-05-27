@@ -27,7 +27,7 @@ public class Tester {
     	int mazeHeight = 5 + ((difficulty*3)/10);
     	int straightness = 900 - ((difficulty % 10) * 100);
     	int branching = 93 - ((difficulty % 10) * 10);
-        final Maze maze1 = new Maze(mazeHeight, windowHeight, straightness, branching, 1, null);
+        final Maze maze1 = new Maze(mazeHeight, windowHeight, straightness, branching, null, null);
         c.gridx = 0;
         c.gridy = 0;
         f.add(maze1, c);
@@ -36,7 +36,7 @@ public class Tester {
     	mazeHeight = 5 + ((difficulty*3)/10);
     	straightness = 900 - ((difficulty % 10) * 100);
     	branching = 93 - ((difficulty % 10) * 10);
-        final Maze maze2 = new Maze(mazeHeight, windowHeight, straightness, branching, 1, null);
+        final Maze maze2 = new Maze(mazeHeight, windowHeight, straightness, branching, null, null);
         c.gridx = 1;
         c.gridy = 0;
         f.add(maze2, c);
@@ -45,7 +45,7 @@ public class Tester {
     	mazeHeight = 5 + ((difficulty*3)/10);
     	straightness = 900 - ((difficulty % 10) * 100);
     	branching = 93 - ((difficulty % 10) * 10);
-        final Maze maze3 = new Maze(mazeHeight, windowHeight, straightness, branching, 1, null);
+        final Maze maze3 = new Maze(mazeHeight, windowHeight, straightness, branching, null, null);
         c.gridx = 0;
         c.gridy = 1;
         f.add(maze3, c);
@@ -54,7 +54,7 @@ public class Tester {
     	mazeHeight = 5 + ((difficulty*3)/10);
     	straightness = 900 - ((difficulty % 10) * 100);
     	branching = 93 - ((difficulty % 10) * 10);
-        final Maze maze4 = new Maze(mazeHeight, windowHeight, straightness, branching, 1, null);
+        final Maze maze4 = new Maze(mazeHeight, windowHeight, straightness, branching, null, null);
         c.gridx = 1;
         c.gridy = 1;
         f.add(maze4, c);

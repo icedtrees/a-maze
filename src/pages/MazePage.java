@@ -11,6 +11,7 @@ import java.util.TimerTask;
 import javax.swing.*;
 
 import maze.Maze;
+import maze.MazeStats;
 import maze.modification.FogOfWar;
 import maze.modification.Modification;
 import maze.modification.ShiftingWallsMod;
@@ -26,6 +27,8 @@ public class MazePage extends Page implements KeyListener{
 	private JPanel sidePanel;
 	public volatile Result result;
 	public volatile Maze.Direction currentPress;
+	
+	private MazeStats stats;
 	
 	// in mainPanel will be a mazePanel where the maze game will be shown
 	// and sidebarPanel on the right 
@@ -51,6 +54,8 @@ public class MazePage extends Page implements KeyListener{
 		
 		addKeyListener(this);
 		currentPress = null;
+		
+		stats = null;
 	}
 
 	public MazePage.Result run() {
@@ -73,7 +78,9 @@ public class MazePage extends Page implements KeyListener{
 		mods.add(new TreasureMod(5));
 //		mods.add(new ShiftingWallsMod(10, 8));
 		
-		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, 2, mods);
+		stats = new MazeStats(2, 100);
+		
+		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, stats, mods);
 		add(maze, c);
 		validate();
 		
