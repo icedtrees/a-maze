@@ -42,7 +42,8 @@ public class SettingsPage extends Page {
 		
 		//content.setSize(new Dimension(400, 400));
 		add(content, c);
-		JLabel text = new JLabel("Select your desired resolution:", JLabel.CENTER);
+		JLabel text = Components.makeText("Select your desired resolution:", 20);
+		text.setAlignmentX(JLabel.CENTER);
         content.add(text);
         JRadioButton resolution1 = new JRadioButton("1600 by 900");
         JRadioButton resolution2 = new JRadioButton("1280 by 720");
@@ -53,24 +54,25 @@ public class SettingsPage extends Page {
         pickResolution.add(resolution1);
 		resolution1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("change resolution to res1");
 				result = Result.RESOLUTION_ONE;
 			}
 		});
         pickResolution.add(defaultRes);
 		defaultRes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("change resolution to default");
 				result = Result.DEFAULTRESOLUTION;
 			}
 		});
         pickResolution.add(resolution2);
 		resolution2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("change resolution to res2");
 				result = Result.RESOLUTION_TWO;
 			}
 		});
+		
+        resolution1.setForeground(Color.WHITE);
+        resolution2.setForeground(Color.WHITE);
+        defaultRes.setForeground(Color.WHITE);
   
         content.add(resolution1);
         content.add(resolution2);
@@ -95,7 +97,6 @@ public class SettingsPage extends Page {
 				e.printStackTrace();
 			}
     	}
-    	System.out.println("setting's result is " + result);
 		return result;
 	}
 	
@@ -106,7 +107,6 @@ public class SettingsPage extends Page {
         JButton returnBut = Components.makeButton("return");
         returnBut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	System.out.println("return to main menu");
             	result = Result.RETURN_HOME;
             }
         });

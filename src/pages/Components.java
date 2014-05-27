@@ -35,6 +35,14 @@ public class Components {
         return titleLabel;
     }
     
+    public static JLabel makeText(String string, int fontSize) {
+        JLabel titleLabel = new JLabel(string, JLabel.CENTER);
+        Font font = titleLabel.getFont();
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(new Font(font.getName(), Font.PLAIN, fontSize));
+        return titleLabel;
+    }
+    
     public static JPanel makePanel() {
     	JPanel panel = new JPanel();
     	panel.setOpaque(false);
