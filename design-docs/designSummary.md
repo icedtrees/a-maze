@@ -87,9 +87,14 @@ Non-base functionality that varies with difficulty level
 - MobileObjects
     *  [Enemies]
 
+
+Stuff done
+-----------
+
+
 Stuff to do
 -----------
-0. Multiple buttons + co-op functionality
+0. Multiple buttons + co-op buttons: Davy
 1. Level completion: Leo
 2. Compile and run scripts: Davy
 3. Colour tuning: Andy
@@ -102,5 +107,7 @@ Stuff to do
 9. Figure out GameOptions: Davy
 10. SettingsPage: Davy
 11. Co-op mode: Leo
+12. Update UML: Davy
 
 Sprite colour: Andy
+Make threads safe: Leo/Davy
