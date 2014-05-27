@@ -92,7 +92,8 @@ Stuff done
 0. Multiple buttons + co-op buttons: Davy
 1. Level completion: Leo
 2. Compile and run scripts: Davy
-
+6. Implement timer on MazePage: Davy
+9. GameStats: Leo
 
 Stuff to do
 -----------
@@ -100,10 +101,8 @@ Stuff to do
 4. Sprites + fix sprite size + sprite animations: Torches, clocks, player + walls: Andy
 4. Page backgrounds + move to Page: Nara
 5. Instructions: Nara
-6. Implement timer on MazePage: Davy
 7. Establish the difficulty and feature count for each level: Leo
 8. MazeStats: Leo
-9. Figure out GameOptions: Davy
 10. SettingsPage: Davy
 11. Co-op mode: Leo
 12. Update UML: Davy
