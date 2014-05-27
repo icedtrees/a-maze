@@ -7,10 +7,10 @@ import maze.MazeStats;
 import maze.Player;
 import maze.TileObject;
 
-public class Treasure implements TileObject {
+public class Clock implements TileObject {
 	private int value;
 	
-	public Treasure(int value) {
+	public Clock(int value) {
 		this.value = value;
 	}
 

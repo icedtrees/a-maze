@@ -4,20 +4,16 @@ import java.util.Random;
 
 import maze.Maze;
 
-public class FogOfWar implements Modification {
-	private int defaultVision;
-	private int numTorches;
+public class ClockMod implements Modification {
+	private int numTreasure;
 	
-	public FogOfWar(int defaultVision, int numTorches) {
-		this.defaultVision = defaultVision;
-		this.numTorches = numTorches;
+	public ClockMod(int numTreasure) {
+		this.numTreasure = numTreasure;
 	}
 
 	@Override
 	public void apply(Maze maze, Random rand) {
-		maze.setFogOfWar(true, defaultVision);
-		
-		for (int i = 0; i < numTorches; i++) {
+		for (int i = 0; i < numTreasure; i++) {
 			int x;
 			int y;
 			boolean validSpot = false;
@@ -26,7 +22,7 @@ public class FogOfWar implements Modification {
 				y = rand.nextInt(maze.getMazeHeight());
 				if (maze.isSpace(x, y) && !maze.hasTileObject(x, y)) {
 					validSpot = true;
-					maze.setTileObject(x, y, new Torch());
+					maze.setTileObject(x, y, new Clock(100));
 				}
 			}
 		}

@@ -12,10 +12,10 @@ import javax.swing.*;
 
 import maze.Maze;
 import maze.MazeStats;
-import maze.modification.FogOfWar;
+import maze.modification.FogMod;
 import maze.modification.Modification;
 import maze.modification.ShiftingWallsMod;
-import maze.modification.TreasureMod;
+import maze.modification.ClockMod;
 
 
 public class MazePage extends Page implements KeyListener{
@@ -74,8 +74,8 @@ public class MazePage extends Page implements KeyListener{
     	int branching = 93 - ((difficulty % 10) * 10);
     	
     	java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
-		mods.add(new FogOfWar(4, 4));
-		mods.add(new TreasureMod(5));
+		mods.add(new FogMod(4, 4));
+		mods.add(new ClockMod(5));
 //		mods.add(new ShiftingWallsMod(10, 8));
 		
 		stats = new MazeStats(2, 100);
