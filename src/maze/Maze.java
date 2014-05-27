@@ -402,7 +402,11 @@ public class Maze extends JComponent {
     	if (player == null || dir == null) {
     		return false;
     	}
-    	if (isSpace(player.getGoalX() + dir.dx(), player.getGoalY() + dir.dy())) {
+    	int x = player.getGoalX() + dir.dx();
+    	int y = player.getGoalY() + dir.dy();
+    	int friendX = player.getFriend().getGoalX();
+    	int friendY = player.getFriend().getGoalY();
+    	if (isSpace(x, y) && !(x == friendX && y == friendY)) {
     		return player.move(dir);
     	} else {
     		return false;
@@ -419,7 +423,11 @@ public class Maze extends JComponent {
     	if (dir == null) {
     		return;
     	}
-    	if (isSpace(player.getGoalX() + dir.dx(), player.getGoalY() + dir.dy())) {
+    	int x = player.getGoalX() + dir.dx();
+    	int y = player.getGoalY() + dir.dy();
+    	int friendX = player.getFriend().getGoalX();
+    	int friendY = player.getFriend().getGoalY();
+    	if (isSpace(x, y) && !(x == friendX && y == friendY)) {
     		player.moveWait(dir);
     	}
     }
