@@ -1,8 +1,6 @@
 package game;
 
 import java.awt.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.swing.*;
 

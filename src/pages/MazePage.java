@@ -80,8 +80,11 @@ public class MazePage extends Page implements KeyListener{
         actionLoop.scheduleAtFixedRate(new TimerTask() {
         	@Override
         	public void run() {
+                if (currentPress != null) {
+                    maze.movePlayer(1, currentPress);
+                }
+        	    maze.nextFrame();
         	    SwingUtilities.getWindowAncestor(mazePage).repaint();
-        		maze.nextFrame();
         	}
         }, 1000/Game.settings.FPS, 1000/Game.settings.FPS);
 		
@@ -97,7 +100,7 @@ public class MazePage extends Page implements KeyListener{
 		while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
     		try {
-				Thread.sleep(50);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
