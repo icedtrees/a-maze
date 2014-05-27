@@ -67,26 +67,40 @@ The MazeOverlay allows additional overlays to be drawn on top of the maze, and
 
 Non-base functionality to design later
 --------------------------------------
--   Page transitions
+-   [Page transitions]
 -   Background images for the pages
--   Walking on the main menu
--   Instructions for each level
--   Racing against an AI
+-   Instructions for each feature
+-   Level select
+-   Co-op [versus/versus AI]
 
 Non-base functionality that varies with difficulty level
 
--   Time limits (planning + solving) and high scores
--   Hints and other assistance
+-   Time limits (solving) and high scores
+-   [Hints and other assistance]
 -   TileObjects
-    *   Portals
-    *   Switches/Doors
-    *   Treasure
-    *   Extra time item
+    *   [Portals]
+    *   [Switches/Doors]
+    *   Treasure: extra time item
     *   Movement speed item
-    *   Move back in time item
-    *   Transparent walls, moving walls
-    *   Fog of war/line of sight
+    *   Moving walls
+    *   Fog of war
 - MobileObjects
-    *   Enemies
+    *  [Enemies]
 
+Stuff to do
+-----------
+0. Multiple buttons + co-op functionality
+1. Level completion: Leo
+2. Compile and run scripts: Davy
+3. Colour tuning: Andy
+4. Sprites + fix sprite size + sprite animations: Torches, clocks, player + walls: Andy
+4. Page backgrounds + move to Page: Nara
+5. Instructions: Nara
+6. Implement timer on MazePage: Davy
+7. Establish the difficulty and feature count for each level: Leo
+8. MazeStats: Leo
+9. Figure out GameOptions: Davy
+10. SettingsPage: Davy
+11. Co-op mode: Leo
 
+Sprite colour: Andy
