@@ -85,7 +85,7 @@ public class MazePage extends Page implements KeyListener{
     	java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
 		mods.add(new FogMod(4, 4));
 		mods.add(new ClockMod(5));
-//		mods.add(new ShiftingWallsMod(10, 8));
+ 		mods.add(new ShiftingWallsMod(10, 8));
 		
 		stats = new MazeStats(2, 100);
 		
@@ -134,7 +134,7 @@ public class MazePage extends Page implements KeyListener{
 		while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?
     		try {
-				Thread.sleep(1);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

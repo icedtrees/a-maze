@@ -1,1 +1,2 @@
-java bin/game/Game
+#! /bin/sh
+java -cp "$CLASSPATH:./bin/" Game

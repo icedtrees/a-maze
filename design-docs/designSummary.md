@@ -90,13 +90,12 @@ Non-base functionality that varies with difficulty level
 
 Stuff done
 -----------
-
+0. Multiple buttons + co-op buttons: Davy
+2. Compile and run scripts: Davy
 
 Stuff to do
 -----------
-0. Multiple buttons + co-op buttons: Davy
 1. Level completion: Leo
-2. Compile and run scripts: Davy
 3. Colour tuning: Andy
 4. Sprites + fix sprite size + sprite animations: Torches, clocks, player + walls: Andy
 4. Page backgrounds + move to Page: Nara
