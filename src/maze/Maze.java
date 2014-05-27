@@ -6,7 +6,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.PathIterator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -200,6 +202,33 @@ public class Maze extends JComponent {
         return mazeString;
     }
     
+    private void drawPath(Graphics g, PathIterator path, Color color) {
+    	g.setColor(color);
+    	double[] coords = new double[6];
+		double prevX = 0;
+    	double prevY = 0;
+    	double prevMOVETOX = 0;
+    	double prevMOVETOY = 0;
+    	while (!path.isDone()) {
+    		int type = path.currentSegment(coords);
+    		if (type == PathIterator.SEG_LINETO) { 
+    			g.drawLine((int) prevX, (int) prevY, (int) coords[0], (int) coords[1]);
+    			prevX = coords[0];
+        		prevY = coords[1];
+    		} else if (type == PathIterator.SEG_CLOSE) {
+    			g.drawLine((int) prevX, (int) prevY, (int) prevMOVETOX, (int) prevMOVETOY);
+    			prevX = prevMOVETOX;
+        		prevY = prevMOVETOY;
+    		} else if (type == PathIterator.SEG_MOVETO) {
+    			prevMOVETOX = coords[0];
+    			prevMOVETOY = coords[1];
+    			prevX = coords[0];
+        		prevY = coords[1];
+    		}
+    		path.next();
+    	}
+    }
+    
     @Override
     public void paintComponent(Graphics g) {
     	/*
@@ -226,23 +255,27 @@ public class Maze extends JComponent {
     	 */
     	
     	// Set clipping if there is fog of war
+    	Rectangle p1Fog = null;
+    	Rectangle p2Fog = null;
     	if (fogOfWar) {
+    		Area fogClip = new Area();
     		g.setColor(Color.GRAY);
     		g.fillRect(xMargin, yMargin, mazeWidth * tileSize, mazeHeight * tileSize);
-	    	Area fogClip = new Area();
 	    	if (player1 != null) {
 	    		int vision = player1.getVision();
 	    		int x = (int) (((player1.getCurX() - vision) * tileSize) + xMargin);
 	    		int y = (int) (((player1.getCurY() - vision) * tileSize) + yMargin);
 	    		
-	    		fogClip.add(new Area(new Rectangle(x, y, tileSize*vision*2, tileSize*vision*2)));
+	    		p1Fog = new Rectangle(x, y, tileSize*vision*2, tileSize*vision*2);
+	    		fogClip.add(new Area(p1Fog));
 	    	}
 	    	if (player2 != null) {
 	    		int vision = player2.getVision();
 	    		int x = (int) (((player2.getCurX() - vision) * tileSize) + xMargin);
 	    		int y = (int) (((player2.getCurY() - vision) * tileSize) + yMargin);
 	    		
-	    		fogClip.add(new Area(new Rectangle(x, y, tileSize*vision*2, tileSize*vision*2)));
+	    		p2Fog = new Rectangle(x, y, tileSize*vision*2, tileSize*vision*2);
+	    		fogClip.add(new Area(p2Fog));
 	    	}
 	    	g.setClip(fogClip);
     	}
@@ -263,6 +296,27 @@ public class Maze extends JComponent {
         /*
          * Draw overlay objects such as player
          */
+        // Fog shadows
+        if (fogOfWar) {
+        	g.setClip(xMargin, yMargin, mazeWidth*tileSize, mazeHeight*tileSize);
+	        Color curColor = Color.GRAY;
+	        for (int i = 0; i < 51; i++) {
+	        	Area fogClip = new Area(p1Fog);
+	        	if (player2 != null) {
+	        		fogClip.add(new Area(p2Fog));
+	        	}
+	        	
+	        	drawPath(g, fogClip.getPathIterator(null), curColor);
+	        	curColor = new Color(curColor.getRed(), curColor.getGreen(), curColor.getBlue(), curColor.getAlpha() - 5);
+	        	
+	        	if (player1 != null) {
+	        		p1Fog = new Rectangle(p1Fog.x+1, p1Fog.y+1, p1Fog.width-2, p1Fog.height-2);
+	        	}
+	        	if (player2 != null) {
+	        		p2Fog = new Rectangle(p2Fog.x+1, p2Fog.y+1, p2Fog.width-2, p2Fog.height-2);
+	        	}
+	        }
+        }
         
         // Create localised graphics context for player to draw to
         if (player1 != null) {
