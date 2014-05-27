@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 
 import javax.swing.*;
 
@@ -18,14 +19,19 @@ import maze.modification.TreasureMod;
 
 
 public class MazePage extends Page implements KeyListener{
-	public enum Result implements Page.Result {
+    private static final long serialVersionUID = 1L;
+    public enum Result implements Page.Result {
 		
         RETURN_HOME
     };
-	private static final long serialVersionUID = 1L;
+    
+    // Status of key presses
+    private static final int KEY_PRESSED = 1;
+    private static final int KEY_UNPRESSED = 0;
+
 	private JPanel sidePanel;
 	public volatile Result result;
-	public volatile Maze.Direction currentPress;
+	public AtomicIntegerArray pressedKeys;
 	
 	// in mainPanel will be a mazePanel where the maze game will be shown
 	// and sidebarPanel on the right 
@@ -50,12 +56,15 @@ public class MazePage extends Page implements KeyListener{
 		addReturnButton();
 		
 		addKeyListener(this);
-		currentPress = null;
+		pressedKeys = new AtomicIntegerArray(256);
 	}
 
 	public MazePage.Result run() {
 	    result = null;
+	    
+	    // Start collecting keys
         this.requestFocusInWindow();
+        
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
@@ -80,8 +89,29 @@ public class MazePage extends Page implements KeyListener{
         actionLoop.scheduleAtFixedRate(new TimerTask() {
         	@Override
         	public void run() {
-                if (currentPress != null) {
-                    maze.movePlayer(1, currentPress);
+                if (pressedKeys.get(KeyEvent.VK_LEFT) == KEY_PRESSED) {
+                    maze.movePlayer(1, Maze.Direction.WEST);
+                }
+                if (pressedKeys.get(KeyEvent.VK_RIGHT) == KEY_PRESSED) {
+                    maze.movePlayer(1, Maze.Direction.EAST);
+                } 
+                if (pressedKeys.get(KeyEvent.VK_UP) == KEY_PRESSED) {
+                    maze.movePlayer(1, Maze.Direction.NORTH);
+                } 
+                if (pressedKeys.get(KeyEvent.VK_DOWN) == KEY_PRESSED) {
+                    maze.movePlayer(1, Maze.Direction.SOUTH);
+                } 
+                if (pressedKeys.get(KeyEvent.VK_A) == KEY_PRESSED) {
+                    maze.movePlayer(2, Maze.Direction.WEST);
+                } 
+                if (pressedKeys.get(KeyEvent.VK_D) == KEY_PRESSED) {
+                    maze.movePlayer(2, Maze.Direction.EAST);
+                } 
+                if (pressedKeys.get(KeyEvent.VK_W) == KEY_PRESSED) {
+                    maze.movePlayer(2, Maze.Direction.NORTH);
+                } 
+                if (pressedKeys.get(KeyEvent.VK_S) == KEY_PRESSED) {
+                    maze.movePlayer(2, Maze.Direction.SOUTH);
                 }
         	    maze.nextFrame();
         	    SwingUtilities.getWindowAncestor(mazePage).repaint();
@@ -105,11 +135,6 @@ public class MazePage extends Page implements KeyListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            if (currentPress != null) {
-                maze.movePlayer(1, currentPress);
-                SwingUtilities.getWindowAncestor(this).repaint();
-                // currentPress = null;
-            }
 		}
 		
 		remove(maze);
@@ -133,29 +158,12 @@ public class MazePage extends Page implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            currentPress = Maze.Direction.WEST;
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            currentPress = Maze.Direction.EAST;
-        } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-            currentPress = Maze.Direction.NORTH;
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            currentPress = Maze.Direction.SOUTH;
-        }
-        
+        pressedKeys.set(e.getKeyCode(), KEY_PRESSED);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_LEFT && currentPress == Maze.Direction.WEST) {
-            currentPress = null;
-        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT && currentPress == Maze.Direction.EAST) {
-            currentPress = null;
-        } else if (e.getKeyCode() == KeyEvent.VK_UP && currentPress == Maze.Direction.NORTH) {
-            currentPress = null;
-        } else if (e.getKeyCode() == KeyEvent.VK_DOWN && currentPress == Maze.Direction.SOUTH) {
-            currentPress = null;
-        }
+        pressedKeys.set(e.getKeyCode(), KEY_UNPRESSED);
     }
 
     @Override
