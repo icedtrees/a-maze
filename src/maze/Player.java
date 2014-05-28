@@ -27,6 +27,9 @@ public class Player extends MobileObject {
 	public Player getFriend() {
 		return friend;
 	}
+	public boolean hasFriend() {
+		return friend != null;
+	}
 	public int getPlayerNum() {
 		return playerNum;
 	}

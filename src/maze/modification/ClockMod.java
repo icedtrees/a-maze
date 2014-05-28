@@ -23,7 +23,7 @@ public class ClockMod implements Modification {
 				break;
 			}
 			Coord c = spaces.remove(0);
-			maze.setTileObject(c.getX(), c.getY(), new Clock(20));
+			maze.setTileObject(c.getX(), c.getY(), new Clock(10));
 		}
 	}
 

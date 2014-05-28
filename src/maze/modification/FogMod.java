@@ -27,7 +27,7 @@ public class FogMod implements Modification {
 				break;
 			}
 			Coord c = spaces.remove(0);
-			maze.setTileObject(c.getX(), c.getY(), new Torch(5));
+			maze.setTileObject(c.getX(), c.getY(), new Torch(3));
 		}
 	}
 

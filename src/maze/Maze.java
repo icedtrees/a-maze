@@ -336,7 +336,7 @@ public class Maze extends JComponent {
         if (fogOfWar) {
         	g.setClip(xMargin, yMargin, mazeWidth*tileSize, mazeHeight*tileSize);
 	        Color curColor = Color.GRAY;
-	        if (!p1Fog.intersects(p2Fog)) {
+	        if (player2 != null && !p1Fog.intersects(p2Fog)) {
     			g.drawRect(p1Fog.x, p1Fog.y, p1Fog.width, p1Fog.height);
     			g.drawRect(p2Fog.x-1, p2Fog.y-1, p2Fog.width+2, p2Fog.height+2);
     		}
@@ -502,8 +502,12 @@ public class Maze extends JComponent {
     	}
     	int x = player.getGoalX() + dir.dx();
     	int y = player.getGoalY() + dir.dy();
-    	int friendX = player.getFriend().getGoalX();
-    	int friendY = player.getFriend().getGoalY();
+    	int friendX = -1;
+    	int friendY = -1;
+    	if (player.hasFriend()) {
+	    	friendX = player.getFriend().getGoalX();
+	    	friendY = player.getFriend().getGoalY();
+    	}
     	if (isSpace(x, y) && !(x == friendX && y == friendY)) {
     		return player.move(dir);
     	} else {
@@ -543,31 +547,35 @@ public class Maze extends JComponent {
     		player2.nextFrame();
     	}
     	
-    	if (player1.getRealX() != player1Last.getX() || player1.getRealY() != player1Last.getY()) {
-    		// Player has moved since we last saw
-    		tiles[player1.getRealX()][player1.getRealY()].interact(player1, stats);
-    		player1Last = new Coord(player1.getRealX(), player1.getRealY());
-    		
-    		if (shiftingWalls) {
-				stepsTaken++;
-				if (stepsTaken == stepsToTake) {
-					shiftTiles(wallsToShift);
-					stepsTaken = 0;
-				}
-    		}
+    	if (player1 != null) {
+	    	if (player1.getRealX() != player1Last.getX() || player1.getRealY() != player1Last.getY()) {
+	    		// Player has moved since we last saw
+	    		tiles[player1.getRealX()][player1.getRealY()].interact(player1, stats);
+	    		player1Last = new Coord(player1.getRealX(), player1.getRealY());
+	    		
+	    		if (shiftingWalls) {
+					stepsTaken++;
+					if (stepsTaken == stepsToTake) {
+						shiftTiles(wallsToShift);
+						stepsTaken = 0;
+					}
+	    		}
+	    	}
     	}
-    	if (player2.getRealX() != player2Last.getX() || player2.getRealY() != player2Last.getY()) {
-    		// Player has moved since we last saw
-    		tiles[player2.getRealX()][player2.getRealY()].interact(player2, stats);
-    		player2Last = new Coord(player2.getRealX(), player2.getRealY());
-    		
-    		if (shiftingWalls) {
-				stepsTaken++;
-				if (stepsTaken == stepsToTake) {
-					shiftTiles(wallsToShift);
-					stepsTaken = 0;
-				}
-    		}
+    	if (player2 != null) {
+	    	if (player2.getRealX() != player2Last.getX() || player2.getRealY() != player2Last.getY()) {
+	    		// Player has moved since we last saw
+	    		tiles[player2.getRealX()][player2.getRealY()].interact(player2, stats);
+	    		player2Last = new Coord(player2.getRealX(), player2.getRealY());
+	    		
+	    		if (shiftingWalls) {
+					stepsTaken++;
+					if (stepsTaken == stepsToTake) {
+						shiftTiles(wallsToShift);
+						stepsTaken = 0;
+					}
+	    		}
+	    	}
     	}
     }
     
