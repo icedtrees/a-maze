@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import maze.Tile;
 import maze.Maze;
 import maze.Maze.Direction;
 

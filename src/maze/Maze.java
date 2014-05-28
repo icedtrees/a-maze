@@ -202,52 +202,6 @@ public class Maze extends JComponent {
         return mazeString;
     }
     
-    private Rectangle rectFromLine(Line2D l, int side) {
-    	if (l.getX1() == l.getX2()) {
-    		// Vertical line
-    		int topY = (int) Math.min(l.getY1(), l.getY2());
-    		int height = (int) Math.abs(l.getY1() - l.getY2());
-    		if (side == 1) {
-    			Rectangle rect = new Rectangle((int) l.getX1(), topY-1, 1, height+2);
-    			return rect;
-    		}
-    		if (side == 2) {
-    			Rectangle rect = new Rectangle((int) l.getX1() - 1, topY-1, 1, height+2);
-    			return rect;
-    		}
-    	}
-    	
-    	// Horizontal line
-    	int leftX = (int) Math.min(l.getX1(), l.getX2());
-		int length = (int) Math.abs(l.getX1() - l.getX2());
-		if (side == 1) {
-			Rectangle rect = new Rectangle(leftX-1, (int) l.getY1(), length+2, 1);
-			return rect;
-		}
-		if (side == 2) {
-			Rectangle rect = new Rectangle(leftX-1, (int) l.getY1() - 1, length+2, 1);
-			return rect;
-		}
-		System.out.println("screwed 2");
-		return null;
-    }
-    
-    private void subtractLine(Area a, Line2D l) {
-    	Rectangle lineRect = rectFromLine(l, 1);
-    	if (a.intersects(lineRect)) {
-    		a.subtract(new Area(lineRect));
-    		System.out.println(1);
-    		return;
-    	}
-    	lineRect = rectFromLine(l, 2);
-    	if (a.intersects(lineRect)) {
-    		System.out.println(2);
-    		a.subtract(new Area(lineRect));
-    		return;
-    	}
-    	System.out.println("screwed");
-    }
-    
     private void drawPath(Graphics g, Area a, Color color) {
     	g.setColor(color);
     	PathIterator path = a.getPathIterator(null);
@@ -263,7 +217,6 @@ public class Maze extends JComponent {
     			int startY = (int) prevY;
     			int endX = (int) coords[0];
     			int endY = (int) coords[1];
-//    			subtractLine(a, new Line2D.Double(startX, startY, endX, endY));
     			
     			if (coords[0] > prevX) {
     				startX++;
@@ -285,7 +238,6 @@ public class Maze extends JComponent {
     			int startY = (int) prevY;
     			int endX = (int) prevMOVETOX;
     			int endY = (int) prevMOVETOY;
-//    			subtractLine(a, new Line2D.Double(startX, startY, endX, endY));
     			
     			if (prevMOVETOX > prevX) {
     				startX++;
@@ -310,7 +262,7 @@ public class Maze extends JComponent {
     		}
     		path.next();
     	}
-    	System.out.println();
+//    	System.out.println();
     }
     
     @Override
@@ -382,7 +334,6 @@ public class Maze extends JComponent {
          */
         // Fog shadows
         if (fogOfWar) {
-        	System.out.println("LOOK HERE FIRST FOG OUTLINE");
         	g.setClip(xMargin, yMargin, mazeWidth*tileSize, mazeHeight*tileSize);
 	        Color curColor = Color.GRAY;
 	        if (!p1Fog.intersects(p2Fog)) {

@@ -2,8 +2,6 @@ package pages;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.swing.*;
 
