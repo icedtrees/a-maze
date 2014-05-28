@@ -94,13 +94,12 @@ Stuff done
 2. Compile and run scripts: Davy
 6. Implement timer on MazePage: Davy
 9. GameStats: Leo
-10.Page backgrounds + move to Page: Nara
+10.Page backgrounds + move to Page + button translucency: Nara
 
 Stuff to do
 -----------
 3. Colour tuning: Andy
 4. Sprites + fix sprite size + sprite animations: Torches, clocks, player + walls: Andy
-4. Change button opacity: Nara
 5. Instructions: Nara
 7. Establish the difficulty and feature count for each level: Leo
 8. MazeStats: Leo
