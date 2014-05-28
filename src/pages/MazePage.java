@@ -76,13 +76,13 @@ public class MazePage extends Page implements KeyListener{
 		c.weightx = 1;
 		c.weighty = 1;
 		
-		int difficulty = 39;
+		int difficulty = 19;
     	int mazeHeight = 5 + ((difficulty*3)/10);
     	int straightness = 900 - ((difficulty % 10) * 100);
     	int branching = 93 - ((difficulty % 10) * 10);
     	
     	java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
-//		mods.add(new FogMod(4, 4));
+		mods.add(new FogMod(4, 4));
 		mods.add(new ClockMod(5));
 		mods.add(new SpeedMod(5));
 // 		mods.add(new ShiftingWallsMod(1, 8));

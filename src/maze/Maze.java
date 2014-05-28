@@ -190,8 +190,55 @@ public class Maze extends JComponent {
         return mazeString;
     }
     
-    private void drawPath(Graphics g, PathIterator path, Color color) {
+    private Rectangle rectFromLine(Line2D l, int side) {
+    	if (l.getX1() == l.getX2()) {
+    		// Vertical line
+    		int topY = (int) Math.min(l.getY1(), l.getY2());
+    		int height = (int) Math.abs(l.getY1() - l.getY2());
+    		if (side == 1) {
+    			Rectangle rect = new Rectangle((int) l.getX1(), topY-1, 1, height+2);
+    			return rect;
+    		}
+    		if (side == 2) {
+    			Rectangle rect = new Rectangle((int) l.getX1() - 1, topY-1, 1, height+2);
+    			return rect;
+    		}
+    	}
+    	
+    	// Horizontal line
+    	int leftX = (int) Math.min(l.getX1(), l.getX2());
+		int length = (int) Math.abs(l.getX1() - l.getX2());
+		if (side == 1) {
+			Rectangle rect = new Rectangle(leftX-1, (int) l.getY1(), length+2, 1);
+			return rect;
+		}
+		if (side == 2) {
+			Rectangle rect = new Rectangle(leftX-1, (int) l.getY1() - 1, length+2, 1);
+			return rect;
+		}
+		System.out.println("screwed 2");
+		return null;
+    }
+    
+    private void subtractLine(Area a, Line2D l) {
+    	Rectangle lineRect = rectFromLine(l, 1);
+    	if (a.intersects(lineRect)) {
+    		a.subtract(new Area(lineRect));
+    		System.out.println(1);
+    		return;
+    	}
+    	lineRect = rectFromLine(l, 2);
+    	if (a.intersects(lineRect)) {
+    		System.out.println(2);
+    		a.subtract(new Area(lineRect));
+    		return;
+    	}
+    	System.out.println("screwed");
+    }
+    
+    private void drawPath(Graphics g, Area a, Color color) {
     	g.setColor(color);
+    	PathIterator path = a.getPathIterator(null);
     	double[] coords = new double[6];
 		double prevX = 0;
     	double prevY = 0;
@@ -199,12 +246,48 @@ public class Maze extends JComponent {
     	double prevMOVETOY = 0;
     	while (!path.isDone()) {
     		int type = path.currentSegment(coords);
-    		if (type == PathIterator.SEG_LINETO) { 
-    			g.drawLine((int) prevX, (int) prevY, (int) coords[0], (int) coords[1]);
+    		if (type == PathIterator.SEG_LINETO) {
+    			int startX = (int) prevX;
+    			int startY = (int) prevY;
+    			int endX = (int) coords[0];
+    			int endY = (int) coords[1];
+//    			subtractLine(a, new Line2D.Double(startX, startY, endX, endY));
+    			
+    			if (coords[0] > prevX) {
+    				startX++;
+    			} else if (coords[0] < prevX) {
+    				startX--;
+    			}
+    			if (coords[1] > prevY) {
+    				startY++;
+    			} else if (coords[1] < prevY) {
+    				startY--;
+    			}
+    			
+    			g.drawLine(startX, startY, endX, endY);
+    			System.out.println("Draw line from " + startX + ", " + startY + " to " + endX + ", " + endY);
     			prevX = coords[0];
         		prevY = coords[1];
     		} else if (type == PathIterator.SEG_CLOSE) {
-    			g.drawLine((int) prevX, (int) prevY, (int) prevMOVETOX, (int) prevMOVETOY);
+    			int startX = (int) prevX;
+    			int startY = (int) prevY;
+    			int endX = (int) prevMOVETOX;
+    			int endY = (int) prevMOVETOY;
+//    			subtractLine(a, new Line2D.Double(startX, startY, endX, endY));
+    			
+    			if (prevMOVETOX > prevX) {
+    				startX++;
+    			} else if (prevMOVETOX < prevX) {
+    				startX--;
+    			}
+    			if (prevMOVETOY > prevY) {
+    				startY++;
+    			} else if (prevMOVETOY < prevY) {
+    				startY--;
+    			}
+    			
+    			g.drawLine(startX, startY, endX, endY);
+    			System.out.println("Draw line from " + startX + ", " + startY + " to " + endX + ", " + endY);
     			prevX = prevMOVETOX;
         		prevY = prevMOVETOY;
     		} else if (type == PathIterator.SEG_MOVETO) {
@@ -215,6 +298,7 @@ public class Maze extends JComponent {
     		}
     		path.next();
     	}
+    	System.out.println();
     }
     
     @Override
@@ -286,15 +370,24 @@ public class Maze extends JComponent {
          */
         // Fog shadows
         if (fogOfWar) {
+        	System.out.println("LOOK HERE FIRST FOG OUTLINE");
         	g.setClip(xMargin, yMargin, mazeWidth*tileSize, mazeHeight*tileSize);
 	        Color curColor = Color.GRAY;
+	        if (!p1Fog.intersects(p2Fog)) {
+    			g.drawRect(p1Fog.x, p1Fog.y, p1Fog.width, p1Fog.height);
+    			g.drawRect(p2Fog.x-1, p2Fog.y-1, p2Fog.width+2, p2Fog.height+2);
+    		}
+	        Area fogClip = new Area(p1Fog);
+        	if (player2 != null) {
+        		fogClip.add(new Area(p2Fog));
+        	}
 	        for (int i = 0; i < 51; i++) {
-	        	Area fogClip = new Area(p1Fog);
+	        	fogClip = new Area(p1Fog);
 	        	if (player2 != null) {
 	        		fogClip.add(new Area(p2Fog));
 	        	}
 	        	
-	        	drawPath(g, fogClip.getPathIterator(null), curColor);
+	        	drawPath(g, fogClip, curColor);
 	        	curColor = new Color(curColor.getRed(), curColor.getGreen(), curColor.getBlue(), curColor.getAlpha() - 5);
 	        	
 	        	if (player1 != null) {
