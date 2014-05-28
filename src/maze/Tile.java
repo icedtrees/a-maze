@@ -11,9 +11,7 @@ public class Tile {
     public static final int WALL = 1;
     public static final int SPACE = 0;
     
-    // TEST
-    public static final int EXPLORED = 2;
-    // TEST
+    private Color trail;
     
     private static final double SHIFT_SPEED = 1; // Shifts per second
     
@@ -33,6 +31,7 @@ public class Tile {
         
         shifting = null;
         shifted = 0;
+        trail = null;
     }
     
     public int getValue() {
@@ -65,14 +64,9 @@ public class Tile {
     public void draw(Graphics g, int tileSize) {	    
 	    if (isShifting()) {
 	    	// Draw background
-	    	if (value == WALL) {
-	    		g.setColor(Color.WHITE);
-	    	}
-	    	if (value == SPACE) {
-	    		g.setColor(Color.WHITE);
-	    	}
-	    	if (value == EXPLORED) {
-	    		g.setColor(Color.CYAN);
+	    	g.setColor(Color.WHITE);
+	    	if (trail != null) {
+	    		g.setColor(trail);
 	    	}
 	    	g.fillRect(0, 0, tileSize, tileSize);
 	    	
@@ -92,14 +86,12 @@ public class Tile {
 	    	    g.setColor(Color.BLACK);
 		    }
 		    if (value == SPACE) {
-		        g.setColor(Color.WHITE);
+		    	if (trail != null) {
+		    		g.setColor(trail);
+		    	} else {
+		    		g.setColor(Color.WHITE);
+		    	}
 		    }
-		    
-		    // TEST
-		    if (value == EXPLORED) {
-		    	g.setColor(Color.CYAN);
-		    }
-		    // TEST
 		    
 		    g.fillRect(0, 0, tileSize, tileSize);
 	    }
@@ -148,7 +140,10 @@ public class Tile {
     		}
     	}
     	if (Game.settings.leaveTrail) {
-    		this.value = EXPLORED;
+    		int red = 255 - (player.getColor().getGreen() + player.getColor().getBlue())/5;
+    		int green = 255 - (player.getColor().getRed() + player.getColor().getBlue())/5;
+    		int blue = 255 - (player.getColor().getGreen() + player.getColor().getRed())/5;
+    		this.trail = new Color(red, green, blue);
     	}
     }
     

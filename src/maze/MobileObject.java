@@ -237,19 +237,6 @@ public abstract class MobileObject {
 		}
 		
 		moving = dir;
-		if (dir == Direction.EAST) {
-		    color = Color.BLUE;
-//		    currentSprite = spriteEast;
-		} else if (dir == Direction.NORTH) {
-		    color = Color.GREEN;
-//		    currentSprite = spriteNorth;
-		} else if (dir == Direction.SOUTH) {
-		    color = Color.PINK;
-//		    currentSprite = spriteSouth;
-		} else {
-		    color = Color.GRAY;
-//		    currentSprite = spriteWest;
-		}
 		return true;
 	}
 	

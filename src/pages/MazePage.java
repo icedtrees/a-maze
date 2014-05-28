@@ -76,7 +76,7 @@ public class MazePage extends Page implements KeyListener{
 		c.weightx = 1;
 		c.weighty = 1;
 		
-		int difficulty = 28;
+		int difficulty = 39;
     	int mazeHeight = 5 + ((difficulty*3)/10);
     	int straightness = 900 - ((difficulty % 10) * 100);
     	int branching = 93 - ((difficulty % 10) * 10);
@@ -85,7 +85,7 @@ public class MazePage extends Page implements KeyListener{
 //		mods.add(new FogMod(4, 4));
 		mods.add(new ClockMod(5));
 		mods.add(new SpeedMod(5));
-// 		mods.add(new ShiftingWallsMod(10, 8));
+// 		mods.add(new ShiftingWallsMod(1, 8));
 		
 		mazeInfo = new MazeStats(2, 100);
 		

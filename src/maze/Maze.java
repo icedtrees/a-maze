@@ -121,9 +121,11 @@ public class Maze extends JComponent {
     	}
     	if (player1 != null) {
     		tiles[mazeWidth-2][mazeHeight-1].setContents(new GoalFlag(player1));
+    		tiles[player1.getRealX()][player1.getRealY()].interact(player1, stats);
     	}
     	if (player2 != null) {
     		tiles[1][0].setContents(new GoalFlag(player2));
+    		tiles[player2.getRealX()][player2.getRealY()].interact(player2, stats);
     	}
         this.applyMods(mods);
     }

@@ -36,7 +36,6 @@ public class DFSPlayer {
         	
         	// Make the move
 			maze.movePlayerWait(1, cur.getDir());
-        	maze.setTile(cur.getX(), cur.getY(), Tile.EXPLORED);
         	
         	// Check if we're at the end
         	if (cur.equals(endCoordinate)) {

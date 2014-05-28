@@ -17,10 +17,10 @@ public class Torch implements TileObject {
 	public boolean interact(Player player, MazeStats stats) {
 		Player friend = player.getFriend();
 		if (friend != null) {
-			friend.setVision(friend.getVision() + 5);
+			friend.setVisionRelative(5);
 			System.out.println("Player got torch for friend!");
 		} else {
-			player.setVision(player.getVision() + 5);
+			player.setVisionRelative(5);
 			System.out.println("Player got torch!");
 		}
 		
@@ -31,6 +31,5 @@ public class Torch implements TileObject {
 	public void draw(Graphics g, int tileSize) {
 		g.setColor(Color.ORANGE);
 		g.fillOval(tileSize / 4, 0, tileSize / 2, tileSize);
-		
 	}
 }
