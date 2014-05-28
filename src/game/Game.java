@@ -15,7 +15,7 @@ public class Game {
     private static final String HOME_PAGE = "home";
     private static final String MAZE_PAGE = "maze";
     private static final String INSTRUCTIONS_PAGE = "instructions";
-    private static final String HIGH_SCORES_PAGE = "highscores";
+    private static final String CUSTOM_PAGE = "custom";
     private static final String SETTINGS_PAGE = "settings";
     
     // Main window and layout
@@ -27,7 +27,7 @@ public class Game {
     private HomePage homePage;
     private MazePage mazePage;
     private InstructionsPage instructionsPage;
-    private HighScoresPage highScoresPage;
+    private CustomPage customPage;
     private SettingsPage settingsPage;
     
     // Current page
@@ -60,8 +60,8 @@ public class Game {
                     currentPage = INSTRUCTIONS_PAGE;
                 } else if (result.equals(HomePage.Result.SHOW_SETTINGS)) {
                     currentPage = SETTINGS_PAGE;
-                } else if (result.equals(HomePage.Result.SHOW_HIGH_SCORES)) {
-                    currentPage = HIGH_SCORES_PAGE;
+                } else if (result.equals(HomePage.Result.SHOW_CUSTOM)) {
+                    currentPage = CUSTOM_PAGE;
                 } else if (result.equals(HomePage.Result.QUIT_GAME)) {
                     currentPage = null;
                 }
@@ -80,9 +80,9 @@ public class Game {
                 if (result.equals(SettingsPage.Result.RETURN_HOME)) {
                     currentPage = HOME_PAGE;
                 }
-            } else if (currentPage.equals(HIGH_SCORES_PAGE)) {
-                HighScoresPage.Result result = highScoresPage.run();
-                if (result.equals(HighScoresPage.Result.RETURN_HOME)) {
+            } else if (currentPage.equals(CUSTOM_PAGE)) {
+                CustomPage.Result result = customPage.run();
+                if (result.equals(CustomPage.Result.RETURN_HOME)) {
                     currentPage = HOME_PAGE;
                 }
             }
@@ -107,7 +107,7 @@ public class Game {
         homePage = new HomePage();
         mazePage = new MazePage();
         instructionsPage = new InstructionsPage();
-        highScoresPage = new HighScoresPage();
+        customPage = new CustomPage();
         settingsPage = new SettingsPage();
         
         // Add all the Pages to the CardLayout
@@ -115,7 +115,7 @@ public class Game {
         mainPanel.add(homePage, HOME_PAGE);
         mainPanel.add(mazePage, MAZE_PAGE);
         mainPanel.add(instructionsPage, INSTRUCTIONS_PAGE);
-        mainPanel.add(highScoresPage, HIGH_SCORES_PAGE);
+        mainPanel.add(customPage, CUSTOM_PAGE);
         mainPanel.add(settingsPage, SETTINGS_PAGE);
 
         mainWindow.add(mainPanel);  
