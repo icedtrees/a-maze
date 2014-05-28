@@ -7,16 +7,36 @@ import javax.swing.*;
 
 public class Components {
     public static JButton makeButton(String string) {
-        // Possible helper function
-    	JButton button = new JButton(string);
+		JButton button = new JButton(string) {
+			
+			private static final long serialVersionUID = 1L;
+
+			// Overrides painting of background to make it translucent
+			@Override
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBackground().getAlpha() < 255) {
+					g.setColor(getBackground());
+					g.fillRect(0, 0, getWidth(), getHeight());
+				}
+				super.paintComponent(g);
+			}
+
+		};
+    	// sets the colour and opacity of button
+    	button.setBackground(new Color(0, 0, 0, 50));
+    	
+    	// makes jbutton not opaque, so it doesn't stuff up 
+    	// the default painting mechanism
+    	button.setOpaque(false);
     	
     	// gets rid of rectangle around text
     	button.setFocusPainted(false);
     	
     	// sets text colour
     	button.setForeground(Color.WHITE);
-    	// makes jbutton transparent
-    	button.setOpaque(false);
+    	
+    	// This makes the button stay the same colour and opacity
+    	// when the button is clicked
     	button.setContentAreaFilled(false);
     	
     	// change font size
@@ -48,6 +68,26 @@ public class Components {
     	panel.setOpaque(false);
     	return panel;
     }
+    
+    public static JPanel makeTranslucentPanel() {
+    	JPanel panel = new JPanel() {
+			private static final long serialVersionUID = 1L;
+
+			// Overrides painting of background to make it translucent
+			@Override
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBackground().getAlpha() < 255) {
+					g.setColor(getBackground());
+					g.fillRect(0, 0, getWidth(), getHeight());
+				}
+				super.paintComponent(g);
+			}
+    	};
+    	panel.setBackground(new Color(0, 0, 0, 50));
+    	panel.setOpaque(false);
+    	return panel;
+    }
+    
     //return button?? not used anywhere
 	public void addReturnButton(Page page) {
         JPanel returnPanel = new JPanel();

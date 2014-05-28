@@ -32,15 +32,14 @@ public class SettingsPage extends Page {
         add(titleLabel, c);
         
         JPanel content = Components.makePanel();
-        content.setLayout(new GridLayout(5,0));
+        content.setLayout(new GridLayout(4,0));
 		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
 		c.gridx = 0;
 		c.gridy = 1;
 		c.ipady = 120;
 		c.weighty = 0.75;
-		
-		//content.setSize(new Dimension(400, 400));
 		add(content, c);
+		
 		JLabel text = Components.makeText("Select your desired resolution:", 20);
 		text.setAlignmentX(JLabel.CENTER);
         content.add(text);
