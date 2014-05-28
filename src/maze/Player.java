@@ -18,6 +18,9 @@ public class Player extends MobileObject {
 	public void setVision(int vision) {
 		this.vision = vision;
 	}
+	public void setVisionRelative(int vision) {
+		this.vision += vision;
+	}
 	public void setFriend(Player friend) {
 		this.friend = friend;
 	}

@@ -5,14 +5,14 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-public class HighScoresPage extends Page {
+public class CustomPage extends Page {
 	public enum Result implements Page.Result {
         RETURN_HOME
     };
 	private static final long serialVersionUID = 1L;
 	private volatile Result result;
 	
-	public HighScoresPage() {
+	public CustomPage() {
 		super();
 		
 		setLayout(new GridBagLayout());
@@ -40,7 +40,7 @@ public class HighScoresPage extends Page {
 
 
 	@Override
-	public HighScoresPage.Result run() {
+	public CustomPage.Result run() {
 	    result = null;
     	while (result == null) {
     		// will need to modify this busy block to thread.notify and thread.wait?

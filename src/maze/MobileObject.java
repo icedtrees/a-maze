@@ -140,6 +140,15 @@ public abstract class MobileObject {
 	public Color getColor() {
 		return color;
 	}
+	public double getSpeed() {
+		return speed;
+	}
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+	public void setSpeedRelative(double speed) {
+		this.speed += speed;
+	}
 	
 	public void nextFrame() {
 		if (moving == null) {
