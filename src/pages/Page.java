@@ -12,7 +12,7 @@ public abstract class Page extends JPanel {
 	
     public Page() {
         this.setFocusable(true);
-        this.setBackground(Color.YELLOW);
+        this.setBackground(Color.GRAY);
     }
     
     private static final long serialVersionUID = 1L;

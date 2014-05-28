@@ -88,6 +88,33 @@ public class Components {
     	return panel;
     }
     
+    public static JCheckBox makeCheckBox(String text) {
+    	JCheckBox checkBox = new JCheckBox(text);
+    	
+    	checkBox.setOpaque(false);
+    	Font font = checkBox.getFont();
+    	checkBox.setForeground(Color.WHITE);
+    	
+    	// gets rid of rectangle around text
+    	checkBox.setFocusPainted(false);
+    	checkBox.setFont(new Font(font.getName(), Font.PLAIN, 15));
+    	
+    	return checkBox;
+    }
+    
+    public static JSlider makeJSlider(int min, int max, 
+    	int defaultValue, int majTick, int minTick, int length) {
+    	JSlider slider = new JSlider(JSlider.HORIZONTAL, min, max, defaultValue);
+    	slider.setMajorTickSpacing(majTick);
+    	slider.setMinorTickSpacing(minTick);
+    	slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+        slider.setPreferredSize(new Dimension (length, slider.getPreferredSize().height));
+        slider.setOpaque(false);
+        slider.setForeground(Color.WHITE);
+        return slider;
+    }
+    
     //return button?? not used anywhere
 	public void addReturnButton(Page page) {
         JPanel returnPanel = new JPanel();
