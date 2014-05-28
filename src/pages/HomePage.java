@@ -10,7 +10,7 @@ public class HomePage extends Page {
         PLAY_GAME,
         SHOW_INSTRUCTIONS,
         SHOW_SETTINGS,
-        SHOW_HIGH_SCORES,
+        SHOW_CUSTOM,
         QUIT_GAME,
     };
 
@@ -100,10 +100,10 @@ public class HomePage extends Page {
 		JPanel scoresPanel = Components.makePanel();
 		scoresPanel.setLayout(new FlowLayout());
 
-		JButton scores = Components.makeButton("High Scores");
+		JButton scores = Components.makeButton("Custom Maze");
 		scores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				result = Result.SHOW_HIGH_SCORES;
+				result = Result.SHOW_CUSTOM;
 			}
 		});
 		scoresPanel.add(scores);
