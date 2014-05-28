@@ -50,8 +50,9 @@ public class MazePage extends Page implements KeyListener{
 		GridBagConstraints c = new GridBagConstraints();
         sidePanel = Components.makePanel();
         sidePanel.setLayout(new GridLayout(5, 1));
+        sidePanel.setMinimumSize(new Dimension(150, 100));
 		c.gridx = 1;
-		c.weightx = 0.25;
+		//c.ipadx = 30;
 		add(sidePanel, c);
 		
 		drawSidebar();
