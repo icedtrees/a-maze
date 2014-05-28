@@ -202,12 +202,16 @@ public class MazePage extends Page implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        pressedKeys.set(e.getKeyCode(), KEY_PRESSED);
+        if (e.getKeyCode() < 256) {
+            pressedKeys.set(e.getKeyCode(), KEY_PRESSED);
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        pressedKeys.set(e.getKeyCode(), KEY_UNPRESSED);
+        if (e.getKeyCode() < 256) {
+            pressedKeys.set(e.getKeyCode(), KEY_UNPRESSED);
+        }
     }
 
     @Override
