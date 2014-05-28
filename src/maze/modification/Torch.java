@@ -8,19 +8,20 @@ import maze.Player;
 import maze.TileObject;
 
 public class Torch implements TileObject {
+	private int visionBonus;
 	
-	public Torch() {
-		// TODO Auto-generated constructor stub
+	public Torch(int visionBonus) {
+		this.visionBonus = visionBonus;
 	}
 	
 	@Override
 	public boolean interact(Player player, MazeStats stats) {
 		Player friend = player.getFriend();
 		if (friend != null) {
-			friend.setVisionRelative(5);
+			friend.setVisionRelative(visionBonus);
 			System.out.println("Player got torch for friend!");
 		} else {
-			player.setVisionRelative(5);
+			player.setVisionRelative(visionBonus);
 			System.out.println("Player got torch!");
 		}
 		

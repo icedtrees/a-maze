@@ -17,7 +17,7 @@ public class Maze extends JComponent {
     private static final long serialVersionUID = 1L;
     
     private final static boolean DEBUGGING = false;
-    private final static double DEFAULT_RATIO = 1.2;    
+    public final static double DEFAULT_RATIO = 1.2;    
     private final Random rand;
     
     private Tile[][] tiles;
@@ -99,8 +99,8 @@ public class Maze extends JComponent {
             }
         }
         
-        this.straightness = straightness;
-        this.branching = branching;
+        this.straightness = straightness > 0 ? straightness*straightness : straightness;
+        this.branching = (int) (1.5 * (11 - branching));
         this.rand = new Random(seed);
         this.genMazeDFSBranch();
         
@@ -138,6 +138,18 @@ public class Maze extends JComponent {
     }
     public int getMazeHeight() {
         return mazeHeight;
+    }
+    public List<Coord> getSpaces() {
+    	List<Coord> spaces = new ArrayList<Coord>();
+		for (int row = 1; row < mazeHeight - 1; row++) {
+			for (int col = 1; col < mazeWidth - 1; col++) {
+				if (isSpace(col, row) && !hasTileObject(col, row)) {
+					spaces.add(new Coord(col, row));
+				}
+			}
+		}
+		
+		return spaces;
     }
     public boolean hasTileObject(int x, int y) {
     	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
@@ -265,7 +277,7 @@ public class Maze extends JComponent {
     			}
     			
     			g.drawLine(startX, startY, endX, endY);
-    			System.out.println("Draw line from " + startX + ", " + startY + " to " + endX + ", " + endY);
+//    			System.out.println("Draw line from " + startX + ", " + startY + " to " + endX + ", " + endY);
     			prevX = coords[0];
         		prevY = coords[1];
     		} else if (type == PathIterator.SEG_CLOSE) {
@@ -287,7 +299,7 @@ public class Maze extends JComponent {
     			}
     			
     			g.drawLine(startX, startY, endX, endY);
-    			System.out.println("Draw line from " + startX + ", " + startY + " to " + endX + ", " + endY);
+//    			System.out.println("Draw line from " + startX + ", " + startY + " to " + endX + ", " + endY);
     			prevX = prevMOVETOX;
         		prevY = prevMOVETOY;
     		} else if (type == PathIterator.SEG_MOVETO) {
@@ -688,7 +700,7 @@ public class Maze extends JComponent {
     					if (!validCoord(newCell)) {
     						continue;
     					}
-    					int weighting = 50;
+    					int weighting = 11;
     					if (dir == curStep.getDir()) {
     						weighting += straightness;
     					}

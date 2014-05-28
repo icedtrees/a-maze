@@ -76,15 +76,27 @@ public class MazePage extends Page implements KeyListener{
 		c.weightx = 1;
 		c.weighty = 1;
 		
-		int difficulty = 19;
-    	int mazeHeight = 5 + ((difficulty*3)/10);
-    	int straightness = 900 - ((difficulty % 10) * 100);
-    	int branching = 93 - ((difficulty % 10) * 10);
+//		int difficulty = 19;
+//    	int mazeHeight = 5 + ((difficulty*3)/10);
+//    	int straightness = 900 - ((difficulty % 10) * 100);
+//    	int branching = 93 - ((difficulty % 10) * 10);
+		
+		int mazeHeight = 17;
+		int straightness = 3;
+		int branching = 10;
     	
     	java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
-		mods.add(new FogMod(4, 4));
-		mods.add(new ClockMod(5));
-		mods.add(new SpeedMod(5));
+    	int torchFreq = 0;
+    	int clockFreq = 3;
+    	int bootsFreq = 3;
+    	int scale = ((torchFreq + clockFreq + bootsFreq) / 100) + 1;
+    	int numSpaces = (int) (mazeHeight * mazeHeight * Maze.DEFAULT_RATIO);
+    	System.out.println(numSpaces);
+    	System.out.println(bootsFreq * numSpaces / scale / 100);
+    	
+//		mods.add(new FogMod(4, torchFreq * numSpaces / scale / 100));
+		mods.add(new ClockMod(clockFreq * numSpaces / scale / 100));
+		mods.add(new SpeedMod(bootsFreq * numSpaces / scale / 100));
 // 		mods.add(new ShiftingWallsMod(1, 8));
 		
 		mazeInfo = new MazeStats(2, 100);

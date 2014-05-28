@@ -1,30 +1,30 @@
 package maze.modification;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
+import maze.Coord;
 import maze.Maze;
 
 public class ClockMod implements Modification {
-	private int numTreasure;
+	private int numClocks;
 	
-	public ClockMod(int numTreasure) {
-		this.numTreasure = numTreasure;
+	public ClockMod(int numClocks) {
+		this.numClocks = numClocks;
 	}
 
 	@Override
 	public void apply(Maze maze, Random rand) {
-		for (int i = 0; i < numTreasure; i++) {
-			int x;
-			int y;
-			boolean validSpot = false;
-			while (!validSpot) {
-				x = rand.nextInt(maze.getMazeWidth());
-				y = rand.nextInt(maze.getMazeHeight());
-				if (maze.isSpace(x, y) && !maze.hasTileObject(x, y)) {
-					validSpot = true;
-					maze.setTileObject(x, y, new Clock(100));
-				}
+		List<Coord> spaces = maze.getSpaces();
+		Collections.shuffle(spaces, rand);
+		for (int i = 0; i < numClocks; i++) {
+			if (spaces.size() <= 0) {
+				break;
 			}
+			Coord c = spaces.remove(0);
+			maze.setTileObject(c.getX(), c.getY(), new Clock(20));
 		}
 	}
 

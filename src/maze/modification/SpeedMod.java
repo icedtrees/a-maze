@@ -1,7 +1,11 @@
 package maze.modification;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
+import maze.Coord;
 import maze.Maze;
 
 public class SpeedMod implements Modification {
@@ -13,18 +17,14 @@ public class SpeedMod implements Modification {
 
 	@Override
 	public void apply(Maze maze, Random rand) {
+		List<Coord> spaces = maze.getSpaces();
+		Collections.shuffle(spaces, rand);
 		for (int i = 0; i < numBoots; i++) {
-			int x;
-			int y;
-			boolean validSpot = false;
-			while (!validSpot) {
-				x = rand.nextInt(maze.getMazeWidth());
-				y = rand.nextInt(maze.getMazeHeight());
-				if (maze.isSpace(x, y) && !maze.hasTileObject(x, y)) {
-					validSpot = true;
-					maze.setTileObject(x, y, new Boots(2));
-				}
+			if (spaces.size() <= 0) {
+				break;
 			}
+			Coord c = spaces.remove(0);
+			maze.setTileObject(c.getX(), c.getY(), new Boots(2));
 		}
 	}
 
