@@ -55,14 +55,14 @@ public class SettingsPage extends Page {
 				
 			}
 		});
-        pickResolution.add(defaultRes);
-		defaultRes.addActionListener(new ActionListener() {
+        pickResolution.add(resolution2);
+		resolution2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				settings.screenSize = ScreenSize.MEDIUM;
 			}
 		});
-        pickResolution.add(resolution2);
-		resolution2.addActionListener(new ActionListener() {
+        pickResolution.add(defaultRes);
+		defaultRes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				settings.screenSize = ScreenSize.SMALL;
 			}
@@ -81,9 +81,9 @@ public class SettingsPage extends Page {
         content.add(defaultRes);
         
         resolution1.setOpaque(false);
-        defaultRes.setOpaque(false);
         resolution2.setOpaque(false);
-               
+        defaultRes.setOpaque(false);
+        
         addReturnButton();
 	}
 	
