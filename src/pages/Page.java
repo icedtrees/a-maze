@@ -25,7 +25,7 @@ public abstract class Page extends JPanel {
     public void paintComponent(Graphics g) {
     	BufferedImage image = null;
     	try {
-    		image = ImageIO.read(new File("src/catsBackground.png"));
+    		image = ImageIO.read(new File("img/catsBackground.png"));
     	} catch (IOException E) {
     		
     	}

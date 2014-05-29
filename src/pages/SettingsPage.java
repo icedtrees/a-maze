@@ -1,5 +1,8 @@
 package pages;
 
+import game.Settings;
+import game.Settings.ScreenSize;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -8,16 +11,12 @@ import javax.swing.*;
 
 public class SettingsPage extends Page {
 	public enum Result implements Page.Result {
-        RESOLUTION_ONE,
-        RESOLUTION_TWO,
-        RESOLUTION_THREE,
-        DEFAULTRESOLUTION,
         RETURN_HOME
     };
 	private static final long serialVersionUID = 1L;
 	private volatile Result result;
 	
-	public SettingsPage() {
+	public SettingsPage(final Settings settings) {
 		super();
 		
 		setLayout(new GridBagLayout());
@@ -52,19 +51,20 @@ public class SettingsPage extends Page {
         pickResolution.add(resolution1);
 		resolution1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				result = Result.RESOLUTION_ONE;
-			}
-		});
-        pickResolution.add(defaultRes);
-		defaultRes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				result = Result.DEFAULTRESOLUTION;
+				settings.screenSize = ScreenSize.LARGE;
+				
 			}
 		});
         pickResolution.add(resolution2);
 		resolution2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				result = Result.RESOLUTION_TWO;
+				settings.screenSize = ScreenSize.MEDIUM;
+			}
+		});
+        pickResolution.add(defaultRes);
+		defaultRes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				settings.screenSize = ScreenSize.SMALL;
 			}
 		});
 		
@@ -81,9 +81,9 @@ public class SettingsPage extends Page {
         content.add(defaultRes);
         
         resolution1.setOpaque(false);
-        defaultRes.setOpaque(false);
         resolution2.setOpaque(false);
-               
+        defaultRes.setOpaque(false);
+        
         addReturnButton();
 	}
 	
