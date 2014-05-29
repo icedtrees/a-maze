@@ -107,9 +107,10 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         // need to find images for the rest of these, preferably of our actual maze so it's clear what the feature is
 		JPanel bootsPanel = makeDescription("Boots: increase your movement speed", "src/boots.png");
 		JPanel clocksPanel = makeDescription("Clocks: increase the time to complete the maze", "src/clocks.png");
-		JPanel trailPanel = makeDescription("Explored trail: show the path you've travelled on", "src/trail.png");
+		JPanel trailPanel = makeDescription("Explored trail: shows the path you've travelled on", "src/trail.png");
 		// need to describe torches too
-		JPanel fogPanel = makeDescription("Fog of war: you have limited visibility", "src/fog.png");
+		JPanel fogPanel = makeDescription("<html>Fog of war: you have limited visibility.<br> "
+				+ "You can get torches to increase the field of view</html>", "src/fog.png");
 		//fill in the blanks
 		JPanel wallsPanel = makeDescription("Sliding walls: _ walls will move every _ seconds", "src/walls.png");
 		
