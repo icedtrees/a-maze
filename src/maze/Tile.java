@@ -12,6 +12,7 @@ public class Tile {
     public static final int SPACE = 0;
     
     private Color trail;
+    private Color hint;
     
     private static final double SHIFT_SPEED = 1; // Shifts per second
     
@@ -57,6 +58,10 @@ public class Tile {
     	this.contents = obj;
     }
     
+    public void setHint() {
+    	this.hint = new Color(0, 255, 0);
+    }
+    
     public void setValue(int newValue) {
         value = newValue;
     }
@@ -95,12 +100,23 @@ public class Tile {
 		    
 		    g.fillRect(0, 0, tileSize, tileSize);
 	    }
+	    
+	    if (hint != null) {
+	    	g.setColor(hint);
+	    	g.fillRect(0,  0, tileSize, tileSize);
+	    }
 	    if (contents != null) {
     		contents.draw(g, tileSize);
     	}
     }
     
     public void nextFrame() {
+    	if (hint != null) {
+    		hint = new Color(hint.getRed(), hint.getGreen(), hint.getBlue(), hint.getAlpha() - 5);
+    		if (hint.getAlpha() == 0) {
+    			hint = null;
+    		}
+    	}
     	if (!isShifting()) {
     		return;
     	}

@@ -62,7 +62,6 @@ public class MazePage extends Page implements KeyListener{
 	    
 	    // Start collecting keys
         this.requestFocusInWindow();
-				
 
 		final Maze maze = new Maze(mazeSettings);
 		GridBagConstraints c = new GridBagConstraints();
@@ -73,6 +72,7 @@ public class MazePage extends Page implements KeyListener{
 		c.weighty = 1;
 		add(maze, c);
 		validate();
+		maze.getHint(1, 10);
 		
 		/*
          * The main event loop which gets run every frame based on a frame-rate
