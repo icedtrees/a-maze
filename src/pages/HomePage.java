@@ -23,7 +23,7 @@ public class HomePage extends Page {
         //JLabel blank = new JLabel("", JLabel.CENTER);
         //add(blank);
         
-        JLabel titleLabel = Components.makeTitle("MAZE");
+        JLabel titleLabel = Components.makeTitle("A-MAZE");
         add(titleLabel);
         
         addStartButton();

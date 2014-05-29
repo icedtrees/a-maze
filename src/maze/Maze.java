@@ -283,7 +283,7 @@ public class Maze extends JComponent {
         g.setClip(0, 0, bounds.width, bounds.height);
         
         // Draw green background to prove transparency of later clipping
-        g.setColor(Color.GREEN);
+        g.setColor(Color.DARK_GRAY);
     	g.fillRect(0, 0, bounds.width, bounds.height);
         
     	/*
