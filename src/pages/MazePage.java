@@ -13,14 +13,13 @@ import javax.swing.*;
 
 import maze.Maze;
 import maze.MazeSettings;
-import maze.modification.*;
 
 
 public class MazePage extends Page implements KeyListener{
     private static final long serialVersionUID = 1L;
     public enum Result implements Page.Result {
-		
-        RETURN_HOME
+		WON_GAME,
+        LOST_GAME
     };
     
     // Status of key presses
@@ -34,6 +33,7 @@ public class MazePage extends Page implements KeyListener{
 	public volatile Result result;
 	public AtomicIntegerArray pressedKeys;
 	
+	private MazeSettings mazeSettings;
 
 	public MazePage() {
 		super();
@@ -53,6 +53,8 @@ public class MazePage extends Page implements KeyListener{
 		pressedKeys = new AtomicIntegerArray(256);
 		
         drawSidebar();
+        
+        mazeSettings = new MazeSettings();
 	}
 
 	public MazePage.Result run() {
@@ -61,28 +63,8 @@ public class MazePage extends Page implements KeyListener{
 	    // Start collecting keys
         this.requestFocusInWindow();
 				
-		int mazeHeight = 17;
-		int branching = 10;
-		int straightness = 0;
-		int startingTime = 60;
-    	
-    	java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
-    	int clockFreq = 2;
-    	int bootsFreq = 2;
-    	int torchFreq = 3;
-    	int scale = ((torchFreq + clockFreq + bootsFreq) / 100) + 1;
-    	int numSpaces = (int) (mazeHeight * mazeHeight * Maze.DEFAULT_RATIO);
-    	System.out.println(numSpaces);
-    	System.out.println(bootsFreq * numSpaces / scale / 100);
-    	
-		mods.add(new FogMod(4, torchFreq * numSpaces / scale / 100));
-		mods.add(new ClockMod(clockFreq * numSpaces / scale / 100));
-		mods.add(new SpeedMod(bootsFreq * numSpaces / scale / 100));
-// 		mods.add(new ShiftingWallsMod(10, 8));
-		
-		MazeSettings mazeInfo = new MazeSettings(false, true, mazeHeight, branching, straightness, startingTime, System.nanoTime(), mods);
-		
-		final Maze maze = new Maze(mazeInfo);
+
+		final Maze maze = new Maze(mazeSettings);
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
@@ -132,6 +114,9 @@ public class MazePage extends Page implements KeyListener{
                 }
         	    maze.nextFrame();
         	    SwingUtilities.getWindowAncestor(mazePage).repaint();
+        	    if (maze.playersFinished()) {
+        	        result = Result.WON_GAME;
+        	    }
         	}
         }, 1000/Game.settings.FPS, 1000/Game.settings.FPS);
         
@@ -149,6 +134,10 @@ public class MazePage extends Page implements KeyListener{
 		actionLoop.cancel();
 		
 		return result;
+	}
+	
+	public void setMazeSettings(MazeSettings newSettings) {
+	    mazeSettings = newSettings;
 	}
 	
 	private void updateTimers(Maze maze) {
@@ -173,7 +162,7 @@ public class MazePage extends Page implements KeyListener{
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("return to main menu");
-                result = Result.RETURN_HOME;
+                result = Result.LOST_GAME;
             }
         });
         sidePanel.add(returnButton);

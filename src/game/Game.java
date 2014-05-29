@@ -48,6 +48,7 @@ public class Game {
     public void run() {
         // The starting page is the Home Page
         currentPage = HOME_PAGE;
+        Campaign campaign = new Campaign();
         
         while (currentPage != null) {
             layout.show(mainPanel, currentPage);
@@ -66,9 +67,13 @@ public class Game {
                     currentPage = null;
                 }
             } else if (currentPage.equals(MAZE_PAGE)) {
+                mainWindow.setTitle(campaign.getLevelName());
+                mazePage.setMazeSettings(campaign.getLevelSettings());
                 MazePage.Result result = mazePage.run();
-                if (result.equals(MazePage.Result.RETURN_HOME)) {
+                if (result.equals(MazePage.Result.LOST_GAME)) {
                     currentPage = HOME_PAGE;
+                } else if (result.equals(MazePage.Result.WON_GAME)) {
+                    campaign.advance();
                 }
             } else if (currentPage.equals(INSTRUCTIONS_PAGE)) {
                 InstructionsPage.Result result = instructionsPage.run();

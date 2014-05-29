@@ -193,11 +193,16 @@ public class Maze extends JComponent {
     		player2.setTimerRelative(timer);
     	}
     }
+    
+    public boolean playersFinished() {
+        return player1Finished() && player2Finished();
+    }
+    
     public boolean player1Finished() {
-    	return player1 != null && player1.isFinished();
+    	return player1 == null || player1.isFinished();
     }
     public boolean player2Finished() {
-    	return player2 != null && player2.isFinished();
+    	return player2 == null || player2.isFinished();
     }
     
     private void applyMods(List<Modification> mods) {
