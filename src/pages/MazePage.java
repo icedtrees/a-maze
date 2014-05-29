@@ -177,19 +177,17 @@ public class MazePage extends Page implements KeyListener{
     private void drawSidebar() {
         JLabel mazeTitle = Components.makeText("MAZE", 20);
         mazeTitle.setAlignmentX(JLabel.CENTER);
-        mazeTitle.setForeground(Color.BLACK);
         sidePanel.add(mazeTitle);
 
-        timeLeft1 = new JLabel("Player1: ", JLabel.CENTER);
+        timeLeft1 = Components.makeText("Player1: ", 15);
         sidePanel.add(timeLeft1);
         
         if (mazeInfo.getNumPlayers() > 1) {
-            timeLeft2 = new JLabel("Player2: ", JLabel.CENTER);
+            timeLeft2 = Components.makeText("Player2: ", 15);
             sidePanel.add(timeLeft2);
         }
         
         JButton returnButton = Components.makeButton("return");
-        returnButton.setForeground(Color.BLACK);
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("return to main menu");
