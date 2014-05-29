@@ -1,4 +1,4 @@
-rm -rf bin
+del bin
 mkdir bin
 cd bin
 mkdir game
