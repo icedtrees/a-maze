@@ -82,6 +82,7 @@ public class Game {
                 }
             } else if (currentPage.equals(SETTINGS_PAGE)) {
                 SettingsPage.Result result = settingsPage.run();
+                mainWindow.setSize(settings.screenSize.width, settings.screenSize.height);
                 if (result.equals(SettingsPage.Result.RETURN_HOME)) {
                     currentPage = HOME_PAGE;
                 }
@@ -113,7 +114,7 @@ public class Game {
         mazePage = new MazePage();
         instructionsPage = new InstructionsPage();
         customPage = new CustomPage();
-        settingsPage = new SettingsPage();
+        settingsPage = new SettingsPage(settings);
         
         // Add all the Pages to the CardLayout
         
