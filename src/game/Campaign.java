@@ -1,7 +1,6 @@
 package game;
 
 import java.util.Arrays;
-
 import maze.MazeSettings;
 import maze.modification.*;
 

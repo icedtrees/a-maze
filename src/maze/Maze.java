@@ -36,8 +36,7 @@ public class Maze extends JComponent {
     private Player player2;
     private Coord player1Last;
     private Coord player2Last;
-    
-    private MazeSettings stats;
+    private boolean multiplayer;
     
     public enum Direction {
     	NORTH(0, -1),
@@ -73,8 +72,8 @@ public class Maze extends JComponent {
     }
     
     public Maze(MazeSettings settings) {
-        mazeWidth = 2 * settings.getMazeSize() + 1;
-        mazeHeight = (int) (2 * settings.getMazeSize() * DEFAULT_RATIO + 1);
+        mazeHeight = 2 * settings.getMazeSize() + 1;
+        mazeWidth = (int) (2 * settings.getMazeSize() * DEFAULT_RATIO + 1);
 //        setPreferredSize(new Dimension(displayWidth, displayHeight));
         tiles = new Tile[mazeWidth][mazeHeight];
         for (int row = 0; row < mazeHeight; row++) {
@@ -88,12 +87,13 @@ public class Maze extends JComponent {
         this.rand = new Random(settings.getSeed());
         this.genMazeDFSBranch();
         
-		player1 = new Player(1, 1, 0, Color.RED, settings.getTrail());
+		player1 = new Player(1, 0, Color.RED, settings.getTrail(), settings.getStartingTime());
 		player1Last = new Coord(1, 0);
 		
 		player2 = null;
-    	if (settings.getMultiplayer()) {
-    		player2 = new Player(2, mazeWidth - 2, mazeHeight - 1, Color.BLUE, settings.getTrail());
+		this.multiplayer = settings.getMultiplayer();
+    	if (this.multiplayer) {
+    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE, settings.getTrail(), settings.getStartingTime());
     		player2Last = new Coord(mazeWidth - 2, mazeHeight - 1);
     		
     		player1.setFriend(player2);
@@ -101,11 +101,11 @@ public class Maze extends JComponent {
     	}
     	if (player1 != null) {
     		tiles[mazeWidth-2][mazeHeight-1].setContents(new GoalFlag(player1));
-    		tiles[player1.getRealX()][player1.getRealY()].interact(player1, stats);
+    		tiles[player1.getRealX()][player1.getRealY()].interact(player1);
     	}
     	if (player2 != null) {
     		tiles[1][0].setContents(new GoalFlag(player2));
-    		tiles[player2.getRealX()][player2.getRealY()].interact(player2, stats);
+    		tiles[player2.getRealX()][player2.getRealY()].interact(player2);
     	}
         this.applyMods(settings.getModifications());
     }
@@ -158,6 +158,48 @@ public class Maze extends JComponent {
     	this.stepsToTake = stepsToTake;
     	stepsTaken = 0;
     }
+    public boolean isMultiplayer() {
+    	return multiplayer;
+    }
+    public double getPlayer1Timer() {
+    	if (player1 != null) {
+    		return player1.getTimer();
+    	}
+    	return 0;
+    }
+    public double getPlayer2Timer() {
+    	if (player2 != null) {
+    		return player2.getTimer();
+    	}
+    	return 0;
+    }
+    public void setPlayer1Timer(double timer) {
+    	if (player1 != null) {
+    		player1.setTimer(timer);
+    	}
+    }
+    public void setPlayer2Timer(double timer) {
+    	if (player2 != null) {
+    		player2.setTimer(timer);
+    	}
+    }
+    public void setPlayer1TimerRelative(double timer) {
+    	if (player1 != null) {
+    		player1.setTimerRelative(timer);
+    	}
+    }
+    public void setPlayer2TimerRelative(double timer) {
+    	if (player2 != null) {
+    		player2.setTimerRelative(timer);
+    	}
+    }
+    public boolean player1Finished() {
+    	return player1 != null && player1.isFinished();
+    }
+    public boolean player2Finished() {
+    	return player2 != null && player2.isFinished();
+    }
+    
     private void applyMods(List<Modification> mods) {
     	if (mods == null) {
     		return;
@@ -530,7 +572,7 @@ public class Maze extends JComponent {
     	if (player1 != null) {
 	    	if (player1.getRealX() != player1Last.getX() || player1.getRealY() != player1Last.getY()) {
 	    		// Player has moved since we last saw
-	    		tiles[player1.getRealX()][player1.getRealY()].interact(player1, stats);
+	    		tiles[player1.getRealX()][player1.getRealY()].interact(player1);
 	    		player1Last = new Coord(player1.getRealX(), player1.getRealY());
 	    		
 	    		if (shiftingWalls) {
@@ -545,7 +587,7 @@ public class Maze extends JComponent {
     	if (player2 != null) {
 	    	if (player2.getRealX() != player2Last.getX() || player2.getRealY() != player2Last.getY()) {
 	    		// Player has moved since we last saw
-	    		tiles[player2.getRealX()][player2.getRealY()].interact(player2, stats);
+	    		tiles[player2.getRealX()][player2.getRealY()].interact(player2);
 	    		player2Last = new Coord(player2.getRealX(), player2.getRealY());
 	    		
 	    		if (shiftingWalls) {

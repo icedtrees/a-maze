@@ -52,8 +52,6 @@ public class MazePage extends Page implements KeyListener{
 		//c.ipadx = 30;
 		add(sidePanel, c);
 		
-		drawSidebar();
-		
 		addKeyListener(this);
 		pressedKeys = new AtomicIntegerArray(256);
 		
@@ -97,6 +95,8 @@ public class MazePage extends Page implements KeyListener{
 		add(maze, c);
 		validate();
 		
+		drawSidebar(maze);
+		
 		/*
          * The main event loop which gets run every frame based on a frame-rate
          * in the Maze.FPS variable.
@@ -107,11 +107,9 @@ public class MazePage extends Page implements KeyListener{
         	@Override
         	public void run() {
         	    
-        	    mazeInfo.setTimer(1, mazeInfo.getTimer(1) - (1.0 / Game.settings.FPS));
-        	    if (mazeInfo.getNumPlayers() > 1) {
-        	        mazeInfo.setTimer(2, mazeInfo.getTimer(2) - (1.0 / Game.settings.FPS));
-        	    }
-        	    updateTimers();
+        	    maze.setPlayer1TimerRelative(-(1.0 / Game.settings.FPS));
+        	    maze.setPlayer2TimerRelative(-(1.0 / Game.settings.FPS));
+        	    updateTimers(maze);
         	    
                 if (pressedKeys.get(KeyEvent.VK_LEFT) == KEY_PRESSED) {
                     maze.movePlayer(1, Maze.Direction.WEST);
@@ -158,14 +156,14 @@ public class MazePage extends Page implements KeyListener{
 		return result;
 	}
 	
-	private void updateTimers() {
-	    timeLeft1.setText("Player1: " + String.format("%.2f", mazeInfo.getTimer(1)));
-        if (mazeInfo.getNumPlayers() > 1) {
-            timeLeft2.setText("Player2: " + String.format("%.2f", mazeInfo.getTimer(2)));
+	private void updateTimers(Maze maze) {
+	    timeLeft1.setText("Player1: " + String.format("%.2f", maze.getPlayer1Timer()));
+        if (maze.isMultiplayer()) {
+            timeLeft2.setText("Player2: " + String.format("%.2f", maze.getPlayer2Timer()));
         }
 	}
 	
-    private void drawSidebar() {
+    private void drawSidebar(Maze maze) {
         JLabel mazeTitle = Components.makeText("MAZE", 20);
         mazeTitle.setAlignmentX(JLabel.CENTER);
         sidePanel.add(mazeTitle);
@@ -173,7 +171,7 @@ public class MazePage extends Page implements KeyListener{
         timeLeft1 = Components.makeText("Player1: ", 15);
         sidePanel.add(timeLeft1);
         
-        if (mazeInfo.getNumPlayers() > 1) {
+        if (maze.isMultiplayer()) {
             timeLeft2 = Components.makeText("Player2: ", 15);
             sidePanel.add(timeLeft2);
         }
