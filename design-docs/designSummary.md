@@ -69,19 +69,23 @@ Campaign
 ---------
 level1 - hello world
 5, 8, 10, 40
-yes no no no no
+explored
+no no no no
 
 level2 - easy as pie
 7, 8, 7, 40
-yes no no no no
+explored
+no no no no
 
 level3 - whats that ticking sound?
 9, 8, 5, 20
-yes 3 no no no
+explored
+3 no no no
 
 level4 - time is tight
 11, 10, 5, 20
-yes 3 no no no
+explored
+3 no no no
 
 level5 - run run run
 13, 10, 3, 30
