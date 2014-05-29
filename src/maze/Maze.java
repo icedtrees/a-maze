@@ -73,7 +73,7 @@ public class Maze extends JComponent {
     
     public Maze(MazeSettings settings) {
         mazeHeight = 2 * settings.getMazeSize() + 1;
-        mazeWidth = (int) (2 * settings.getMazeSize() * DEFAULT_RATIO + 1);
+        mazeWidth = 2 * (int) (settings.getMazeSize() * DEFAULT_RATIO) + 1;
 //        setPreferredSize(new Dimension(displayWidth, displayHeight));
         tiles = new Tile[mazeWidth][mazeHeight];
         for (int row = 0; row < mazeHeight; row++) {
