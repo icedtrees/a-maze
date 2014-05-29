@@ -23,7 +23,8 @@ public class InstructionsPage extends Page implements ListSelectionListener{
     private static final String FOG_OF_WAR = "Fog of war";
     private static final String SHIFTING_WALLS = "Shifting walls";
     
-    private JList<String> selectionList;
+//    private JList<String> selectionList; // JDK 7 version
+    private JList selectionList;
     private JPanel showDescription;
     private CardLayout showLayout;
 
@@ -53,7 +54,8 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         JLabel selectionTitle = Components.makeText("Select to find out more:", 28);
         selectionPanel.add(selectionTitle, selectCon);
         
-        DefaultListModel<String> selectionListModel = new DefaultListModel<String>();
+//        DefaultListModel<String> selectionListModel = new DefaultListModel<String>(); // JDK 7 version
+        DefaultListModel selectionListModel = new DefaultListModel();
         selectionListModel.addElement(SINGLE_PLAYER);
         selectionListModel.addElement(MULTI_PLAYER);
         selectionListModel.addElement(BOOTS);
@@ -62,7 +64,8 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         selectionListModel.addElement(FOG_OF_WAR);
         selectionListModel.addElement(SHIFTING_WALLS);
         
-        selectionList = new JList<String>(selectionListModel);
+//        selectionList = new JList<String>(selectionListModel); // JDK 7 version
+        selectionList = new JList(selectionListModel);
         selectionList.setOpaque(false);
         ((javax.swing.DefaultListCellRenderer)selectionList.getCellRenderer()).setOpaque(false);
         selectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
