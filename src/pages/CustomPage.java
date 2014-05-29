@@ -84,7 +84,7 @@ public class CustomPage extends Page implements ItemListener {
 //        sizeSliderPanel.add(sizeValue, sizeC);
         
       //-----------------------------------------------------------slider for maze size
-        sizeSlider = Components.makeJSlider(5, 30, 11, 5, 1, 400);
+        sizeSlider = Components.makeJSlider(5, 40, 11, 5, 1, 400);
         sizeSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = sizeSlider.getValue();
