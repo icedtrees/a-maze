@@ -101,29 +101,26 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		showLayout = new CardLayout();
 		showDescription.setLayout(showLayout);
 		
-        JPanel singlePlayerPanel = Components.makePanel();
-        singlePlayerPanel.setLayout(new GridLayout(2, 0));
-        JLabel instructions1 = Components.makeText("Single Player: Use the arrow keys to move.", 20);
-		ImageIcon singlePlayer = new ImageIcon("src/arrowKeys.png");
-		JLabel singlePlayerLabel = new JLabel(singlePlayer, JLabel.CENTER);
-		singlePlayerLabel.setOpaque(false);
-		singlePlayerLabel.setLayout(new BorderLayout());
-		singlePlayerPanel.add(singlePlayerLabel);
-		singlePlayerPanel.add(instructions1);
-		
-        JPanel multiPlayerPanel = Components.makePanel();
-        multiPlayerPanel.setLayout(new GridLayout(2, 0));
-        // order of players might be switched around.
-        JLabel instructions2 = Components.makeText("<html>Multi Player: <br>Player 1: Player 2: <br> Use the WASD keys to move. Use WASD to move.</html>", 20);
-		ImageIcon multiPlayer = new ImageIcon("src/WASDarrowKeys.png");
-		JLabel multiPlayerLabel = new JLabel(multiPlayer, JLabel.CENTER);
-		multiPlayerLabel.setOpaque(false);
-		multiPlayerLabel.setLayout(new BorderLayout());
-		multiPlayerPanel.add(multiPlayerLabel);
-		multiPlayerPanel.add(instructions2);
+        JPanel singlePlayerPanel = makeDescription("Single Player: Use the arrow keys to move.", "src/arrowKeys.png");		
+        JPanel multiPlayerPanel = makeDescription("<html>Multi Player: <br>Player 1: Use the WASD keys to move. "
+        		+ "<br> Player 2:   Use arrows to move.</html>", "src/WASDarrowKeys.png");
+        // need to find images for the rest of these, preferably of our actual maze so it's clear what the feature is
+		JPanel bootsPanel = makeDescription("Boots: increase your movement speed", "src/boots.png");
+		JPanel clocksPanel = makeDescription("Clocks: increase the time to complete the maze", "src/clocks.png");
+		JPanel trailPanel = makeDescription("Explored trail: show the path you've travelled on", "src/trail.png");
+		// need to describe torches too
+		JPanel fogPanel = makeDescription("Fog of war: you have limited visibility", "src/fog.png");
+		//fill in the blanks
+		JPanel wallsPanel = makeDescription("Sliding walls: _ walls will move every _ seconds", "src/walls.png");
 		
 		showDescription.add(singlePlayerPanel, SINGLE_PLAYER);
 		showDescription.add(multiPlayerPanel, MULTI_PLAYER);
+		showDescription.add(bootsPanel, BOOTS);
+		showDescription.add(clocksPanel, CLOCKS);
+		showDescription.add(trailPanel, EXPLORED_TRAIL);
+		showDescription.add(fogPanel, FOG_OF_WAR);
+		showDescription.add(wallsPanel, SHIFTING_WALLS);
+		
 		descriptionPanel.add(showDescription);
 		
         
@@ -145,6 +142,19 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		return result;
 	}
 
+	private JPanel makeDescription(String description, String filename) {
+		JPanel featurePanel = Components.makePanel();
+		featurePanel.setLayout(new GridLayout(2,0));
+		JLabel featureDescription = Components.makeText(description, 20);
+		ImageIcon feature = new ImageIcon(filename);
+		JLabel featureLabel = new JLabel(feature, JLabel.CENTER);
+		featureLabel.setOpaque(false);
+		featureLabel.setLayout(new BorderLayout());
+		featurePanel.add(featureLabel);
+		featurePanel.add(featureDescription);
+		return featurePanel;
+	}
+	
 	private void addReturnButton() {
         JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
@@ -180,14 +190,19 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 				showLayout.show(showDescription, MULTI_PLAYER);
 			} else if (selectionList.getSelectedIndex() == 2) {
 				System.out.println("boots selected");
+				showLayout.show(showDescription, BOOTS);
 			} else if (selectionList.getSelectedIndex() == 3) {
 				System.out.println("clocks selected");
+				showLayout.show(showDescription, CLOCKS);
 			} else if (selectionList.getSelectedIndex() == 4) {
 				System.out.println("trail selected");
+				showLayout.show(showDescription, EXPLORED_TRAIL);
 			} else if (selectionList.getSelectedIndex() == 5) {
 				System.out.println("fog selected");
+				showLayout.show(showDescription, FOG_OF_WAR);
 			} else if (selectionList.getSelectedIndex() == 6) {
 				System.out.println("shifting walls selected");
+				showLayout.show(showDescription, SHIFTING_WALLS);
 			}
 		}
 		
