@@ -27,7 +27,7 @@ public class MazeSettings {
 	
     public MazeSettings(boolean multiplayer, boolean trail, int mazeSize,
     		int branching, int straightness, int startingTime,
-            Collection<Modification> modifications, long seed) {
+            long seed, Collection<Modification> modifications) {
         if ((mazeSize < MIN_MAZE_SIZE || mazeSize > MAX_MAZE_SIZE)
                 || (branching < MIN_BRANCHING || branching > MAX_BRANCHING)
                 || (straightness < MIN_STRAIGHTNESS || straightness > MAX_STRAIGHTNESS)
@@ -54,7 +54,7 @@ public class MazeSettings {
     }
 	
 	public MazeSettings() {
-	    this(false, true, MIN_MAZE_SIZE, MIN_BRANCHING, MIN_STRAIGHTNESS, MIN_STARTING_TIME, NO_MODIFICATIONS, System.nanoTime());
+	    this(false, true, MIN_MAZE_SIZE, MIN_BRANCHING, MIN_STRAIGHTNESS, MIN_STARTING_TIME, System.nanoTime(), NO_MODIFICATIONS);
 	}
 
     public boolean getMultiplayer() {

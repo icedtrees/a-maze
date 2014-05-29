@@ -85,7 +85,7 @@ public class MazePage extends Page implements KeyListener{
 		mods.add(new SpeedMod(bootsFreq * numSpaces / scale / 100));
 // 		mods.add(new ShiftingWallsMod(10, 8));
 		
-		MazeSettings mazeInfo = new MazeSettings(false, true, mazeHeight, branching, straightness, startingTime, mods, System.nanoTime());
+		MazeSettings mazeInfo = new MazeSettings(false, true, mazeHeight, branching, straightness, startingTime, System.nanoTime(), mods);
 		
 		final Maze maze = new Maze(mazeInfo);
 		GridBagConstraints c = new GridBagConstraints();
