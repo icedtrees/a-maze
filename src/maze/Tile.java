@@ -133,7 +133,7 @@ public class Tile {
     	shifting = dir;
     }
     
-    public void interact(Player player, MazeStats stats) {
+    public void interact(Player player, MazeSettings stats) {
     	if (contents != null) {
     		if (contents.interact(player, stats)) {
     			contents = null;

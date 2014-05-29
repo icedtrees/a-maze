@@ -65,6 +65,48 @@ boots: yes or no. singler slider. frequency of boots - 0 to 100
 fogofwar: yes or no. single slider. frequency of torches - 0 to 100
 shifting walls: yes or no. single slider. percentage of walls to shift each time - 0 to 100
 
+Campaign
+---------
+level1 - hello world
+5, 8, 10, 40
+yes no no no no
+
+level2 - easy as pie
+7, 8, 7, 40
+yes no no no no
+
+level3 - whats that ticking sound?
+9, 8, 5, 20
+yes 3 no no no
+
+level4 - time is tight
+11, 10, 5, 20
+yes 3 no no no
+
+level5 - run run run
+13, 10, 3, 30
+yes 1 3 no no
+
+level6 - training wheels off
+15, 10, 0, 30
+no 2 2 no no
+
+level7 - iseedeadpeople
+17, 10, 0, 60
+yes 2 2 3 no
+
+level8 - fading footsteps
+17, 10, 0, 60
+no 2 2 3 no
+
+level9 - hogwarts
+20, 10, 0, 120
+no 3 2 no 10
+
+level10 - final destination
+25, 10, -5, 180
+no 5 3 4 10
+
 Tile
 ----
 Tile can either be empty or not empty, representing a wall or an empty space. Each Tile contains one TileObject, which is the contents of the Tile.

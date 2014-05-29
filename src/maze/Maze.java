@@ -37,7 +37,7 @@ public class Maze extends JComponent {
     private Coord player1Last;
     private Coord player2Last;
     
-    private MazeStats stats;
+    private MazeSettings stats;
     
     public enum Direction {
     	NORTH(0, -1),
@@ -74,12 +74,12 @@ public class Maze extends JComponent {
     
     public Maze(int newHeight, int displayHeight,
     		int straightness, int branching,
-    		MazeStats stats, List<Modification> mods) {
+    		MazeSettings stats, List<Modification> mods) {
         this(newHeight, displayHeight, straightness, branching,
         		stats, mods, System.nanoTime());
     }
     public Maze(int newHeight, int displayHeight,
-    		int straightness, int branching, MazeStats stats,
+    		int straightness, int branching, MazeSettings stats,
     		List<Modification> mods, long seed) {
     	this((int) (newHeight * DEFAULT_RATIO), newHeight,
                 (int) (displayHeight * DEFAULT_RATIO), displayHeight,
@@ -87,7 +87,7 @@ public class Maze extends JComponent {
     }
     public Maze(int newWidth, int newHeight,
             int displayWidth, int displayHeight,
-            int straightness, int branching, MazeStats stats,
+            int straightness, int branching, MazeSettings stats,
             List<Modification> mods, long seed) {
         mazeWidth = 2 * newWidth + 1;
         mazeHeight = 2 * newHeight + 1;

@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 import javax.swing.*;
 
 import maze.Maze;
-import maze.MazeStats;
+import maze.MazeSettings;
 import maze.modification.*;
 
 
@@ -34,7 +34,6 @@ public class MazePage extends Page implements KeyListener{
 	public volatile Result result;
 	public AtomicIntegerArray pressedKeys;
 	
-	private MazeStats mazeInfo;
 	
 	// in mainPanel will be a mazePanel where the maze game will be shown
 	// and sidebarPanel on the right 
@@ -44,8 +43,6 @@ public class MazePage extends Page implements KeyListener{
 		setLayout(new GridBagLayout());
 
 		result = null;
-
-        mazeInfo = new MazeStats(2, 100);
 		
 		GridBagConstraints c = new GridBagConstraints();
         sidePanel = Components.makePanel();
@@ -100,7 +97,7 @@ public class MazePage extends Page implements KeyListener{
 		mods.add(new SpeedMod(bootsFreq * numSpaces / scale / 100));
  		mods.add(new ShiftingWallsMod(10, 8));
 		
-		mazeInfo = new MazeStats(1, startingTime);
+		mazeInfo = new MazeSettings();
 		
 		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, mazeInfo, mods);
 		add(maze, c);

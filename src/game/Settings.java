@@ -1,5 +1,7 @@
 package game;
 
+import maze.MazeSettings;
+
 /**
  * @author icedtrees
  *
@@ -22,11 +24,13 @@ public class Settings {
     public ScreenSize screenSize;
     public int FPS;
     public boolean leaveTrail;
+    public MazeSettings mazeStats;
     
     public Settings() {
         this.screenSize = ScreenSize.SMALL;
         this.FPS = 50;
         this.leaveTrail = true;
+        this.mazeStats = new MazeSettings();
     }
     
 }
