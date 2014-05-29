@@ -34,10 +34,7 @@ public class MazePage extends Page implements KeyListener{
 	public volatile Result result;
 	public AtomicIntegerArray pressedKeys;
 	
-	
-	// in mainPanel will be a mazePanel where the maze game will be shown
-	// and sidebarPanel on the right 
-	
+
 	public MazePage() {
 		super();
 		setLayout(new GridBagLayout());
@@ -55,7 +52,7 @@ public class MazePage extends Page implements KeyListener{
 		addKeyListener(this);
 		pressedKeys = new AtomicIntegerArray(256);
 		
-
+        drawSidebar();
 	}
 
 	public MazePage.Result run() {
@@ -94,8 +91,6 @@ public class MazePage extends Page implements KeyListener{
 		c.weighty = 1;
 		add(maze, c);
 		validate();
-		
-		drawSidebar(maze);
 		
 		/*
          * The main event loop which gets run every frame based on a frame-rate
@@ -163,7 +158,7 @@ public class MazePage extends Page implements KeyListener{
         }
 	}
 	
-    private void drawSidebar(Maze maze) {
+    private void drawSidebar() {
         JLabel mazeTitle = Components.makeText("MAZE", 20);
         mazeTitle.setAlignmentX(JLabel.CENTER);
         sidePanel.add(mazeTitle);
@@ -171,10 +166,8 @@ public class MazePage extends Page implements KeyListener{
         timeLeft1 = Components.makeText("Player1: ", 15);
         sidePanel.add(timeLeft1);
         
-        if (maze.isMultiplayer()) {
-            timeLeft2 = Components.makeText("Player2: ", 15);
-            sidePanel.add(timeLeft2);
-        }
+        timeLeft2 = Components.makeText("Player2: ", 15);
+        sidePanel.add(timeLeft2);
         
         JButton returnButton = Components.makeButton("return");
         returnButton.addActionListener(new ActionListener() {
