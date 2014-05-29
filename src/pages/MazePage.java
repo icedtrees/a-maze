@@ -65,19 +65,7 @@ public class MazePage extends Page implements KeyListener{
 	    
 	    // Start collecting keys
         this.requestFocusInWindow();
-        
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.gridy = 0;
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
-		c.weighty = 1;
-		
-//		int difficulty = 19;
-//    	int mazeHeight = 5 + ((difficulty*3)/10);
-//    	int straightness = 900 - ((difficulty % 10) * 100);
-//    	int branching = 93 - ((difficulty % 10) * 10);
-		
+				
 		int mazeHeight = 17;
 		int branching = 10;
 		int straightness = 0;
@@ -97,9 +85,15 @@ public class MazePage extends Page implements KeyListener{
 		mods.add(new SpeedMod(bootsFreq * numSpaces / scale / 100));
 // 		mods.add(new ShiftingWallsMod(10, 8));
 		
-		mazeInfo = new MazeSettings();
+		MazeSettings mazeInfo = new MazeSettings(false, true, mazeHeight, branching, straightness, startingTime, mods, System.nanoTime());
 		
-		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, mazeInfo, mods);
+		final Maze maze = new Maze(mazeInfo);
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.weighty = 1;
 		add(maze, c);
 		validate();
 		

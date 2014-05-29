@@ -6,15 +6,16 @@ import maze.modification.Modification;
 
 public class MazeSettings {
 	private boolean multiplayer;
+	private boolean trail;
 	private int mazeSize;
 	private int branching;
 	private int straightness;
 	private int startingTime;
-	private Collection<Modification> modifications;
+	private List<Modification> modifications;
+	private long seed;
 	
-	public static final boolean MAZE_SIZE_ODD = true;
-	public static final int MIN_MAZE_SIZE = 11;
-	public static final int MAX_MAZE_SIZE = 55;
+	public static final int MIN_MAZE_SIZE = 5;
+	public static final int MAX_MAZE_SIZE = 40;
 	public static final int MIN_BRANCHING = 1;
 	public static final int MAX_BRANCHING = 10;
 	public static final int MIN_STRAIGHTNESS = -10;
@@ -24,11 +25,10 @@ public class MazeSettings {
 	
 	public static final List<Modification> NO_MODIFICATIONS = Collections.emptyList();
 	
-    public MazeSettings(boolean multiplayer, int mazeSize, int branching,
-            int straightness, int startingTime,
-            Collection<Modification> modifications) {
-        if ((MAZE_SIZE_ODD && mazeSize % 2 == 0)
-                || (mazeSize < MIN_MAZE_SIZE || mazeSize > MAX_MAZE_SIZE)
+    public MazeSettings(boolean multiplayer, boolean trail, int mazeSize,
+    		int branching, int straightness, int startingTime,
+            Collection<Modification> modifications, long seed) {
+        if ((mazeSize < MIN_MAZE_SIZE || mazeSize > MAX_MAZE_SIZE)
                 || (branching < MIN_BRANCHING || branching > MAX_BRANCHING)
                 || (straightness < MIN_STRAIGHTNESS || straightness > MAX_STRAIGHTNESS)
                 || (startingTime < MIN_STARTING_TIME || startingTime > MAX_STARTING_TIME)) {
@@ -40,19 +40,29 @@ public class MazeSettings {
         }
 
         this.multiplayer = multiplayer;
+        this.trail = trail;
         this.mazeSize = mazeSize;
         this.branching = branching;
         this.straightness = straightness;
         this.startingTime = startingTime;
         this.modifications = new ArrayList<Modification>(modifications);
+        if (seed == -1) {
+        	this.seed = System.nanoTime();
+        } else {
+        	this.seed = seed;
+        }
     }
 	
 	public MazeSettings() {
-	    this(false, MIN_MAZE_SIZE, MIN_BRANCHING, MIN_STRAIGHTNESS, MIN_STARTING_TIME, NO_MODIFICATIONS);
+	    this(false, true, MIN_MAZE_SIZE, MIN_BRANCHING, MIN_STRAIGHTNESS, MIN_STARTING_TIME, NO_MODIFICATIONS, System.nanoTime());
 	}
 
     public boolean getMultiplayer() {
         return multiplayer;
+    }
+    
+    public boolean getTrail() {
+    	return trail;
     }
 
     public int getMazeSize() {
@@ -71,12 +81,20 @@ public class MazeSettings {
         return startingTime;
     }
 
-    public Collection<Modification> getModifications() {
+    public List<Modification> getModifications() {
         return modifications;
+    }
+    
+    public long getSeed() {
+    	return seed;
     }
 
     public void setMultiplayer(boolean multiplayer) {
         this.multiplayer = multiplayer;
+    }
+    
+    public void setTrail(boolean trail) {
+    	this.trail = trail;
     }
 
     public void setMazeSize(int mazeSize) {
@@ -95,8 +113,11 @@ public class MazeSettings {
         this.startingTime = startingTime;
     }
 
-    public void setModifications(Collection<Modification> modifications) {
+    public void setModifications(List<Modification> modifications) {
         this.modifications = modifications;
     }
-
+    
+    public void setSeed(long seed) {
+    	this.seed = seed;
+    }
 }

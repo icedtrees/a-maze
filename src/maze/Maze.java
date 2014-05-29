@@ -72,26 +72,10 @@ public class Maze extends JComponent {
         }
     }
     
-    public Maze(int newHeight, int displayHeight,
-    		int straightness, int branching,
-    		MazeSettings stats, List<Modification> mods) {
-        this(newHeight, displayHeight, straightness, branching,
-        		stats, mods, System.nanoTime());
-    }
-    public Maze(int newHeight, int displayHeight,
-    		int straightness, int branching, MazeSettings stats,
-    		List<Modification> mods, long seed) {
-    	this((int) (newHeight * DEFAULT_RATIO), newHeight,
-                (int) (displayHeight * DEFAULT_RATIO), displayHeight,
-                straightness, branching, stats, mods, seed);
-    }
-    public Maze(int newWidth, int newHeight,
-            int displayWidth, int displayHeight,
-            int straightness, int branching, MazeSettings stats,
-            List<Modification> mods, long seed) {
-        mazeWidth = 2 * newWidth + 1;
-        mazeHeight = 2 * newHeight + 1;
-        setPreferredSize(new Dimension(displayWidth, displayHeight));
+    public Maze(MazeSettings settings) {
+        mazeWidth = 2 * settings.getMazeSize() + 1;
+        mazeHeight = (int) (2 * settings.getMazeSize() * DEFAULT_RATIO + 1);
+//        setPreferredSize(new Dimension(displayWidth, displayHeight));
         tiles = new Tile[mazeWidth][mazeHeight];
         for (int row = 0; row < mazeHeight; row++) {
             for (int col = 0; col < mazeWidth; col++) {
@@ -101,19 +85,15 @@ public class Maze extends JComponent {
         
         this.straightness = straightness > 0 ? straightness*straightness : straightness;
         this.branching = (int) (1.5 * (11 - branching));
-        this.rand = new Random(seed);
+        this.rand = new Random(settings.getSeed());
         this.genMazeDFSBranch();
         
-        player1 = null;
-    	player2 = null;
-    	this.stats = stats;
-    	int numPlayers = stats.getNumPlayers();
-    	if (numPlayers >= 1) {
-    		player1 = new Player(1, 1, 0, Color.RED);
-    		player1Last = new Coord(1, 0);
-    	}
-    	if (numPlayers >= 2) {
-    		player2 = new Player(2, mazeWidth - 2, mazeHeight - 1, Color.BLUE);
+		player1 = new Player(1, 1, 0, Color.RED, settings.getTrail());
+		player1Last = new Coord(1, 0);
+		
+		player2 = null;
+    	if (settings.getMultiplayer()) {
+    		player2 = new Player(2, mazeWidth - 2, mazeHeight - 1, Color.BLUE, settings.getTrail());
     		player2Last = new Coord(mazeWidth - 2, mazeHeight - 1);
     		
     		player1.setFriend(player2);
@@ -127,7 +107,7 @@ public class Maze extends JComponent {
     		tiles[1][0].setContents(new GoalFlag(player2));
     		tiles[player2.getRealX()][player2.getRealY()].interact(player2, stats);
     	}
-        this.applyMods(mods);
+        this.applyMods(settings.getModifications());
     }
     
     /*
