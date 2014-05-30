@@ -188,8 +188,8 @@ public class MazePage extends Page implements KeyListener{
         
         timerPanel = Components.makePanel();
         timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.PAGE_AXIS));
-        timeLeft1 = Components.makeText("Player1: ", 15);
-        timeLeft2 = Components.makeText("Player2: ", 15);
+        timeLeft1 = Components.makeText("Player1: ", 20);
+        timeLeft2 = Components.makeText("Player2: ", 20);
         timeLeft2.setVisible(false);
         timerPanel.add(timeLeft1);
         timerPanel.add(timeLeft2);
