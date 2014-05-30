@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 import javax.swing.*;
 
 import maze.Maze;
+import maze.Direction;
 import maze.MazeSettings;
 
 
@@ -113,29 +114,29 @@ public class MazePage extends Page implements KeyListener{
         	    }
         	    
                 if (pressedKeys.get(KeyEvent.VK_A) == KEY_PRESSED) {
-                    maze.movePlayer(1, Maze.Direction.WEST);
+                    maze.movePlayer(1, Direction.WEST);
                 } 
                 if (pressedKeys.get(KeyEvent.VK_D) == KEY_PRESSED) {
-                    maze.movePlayer(1, Maze.Direction.EAST);
+                    maze.movePlayer(1, Direction.EAST);
                 } 
                 if (pressedKeys.get(KeyEvent.VK_W) == KEY_PRESSED) {
-                    maze.movePlayer(1, Maze.Direction.NORTH);
+                    maze.movePlayer(1, Direction.NORTH);
                 } 
                 if (pressedKeys.get(KeyEvent.VK_S) == KEY_PRESSED) {
-                    maze.movePlayer(1, Maze.Direction.SOUTH);
+                    maze.movePlayer(1, Direction.SOUTH);
                 }
 
                 if (pressedKeys.get(KeyEvent.VK_LEFT) == KEY_PRESSED) {
-                    maze.movePlayer(2, Maze.Direction.WEST);
+                    maze.movePlayer(2, Direction.WEST);
                 }
                 if (pressedKeys.get(KeyEvent.VK_RIGHT) == KEY_PRESSED) {
-                    maze.movePlayer(2, Maze.Direction.EAST);
+                    maze.movePlayer(2, Direction.EAST);
                 } 
                 if (pressedKeys.get(KeyEvent.VK_UP) == KEY_PRESSED) {
-                    maze.movePlayer(2, Maze.Direction.NORTH);
+                    maze.movePlayer(2, Direction.NORTH);
                 } 
                 if (pressedKeys.get(KeyEvent.VK_DOWN) == KEY_PRESSED) {
-                    maze.movePlayer(2, Maze.Direction.SOUTH);
+                    maze.movePlayer(2, Direction.SOUTH);
                 } 
                 
                 maze.nextFrame();

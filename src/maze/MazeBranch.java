@@ -2,7 +2,7 @@ package maze;
 
 import java.util.Stack;
 
-import maze.Maze.Direction;
+import maze.Direction;
 
 public class MazeBranch {
 	private Stack<Step> s;

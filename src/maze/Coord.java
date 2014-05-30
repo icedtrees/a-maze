@@ -1,6 +1,6 @@
 package maze;
 
-import maze.Maze.Direction;
+import maze.Direction;
 
 public class Coord {
 	private int x;
