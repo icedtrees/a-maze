@@ -11,7 +11,7 @@ public class Player extends MobileObject {
 	private int hintsLeft;
 	
 	public Player(int startX, int startY, Color color, boolean trail, double timer, int hintsLeft) {
-		super(color, 5, startX, startY, 1, "img/sprite-test-");
+		super(color, 5, startX, startY, 3, "img/playerSprite/brownCat");
 		this.leavesTrail = trail;
 		this.timer = timer;
 		this.hintsLeft = hintsLeft;

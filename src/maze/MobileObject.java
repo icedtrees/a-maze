@@ -175,9 +175,7 @@ public abstract class MobileObject {
 	    int height = currentSprite.getHeight();
         int width = currentSprite.getWidth();
         
-        // either it fills up the entire hallway, or it gets centered
-        g.drawImage(currentSprite, Math.max(tileSize / 2 - width / 2, 0),
-                Math.max(tileSize / 2 - height / 2, 0), null);
+        g.drawImage(currentSprite, 0, 0, tileSize, tileSize, 0, 0, width, height, null);
 	}
 	
 //	private boolean equalTo(double a, double b) {
