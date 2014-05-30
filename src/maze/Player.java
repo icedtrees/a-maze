@@ -10,7 +10,7 @@ public class Player extends MobileObject {
 	private boolean finished;
 	
 	public Player(int startX, int startY, Color color, boolean trail, double timer) {
-		super(color, 5, startX, startY);
+		super(color, 5, startX, startY, 1, "img/sprite-test-");
 		this.leavesTrail = trail;
 		this.timer = timer;
 		finished = false;
