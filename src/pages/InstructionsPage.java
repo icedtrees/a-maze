@@ -118,15 +118,17 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         JPanel multiPlayerPanel = makeDescription(html1 + "Multi Player: <br>Player 1: Use the WASD keys to move. "
         		+ "<br> Player 2:   Use arrows to move.<br><br>Both cats must find their favourite coloured fish before they collapse from hunger! Once you get to your fish your timer will stop counting down.<br><br>Cats cannot walk past each other.</html>", "img/WASDarrowKeys.png");
         // need to find images for the rest of these, preferably of our actual maze so it's clear what the feature is
+        
 		JPanel coopPanel = makeDescription(html1 + "In Co-op mode, red cat and green cat must work together to get to their respective fish.<br><br>Cats cannot walk past each other because they eat too much fish and get fat.<br><br>Red cat loves green cat very much and all powerups that red cat picks up will go to green cat and vice versa.", "img/WASDarrowKeys.png");
-        JPanel bootsPanel = makeDescription(html1 + "Boots: <br>When cat picks up a pair of these boots, he can run faster!</html>", "img/boots.png");
-		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Cat is able to turn back time with one of these clocks.<br>This means that cat has more time to find his fish.</html>", "img/clocks.png");
-		JPanel trailPanel = makeDescription(html1 + "Explored trail: <br>Cat leaves colourful footprints to help him remember where he's been.</html>", "img/trail.png");
-		JPanel fogPanel = makeDescription(html1 + "Fog of war: <br>It's nighttime and cat can't see very far. "
-				+ "Fortunately cat can pick up torches to increase his field of view.</html>", "img/fog.png");
+		JPanel bootsPanel = makeDescription(html1 + "Boots: <br>When cat picks up a pair of these boots, he can run faster!</html>", "img/bootsDescription.jpg");
+		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Cat is able to turn back time with one of these clocks.<br>This means that cat has more time to find his fish.</html>", "img/clocksDescription.jpg");
+		JPanel trailPanel = makeDescription(html1 + "Explored trail: <br>Cat leaves colourful footprints to help him remember where he's been.</html>", "img/exploredTrailDescription.jpg");
+		JPanel fogPanel = makeDescription(html1 + "Fog of war: <br>It's nighttime and cat can't see very far."
+				+ "Fortunately cat can pick up torches to increase his field of view.</html>", "img/fogOfWarDescription.jpg");
+		
 		//fill in the blanks
 		JPanel wallsPanel = makeDescription(html1 + "Shifting walls: <br>Is this Hogwarts? Every few steps that cat takes, "
-				+ "a bunch of walls will shift and move around, confuddling poor cat.</html>", "img/walls.png");
+				+ "a bunch of walls will shift and move around, confuddling poor cat.</html>", "img/shiftingWallsDescription.jpg");
 		JPanel hintsPanel = makeDescription(html1 + "Hints: <br>"
 				+ "When hints are on you get 5 hints. The first hint highlights 100% of the path. The next hint highlights 80%, then 60%, 40%, 20% and then cat is left all alone.</html>", "img/hints.png");
 		
@@ -165,14 +167,20 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 
 	private JPanel makeDescription(String description, String filename) {
 		JPanel featurePanel = Components.makePanel();
-		featurePanel.setLayout(new GridLayout(2,0));
+		featurePanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
 		JLabel featureDescription = Components.makeText(description, 18);
 		ImageIcon feature = new ImageIcon(filename);
 		JLabel featureLabel = new JLabel(feature, JLabel.CENTER);
 		featureLabel.setOpaque(false);
 		featureLabel.setLayout(new BorderLayout());
-		featurePanel.add(featureLabel);
-		featurePanel.add(featureDescription);
+		featurePanel.add(featureLabel, c);
+		c.gridx = 0;
+		c.gridy = 1;
+		featurePanel.add(featureDescription, c);
 		return featurePanel;
 	}
 	
