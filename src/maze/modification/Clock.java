@@ -1,11 +1,26 @@
 package maze.modification;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import maze.*;
 
 public class Clock implements TileObject {
+	private static BufferedImage image;
 	private int value;
+	
+	static {
+		try {
+			image = ImageIO.read(new File("img/playerSprite/clock.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public Clock(int value) {
 		this.value = value;
@@ -27,9 +42,8 @@ public class Clock implements TileObject {
 
 	@Override
 	public void draw(Graphics g, int tileSize) {
-		g.setColor(Color.YELLOW);
-		g.fillOval(tileSize / 4, tileSize / 4, tileSize / 2, tileSize / 2);
-		
+		g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(),
+				0, 0, tileSize, tileSize, null);
 	}
 
 }
