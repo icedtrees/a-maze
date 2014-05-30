@@ -173,7 +173,7 @@ public class Game {
         mainWindow = new JFrame();
         mainWindow.setSize(settings.screenSize.width, settings.screenSize.height);
         mainWindow.setTitle("A*maze-d");
-        // mainWindow.setResizable(false);
+        mainWindow.setResizable(false);
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         mainPanel = new JPanel();
