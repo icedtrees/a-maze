@@ -161,14 +161,20 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 
 	private JPanel makeDescription(String description, String filename) {
 		JPanel featurePanel = Components.makePanel();
-		featurePanel.setLayout(new GridLayout(2,0));
+		featurePanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
 		JLabel featureDescription = Components.makeText(description, 18);
 		ImageIcon feature = new ImageIcon(filename);
 		JLabel featureLabel = new JLabel(feature, JLabel.CENTER);
 		featureLabel.setOpaque(false);
 		featureLabel.setLayout(new BorderLayout());
-		featurePanel.add(featureLabel);
-		featurePanel.add(featureDescription);
+		featurePanel.add(featureLabel, c);
+		c.gridx = 0;
+		c.gridy = 1;
+		featurePanel.add(featureDescription, c);
 		return featurePanel;
 	}
 	
