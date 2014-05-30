@@ -70,6 +70,7 @@ public class Tile {
 	    if (isShifting()) {
 	    	// Draw background
 	    	g.setColor(Color.WHITE);
+	    	g.fillRect(0, 0, tileSize, tileSize);
 	    	if (trail != null) {
 	    		g.setColor(trail);
 	    	}
@@ -91,14 +92,14 @@ public class Tile {
 	    	    g.setColor(Color.BLACK);
 		    }
 		    if (value == SPACE) {
-		    	if (trail != null) {
-		    		g.setColor(trail);
-		    	} else {
-		    		g.setColor(Color.WHITE);
-		    	}
+		    	g.setColor(Color.WHITE);
 		    }
-		    
 		    g.fillRect(0, 0, tileSize, tileSize);
+		    
+		    if (trail != null) {
+	    		g.setColor(trail);
+	    		g.fillRect(0, 0, tileSize, tileSize);
+	    	}
 	    }
 	    
 	    if (hint != null) {
@@ -115,6 +116,14 @@ public class Tile {
     		hint = new Color(hint.getRed(), hint.getGreen(), hint.getBlue(), hint.getAlpha() - 5);
     		if (hint.getAlpha() == 0) {
     			hint = null;
+    		}
+    	}
+    	if (trail != null) {
+    		if (trail.getAlpha() != 255) {
+    			trail = new Color(trail.getRed(),
+    					trail.getGreen(),
+    					trail.getBlue(),
+    					trail.getAlpha() + 5);
     		}
     	}
     	if (isShifting()) {
@@ -145,8 +154,11 @@ public class Tile {
     			contents = null;
     		}
     	}
-    	if (player.leavesTrail()) {
-    		this.trail = player.getColor();
+    	if (trail == null && player.leavesTrail()) {
+    		trail = new Color(player.getColor().getRed(),
+    				player.getColor().getGreen(),
+    				player.getColor().getBlue(),
+    				0);
     	}
     }
     
