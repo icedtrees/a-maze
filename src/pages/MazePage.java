@@ -176,7 +176,7 @@ public class MazePage extends Page implements KeyListener{
 		}
         if (maze.isMultiplayer()) {
         	if (maze.playerFinished(2)) {
-        		timeLeft1.setText("Player2: Finished!");
+        		timeLeft2.setText("Player2: Finished!");
         	} else {
         		timeLeft2.setText("Player2: " + String.format("%.2f", maze.getPlayerTimer(2)));
         	}
