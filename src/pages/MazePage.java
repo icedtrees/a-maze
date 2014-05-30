@@ -12,15 +12,14 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 import javax.swing.*;
 
 import maze.Maze;
-import maze.MazeStats;
-import maze.modification.*;
+import maze.MazeSettings;
 
 
 public class MazePage extends Page implements KeyListener{
     private static final long serialVersionUID = 1L;
     public enum Result implements Page.Result {
-		
-        RETURN_HOME
+		WON_GAME,
+        LOST_GAME
     };
     
     // Status of key presses
@@ -34,18 +33,13 @@ public class MazePage extends Page implements KeyListener{
 	public volatile Result result;
 	public AtomicIntegerArray pressedKeys;
 	
-	private MazeStats mazeInfo;
-	
-	// in mainPanel will be a mazePanel where the maze game will be shown
-	// and sidebarPanel on the right 
-	
+	private MazeSettings mazeSettings;
+
 	public MazePage() {
 		super();
 		setLayout(new GridBagLayout());
 
 		result = null;
-
-        mazeInfo = new MazeStats(2, 100);
 		
 		GridBagConstraints c = new GridBagConstraints();
         sidePanel = Components.makePanel();
@@ -55,12 +49,12 @@ public class MazePage extends Page implements KeyListener{
 		//c.ipadx = 30;
 		add(sidePanel, c);
 		
-		drawSidebar();
-		
 		addKeyListener(this);
 		pressedKeys = new AtomicIntegerArray(256);
 		
-
+        drawSidebar();
+        
+        mazeSettings = new MazeSettings();
 	}
 
 	public MazePage.Result run() {
@@ -68,43 +62,17 @@ public class MazePage extends Page implements KeyListener{
 	    
 	    // Start collecting keys
         this.requestFocusInWindow();
-        
+
+		final Maze maze = new Maze(mazeSettings);
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.weighty = 1;
-		
-//		int difficulty = 19;
-//    	int mazeHeight = 5 + ((difficulty*3)/10);
-//    	int straightness = 900 - ((difficulty % 10) * 100);
-//    	int branching = 93 - ((difficulty % 10) * 10);
-		
-		int mazeHeight = 17;
-		int branching = 10;
-		int straightness = 0;
-		int startingTime = 60;
-    	
-    	java.util.List<Modification> mods = new java.util.ArrayList<Modification>();
-    	int clockFreq = 2;
-    	int bootsFreq = 2;
-    	int torchFreq = 3;
-    	int scale = ((torchFreq + clockFreq + bootsFreq) / 100) + 1;
-    	int numSpaces = (int) (mazeHeight * mazeHeight * Maze.DEFAULT_RATIO);
-    	System.out.println(numSpaces);
-    	System.out.println(bootsFreq * numSpaces / scale / 100);
-    	
-		mods.add(new FogMod(4, torchFreq * numSpaces / scale / 100));
-		mods.add(new ClockMod(clockFreq * numSpaces / scale / 100));
-		mods.add(new SpeedMod(bootsFreq * numSpaces / scale / 100));
-// 		mods.add(new ShiftingWallsMod(10, 8));
-		
-		mazeInfo = new MazeStats(1, startingTime);
-		
-		final Maze maze = new Maze(mazeHeight, 600, straightness, branching, mazeInfo, mods);
 		add(maze, c);
 		validate();
+		maze.getHint(1, 10);
 		
 		/*
          * The main event loop which gets run every frame based on a frame-rate
@@ -116,11 +84,9 @@ public class MazePage extends Page implements KeyListener{
         	@Override
         	public void run() {
         	    
-        	    mazeInfo.setTimer(1, mazeInfo.getTimer(1) - (1.0 / Game.settings.FPS));
-        	    if (mazeInfo.getNumPlayers() > 1) {
-        	        mazeInfo.setTimer(2, mazeInfo.getTimer(2) - (1.0 / Game.settings.FPS));
-        	    }
-        	    updateTimers();
+        	    maze.setPlayer1TimerRelative(-(1.0 / Game.settings.FPS));
+        	    maze.setPlayer2TimerRelative(-(1.0 / Game.settings.FPS));
+        	    updateTimers(maze);
         	    
                 if (pressedKeys.get(KeyEvent.VK_LEFT) == KEY_PRESSED) {
                     maze.movePlayer(1, Maze.Direction.WEST);
@@ -148,6 +114,9 @@ public class MazePage extends Page implements KeyListener{
                 }
         	    maze.nextFrame();
         	    SwingUtilities.getWindowAncestor(mazePage).repaint();
+        	    if (maze.playersFinished()) {
+        	        result = Result.WON_GAME;
+        	    }
         	}
         }, 1000/Game.settings.FPS, 1000/Game.settings.FPS);
         
@@ -167,10 +136,14 @@ public class MazePage extends Page implements KeyListener{
 		return result;
 	}
 	
-	private void updateTimers() {
-	    timeLeft1.setText("Player1: " + String.format("%.2f", mazeInfo.getTimer(1)));
-        if (mazeInfo.getNumPlayers() > 1) {
-            timeLeft2.setText("Player2: " + String.format("%.2f", mazeInfo.getTimer(2)));
+	public void setMazeSettings(MazeSettings newSettings) {
+	    mazeSettings = newSettings;
+	}
+	
+	private void updateTimers(Maze maze) {
+	    timeLeft1.setText("Player1: " + String.format("%.2f", maze.getPlayer1Timer()));
+        if (maze.isMultiplayer()) {
+            timeLeft2.setText("Player2: " + String.format("%.2f", maze.getPlayer2Timer()));
         }
 	}
 	
@@ -182,16 +155,14 @@ public class MazePage extends Page implements KeyListener{
         timeLeft1 = Components.makeText("Player1: ", 15);
         sidePanel.add(timeLeft1);
         
-        if (mazeInfo.getNumPlayers() > 1) {
-            timeLeft2 = Components.makeText("Player2: ", 15);
-            sidePanel.add(timeLeft2);
-        }
+        timeLeft2 = Components.makeText("Player2: ", 15);
+        sidePanel.add(timeLeft2);
         
         JButton returnButton = Components.makeButton("return");
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("return to main menu");
-                result = Result.RETURN_HOME;
+                result = Result.LOST_GAME;
             }
         });
         sidePanel.add(returnButton);
@@ -200,12 +171,16 @@ public class MazePage extends Page implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        pressedKeys.set(e.getKeyCode(), KEY_PRESSED);
+        if (e.getKeyCode() < 256) {
+            pressedKeys.set(e.getKeyCode(), KEY_PRESSED);
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        pressedKeys.set(e.getKeyCode(), KEY_UNPRESSED);
+        if (e.getKeyCode() < 256) {
+            pressedKeys.set(e.getKeyCode(), KEY_UNPRESSED);
+        }
     }
 
     @Override

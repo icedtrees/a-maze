@@ -3,7 +3,6 @@ package maze.modification;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import maze.MazeStats;
 import maze.Player;
 import maze.TileObject;
 
@@ -15,7 +14,7 @@ public class Torch implements TileObject {
 	}
 	
 	@Override
-	public boolean interact(Player player, MazeStats stats) {
+	public boolean interact(Player player) {
 		Player friend = player.getFriend();
 		if (friend != null) {
 			friend.setVisionRelative(visionBonus);

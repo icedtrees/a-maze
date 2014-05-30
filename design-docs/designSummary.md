@@ -40,6 +40,14 @@ Maze extends JComponent
 Contained in MazeWindow. Takes care of the maze generation as well as graphical output. Maze will have various public functions to alter the maze, which mazewindow will call. Maze returns result codes to MazePage to tell it what to do.
 
 
+MazeSettings
+-------------
+maze size: will involve a single slider that controls the maze HEIGHT. only ODD numbers. scale from 11 to 55
+branching: single slider which controls branching. scale from 1 to 10
+straightness: single slider. scale from -10 to 10
+starting time: time in seconds. single slider. scale from 10 to 300
+
+
 interface Modification
 ---------------------
 Modification defines a certain way in which a Maze must be modified to fit the requirements of a new feature. Modifications must implement the 
@@ -48,6 +56,60 @@ void modify(Maze maze) function
 
 which takes a Maze as an argument and modifies it minimally to suit the feature. MazePage features like enable timer will have to be manually hardcoded.
 
+
+implemented Modifications
+-------------------------
+explored trail: yes or no
+clocks: yes or no. single slider. frequency of clocks - 0 to 100
+boots: yes or no. singler slider. frequency of boots - 0 to 100
+fogofwar: yes or no. single slider. frequency of torches - 0 to 100
+shifting walls: yes or no. single slider. percentage of walls to shift each time - 0 to 100
+
+Campaign
+---------
+level1 - hello world
+5, 8, 10, 40
+explored
+no no no no
+
+level2 - easy as pie
+7, 8, 7, 40
+explored
+no no no no
+
+level3 - whats that ticking sound?
+9, 8, 5, 20
+explored
+3 no no no
+
+level4 - time is tight
+11, 10, 5, 20
+explored
+3 no no no
+
+level5 - run run run
+13, 10, 3, 30
+yes 1 3 no no
+
+level6 - training wheels off
+15, 10, 0, 30
+no 2 2 no no
+
+level7 - iseedeadpeople
+17, 10, 0, 60
+yes 2 2 3 no
+
+level8 - fading footsteps
+17, 10, 0, 60
+no 2 2 3 no
+
+level9 - hogwarts
+20, 10, 0, 120
+no 3 2 no 10
+
+level10 - final destination
+25, 10, -5, 180
+no 5 3 4 10
 
 Tile
 ----

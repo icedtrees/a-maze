@@ -15,18 +15,23 @@ public class CustomPage extends Page implements ItemListener {
 	private static final long serialVersionUID = 1L;
 	private volatile Result result;
 	
-    private CardLayout sliderLayout;
-    private CardLayout infoLayout;
+    private CardLayout descriptionLayout;
     
-    private JPanel sliderPanel;
-    private JPanel infoPanel;
+    private JPanel descriptionPanel;
     
-    private JLabel mazeDescription;
-    private JLabel bootsDescription;
-    private JLabel clocksDescription;
-    private JLabel trailDescription;
-    private JLabel fogDescription;
-    private JLabel wallsDescription;
+    private JPanel mazePanel;
+    private JPanel bootsPanel;
+    private JPanel clocksPanel;
+    private JPanel trailPanel;
+    private JPanel fogPanel;
+    private JPanel wallsPanel;
+    
+//    private JLabel mazeDescription;
+//    private JLabel bootsDescription;
+//    private JLabel clocksDescription;
+//    private JLabel trailDescription;
+//    private JLabel fogDescription;
+//    private JLabel wallsDescription;
 	
     private static final String MAZE = "Maze";
     private static final String BOOTS = "Boots";
@@ -34,6 +39,16 @@ public class CustomPage extends Page implements ItemListener {
     private static final String EXPLORED_TRAIL = "Explored trail";
     private static final String FOG_OF_WAR = "Fog of war";
     private static final String SHIFTING_WALLS = "Shifting walls";
+    
+    private JSlider sizeSlider;
+    private JSlider branchingSlider;
+    private JSlider straightnessSlider;
+    private JSlider timeSlider;
+    
+    private JSlider clockSlider;
+    private JSlider bootsSlider;
+    private JSlider fogSlider;
+    private JSlider wallsSlider;
     
 	private JCheckBox bootsBox;
 	private JCheckBox clockBox;
@@ -69,7 +84,7 @@ public class CustomPage extends Page implements ItemListener {
 //        sizeSliderPanel.add(sizeValue, sizeC);
         
       //-----------------------------------------------------------slider for maze size
-        final JSlider sizeSlider = Components.makeJSlider(5, 30, 11, 5, 1, 400);
+        sizeSlider = Components.makeJSlider(5, 40, 11, 5, 1, 400);
         sizeSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = sizeSlider.getValue();
@@ -86,6 +101,7 @@ public class CustomPage extends Page implements ItemListener {
 		c.gridy = 1;
 		c.gridwidth = 2;
 		c.ipady = 0;
+		c.weightx = 10;
 		c.weighty = 0.08;
 		add(sizeSliderPanel, c);
         
@@ -95,7 +111,7 @@ public class CustomPage extends Page implements ItemListener {
         JLabel branchingSliderLabel = Components.makeText("Branching:    ", 20);
         branchingSliderPanel.add(branchingSliderLabel);
         
-        final JSlider branchingSlider = Components.makeJSlider(1, 10, 8, 1, 1, 400);
+        branchingSlider = Components.makeJSlider(1, 10, 8, 1, 1, 400);
         branchingSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = branchingSlider.getValue();
@@ -108,6 +124,7 @@ public class CustomPage extends Page implements ItemListener {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
+		c.weightx = 10;
 		c.weighty = 0.08;
 		add(branchingSliderPanel, c);
 		
@@ -117,7 +134,7 @@ public class CustomPage extends Page implements ItemListener {
         JLabel straightnessSliderLabel = Components.makeText("Straightness:", 20);
         straightnessSliderPanel.add(straightnessSliderLabel);
         
-        final JSlider straightnessSlider = Components.makeJSlider(-10, 10, 0, 2, 1, 400);
+        straightnessSlider = Components.makeJSlider(-10, 10, 0, 2, 1, 400);
         straightnessSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = straightnessSlider.getValue();
@@ -130,6 +147,7 @@ public class CustomPage extends Page implements ItemListener {
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 2;
+		c.weightx = 10;
 		c.weighty = 0.08;
 		add(straightnessSliderPanel, c);
 		
@@ -139,7 +157,7 @@ public class CustomPage extends Page implements ItemListener {
         JLabel timeSliderLabel = Components.makeText("Starting time:", 20);
         timeSliderPanel.add(timeSliderLabel);
         
-        final JSlider timeSlider = Components.makeJSlider(20, 300, 120, 20, 10, 400);
+        timeSlider = Components.makeJSlider(20, 300, 120, 20, 10, 400);
         timeSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = timeSlider.getValue();
@@ -152,29 +170,32 @@ public class CustomPage extends Page implements ItemListener {
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 2;
+		c.weightx = 10;
 		c.weighty = 0.08;
 		add(timeSliderPanel, c);
         
 		//-----------------------------------------------------------panel to select features
 		// should it be a translucent panel later?
-		JPanel featuresPanel = Components.makePanel();
-		featuresPanel.setLayout(new BorderLayout());
-		
 		JLabel featuresLabel = Components.makeText("Features", 20);
-		featuresPanel.add(featuresLabel, BorderLayout.NORTH);
-		featuresPanel.setMinimumSize(new Dimension(150, 300));
-		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 5;
 		c.gridwidth = 1;
-		c.weighty = 10;
+		c.weighty = 3;
 		c.weightx = 1;
-		add(featuresPanel, c);
+		add(featuresLabel, c);
 		
+		JPanel featuresPanel = Components.makePanel();
+		featuresPanel.setLayout(new BoxLayout(featuresPanel, BoxLayout.PAGE_AXIS));
+		featuresPanel.setMinimumSize(new Dimension(150, 300));
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weighty = 5;
+		c.gridy = 6;
+		add(featuresPanel, c);
 		
 		JPanel checkBoxPanel = Components.makePanel();
 		checkBoxPanel.setLayout(new BoxLayout(checkBoxPanel, BoxLayout.Y_AXIS));
+		checkBoxPanel.setAlignmentX(CENTER_ALIGNMENT);
 		// make checkboxes
 		bootsBox = Components.makeCheckBox(BOOTS);
 		clockBox = Components.makeCheckBox(CLOCKS);
@@ -202,14 +223,81 @@ public class CustomPage extends Page implements ItemListener {
 		checkBoxPanel.add(fogBox);
 		checkBoxPanel.add(shiftingWallsBox);
 		
-		// have to figure out how to align checkboxes
-		
-		featuresPanel.add(checkBoxPanel, BorderLayout.CENTER);
-		
+		featuresPanel.add(checkBoxPanel);
 		
 		//-----------------------------------------------------------panel to show description
-		JPanel descriptionPanel = Components.makePanel();
-		descriptionPanel.setLayout(new GridBagLayout());
+
+		
+		JLabel descriptionLabel = Components.makeText("Description", 20);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		c.weighty = 3;
+		c.weightx = 1;
+		add(descriptionLabel, c);
+		
+
+		clockSlider = Components.makeJSlider(0, 100, 3, 10, 5, 100);
+        clockSlider.addChangeListener(new ChangeListener() {
+        	public void stateChanged(ChangeEvent event) {
+        		int value = clockSlider.getValue();
+        		System.out.println("clock slider's value is " + value);
+        		if (value == 0) {
+        			clockBox.setSelected(false);
+        		} else {
+        			clockBox.setSelected(true);
+        		}
+        	}
+        });
+		bootsSlider = Components.makeJSlider(0, 100, 3, 10, 5, 200);
+		bootsSlider.addChangeListener(new ChangeListener() {
+        	public void stateChanged(ChangeEvent event) {
+        		int value = bootsSlider.getValue();
+        		System.out.println("boots slider's value is " + value);
+        		if (value == 0) {
+        			bootsBox.setSelected(false);
+        		} else {
+        			bootsBox.setSelected(true);
+        		}
+        	}
+        });
+		fogSlider = Components.makeJSlider(0, 100, 0, 10, 5, 200);
+		fogSlider.addChangeListener(new ChangeListener() {
+        	public void stateChanged(ChangeEvent event) {
+        		int value = fogSlider.getValue();
+        		System.out.println("fog slider's value is " + value);
+        		if (value == 0) {
+        			fogBox.setSelected(false);
+        		} else {
+        			fogBox.setSelected(true);
+        		}
+        	}
+        });
+		wallsSlider = Components.makeJSlider(0, 20, 0, 5, 1, 200);
+		wallsSlider.addChangeListener(new ChangeListener() {
+        	public void stateChanged(ChangeEvent event) {
+        		int value = wallsSlider.getValue();
+        		System.out.println("wall slider's value is " + value);
+        		if (value == 0) {
+        			shiftingWallsBox.setSelected(false);
+        		} else {
+        			shiftingWallsBox.setSelected(true);
+        		}
+        	}
+        });
+		
+		descriptionPanel = Components.makePanel();
+		descriptionLayout = new CardLayout();
+		descriptionPanel.setLayout(descriptionLayout);
+
+		JLabel mazeDescription = Components.makeText("maze description of sliders", 13);
+		JLabel bootsDescription = Components.makeText("boots description of sliders", 13);
+		JLabel clocksDescription = Components.makeText("clocks description of sliders", 13);
+		JLabel trailDescription = Components.makeText("explored trail description", 13);
+		JLabel fogDescription = Components.makeText("fog of war description of sliders", 13);
+		JLabel wallsDescription = Components.makeText("shifting walls description of sliders", 13);
+		
 		GridBagConstraints dCon = new GridBagConstraints();
 		dCon.fill = GridBagConstraints.HORIZONTAL;
 		dCon.gridx = 0;
@@ -217,79 +305,56 @@ public class CustomPage extends Page implements ItemListener {
 		dCon.weighty = 1;
 		dCon.weightx = 1;
 		
-		JLabel descriptionLabel = Components.makeText("Description", 20);
-		descriptionPanel.add(descriptionLabel, dCon);
+		mazePanel = Components.makePanel();
+		mazePanel.setLayout(new GridBagLayout());
+		mazePanel.add(mazeDescription, dCon);
 		
-		sliderPanel = Components.makePanel();
-		sliderLayout = new CardLayout();
-		sliderPanel.setLayout(sliderLayout);
-		final JSlider clockSlider = Components.makeJSlider(0, 100, 3, 10, 5, 100);
-        clockSlider.addChangeListener(new ChangeListener() {
-        	public void stateChanged(ChangeEvent event) {
-        		int value = clockSlider.getValue();
-        		System.out.println("clock slider's value is " + value);
-        	}
-        });
-		final JSlider bootsSlider = Components.makeJSlider(0, 100, 3, 10, 5, 200);
-		bootsSlider.addChangeListener(new ChangeListener() {
-        	public void stateChanged(ChangeEvent event) {
-        		int value = bootsSlider.getValue();
-        		System.out.println("boots slider's value is " + value);
-        	}
-        });
-		final JSlider fogSlider = Components.makeJSlider(0, 100, 0, 10, 5, 200);
-		fogSlider.addChangeListener(new ChangeListener() {
-        	public void stateChanged(ChangeEvent event) {
-        		int value = fogSlider.getValue();
-        		System.out.println("fog slider's value is " + value);
-        	}
-        });
-		final JSlider wallsSlider = Components.makeJSlider(0, 100, 0, 10, 5, 200);
-		clockSlider.addChangeListener(new ChangeListener() {
-        	public void stateChanged(ChangeEvent event) {
-        		int value = wallsSlider.getValue();
-        		System.out.println("wall slider's value is " + value);
-        	}
-        });
-		JLabel blankLabel = Components.makeText("     ", 13);
-		sliderPanel.add(clockSlider, CLOCKS);
-		sliderPanel.add(bootsSlider, BOOTS);
-		sliderPanel.add(fogSlider, FOG_OF_WAR);
-		sliderPanel.add(wallsSlider, SHIFTING_WALLS);
-		sliderPanel.add(blankLabel, MAZE);
-		sliderPanel.add(blankLabel, EXPLORED_TRAIL);
-		sliderLayout.show(sliderPanel, MAZE);
-		
+		bootsPanel = Components.makePanel();
+		bootsPanel.setLayout(new GridBagLayout());
+		bootsPanel.add(bootsSlider, dCon);
 		dCon.gridy = 1;
-		descriptionPanel.add(sliderPanel, dCon);
+		bootsPanel.add(bootsDescription, dCon);
 		
+		dCon.gridy = 0;
+		clocksPanel = Components.makePanel();
+		clocksPanel.setLayout(new GridBagLayout());
+		clocksPanel.add(clockSlider, dCon);
+		dCon.gridy = 1;
+		clocksPanel.add(clocksDescription, dCon);
 		
-		infoPanel = Components.makePanel();
-		infoLayout = new CardLayout();
-		infoPanel.setLayout(infoLayout);
-		mazeDescription = Components.makeText("maze description of sliders", 13);
-		bootsDescription = Components.makeText("boots description of sliders", 13);
-		clocksDescription = Components.makeText("clocks description of sliders", 13);
-		trailDescription = Components.makeText("explored trail description", 13);
-		fogDescription = Components.makeText("fog of war description of sliders", 13);
-		wallsDescription = Components.makeText("shifting walls description of sliders", 13);
-		infoPanel.add(mazeDescription, MAZE);
-		infoPanel.add(bootsDescription, BOOTS);
-		infoPanel.add(clocksDescription, CLOCKS);
-		infoPanel.add(trailDescription, EXPLORED_TRAIL);
-		infoPanel.add(fogDescription, FOG_OF_WAR);
-		infoPanel.add(wallsDescription, SHIFTING_WALLS);
-		infoLayout.show(infoPanel, MAZE);
+		dCon.gridy = 0;
+		trailPanel = Components.makePanel();
+		trailPanel.setLayout(new GridBagLayout());
+		trailPanel.add(trailDescription, dCon);
 		
-		dCon.gridy = 2;
-		descriptionPanel.add(infoPanel, dCon);
+		dCon.gridy = 0;
+		fogPanel = Components.makePanel();
+		fogPanel.setLayout(new GridBagLayout());
+		fogPanel.add(fogSlider, dCon);
+		dCon.gridy = 1;
+		fogPanel.add(fogDescription, dCon);
+		
+		dCon.gridy = 0;
+		wallsPanel = Components.makePanel();
+		wallsPanel.setLayout(new GridBagLayout());
+		wallsPanel.add(wallsSlider, dCon);
+		dCon.gridy = 1;
+		wallsPanel.add(wallsDescription, dCon);
+		
+		descriptionPanel.add(mazePanel, MAZE);
+		descriptionPanel.add(bootsPanel, BOOTS);
+		descriptionPanel.add(clocksPanel, CLOCKS);
+		descriptionPanel.add(trailPanel, EXPLORED_TRAIL);
+		descriptionPanel.add(fogPanel, FOG_OF_WAR);
+		descriptionPanel.add(wallsPanel, SHIFTING_WALLS);
+		descriptionLayout.show(descriptionPanel, MAZE);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 6;
 		c.gridwidth = 1;
-		c.weighty = 10;
 		c.weightx = 1;
+		c.weighty = 5;
 		add(descriptionPanel, c);
         
         addReturnButton();
@@ -318,35 +383,45 @@ public class CustomPage extends Page implements ItemListener {
 			System.out.print(BOOTS);
 			//show description for boots
 			// set settings to pass into maze
-			sliderLayout.show(sliderPanel, BOOTS);
-			infoLayout.show(infoPanel, BOOTS);
+			descriptionLayout.show(descriptionPanel, BOOTS);
 			
 		} else if (source == clockBox) {
 			System.out.print(CLOCKS);
-			sliderLayout.show(sliderPanel, CLOCKS);
-			infoLayout.show(infoPanel,CLOCKS);
+			descriptionLayout.show(descriptionPanel, CLOCKS);
 			
 		} else if (source == trailBox) {
 			System.out.print(EXPLORED_TRAIL);
-			infoLayout.show(infoPanel, EXPLORED_TRAIL);
-			sliderLayout.show(sliderPanel, EXPLORED_TRAIL);
+			descriptionLayout.show(descriptionPanel, EXPLORED_TRAIL);
 			
 		} else if (source == fogBox) {
 			System.out.print(FOG_OF_WAR);
-			sliderLayout.show(sliderPanel, FOG_OF_WAR);
-			infoLayout.show(infoPanel, FOG_OF_WAR);
+			descriptionLayout.show(descriptionPanel, FOG_OF_WAR);
 			
 		} else if (source == shiftingWallsBox) {
 			System.out.print(SHIFTING_WALLS);
-			sliderLayout.show(sliderPanel, SHIFTING_WALLS);
-			infoLayout.show(infoPanel, SHIFTING_WALLS);
+			descriptionLayout.show(descriptionPanel, SHIFTING_WALLS);
 		}
 		
 		if (e.getStateChange() == ItemEvent.SELECTED) {
 			System.out.println(" was selected");
-			// do something
+			if (source == bootsBox) {
+				bootsSlider.setValue(3);
+			} else if (source == clockBox) {
+				clockSlider.setValue(3);
+			}
 		} else if (e.getStateChange() == ItemEvent.DESELECTED) {
 			System.out.println(" was deselected");
+			
+			// but if you check that box and then try to drag the slider from 0 to another value, the box becomes unchecked
+			if (source == bootsBox) {
+				bootsSlider.setValue(0);
+			} else if (source == clockBox) {
+				clockSlider.setValue(0);
+			} else if (source == fogBox) {
+				fogSlider.setValue(0);
+			} else if (source == shiftingWallsBox) {
+				wallsSlider.setValue(0);
+			}
 		}
 	}
 	
@@ -367,7 +442,7 @@ public class CustomPage extends Page implements ItemListener {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		//c.anchor = GridBagConstraints.PAGE_END; //bottom of space
 		c.gridx = 0;
-		c.gridy = 6;
+		c.gridy = 7;
 		c.gridwidth = 2;
 		c.weighty = 0.02;
 		add(returnPanel, c);

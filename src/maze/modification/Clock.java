@@ -12,13 +12,13 @@ public class Clock implements TileObject {
 	}
 
 	@Override
-	public boolean interact(Player player, MazeStats stats) {
+	public boolean interact(Player player) {
 		Player friend = player.getFriend();
 		if (friend != null) {
-			stats.setTimerRelative(friend.getPlayerNum(), value);
+			player.setTimerRelative(value);
 			System.out.println("Player got treasure for friend worth " + value);
 		} else {
-			stats.setTimerRelative(player.getPlayerNum(), value);
+			player.setTimerRelative(value);
 			System.out.println("Player got treasure worth " + value);
 		}
 		

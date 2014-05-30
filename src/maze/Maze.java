@@ -36,8 +36,7 @@ public class Maze extends JComponent {
     private Player player2;
     private Coord player1Last;
     private Coord player2Last;
-    
-    private MazeStats stats;
+    private boolean multiplayer;
     
     public enum Direction {
     	NORTH(0, -1),
@@ -72,26 +71,10 @@ public class Maze extends JComponent {
         }
     }
     
-    public Maze(int newHeight, int displayHeight,
-    		int straightness, int branching,
-    		MazeStats stats, List<Modification> mods) {
-        this(newHeight, displayHeight, straightness, branching,
-        		stats, mods, System.nanoTime());
-    }
-    public Maze(int newHeight, int displayHeight,
-    		int straightness, int branching, MazeStats stats,
-    		List<Modification> mods, long seed) {
-    	this((int) (newHeight * DEFAULT_RATIO), newHeight,
-                (int) (displayHeight * DEFAULT_RATIO), displayHeight,
-                straightness, branching, stats, mods, seed);
-    }
-    public Maze(int newWidth, int newHeight,
-            int displayWidth, int displayHeight,
-            int straightness, int branching, MazeStats stats,
-            List<Modification> mods, long seed) {
-        mazeWidth = 2 * newWidth + 1;
-        mazeHeight = 2 * newHeight + 1;
-        setPreferredSize(new Dimension(displayWidth, displayHeight));
+    public Maze(MazeSettings settings) {
+        mazeHeight = 2 * settings.getMazeSize() + 1;
+        mazeWidth = 2 * (int) (settings.getMazeSize() * DEFAULT_RATIO) + 1;
+//        setPreferredSize(new Dimension(displayWidth, displayHeight));
         tiles = new Tile[mazeWidth][mazeHeight];
         for (int row = 0; row < mazeHeight; row++) {
             for (int col = 0; col < mazeWidth; col++) {
@@ -101,19 +84,16 @@ public class Maze extends JComponent {
         
         this.straightness = straightness > 0 ? straightness*straightness : straightness;
         this.branching = (int) (1.5 * (11 - branching));
-        this.rand = new Random(seed);
+        this.rand = new Random(settings.getSeed());
         this.genMazeDFSBranch();
         
-        player1 = null;
-    	player2 = null;
-    	this.stats = stats;
-    	int numPlayers = stats.getNumPlayers();
-    	if (numPlayers >= 1) {
-    		player1 = new Player(1, 1, 0, Color.RED);
-    		player1Last = new Coord(1, 0);
-    	}
-    	if (numPlayers >= 2) {
-    		player2 = new Player(2, mazeWidth - 2, mazeHeight - 1, Color.BLUE);
+		player1 = new Player(1, 0, Color.RED, settings.getTrail(), settings.getStartingTime());
+		player1Last = new Coord(1, 0);
+		
+		player2 = null;
+		this.multiplayer = settings.getMultiplayer();
+    	if (this.multiplayer) {
+    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE, settings.getTrail(), settings.getStartingTime());
     		player2Last = new Coord(mazeWidth - 2, mazeHeight - 1);
     		
     		player1.setFriend(player2);
@@ -121,13 +101,13 @@ public class Maze extends JComponent {
     	}
     	if (player1 != null) {
     		tiles[mazeWidth-2][mazeHeight-1].setContents(new GoalFlag(player1));
-    		tiles[player1.getRealX()][player1.getRealY()].interact(player1, stats);
+    		tiles[player1.getRealX()][player1.getRealY()].interact(player1);
     	}
     	if (player2 != null) {
     		tiles[1][0].setContents(new GoalFlag(player2));
-    		tiles[player2.getRealX()][player2.getRealY()].interact(player2, stats);
+    		tiles[player2.getRealX()][player2.getRealY()].interact(player2);
     	}
-        this.applyMods(mods);
+        this.applyMods(settings.getModifications());
     }
     
     /*
@@ -178,6 +158,73 @@ public class Maze extends JComponent {
     	this.stepsToTake = stepsToTake;
     	stepsTaken = 0;
     }
+    public boolean isMultiplayer() {
+    	return multiplayer;
+    }
+    public double getPlayer1Timer() {
+    	if (player1 != null) {
+    		return player1.getTimer();
+    	}
+    	return 0;
+    }
+    public double getPlayer2Timer() {
+    	if (player2 != null) {
+    		return player2.getTimer();
+    	}
+    	return 0;
+    }
+    public void setPlayer1Timer(double timer) {
+    	if (player1 != null) {
+    		player1.setTimer(timer);
+    	}
+    }
+    public void setPlayer2Timer(double timer) {
+    	if (player2 != null) {
+    		player2.setTimer(timer);
+    	}
+    }
+    public void setPlayer1TimerRelative(double timer) {
+    	if (player1 != null) {
+    		player1.setTimerRelative(timer);
+    	}
+    }
+    public void setPlayer2TimerRelative(double timer) {
+    	if (player2 != null) {
+    		player2.setTimerRelative(timer);
+    	}
+    }
+    
+    public boolean playersFinished() {
+        return player1Finished() && player2Finished();
+    }
+    
+    public boolean player1Finished() {
+    	return player1 == null || player1.isFinished();
+    }
+    public boolean player2Finished() {
+    	return player2 == null || player2.isFinished();
+    }
+    public void getHint(int playerNum, int length) {
+    	if (playerNum == 1) {
+    		if (player1 != null) {
+	    		Coord player1Pos = new Coord(player1.getRealX(), player1.getRealY());
+	    		Coord goalPos = new Coord(mazeWidth - 2, mazeHeight - 1);
+	    		List<Coord> path = getPath(player1Pos, goalPos);
+	    		if (path != null) {
+	    			int i = 0;
+	    			while (i < length && i < path.size()) {
+	    				tileSetHint(path.get(i));
+	    				i++;
+	    			}
+	    		}
+    		}
+    	}
+    }
+    
+    private void tileSetHint(Coord c) {
+    	tiles[c.getX()][c.getY()].setHint();
+    }
+    
     private void applyMods(List<Modification> mods) {
     	if (mods == null) {
     		return;
@@ -527,8 +574,12 @@ public class Maze extends JComponent {
     	}
     	int x = player.getGoalX() + dir.dx();
     	int y = player.getGoalY() + dir.dy();
-    	int friendX = player.getFriend().getGoalX();
-    	int friendY = player.getFriend().getGoalY();
+    	int friendX = -1;
+    	int friendY = -1;
+    	if (player.hasFriend()) {
+	    	friendX = player.getFriend().getGoalX();
+	    	friendY = player.getFriend().getGoalY();
+    	}
     	if (isSpace(x, y) && !(x == friendX && y == friendY)) {
     		player.moveWait(dir);
     	}
@@ -550,7 +601,7 @@ public class Maze extends JComponent {
     	if (player1 != null) {
 	    	if (player1.getRealX() != player1Last.getX() || player1.getRealY() != player1Last.getY()) {
 	    		// Player has moved since we last saw
-	    		tiles[player1.getRealX()][player1.getRealY()].interact(player1, stats);
+	    		tiles[player1.getRealX()][player1.getRealY()].interact(player1);
 	    		player1Last = new Coord(player1.getRealX(), player1.getRealY());
 	    		
 	    		if (shiftingWalls) {
@@ -565,7 +616,7 @@ public class Maze extends JComponent {
     	if (player2 != null) {
 	    	if (player2.getRealX() != player2Last.getX() || player2.getRealY() != player2Last.getY()) {
 	    		// Player has moved since we last saw
-	    		tiles[player2.getRealX()][player2.getRealY()].interact(player2, stats);
+	    		tiles[player2.getRealX()][player2.getRealY()].interact(player2);
 	    		player2Last = new Coord(player2.getRealX(), player2.getRealY());
 	    		
 	    		if (shiftingWalls) {
@@ -801,6 +852,54 @@ public class Maze extends JComponent {
     	}
     	
     	return shuffledMoves;
+    }
+    private List<Coord> getPath(Coord from, Coord to) {
+    	List<Coord> path = new ArrayList<Coord>();
+    	
+    	Set<Coord> seen = new HashSet<Coord>();
+    	Stack<Step> s = new Stack<Step>();
+    	s.add(new Step(from, null, 0));
+    	
+    	Step finalStep = null;
+    	while (!s.isEmpty()) {
+    		Step curStep = s.pop();
+    		Coord curCell = curStep.getCell();
+    		
+    		if (curCell.equals(to)) {
+    			// End found
+    			finalStep = curStep;
+    			break;
+    		}
+    		
+    		if (seen.contains(curCell)) {
+    			continue;
+    		}
+    		seen.add(curCell);
+    		
+			for (Direction dir : Direction.values()) {
+				Coord newCell = curCell.inDirection(dir);
+				if (!isSpace(newCell.getX(), newCell.getY())) {
+					continue;
+				}
+				Step newStep = new Step(newCell, dir, curStep.getDist() + 1);
+				newStep.setFrom(curStep);
+				s.push(newStep);
+			}
+    	}
+    	
+    	if (finalStep == null) {
+    		System.out.println("No path found");
+    		return null;
+    	}
+    	
+    	Step curStep = finalStep;
+    	while (curStep.getFrom() != null) {
+    		path.add(curStep.getCell());
+    		curStep = curStep.getFrom();
+    	}
+    	
+    	Collections.reverse(path);
+    	return path;
     }
     
     private void debug(String message) {
