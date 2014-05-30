@@ -138,6 +138,10 @@ public class Tile {
 	    		}
 	    	}
     	}
+    	
+    	if (contents != null) {
+    		contents.nextFrame();
+    	}
     }
     
     public boolean shiftWall(Direction dir) {

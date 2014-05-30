@@ -46,4 +46,10 @@ public class Clock implements TileObject {
 				0, 0, image.getWidth(), image.getHeight(), null);
 	}
 
+	@Override
+	public void nextFrame() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

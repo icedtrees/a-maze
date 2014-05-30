@@ -36,4 +36,10 @@ public class Boots implements TileObject {
 		g.fillRect(tileSize/4, tileSize/4, tileSize/4, tileSize/4);
 		g.fillRect(tileSize/4, tileSize/2, tileSize/2, tileSize/4);
 	}
+
+	@Override
+	public void nextFrame() {
+		// TODO Auto-generated method stub
+		
+	}
 }
