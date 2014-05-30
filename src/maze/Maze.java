@@ -254,6 +254,7 @@ public class Maze extends JComponent {
 	    				i++;
 	    			}
 	    		}
+	    		player1.setHintsRelative(-1);
     		}
     	}
     	if (playerNum == 2) {
@@ -269,6 +270,7 @@ public class Maze extends JComponent {
 	    				i++;
 	    			}
 	    		}
+	    		player2.setHintsRelative(-1);
     		}
     	}
     }
