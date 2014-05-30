@@ -390,6 +390,7 @@ public class CustomPage extends Page implements ItemListener {
 		int branching = branchingSlider.getValue();
 		int straightness = straightnessSlider.getValue();
 		int startingTime = timeSlider.getValue();
+		boolean hints = hintsBox.isSelected();
 //		long seed; // haven't done yet, i just put in -1
 		System.out.println(multiplayer);
 		System.out.println(trail);
@@ -422,7 +423,7 @@ public class CustomPage extends Page implements ItemListener {
 		}
 		
 		MazeSettings mazeSettings = new MazeSettings(multiplayer, trail, mazeSize, branching, straightness,
-				 startingTime, false, -1, modifications);
+				 startingTime, hints, -1, modifications);
 		
 		this.mazeSettings = mazeSettings;
 	}
