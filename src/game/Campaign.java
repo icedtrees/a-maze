@@ -23,7 +23,7 @@ public class Campaign {
     public static final int MULTIPLAYER_DEFAULT_VISION = 4; 
     
     private int currentLevel;
-    private static final CampaignLevel[] levels = new CampaignLevel[]
+    private static final CampaignLevel[] singlePlayerLevels = new CampaignLevel[]
     {
 //    	new CampaignLevel("Test", new MazeSettings(false, true, 15, 8, 10, 40, -1, Arrays.asList(new Modification[] {
 //    			new ShiftingWallsMod(20, 1)
@@ -68,24 +68,31 @@ public class Campaign {
         })))
     };
     
+    public static final int SINGLEPLAYER_NUM_LEVELS = singlePlayerLevels.length;
+    
     public Campaign() {
         currentLevel = 0;
     }
     
     public String getLevelName() {
-        return levels[currentLevel].levelName;
+        return singlePlayerLevels[currentLevel].levelName;
     }
     
     public MazeSettings getLevelSettings() {
-        return levels[currentLevel].levelSettings;
+        return singlePlayerLevels[currentLevel].levelSettings;
     }
-    
-    public int getNumLevels() {
-        return levels.length;
+
+    /**
+     * Levels start at 1
+     * @return
+     */
+    public int getCurrentLevel() {
+        // We need to add one so that the return value counts from 1 upwards.
+        return currentLevel + 1;
     }
     
     public void advance() {
-        if (currentLevel >= getNumLevels()) {
+        if (currentLevel >= SINGLEPLAYER_NUM_LEVELS) {
             throw new IllegalStateException("Tried to advance beyond the maximum level");
         }
         currentLevel ++;

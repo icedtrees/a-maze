@@ -51,7 +51,7 @@ public class HomePage extends Page {
         return result;
     }
     
-    private synchronized void addStartButton() {
+    private void addStartButton() {
         JPanel startPanel = Components.makePanel();
         startPanel.setLayout(new FlowLayout());
         
@@ -67,7 +67,7 @@ public class HomePage extends Page {
 		add(startPanel);
     }
     
-	private synchronized void addInstructionsButton() {
+	private void addInstructionsButton() {
 		JPanel instructionsPanel = Components.makePanel();
 		instructionsPanel.setLayout(new FlowLayout());
 

@@ -32,7 +32,7 @@ public class MazePage extends Page implements KeyListener{
 	private JLabel timeLeft2;
 	
 	public volatile Result result;
-	public AtomicIntegerArray pressedKeys;
+	public volatile AtomicIntegerArray pressedKeys;
 	
 	private MazeSettings mazeSettings;
 
@@ -64,6 +64,7 @@ public class MazePage extends Page implements KeyListener{
 	    result = null;
 	    
 	    // Start collecting keys
+	    pressedKeys = new AtomicIntegerArray(256);
         this.requestFocusInWindow();
 
 		final Maze maze = new Maze(mazeSettings);
