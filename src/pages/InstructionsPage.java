@@ -125,7 +125,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		JPanel wallsPanel = makeDescription(html1 + "Shifting walls: <br>Is this Hogwarts? Every few steps that cat takes, "
 				+ "a bunch of walls will shift and move around, confuddling poor cat.</html>", "img/walls.png");
 		JPanel hintsPanel = makeDescription(html1 + "Hints: <br>"
-				+ "Hold down the hint button to highlight the path towards cat's fish.<br>You have limited hints - each tile's worth of hint counts against your hint limit. This means that you can get 10 hints of 1 tile long or 1 hint of 10 tiles long (or 2 hints of 5 tiles long etc)</html>", "img/hints.png");
+				+ "When hints are on you get 5 hints. The first hint highlights 100% of the path. The next hint highlights 80%, then 60%, 40%, 20% and then cat is left all alone.</html>", "img/hints.png");
 		
 		showDescription.add(singlePlayerPanel, SINGLE_PLAYER);
 		showDescription.add(multiPlayerPanel, MULTI_PLAYER);
