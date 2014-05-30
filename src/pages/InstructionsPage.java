@@ -112,14 +112,14 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		
         String html1 = "<html><body style='width: 300px'>";
 		
-        JPanel singlePlayerPanel = makeDescription(html1 + "Single Player: <br>Use the arrow keys to move. Your goal is to help cat find his fish before he collapses from hunger.</html>", "img/arrowKeys.png");		
+        JPanel singlePlayerPanel = makeDescription(html1 + "Single Player: <br>Use the arrow keys to move. Your goal is to help cat find his fish before he collapses from hunger.</html>", "img/WASDkeys.png");		
         JPanel multiPlayerPanel = makeDescription(html1 + "Multi Player: <br>Player 1: Use the WASD keys to move. "
         		+ "<br> Player 2:   Use arrows to move.<br><br>Both cats must find their favourite coloured fish before they collapse from hunger! Once you get to your fish your timer will stop counting down.<br><br>Cats cannot walk past each other.</html>", "img/WASDarrowKeys.png");
         // need to find images for the rest of these, preferably of our actual maze so it's clear what the feature is
 		JPanel bootsPanel = makeDescription(html1 + "Boots: <br>When cat picks up a pair of these boots, he can run faster!</html>", "img/bootsDescription.jpg");
 		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Cat is able to turn back time with one of these clocks.<br>This means that cat has more time to find his fish.</html>", "img/clocksDescription.jpg");
 		JPanel trailPanel = makeDescription(html1 + "Explored trail: <br>Cat leaves colourful footprints to help him remember where he's been.</html>", "img/exploredTrailDescription.jpg");
-		JPanel fogPanel = makeDescription(html1 + "Fog of war: <br>It's nighttime and cat can't see very far."
+		JPanel fogPanel = makeDescription(html1 + "Fog of war: <br>It's nighttime and cat can't see very far. "
 				+ "Fortunately cat can pick up torches to increase his field of view.</html>", "img/fogOfWarDescription.jpg");
 		//fill in the blanks
 		JPanel wallsPanel = makeDescription(html1 + "Shifting walls: <br>Is this Hogwarts? Every few steps that cat takes, "
