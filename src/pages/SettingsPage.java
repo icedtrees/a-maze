@@ -30,7 +30,7 @@ public class SettingsPage extends Page {
 		c.weighty = 0.25;
         add(titleLabel, c);
         
-        JPanel content = Components.makeTranslucentPanel();
+        JPanel content = Components.makePanel();
         content.setLayout(new GridLayout(4,0));
 		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
 		c.gridx = 0;
