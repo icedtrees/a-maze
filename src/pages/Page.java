@@ -12,7 +12,7 @@ public abstract class Page extends JPanel {
 	
     public Page() {
         this.setFocusable(true);
-        this.setBackground(Color.GRAY);
+        this.setBackground(new Color(50, 50, 50));
     }
     
     private static final long serialVersionUID = 1L;
@@ -25,7 +25,7 @@ public abstract class Page extends JPanel {
     public void paintComponent(Graphics g) {
     	BufferedImage image = null;
     	try {
-    		image = ImageIO.read(new File("img/catsBackground.png"));
+    		image = ImageIO.read(new File("img/largeMazeBackground.png"));
     	} catch (IOException E) {
     		
     	}
