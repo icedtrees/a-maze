@@ -88,94 +88,76 @@ currentPage: String
     </ClassNode>
     <ClassNode id="19">
       <children id="20"/>
-      <location class="Point2D.Double" id="21" x="340.0" y="260.0"/>
-      <id id="22" value="4d6a6137-e36a-4812-8228-fb62a70e5ed9"/>
+      <location class="Point2D.Double" id="21" x="260.0" y="610.0"/>
+      <id id="22" value="b680f572-3927-426a-8224-939405698c9f"/>
       <revision>1</revision>
       <backgroundColor reference="7"/>
       <borderColor reference="8"/>
       <textColor reference="8"/>
       <name id="23" justification="1" size="3" underlined="false">
-        <text>HomePage</text>
+        <text>&lt;&lt;Abstract&gt;&gt;
+Page extends JPanel</text>
       </name>
       <attributes id="24" justification="0" size="4" underlined="false">
         <text></text>
       </attributes>
       <methods id="25" justification="0" size="4" underlined="false">
-        <text></text>
-      </methods>
-    </ClassNode>
-    <ClassNode id="26">
-      <children id="27"/>
-      <location class="Point2D.Double" id="28" x="260.0" y="610.0"/>
-      <id id="29" value="b680f572-3927-426a-8224-939405698c9f"/>
-      <revision>1</revision>
-      <backgroundColor reference="7"/>
-      <borderColor reference="8"/>
-      <textColor reference="8"/>
-      <name id="30" justification="1" size="3" underlined="false">
-        <text>&lt;&lt;Abstract&gt;&gt;
-Page extends JPanel</text>
-      </name>
-      <attributes id="31" justification="0" size="4" underlined="false">
-        <text></text>
-      </attributes>
-      <methods id="32" justification="0" size="4" underlined="false">
         <text>+ Window(int, int)
 + show(): void
 + hide(): void
 + run() GameCommand</text>
       </methods>
     </ClassNode>
+    <ClassNode id="26">
+      <children id="27"/>
+      <location class="Point2D.Double" id="28" x="710.0" y="500.0"/>
+      <id id="29" value="5b776846-6e8b-4532-b484-06e3a7f41271"/>
+      <revision>1</revision>
+      <backgroundColor reference="7"/>
+      <borderColor reference="8"/>
+      <textColor reference="8"/>
+      <name id="30" justification="1" size="3" underlined="false">
+        <text>Tile</text>
+      </name>
+      <attributes id="31" justification="0" size="4" underlined="false">
+        <text>- contents: TileObject</text>
+      </attributes>
+      <methods id="32" justification="0" size="4" underlined="false">
+        <text>+ interact(Player, MazeStats): boolean</text>
+      </methods>
+    </ClassNode>
     <ClassNode id="33">
       <children id="34"/>
-      <location class="Point2D.Double" id="35" x="710.0" y="500.0"/>
-      <id id="36" value="5b776846-6e8b-4532-b484-06e3a7f41271"/>
+      <location class="Point2D.Double" id="35" x="930.0" y="420.0"/>
+      <id id="36" value="396a2e80-93bb-4352-b1ee-f2dff7546230"/>
       <revision>1</revision>
       <backgroundColor reference="7"/>
       <borderColor reference="8"/>
       <textColor reference="8"/>
       <name id="37" justification="1" size="3" underlined="false">
-        <text>Tile</text>
-      </name>
-      <attributes id="38" justification="0" size="4" underlined="false">
-        <text>- contents: TileObject</text>
-      </attributes>
-      <methods id="39" justification="0" size="4" underlined="false">
-        <text>+ interact(Player, MazeStats): boolean</text>
-      </methods>
-    </ClassNode>
-    <ClassNode id="40">
-      <children id="41"/>
-      <location class="Point2D.Double" id="42" x="930.0" y="420.0"/>
-      <id id="43" value="396a2e80-93bb-4352-b1ee-f2dff7546230"/>
-      <revision>1</revision>
-      <backgroundColor reference="7"/>
-      <borderColor reference="8"/>
-      <textColor reference="8"/>
-      <name id="44" justification="1" size="3" underlined="false">
         <text>&lt;&lt;Interface&gt;&gt; TileObject</text>
       </name>
-      <attributes id="45" justification="0" size="4" underlined="false">
+      <attributes id="38" justification="0" size="4" underlined="false">
         <text></text>
       </attributes>
-      <methods id="46" justification="0" size="4" underlined="false">
+      <methods id="39" justification="0" size="4" underlined="false">
         <text>+ interact(Player, MazeStats): boolean
 + draw(Graphics, int): void
 + nextFrame(): void</text>
       </methods>
     </ClassNode>
-    <ClassNode id="47">
-      <children id="48"/>
-      <location class="Point2D.Double" id="49" x="480.0" y="540.0"/>
-      <id id="50" value="4791e41b-6f81-4ebb-8132-1954200c5011"/>
+    <ClassNode id="40">
+      <children id="41"/>
+      <location class="Point2D.Double" id="42" x="480.0" y="540.0"/>
+      <id id="43" value="4791e41b-6f81-4ebb-8132-1954200c5011"/>
       <revision>1</revision>
       <backgroundColor reference="7"/>
       <borderColor reference="8"/>
       <textColor reference="8"/>
-      <name id="51" justification="1" size="3" underlined="false">
+      <name id="44" justification="1" size="3" underlined="false">
         <text>Maze extends JComponent</text>
       </name>
-      <attributes id="52" justification="0" size="4" underlined="false">
+      <attributes id="45" justification="0" size="4" underlined="false">
         <text>- tiles: Tile[][]
 - width: int
 - height: int
@@ -183,43 +165,25 @@ Page extends JPanel</text>
 - branchFactor: int
 - stats: MazeStats</text>
       </attributes>
-      <methods id="53" justification="0" size="4" underlined="false">
+      <methods id="46" justification="0" size="4" underlined="false">
         <text>+ Maze()
 + reset() : void
 + paintComponent(Graphics) : void
 + addModification(Modification)</text>
       </methods>
     </ClassNode>
-    <ClassNode id="54">
-      <children id="55"/>
-      <location class="Point2D.Double" id="56" x="390.0" y="170.0"/>
-      <id id="57" value="8f29b48f-332f-4204-8a31-6e5938bc12f4"/>
+    <ClassNode id="47">
+      <children id="48"/>
+      <location class="Point2D.Double" id="49" x="770.0" y="860.0"/>
+      <id id="50" value="77db5073-3f5b-42cd-8020-45c29da554cd"/>
       <revision>1</revision>
       <backgroundColor reference="7"/>
       <borderColor reference="8"/>
       <textColor reference="8"/>
-      <name id="58" justification="1" size="3" underlined="false">
-        <text>InstructionsPage</text>
-      </name>
-      <attributes id="59" justification="0" size="4" underlined="false">
-        <text></text>
-      </attributes>
-      <methods id="60" justification="0" size="4" underlined="false">
-        <text></text>
-      </methods>
-    </ClassNode>
-    <ClassNode id="61">
-      <children id="62"/>
-      <location class="Point2D.Double" id="63" x="770.0" y="860.0"/>
-      <id id="64" value="77db5073-3f5b-42cd-8020-45c29da554cd"/>
-      <revision>1</revision>
-      <backgroundColor reference="7"/>
-      <borderColor reference="8"/>
-      <textColor reference="8"/>
-      <name id="65" justification="1" size="3" underlined="false">
+      <name id="51" justification="1" size="3" underlined="false">
         <text>&lt;&lt;Abstract&gt;&gt; MobileObject</text>
       </name>
-      <attributes id="66" justification="0" size="4" underlined="false">
+      <attributes id="52" justification="0" size="4" underlined="false">
         <text>- realX: int
 - realY: int
 - curX: double
@@ -227,94 +191,130 @@ Page extends JPanel</text>
 - speed: double
 - color: Color</text>
       </attributes>
-      <methods id="67" justification="0" size="4" underlined="false">
+      <methods id="53" justification="0" size="4" underlined="false">
         <text>+ nextFrame(): void
 + draw(Graphics, int): void
 + move(Direction): boolean
 + moveWait(Direction): void</text>
       </methods>
     </ClassNode>
-    <InterfaceNode id="68">
-      <children id="69"/>
-      <location class="Point2D.Double" id="70" x="270.0" y="810.0"/>
-      <id id="71" value="2579c188-b70e-4add-b945-3df356db303d"/>
+    <InterfaceNode id="54">
+      <children id="55"/>
+      <location class="Point2D.Double" id="56" x="270.0" y="810.0"/>
+      <id id="57" value="2579c188-b70e-4add-b945-3df356db303d"/>
       <revision>1</revision>
-      <backgroundColor id="72">
+      <backgroundColor id="58">
         <red>255</red>
         <green>255</green>
         <blue>255</blue>
         <alpha>255</alpha>
       </backgroundColor>
-      <borderColor id="73">
+      <borderColor id="59">
         <red>0</red>
         <green>0</green>
         <blue>0</blue>
         <alpha>255</alpha>
       </borderColor>
-      <textColor reference="73"/>
-      <name id="74" justification="1" size="3" underlined="false">
+      <textColor reference="59"/>
+      <name id="60" justification="1" size="3" underlined="false">
         <text>&lt;&lt;Interface&gt;&gt; Modification</text>
       </name>
-      <methods id="75" justification="0" size="4" underlined="false">
+      <methods id="61" justification="0" size="4" underlined="false">
         <text>+ apply(Maze, Random) : void</text>
       </methods>
     </InterfaceNode>
-    <ClassNode id="76">
-      <children id="77"/>
-      <location class="Point2D.Double" id="78" x="220.0" y="920.0"/>
-      <id id="79" value="0219521d-48b8-4b9d-b3c9-197229c71387"/>
+    <ClassNode id="62">
+      <children id="63"/>
+      <location class="Point2D.Double" id="64" x="220.0" y="920.0"/>
+      <id id="65" value="0219521d-48b8-4b9d-b3c9-197229c71387"/>
       <revision>1</revision>
-      <backgroundColor reference="72"/>
-      <borderColor reference="73"/>
-      <textColor reference="73"/>
-      <name id="80" justification="1" size="3" underlined="false">
+      <backgroundColor reference="58"/>
+      <borderColor reference="59"/>
+      <textColor reference="59"/>
+      <name id="66" justification="1" size="3" underlined="false">
         <text>TreasureModification</text>
       </name>
-      <attributes id="81" justification="0" size="4" underlined="false">
+      <attributes id="67" justification="0" size="4" underlined="false">
         <text></text>
       </attributes>
-      <methods id="82" justification="0" size="4" underlined="false">
+      <methods id="68" justification="0" size="4" underlined="false">
         <text></text>
       </methods>
     </ClassNode>
-    <ClassNode id="83">
-      <children id="84"/>
-      <location class="Point2D.Double" id="85" x="440.0" y="890.0"/>
-      <id id="86" value="372f2afd-d66e-430a-8e4c-da85f1d1ec4e"/>
+    <ClassNode id="69">
+      <children id="70"/>
+      <location class="Point2D.Double" id="71" x="440.0" y="890.0"/>
+      <id id="72" value="372f2afd-d66e-430a-8e4c-da85f1d1ec4e"/>
       <revision>1</revision>
-      <backgroundColor reference="72"/>
-      <borderColor reference="73"/>
-      <textColor reference="73"/>
-      <name id="87" justification="1" size="3" underlined="false">
+      <backgroundColor reference="58"/>
+      <borderColor reference="59"/>
+      <textColor reference="59"/>
+      <name id="73" justification="1" size="3" underlined="false">
         <text>FogModification</text>
       </name>
-      <attributes id="88" justification="0" size="4" underlined="false">
+      <attributes id="74" justification="0" size="4" underlined="false">
         <text></text>
       </attributes>
-      <methods id="89" justification="0" size="4" underlined="false">
+      <methods id="75" justification="0" size="4" underlined="false">
         <text></text>
       </methods>
     </ClassNode>
-    <ClassNode id="90">
-      <children id="91"/>
-      <location class="Point2D.Double" id="92" x="1150.0" y="410.0"/>
-      <id id="93" value="a918fb80-2062-4b04-80a6-bfe2187c8a4a"/>
+    <ClassNode id="76">
+      <children id="77"/>
+      <location class="Point2D.Double" id="78" x="1150.0" y="410.0"/>
+      <id id="79" value="a918fb80-2062-4b04-80a6-bfe2187c8a4a"/>
       <revision>1</revision>
-      <backgroundColor id="94">
+      <backgroundColor id="80">
         <red>255</red>
         <green>255</green>
         <blue>255</blue>
         <alpha>255</alpha>
       </backgroundColor>
-      <borderColor id="95">
+      <borderColor id="81">
         <red>0</red>
         <green>0</green>
         <blue>0</blue>
         <alpha>255</alpha>
       </borderColor>
-      <textColor reference="95"/>
-      <name id="96" justification="1" size="3" underlined="false">
+      <textColor reference="81"/>
+      <name id="82" justification="1" size="3" underlined="false">
         <text>Torch</text>
+      </name>
+      <attributes id="83" justification="0" size="4" underlined="false">
+        <text></text>
+      </attributes>
+      <methods id="84" justification="0" size="4" underlined="false">
+        <text></text>
+      </methods>
+    </ClassNode>
+    <ClassNode id="85">
+      <children id="86"/>
+      <location class="Point2D.Double" id="87" x="1150.0" y="480.0"/>
+      <id id="88" value="f5bb4952-fc7a-450e-aa3d-12adc22fb406"/>
+      <revision>1</revision>
+      <backgroundColor reference="80"/>
+      <borderColor reference="81"/>
+      <textColor reference="81"/>
+      <name id="89" justification="1" size="3" underlined="false">
+        <text>Clock</text>
+      </name>
+      <attributes id="90" justification="0" size="4" underlined="false">
+        <text></text>
+      </attributes>
+      <methods id="91" justification="0" size="4" underlined="false">
+        <text></text>
+      </methods>
+    </ClassNode>
+    <ClassNode id="92">
+      <children id="93"/>
+      <location class="Point2D.Double" id="94" x="1140.0" y="340.0"/>
+      <id id="95" value="aaf9830f-a18d-4f1c-9bdf-ad9804b912eb"/>
+      <revision>1</revision>
+      <backgroundColor reference="80"/>
+      <borderColor reference="81"/>
+      <textColor reference="81"/>
+      <name id="96" justification="1" size="3" underlined="false">
+        <text>GoalFish</text>
       </name>
       <attributes id="97" justification="0" size="4" underlined="false">
         <text></text>
@@ -325,17 +325,19 @@ Page extends JPanel</text>
     </ClassNode>
     <ClassNode id="99">
       <children id="100"/>
-      <location class="Point2D.Double" id="101" x="1150.0" y="480.0"/>
-      <id id="102" value="f5bb4952-fc7a-450e-aa3d-12adc22fb406"/>
+      <location class="Point2D.Double" id="101" x="930.0" y="640.0"/>
+      <id id="102" value="fc30f98d-039f-46b5-aa3f-52f5d93be6e1"/>
       <revision>1</revision>
-      <backgroundColor reference="94"/>
-      <borderColor reference="95"/>
-      <textColor reference="95"/>
+      <backgroundColor reference="80"/>
+      <borderColor reference="81"/>
+      <textColor reference="81"/>
       <name id="103" justification="1" size="3" underlined="false">
-        <text>Clock</text>
+        <text>Player</text>
       </name>
       <attributes id="104" justification="0" size="4" underlined="false">
-        <text></text>
+        <text>- playerNum: int
+- vision: int
+- friend: Player</text>
       </attributes>
       <methods id="105" justification="0" size="4" underlined="false">
         <text></text>
@@ -343,17 +345,19 @@ Page extends JPanel</text>
     </ClassNode>
     <ClassNode id="106">
       <children id="107"/>
-      <location class="Point2D.Double" id="108" x="1140.0" y="340.0"/>
-      <id id="109" value="aaf9830f-a18d-4f1c-9bdf-ad9804b912eb"/>
+      <location class="Point2D.Double" id="108" x="720.0" y="340.0"/>
+      <id id="109" value="58bc11b0-9760-4596-a2ad-5b2fb2f8b86e"/>
       <revision>1</revision>
-      <backgroundColor reference="94"/>
-      <borderColor reference="95"/>
-      <textColor reference="95"/>
+      <backgroundColor reference="80"/>
+      <borderColor reference="81"/>
+      <textColor reference="81"/>
       <name id="110" justification="1" size="3" underlined="false">
-        <text>GoalFish</text>
+        <text>MazeStats</text>
       </name>
       <attributes id="111" justification="0" size="4" underlined="false">
-        <text></text>
+        <text>numPlayers: int
+playerTimer: int[]
+playerFinished: boolean[]</text>
       </attributes>
       <methods id="112" justification="0" size="4" underlined="false">
         <text></text>
@@ -361,64 +365,64 @@ Page extends JPanel</text>
     </ClassNode>
     <ClassNode id="113">
       <children id="114"/>
-      <location class="Point2D.Double" id="115" x="930.0" y="640.0"/>
-      <id id="116" value="fc30f98d-039f-46b5-aa3f-52f5d93be6e1"/>
+      <location class="Point2D.Double" id="115" x="1140.0" y="550.0"/>
+      <id id="116" value="3b443639-ea2c-45d3-bbf4-0cee4447e9da"/>
       <revision>1</revision>
-      <backgroundColor reference="94"/>
-      <borderColor reference="95"/>
-      <textColor reference="95"/>
-      <name id="117" justification="1" size="3" underlined="false">
-        <text>Player</text>
-      </name>
-      <attributes id="118" justification="0" size="4" underlined="false">
-        <text>- playerNum: int
-- vision: int
-- friend: Player</text>
-      </attributes>
-      <methods id="119" justification="0" size="4" underlined="false">
-        <text></text>
-      </methods>
-    </ClassNode>
-    <ClassNode id="120">
-      <children id="121"/>
-      <location class="Point2D.Double" id="122" x="720.0" y="340.0"/>
-      <id id="123" value="58bc11b0-9760-4596-a2ad-5b2fb2f8b86e"/>
-      <revision>1</revision>
-      <backgroundColor reference="94"/>
-      <borderColor reference="95"/>
-      <textColor reference="95"/>
-      <name id="124" justification="1" size="3" underlined="false">
-        <text>MazeStats</text>
-      </name>
-      <attributes id="125" justification="0" size="4" underlined="false">
-        <text>numPlayers: int
-playerTimer: int[]
-playerFinished: boolean[]</text>
-      </attributes>
-      <methods id="126" justification="0" size="4" underlined="false">
-        <text></text>
-      </methods>
-    </ClassNode>
-    <ClassNode id="127">
-      <children id="128"/>
-      <location class="Point2D.Double" id="129" x="1140.0" y="550.0"/>
-      <id id="130" value="3b443639-ea2c-45d3-bbf4-0cee4447e9da"/>
-      <revision>1</revision>
-      <backgroundColor id="131">
+      <backgroundColor id="117">
         <red>255</red>
         <green>255</green>
         <blue>255</blue>
         <alpha>255</alpha>
       </backgroundColor>
-      <borderColor id="132">
+      <borderColor id="118">
         <red>0</red>
         <green>0</green>
         <blue>0</blue>
         <alpha>255</alpha>
       </borderColor>
-      <textColor reference="132"/>
-      <name id="133" justification="1" size="3" underlined="false">
+      <textColor reference="118"/>
+      <name id="119" justification="1" size="3" underlined="false">
         <text>Boots</text>
+      </name>
+      <attributes id="120" justification="0" size="4" underlined="false">
+        <text></text>
+      </attributes>
+      <methods id="121" justification="0" size="4" underlined="false">
+        <text></text>
+      </methods>
+    </ClassNode>
+    <ClassNode id="122">
+      <children id="123"/>
+      <location class="Point2D.Double" id="124" x="660.0" y="180.0"/>
+      <id id="125" value="c56851d7-1c66-4fd5-85f8-df7b346033e1"/>
+      <revision>1</revision>
+      <backgroundColor reference="117"/>
+      <borderColor reference="118"/>
+      <textColor reference="118"/>
+      <name id="126" justification="1" size="3" underlined="false">
+        <text>Campaign</text>
+      </name>
+      <attributes id="127" justification="0" size="4" underlined="false">
+        <text>- class CampaignLevel
++ enum CampaignType</text>
+      </attributes>
+      <methods id="128" justification="0" size="4" underlined="false">
+        <text>+ Campaign(CampaignType) : Campaign
++ getLevelName(): String
++ getCurrentLevel(): int
++ advance(): void</text>
+      </methods>
+    </ClassNode>
+    <ClassNode id="129">
+      <children id="130"/>
+      <location class="Point2D.Double" id="131" x="580.0" y="10.0"/>
+      <id id="132" value="115f11fd-4280-40be-b2f9-7fba860c15c6"/>
+      <revision>1</revision>
+      <backgroundColor reference="117"/>
+      <borderColor reference="118"/>
+      <textColor reference="118"/>
+      <name id="133" justification="1" size="3" underlined="false">
+        <text>CustomPage</text>
       </name>
       <attributes id="134" justification="0" size="4" underlined="false">
         <text></text>
@@ -429,54 +433,56 @@ playerFinished: boolean[]</text>
     </ClassNode>
     <ClassNode id="136">
       <children id="137"/>
-      <location class="Point2D.Double" id="138" x="660.0" y="180.0"/>
-      <id id="139" value="c56851d7-1c66-4fd5-85f8-df7b346033e1"/>
+      <location class="Point2D.Double" id="138" x="700.0" y="50.0"/>
+      <id id="139" value="051a19c4-04e3-4066-b8b0-eab9d85832b1"/>
       <revision>1</revision>
-      <backgroundColor reference="131"/>
-      <borderColor reference="132"/>
-      <textColor reference="132"/>
+      <backgroundColor reference="117"/>
+      <borderColor reference="118"/>
+      <textColor reference="118"/>
       <name id="140" justification="1" size="3" underlined="false">
-        <text>Campaign</text>
+        <text>Settings</text>
       </name>
       <attributes id="141" justification="0" size="4" underlined="false">
-        <text>- class CampaignLevel
-+ enum CampaignType</text>
+        <text>+ screenSize: ScreenSize
++ FPS: int
++ mazeStats: MazeSettings</text>
       </attributes>
       <methods id="142" justification="0" size="4" underlined="false">
-        <text>+ Campaign(CampaignType) : Campaign
-+ getLevelName(): String
-+ getCurrentLevel(): int
-+ advance(): void</text>
+        <text>Settings() : Settings</text>
       </methods>
     </ClassNode>
     <ClassNode id="143">
       <children id="144"/>
-      <location class="Point2D.Double" id="145" x="580.0" y="10.0"/>
-      <id id="146" value="115f11fd-4280-40be-b2f9-7fba860c15c6"/>
+      <location class="Point2D.Double" id="145" x="930.0" y="50.0"/>
+      <id id="146" value="6fc33656-a98b-42f9-a70b-a46e69880268"/>
       <revision>1</revision>
-      <backgroundColor reference="131"/>
-      <borderColor reference="132"/>
-      <textColor reference="132"/>
+      <backgroundColor reference="117"/>
+      <borderColor reference="118"/>
+      <textColor reference="118"/>
       <name id="147" justification="1" size="3" underlined="false">
-        <text>CustomPage</text>
+        <text>&lt;&lt;Enumeration&gt;&gt;
+ScreenSize</text>
       </name>
       <attributes id="148" justification="0" size="4" underlined="false">
-        <text></text>
+        <text>+ width: final int
++ height: final int
+
+</text>
       </attributes>
       <methods id="149" justification="0" size="4" underlined="false">
-        <text></text>
+        <text>- ScreenSize(int, int): ScreenSize</text>
       </methods>
     </ClassNode>
     <ClassNode id="150">
       <children id="151"/>
-      <location class="Point2D.Double" id="152" x="270.0" y="330.0"/>
-      <id id="153" value="1bddda1a-a637-4b6a-b201-419242b2f22b"/>
+      <location class="Point2D.Double" id="152" x="520.0" y="130.0"/>
+      <id id="153" value="a3fe5fdc-f9c2-4e66-a0df-1e4b42d6d906"/>
       <revision>1</revision>
-      <backgroundColor reference="131"/>
-      <borderColor reference="132"/>
-      <textColor reference="132"/>
+      <backgroundColor reference="117"/>
+      <borderColor reference="118"/>
+      <textColor reference="118"/>
       <name id="154" justification="1" size="3" underlined="false">
-        <text>SettingsPage</text>
+        <text>TransitionPage</text>
       </name>
       <attributes id="155" justification="0" size="4" underlined="false">
         <text></text>
@@ -487,14 +493,14 @@ playerFinished: boolean[]</text>
     </ClassNode>
     <ClassNode id="157">
       <children id="158"/>
-      <location class="Point2D.Double" id="159" x="520.0" y="130.0"/>
-      <id id="160" value="4bbea4bc-e955-40f4-a716-8648541fffe5"/>
+      <location class="Point2D.Double" id="159" x="390.0" y="170.0"/>
+      <id id="160" value="7cec89c3-8407-4949-8208-3289391ac14b"/>
       <revision>1</revision>
-      <backgroundColor reference="131"/>
-      <borderColor reference="132"/>
-      <textColor reference="132"/>
+      <backgroundColor reference="7"/>
+      <borderColor reference="8"/>
+      <textColor reference="8"/>
       <name id="161" justification="1" size="3" underlined="false">
-        <text>TransitionPage</text>
+        <text>InstructionsPage</text>
       </name>
       <attributes id="162" justification="0" size="4" underlined="false">
         <text></text>
@@ -505,44 +511,38 @@ playerFinished: boolean[]</text>
     </ClassNode>
     <ClassNode id="164">
       <children id="165"/>
-      <location class="Point2D.Double" id="166" x="700.0" y="50.0"/>
-      <id id="167" value="051a19c4-04e3-4066-b8b0-eab9d85832b1"/>
+      <location class="Point2D.Double" id="166" x="340.0" y="260.0"/>
+      <id id="167" value="fa959800-cc35-4ed3-bd6a-a8844d619ed3"/>
       <revision>1</revision>
-      <backgroundColor reference="131"/>
-      <borderColor reference="132"/>
-      <textColor reference="132"/>
+      <backgroundColor reference="7"/>
+      <borderColor reference="8"/>
+      <textColor reference="8"/>
       <name id="168" justification="1" size="3" underlined="false">
-        <text>Settings</text>
+        <text>HomePage</text>
       </name>
       <attributes id="169" justification="0" size="4" underlined="false">
-        <text>+ screenSize: ScreenSize
-+ FPS: int
-+ mazeStats: MazeSettings</text>
+        <text></text>
       </attributes>
       <methods id="170" justification="0" size="4" underlined="false">
-        <text>Settings() : Settings</text>
+        <text></text>
       </methods>
     </ClassNode>
     <ClassNode id="171">
       <children id="172"/>
-      <location class="Point2D.Double" id="173" x="930.0" y="50.0"/>
-      <id id="174" value="6fc33656-a98b-42f9-a70b-a46e69880268"/>
+      <location class="Point2D.Double" id="173" x="270.0" y="330.0"/>
+      <id id="174" value="60e6e23e-793b-497a-bf39-3915063cddb6"/>
       <revision>1</revision>
-      <backgroundColor reference="131"/>
-      <borderColor reference="132"/>
-      <textColor reference="132"/>
+      <backgroundColor reference="117"/>
+      <borderColor reference="118"/>
+      <textColor reference="118"/>
       <name id="175" justification="1" size="3" underlined="false">
-        <text>&lt;&lt;Enumeration&gt;&gt;
-ScreenSize</text>
+        <text>SettingsPage</text>
       </name>
       <attributes id="176" justification="0" size="4" underlined="false">
-        <text>+ width: final int
-+ height: final int
-
-</text>
+        <text></text>
       </attributes>
       <methods id="177" justification="0" size="4" underlined="false">
-        <text>- ScreenSize(int, int): ScreenSize</text>
+        <text></text>
       </methods>
     </ClassNode>
   </nodes>
@@ -560,221 +560,221 @@ ScreenSize</text>
       <middleLabel></middleLabel>
       <endLabel>1</endLabel>
     </CompositionEdge>
-    <CompositionEdge id="185">
-      <start class="ClassNode" reference="19"/>
-      <end class="ClassNode" reference="3"/>
-      <startLocation class="Point2D.Double" id="186" x="60.0" y="20.0"/>
-      <endLocation class="Point2D.Double" id="187" x="20.0" y="10.0"/>
-      <transitionPoints id="188"/>
-      <id id="189" value="8b925411-b650-4116-a427-2919af51b343"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel>1</startLabel>
-      <middleLabel></middleLabel>
-      <endLabel>1</endLabel>
-    </CompositionEdge>
-    <InheritanceEdge id="190">
-      <start class="ClassNode" reference="19"/>
-      <end class="ClassNode" reference="26"/>
-      <startLocation class="Point2D.Double" id="191" x="80.0" y="50.0"/>
-      <endLocation class="Point2D.Double" id="192" x="20.0" y="20.0"/>
-      <transitionPoints id="193"/>
-      <id id="194" value="a3031b8d-b2f4-4597-adb3-572bdd784337"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel></startLabel>
-      <middleLabel></middleLabel>
-      <endLabel></endLabel>
-    </InheritanceEdge>
-    <InheritanceEdge id="195">
+    <InheritanceEdge id="185">
       <start class="ClassNode" reference="12"/>
-      <end class="ClassNode" reference="26"/>
-      <startLocation class="Point2D.Double" id="196" x="40.0" y="30.0"/>
-      <endLocation class="Point2D.Double" id="197" x="50.0" y="10.0"/>
-      <transitionPoints id="198"/>
-      <id id="199" value="8e1978d5-9dbb-48ac-853b-ba8a647a5540"/>
+      <end class="ClassNode" reference="19"/>
+      <startLocation class="Point2D.Double" id="186" x="40.0" y="30.0"/>
+      <endLocation class="Point2D.Double" id="187" x="50.0" y="10.0"/>
+      <transitionPoints id="188"/>
+      <id id="189" value="8e1978d5-9dbb-48ac-853b-ba8a647a5540"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
       <middleLabel></middleLabel>
       <endLabel></endLabel>
     </InheritanceEdge>
-    <CompositionEdge id="200">
-      <start class="ClassNode" reference="54"/>
-      <end class="ClassNode" reference="3"/>
-      <startLocation class="Point2D.Double" id="201" x="100.0" y="10.0"/>
-      <endLocation class="Point2D.Double" id="202" x="80.0" y="10.0"/>
-      <transitionPoints id="203"/>
-      <id id="204" value="d82b3e85-aa66-42a0-b259-2a97d2535102"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel>1</startLabel>
-      <middleLabel></middleLabel>
-      <endLabel>1</endLabel>
-    </CompositionEdge>
-    <InheritanceEdge id="205">
-      <start class="ClassNode" reference="54"/>
-      <end class="ClassNode" reference="26"/>
-      <startLocation class="Point2D.Double" id="206" x="90.0" y="30.0"/>
-      <endLocation class="Point2D.Double" id="207" x="60.0" y="30.0"/>
-      <transitionPoints id="208"/>
-      <id id="209" value="bd9c99e1-fd0b-4a69-8d41-e3d250bf79aa"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel></startLabel>
-      <middleLabel></middleLabel>
-      <endLabel></endLabel>
-    </InheritanceEdge>
-    <CompositionEdge id="210">
-      <start class="ClassNode" reference="47"/>
-      <end class="ClassNode" reference="12"/>
-      <startLocation class="Point2D.Double" id="211" x="30.0" y="20.0"/>
-      <endLocation class="Point2D.Double" id="212" x="60.0" y="50.0"/>
-      <transitionPoints id="213"/>
-      <id id="214" value="d77bf8d2-c247-4f22-96fd-8fb97e7bb7c9"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel>1</startLabel>
-      <middleLabel></middleLabel>
-      <endLabel>1</endLabel>
-    </CompositionEdge>
-    <CompositionEdge id="215">
-      <start class="ClassNode" reference="33"/>
-      <end class="ClassNode" reference="47"/>
-      <startLocation class="Point2D.Double" id="216" x="20.0" y="20.0"/>
-      <endLocation class="Point2D.Double" id="217" x="50.0" y="50.0"/>
-      <transitionPoints id="218"/>
-      <id id="219" value="69700f5b-7905-4f6b-9f6c-da23552469bd"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel>n</startLabel>
-      <middleLabel></middleLabel>
-      <endLabel>1</endLabel>
-    </CompositionEdge>
-    <CompositionEdge id="220">
-      <start class="ClassNode" reference="61"/>
-      <end class="ClassNode" reference="47"/>
-      <startLocation class="Point2D.Double" id="221" x="50.0" y="50.0"/>
-      <endLocation class="Point2D.Double" id="222" x="20.0" y="20.0"/>
-      <transitionPoints id="223"/>
-      <id id="224" value="6fd0128a-d069-41a9-b5aa-85531d18bf97"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel>n</startLabel>
-      <middleLabel></middleLabel>
-      <endLabel>1</endLabel>
-    </CompositionEdge>
-    <CompositionEdge id="225">
+    <CompositionEdge id="190">
       <start class="ClassNode" reference="40"/>
-      <end class="ClassNode" reference="33"/>
-      <startLocation class="Point2D.Double" id="226" x="60.0" y="40.0"/>
-      <endLocation class="Point2D.Double" id="227" x="100.0" y="10.0"/>
-      <transitionPoints id="228"/>
-      <id id="229" value="374b449b-7a7c-47f7-89d3-984fe701e974"/>
+      <end class="ClassNode" reference="12"/>
+      <startLocation class="Point2D.Double" id="191" x="30.0" y="20.0"/>
+      <endLocation class="Point2D.Double" id="192" x="60.0" y="50.0"/>
+      <transitionPoints id="193"/>
+      <id id="194" value="d77bf8d2-c247-4f22-96fd-8fb97e7bb7c9"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel>1</startLabel>
       <middleLabel></middleLabel>
       <endLabel>1</endLabel>
     </CompositionEdge>
-    <InterfaceInheritanceEdge id="230">
-      <start class="ClassNode" reference="76"/>
-      <end class="InterfaceNode" reference="68"/>
-      <startLocation class="Point2D.Double" id="231" x="80.0" y="40.0"/>
-      <endLocation class="Point2D.Double" id="232" x="100.0" y="20.0"/>
-      <transitionPoints id="233"/>
-      <id id="234" value="633fbdb5-2703-42a4-a234-48015d5b8364"/>
+    <CompositionEdge id="195">
+      <start class="ClassNode" reference="26"/>
+      <end class="ClassNode" reference="40"/>
+      <startLocation class="Point2D.Double" id="196" x="20.0" y="20.0"/>
+      <endLocation class="Point2D.Double" id="197" x="50.0" y="50.0"/>
+      <transitionPoints id="198"/>
+      <id id="199" value="69700f5b-7905-4f6b-9f6c-da23552469bd"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel>n</startLabel>
+      <middleLabel></middleLabel>
+      <endLabel>1</endLabel>
+    </CompositionEdge>
+    <CompositionEdge id="200">
+      <start class="ClassNode" reference="47"/>
+      <end class="ClassNode" reference="40"/>
+      <startLocation class="Point2D.Double" id="201" x="50.0" y="50.0"/>
+      <endLocation class="Point2D.Double" id="202" x="20.0" y="20.0"/>
+      <transitionPoints id="203"/>
+      <id id="204" value="6fd0128a-d069-41a9-b5aa-85531d18bf97"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel>n</startLabel>
+      <middleLabel></middleLabel>
+      <endLabel>1</endLabel>
+    </CompositionEdge>
+    <CompositionEdge id="205">
+      <start class="ClassNode" reference="33"/>
+      <end class="ClassNode" reference="26"/>
+      <startLocation class="Point2D.Double" id="206" x="60.0" y="40.0"/>
+      <endLocation class="Point2D.Double" id="207" x="100.0" y="10.0"/>
+      <transitionPoints id="208"/>
+      <id id="209" value="374b449b-7a7c-47f7-89d3-984fe701e974"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel>1</startLabel>
+      <middleLabel></middleLabel>
+      <endLabel>1</endLabel>
+    </CompositionEdge>
+    <InterfaceInheritanceEdge id="210">
+      <start class="ClassNode" reference="62"/>
+      <end class="InterfaceNode" reference="54"/>
+      <startLocation class="Point2D.Double" id="211" x="80.0" y="40.0"/>
+      <endLocation class="Point2D.Double" id="212" x="100.0" y="20.0"/>
+      <transitionPoints id="213"/>
+      <id id="214" value="633fbdb5-2703-42a4-a234-48015d5b8364"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
       <middleLabel></middleLabel>
       <endLabel></endLabel>
     </InterfaceInheritanceEdge>
-    <DependencyEdge id="235">
-      <start class="ClassNode" reference="47"/>
-      <end class="InterfaceNode" reference="68"/>
-      <startLocation class="Point2D.Double" id="236" x="140.0" y="140.0"/>
-      <endLocation class="Point2D.Double" id="237" x="80.0" y="20.0"/>
-      <transitionPoints id="238"/>
-      <id id="239" value="3ffa3820-af3f-4a5a-b428-ce7cd582bafa"/>
+    <DependencyEdge id="215">
+      <start class="ClassNode" reference="40"/>
+      <end class="InterfaceNode" reference="54"/>
+      <startLocation class="Point2D.Double" id="216" x="140.0" y="140.0"/>
+      <endLocation class="Point2D.Double" id="217" x="80.0" y="20.0"/>
+      <transitionPoints id="218"/>
+      <id id="219" value="3ffa3820-af3f-4a5a-b428-ce7cd582bafa"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
       <middleLabel></middleLabel>
       <endLabel></endLabel>
     </DependencyEdge>
-    <InterfaceInheritanceEdge id="240">
-      <start class="ClassNode" reference="83"/>
-      <end class="InterfaceNode" reference="68"/>
-      <startLocation class="Point2D.Double" id="241" x="30.0" y="0.0"/>
-      <endLocation class="Point2D.Double" id="242" x="120.0" y="30.0"/>
-      <transitionPoints id="243"/>
-      <id id="244" value="fa7bf401-bf9c-4d5c-bde0-7111847d672d"/>
+    <InterfaceInheritanceEdge id="220">
+      <start class="ClassNode" reference="69"/>
+      <end class="InterfaceNode" reference="54"/>
+      <startLocation class="Point2D.Double" id="221" x="30.0" y="0.0"/>
+      <endLocation class="Point2D.Double" id="222" x="120.0" y="30.0"/>
+      <transitionPoints id="223"/>
+      <id id="224" value="fa7bf401-bf9c-4d5c-bde0-7111847d672d"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
       <middleLabel></middleLabel>
       <endLabel></endLabel>
     </InterfaceInheritanceEdge>
-    <InheritanceEdge id="245">
-      <start class="ClassNode" reference="113"/>
-      <end class="ClassNode" reference="61"/>
-      <startLocation class="Point2D.Double" id="246" x="30.0" y="60.0"/>
-      <endLocation class="Point2D.Double" id="247" x="130.0" y="80.0"/>
-      <transitionPoints id="248"/>
-      <id id="249" value="64b50605-748f-4203-bf49-e9116044f7de"/>
+    <InheritanceEdge id="225">
+      <start class="ClassNode" reference="99"/>
+      <end class="ClassNode" reference="47"/>
+      <startLocation class="Point2D.Double" id="226" x="30.0" y="60.0"/>
+      <endLocation class="Point2D.Double" id="227" x="130.0" y="80.0"/>
+      <transitionPoints id="228"/>
+      <id id="229" value="64b50605-748f-4203-bf49-e9116044f7de"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
       <middleLabel></middleLabel>
       <endLabel></endLabel>
     </InheritanceEdge>
-    <InterfaceInheritanceEdge id="250">
-      <start class="ClassNode" reference="106"/>
-      <end class="ClassNode" reference="40"/>
-      <startLocation class="Point2D.Double" id="251" x="30.0" y="40.0"/>
-      <endLocation class="Point2D.Double" id="252" x="170.0" y="20.0"/>
+    <InterfaceInheritanceEdge id="230">
+      <start class="ClassNode" reference="92"/>
+      <end class="ClassNode" reference="33"/>
+      <startLocation class="Point2D.Double" id="231" x="30.0" y="40.0"/>
+      <endLocation class="Point2D.Double" id="232" x="170.0" y="20.0"/>
+      <transitionPoints id="233"/>
+      <id id="234" value="05edd2d5-76e9-4d8f-a0f0-3246edae7e81"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel></startLabel>
+      <middleLabel></middleLabel>
+      <endLabel></endLabel>
+    </InterfaceInheritanceEdge>
+    <InterfaceInheritanceEdge id="235">
+      <start class="ClassNode" reference="76"/>
+      <end class="ClassNode" reference="33"/>
+      <startLocation class="Point2D.Double" id="236" x="50.0" y="30.0"/>
+      <endLocation class="Point2D.Double" id="237" x="130.0" y="50.0"/>
+      <transitionPoints id="238"/>
+      <id id="239" value="5cde7e57-8479-4679-a6bc-930badf34070"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel></startLabel>
+      <middleLabel></middleLabel>
+      <endLabel></endLabel>
+    </InterfaceInheritanceEdge>
+    <InterfaceInheritanceEdge id="240">
+      <start class="ClassNode" reference="85"/>
+      <end class="ClassNode" reference="33"/>
+      <startLocation class="Point2D.Double" id="241" x="50.0" y="20.0"/>
+      <endLocation class="Point2D.Double" id="242" x="160.0" y="50.0"/>
+      <transitionPoints id="243"/>
+      <id id="244" value="fb86c211-5dd6-470e-a447-6d5bb2dcc921"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel></startLabel>
+      <middleLabel></middleLabel>
+      <endLabel></endLabel>
+    </InterfaceInheritanceEdge>
+    <DependencyEdge id="245">
+      <start class="ClassNode" reference="33"/>
+      <end class="ClassNode" reference="99"/>
+      <startLocation class="Point2D.Double" id="246" x="120.0" y="20.0"/>
+      <endLocation class="Point2D.Double" id="247" x="20.0" y="50.0"/>
+      <transitionPoints id="248"/>
+      <id id="249" value="1fba3dc6-bc39-43d8-af5b-070489a59da3"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel></startLabel>
+      <middleLabel></middleLabel>
+      <endLabel></endLabel>
+    </DependencyEdge>
+    <DependencyEdge id="250">
+      <start class="ClassNode" reference="26"/>
+      <end class="ClassNode" reference="99"/>
+      <startLocation class="Point2D.Double" id="251" x="180.0" y="30.0"/>
+      <endLocation class="Point2D.Double" id="252" x="40.0" y="80.0"/>
       <transitionPoints id="253"/>
-      <id id="254" value="05edd2d5-76e9-4d8f-a0f0-3246edae7e81"/>
+      <id id="254" value="04e75e73-74d2-4ece-b8d9-7d5f7f512948"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
       <middleLabel></middleLabel>
       <endLabel></endLabel>
-    </InterfaceInheritanceEdge>
-    <InterfaceInheritanceEdge id="255">
-      <start class="ClassNode" reference="90"/>
-      <end class="ClassNode" reference="40"/>
-      <startLocation class="Point2D.Double" id="256" x="50.0" y="30.0"/>
-      <endLocation class="Point2D.Double" id="257" x="130.0" y="50.0"/>
+    </DependencyEdge>
+    <DependencyEdge id="255">
+      <start class="ClassNode" reference="12"/>
+      <end class="ClassNode" reference="106"/>
+      <startLocation class="Point2D.Double" id="256" x="100.0" y="20.0"/>
+      <endLocation class="Point2D.Double" id="257" x="40.0" y="70.0"/>
       <transitionPoints id="258"/>
-      <id id="259" value="5cde7e57-8479-4679-a6bc-930badf34070"/>
+      <id id="259" value="e5838dd6-5731-48af-a7ec-50c14464270c"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
       <middleLabel></middleLabel>
       <endLabel></endLabel>
-    </InterfaceInheritanceEdge>
-    <InterfaceInheritanceEdge id="260">
-      <start class="ClassNode" reference="99"/>
-      <end class="ClassNode" reference="40"/>
-      <startLocation class="Point2D.Double" id="261" x="50.0" y="20.0"/>
-      <endLocation class="Point2D.Double" id="262" x="160.0" y="50.0"/>
-      <transitionPoints id="263"/>
-      <id id="264" value="fb86c211-5dd6-470e-a447-6d5bb2dcc921"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel></startLabel>
-      <middleLabel></middleLabel>
-      <endLabel></endLabel>
-    </InterfaceInheritanceEdge>
-    <DependencyEdge id="265">
+    </DependencyEdge>
+    <DependencyEdge id="260">
       <start class="ClassNode" reference="40"/>
-      <end class="ClassNode" reference="113"/>
-      <startLocation class="Point2D.Double" id="266" x="120.0" y="20.0"/>
-      <endLocation class="Point2D.Double" id="267" x="20.0" y="50.0"/>
+      <end class="ClassNode" reference="106"/>
+      <startLocation class="Point2D.Double" id="261" x="150.0" y="30.0"/>
+      <endLocation class="Point2D.Double" id="262" x="50.0" y="80.0"/>
+      <transitionPoints id="263"/>
+      <id id="264" value="b12e50f0-67c6-4ba0-a66e-00fd4ab5e68b"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel></startLabel>
+      <middleLabel></middleLabel>
+      <endLabel></endLabel>
+    </DependencyEdge>
+    <DependencyEdge id="265">
+      <start class="ClassNode" reference="26"/>
+      <end class="ClassNode" reference="106"/>
+      <startLocation class="Point2D.Double" id="266" x="50.0" y="10.0"/>
+      <endLocation class="Point2D.Double" id="267" x="80.0" y="50.0"/>
       <transitionPoints id="268"/>
-      <id id="269" value="1fba3dc6-bc39-43d8-af5b-070489a59da3"/>
+      <id id="269" value="e4790d4c-1cb6-484b-8902-ffdcb3e2c9c7"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
@@ -783,89 +783,89 @@ ScreenSize</text>
     </DependencyEdge>
     <DependencyEdge id="270">
       <start class="ClassNode" reference="33"/>
-      <end class="ClassNode" reference="113"/>
-      <startLocation class="Point2D.Double" id="271" x="180.0" y="30.0"/>
-      <endLocation class="Point2D.Double" id="272" x="40.0" y="80.0"/>
+      <end class="ClassNode" reference="106"/>
+      <startLocation class="Point2D.Double" id="271" x="100.0" y="30.0"/>
+      <endLocation class="Point2D.Double" id="272" x="100.0" y="40.0"/>
       <transitionPoints id="273"/>
-      <id id="274" value="04e75e73-74d2-4ece-b8d9-7d5f7f512948"/>
+      <id id="274" value="2e307377-b9c5-4c17-884b-9eef88f1096e"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
       <middleLabel></middleLabel>
       <endLabel></endLabel>
     </DependencyEdge>
-    <DependencyEdge id="275">
-      <start class="ClassNode" reference="12"/>
-      <end class="ClassNode" reference="120"/>
-      <startLocation class="Point2D.Double" id="276" x="100.0" y="20.0"/>
-      <endLocation class="Point2D.Double" id="277" x="40.0" y="70.0"/>
+    <InterfaceInheritanceEdge id="275">
+      <start class="ClassNode" reference="113"/>
+      <end class="ClassNode" reference="33"/>
+      <startLocation class="Point2D.Double" id="276" x="50.0" y="30.0"/>
+      <endLocation class="Point2D.Double" id="277" x="160.0" y="90.0"/>
       <transitionPoints id="278"/>
-      <id id="279" value="e5838dd6-5731-48af-a7ec-50c14464270c"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel></startLabel>
-      <middleLabel></middleLabel>
-      <endLabel></endLabel>
-    </DependencyEdge>
-    <DependencyEdge id="280">
-      <start class="ClassNode" reference="47"/>
-      <end class="ClassNode" reference="120"/>
-      <startLocation class="Point2D.Double" id="281" x="150.0" y="30.0"/>
-      <endLocation class="Point2D.Double" id="282" x="50.0" y="80.0"/>
-      <transitionPoints id="283"/>
-      <id id="284" value="b12e50f0-67c6-4ba0-a66e-00fd4ab5e68b"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel></startLabel>
-      <middleLabel></middleLabel>
-      <endLabel></endLabel>
-    </DependencyEdge>
-    <DependencyEdge id="285">
-      <start class="ClassNode" reference="33"/>
-      <end class="ClassNode" reference="120"/>
-      <startLocation class="Point2D.Double" id="286" x="50.0" y="10.0"/>
-      <endLocation class="Point2D.Double" id="287" x="80.0" y="50.0"/>
-      <transitionPoints id="288"/>
-      <id id="289" value="e4790d4c-1cb6-484b-8902-ffdcb3e2c9c7"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel></startLabel>
-      <middleLabel></middleLabel>
-      <endLabel></endLabel>
-    </DependencyEdge>
-    <DependencyEdge id="290">
-      <start class="ClassNode" reference="40"/>
-      <end class="ClassNode" reference="120"/>
-      <startLocation class="Point2D.Double" id="291" x="100.0" y="30.0"/>
-      <endLocation class="Point2D.Double" id="292" x="100.0" y="40.0"/>
-      <transitionPoints id="293"/>
-      <id id="294" value="2e307377-b9c5-4c17-884b-9eef88f1096e"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel></startLabel>
-      <middleLabel></middleLabel>
-      <endLabel></endLabel>
-    </DependencyEdge>
-    <InterfaceInheritanceEdge id="295">
-      <start class="ClassNode" reference="127"/>
-      <end class="ClassNode" reference="40"/>
-      <startLocation class="Point2D.Double" id="296" x="50.0" y="30.0"/>
-      <endLocation class="Point2D.Double" id="297" x="160.0" y="90.0"/>
-      <transitionPoints id="298"/>
-      <id id="299" value="db8e3a86-2f3a-434b-9452-f2ef69d7be4b"/>
+      <id id="279" value="db8e3a86-2f3a-434b-9452-f2ef69d7be4b"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
       <middleLabel></middleLabel>
       <endLabel></endLabel>
     </InterfaceInheritanceEdge>
+    <CompositionEdge id="280">
+      <start class="ClassNode" reference="129"/>
+      <end class="ClassNode" reference="3"/>
+      <startLocation class="Point2D.Double" id="281" x="80.0" y="30.0"/>
+      <endLocation class="Point2D.Double" id="282" x="200.0" y="80.0"/>
+      <transitionPoints id="283"/>
+      <id id="284" value="b3b86d84-c738-4f8f-8d28-8f80f3993465"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel>1</startLabel>
+      <middleLabel></middleLabel>
+      <endLabel>1</endLabel>
+    </CompositionEdge>
+    <InheritanceEdge id="285">
+      <start class="ClassNode" reference="129"/>
+      <end class="ClassNode" reference="19"/>
+      <startLocation class="Point2D.Double" id="286" x="30.0" y="40.0"/>
+      <endLocation class="Point2D.Double" id="287" x="120.0" y="60.0"/>
+      <transitionPoints id="288"/>
+      <id id="289" value="be5fa9d1-0e7a-4b85-8be3-84e1be7fe38e"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel></startLabel>
+      <middleLabel></middleLabel>
+      <endLabel></endLabel>
+    </InheritanceEdge>
+    <DependencyEdge id="290">
+      <start class="ClassNode" reference="3"/>
+      <end class="ClassNode" reference="122"/>
+      <startLocation class="Point2D.Double" id="291" x="170.0" y="210.0"/>
+      <endLocation class="Point2D.Double" id="292" x="110.0" y="60.0"/>
+      <transitionPoints id="293"/>
+      <id id="294" value="5d6c9bb3-2163-4179-847b-90a6c5f53c45"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel></startLabel>
+      <middleLabel></middleLabel>
+      <endLabel></endLabel>
+    </DependencyEdge>
+    <CompositionEdge id="295">
+      <start class="ClassNode" reference="136"/>
+      <end class="ClassNode" reference="3"/>
+      <startLocation class="Point2D.Double" id="296" x="40.0" y="70.0"/>
+      <endLocation class="Point2D.Double" id="297" x="60.0" y="340.0"/>
+      <transitionPoints id="298"/>
+      <id id="299" value="c3ce766d-688c-4280-b2ce-c394452e8ec3"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel>1</startLabel>
+      <middleLabel></middleLabel>
+      <endLabel>1</endLabel>
+    </CompositionEdge>
     <CompositionEdge id="300">
       <start class="ClassNode" reference="143"/>
-      <end class="ClassNode" reference="3"/>
-      <startLocation class="Point2D.Double" id="301" x="80.0" y="30.0"/>
-      <endLocation class="Point2D.Double" id="302" x="200.0" y="80.0"/>
+      <end class="ClassNode" reference="136"/>
+      <startLocation class="Point2D.Double" id="301" x="50.0" y="60.0"/>
+      <endLocation class="Point2D.Double" id="302" x="140.0" y="50.0"/>
       <transitionPoints id="303"/>
-      <id id="304" value="b3b86d84-c738-4f8f-8d28-8f80f3993465"/>
+      <id id="304" value="b58bdc4f-0057-48f3-b58b-c9e0cf7bc6ac"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel>1</startLabel>
@@ -873,12 +873,12 @@ ScreenSize</text>
       <endLabel>1</endLabel>
     </CompositionEdge>
     <InheritanceEdge id="305">
-      <start class="ClassNode" reference="143"/>
-      <end class="ClassNode" reference="26"/>
-      <startLocation class="Point2D.Double" id="306" x="30.0" y="40.0"/>
-      <endLocation class="Point2D.Double" id="307" x="120.0" y="60.0"/>
+      <start class="ClassNode" reference="150"/>
+      <end class="ClassNode" reference="19"/>
+      <startLocation class="Point2D.Double" id="306" x="40.0" y="40.0"/>
+      <endLocation class="Point2D.Double" id="307" x="90.0" y="30.0"/>
       <transitionPoints id="308"/>
-      <id id="309" value="be5fa9d1-0e7a-4b85-8be3-84e1be7fe38e"/>
+      <id id="309" value="21970b9e-5a44-4696-b98c-5189c75c773e"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
@@ -888,10 +888,10 @@ ScreenSize</text>
     <CompositionEdge id="310">
       <start class="ClassNode" reference="150"/>
       <end class="ClassNode" reference="3"/>
-      <startLocation class="Point2D.Double" id="311" x="10.0" y="0.0"/>
-      <endLocation class="Point2D.Double" id="312" x="140.0" y="260.0"/>
+      <startLocation class="Point2D.Double" id="311" x="40.0" y="30.0"/>
+      <endLocation class="Point2D.Double" id="312" x="100.0" y="310.0"/>
       <transitionPoints id="313"/>
-      <id id="314" value="9299e845-97df-449f-8285-3fc66f10b4e2"/>
+      <id id="314" value="b2ce0c90-493c-44ab-84d2-4670fbb79d84"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel>1</startLabel>
@@ -899,12 +899,12 @@ ScreenSize</text>
       <endLabel>1</endLabel>
     </CompositionEdge>
     <InheritanceEdge id="315">
-      <start class="ClassNode" reference="150"/>
-      <end class="ClassNode" reference="26"/>
-      <startLocation class="Point2D.Double" id="316" x="60.0" y="30.0"/>
-      <endLocation class="Point2D.Double" id="317" x="70.0" y="40.0"/>
+      <start class="ClassNode" reference="157"/>
+      <end class="ClassNode" reference="19"/>
+      <startLocation class="Point2D.Double" id="316" x="90.0" y="30.0"/>
+      <endLocation class="Point2D.Double" id="317" x="60.0" y="30.0"/>
       <transitionPoints id="318"/>
-      <id id="319" value="f933ccbd-d483-4f88-ade1-e130f5f4ca53"/>
+      <id id="319" value="747903f2-0cd1-4217-abc2-806ad5ad39e5"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
@@ -914,10 +914,10 @@ ScreenSize</text>
     <CompositionEdge id="320">
       <start class="ClassNode" reference="157"/>
       <end class="ClassNode" reference="3"/>
-      <startLocation class="Point2D.Double" id="321" x="40.0" y="30.0"/>
-      <endLocation class="Point2D.Double" id="322" x="100.0" y="310.0"/>
+      <startLocation class="Point2D.Double" id="321" x="100.0" y="10.0"/>
+      <endLocation class="Point2D.Double" id="322" x="80.0" y="10.0"/>
       <transitionPoints id="323"/>
-      <id id="324" value="ee7f31a0-467c-44c7-bc54-5e94a725c5f3"/>
+      <id id="324" value="32aa21d3-0ea6-4c4a-8c88-c03264f06ce9"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel>1</startLabel>
@@ -925,51 +925,51 @@ ScreenSize</text>
       <endLabel>1</endLabel>
     </CompositionEdge>
     <InheritanceEdge id="325">
-      <start class="ClassNode" reference="157"/>
-      <end class="ClassNode" reference="26"/>
-      <startLocation class="Point2D.Double" id="326" x="40.0" y="40.0"/>
-      <endLocation class="Point2D.Double" id="327" x="90.0" y="30.0"/>
+      <start class="ClassNode" reference="164"/>
+      <end class="ClassNode" reference="19"/>
+      <startLocation class="Point2D.Double" id="326" x="80.0" y="50.0"/>
+      <endLocation class="Point2D.Double" id="327" x="20.0" y="20.0"/>
       <transitionPoints id="328"/>
-      <id id="329" value="c641bf53-46b2-498e-bc0e-c48758b61703"/>
+      <id id="329" value="ab57ba95-c9be-4dd0-885e-3d86386b3fe9"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel></startLabel>
       <middleLabel></middleLabel>
       <endLabel></endLabel>
     </InheritanceEdge>
-    <DependencyEdge id="330">
-      <start class="ClassNode" reference="3"/>
-      <end class="ClassNode" reference="136"/>
-      <startLocation class="Point2D.Double" id="331" x="170.0" y="210.0"/>
-      <endLocation class="Point2D.Double" id="332" x="110.0" y="60.0"/>
-      <transitionPoints id="333"/>
-      <id id="334" value="5d6c9bb3-2163-4179-847b-90a6c5f53c45"/>
-      <revision>1</revision>
-      <bentStyle reference="184"/>
-      <startLabel></startLabel>
-      <middleLabel></middleLabel>
-      <endLabel></endLabel>
-    </DependencyEdge>
-    <CompositionEdge id="335">
+    <CompositionEdge id="330">
       <start class="ClassNode" reference="164"/>
       <end class="ClassNode" reference="3"/>
-      <startLocation class="Point2D.Double" id="336" x="40.0" y="70.0"/>
-      <endLocation class="Point2D.Double" id="337" x="60.0" y="340.0"/>
-      <transitionPoints id="338"/>
-      <id id="339" value="c3ce766d-688c-4280-b2ce-c394452e8ec3"/>
+      <startLocation class="Point2D.Double" id="331" x="60.0" y="20.0"/>
+      <endLocation class="Point2D.Double" id="332" x="20.0" y="10.0"/>
+      <transitionPoints id="333"/>
+      <id id="334" value="50d46c38-15b8-4700-abf7-83c3408b61a7"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel>1</startLabel>
       <middleLabel></middleLabel>
       <endLabel>1</endLabel>
     </CompositionEdge>
+    <InheritanceEdge id="335">
+      <start class="ClassNode" reference="171"/>
+      <end class="ClassNode" reference="19"/>
+      <startLocation class="Point2D.Double" id="336" x="60.0" y="30.0"/>
+      <endLocation class="Point2D.Double" id="337" x="70.0" y="40.0"/>
+      <transitionPoints id="338"/>
+      <id id="339" value="dfe06e6b-d5c3-49a2-a8d5-6117aab475f4"/>
+      <revision>1</revision>
+      <bentStyle reference="184"/>
+      <startLabel></startLabel>
+      <middleLabel></middleLabel>
+      <endLabel></endLabel>
+    </InheritanceEdge>
     <CompositionEdge id="340">
       <start class="ClassNode" reference="171"/>
-      <end class="ClassNode" reference="164"/>
-      <startLocation class="Point2D.Double" id="341" x="50.0" y="60.0"/>
-      <endLocation class="Point2D.Double" id="342" x="140.0" y="50.0"/>
+      <end class="ClassNode" reference="3"/>
+      <startLocation class="Point2D.Double" id="341" x="10.0" y="0.0"/>
+      <endLocation class="Point2D.Double" id="342" x="140.0" y="260.0"/>
       <transitionPoints id="343"/>
-      <id id="344" value="b58bdc4f-0057-48f3-b58b-c9e0cf7bc6ac"/>
+      <id id="344" value="494cc284-6851-4441-9c3f-9d121a9cc3f3"/>
       <revision>1</revision>
       <bentStyle reference="184"/>
       <startLabel>1</startLabel>
