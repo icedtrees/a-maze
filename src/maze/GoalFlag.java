@@ -38,4 +38,10 @@ public class GoalFlag implements TileObject {
 		flag.addPoint(tileSize/3, tileSize/10);
 		g.fillPolygon(flag);
 	}
+
+	@Override
+	public void nextFrame() {
+		// TODO Auto-generated method stub
+		
+	}
 }
