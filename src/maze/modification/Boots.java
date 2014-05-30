@@ -1,13 +1,28 @@
 package maze.modification;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import maze.Player;
 import maze.TileObject;
 
 public class Boots implements TileObject {
 	double speedBonus;
+	private static BufferedImage sprite;
+	
+	static {
+		try {
+			sprite = ImageIO.read(new File("img/playerSprite/WinterBoots.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public Boots(double speedBonus) {
 		this.speedBonus = speedBonus;
 	}
@@ -32,9 +47,8 @@ public class Boots implements TileObject {
 
 	@Override
 	public void draw(Graphics g, int tileSize) {
-		g.setColor(new Color(165, 42, 42));
-		g.fillRect(tileSize/4, tileSize/4, tileSize/4, tileSize/4);
-		g.fillRect(tileSize/4, tileSize/2, tileSize/2, tileSize/4);
+		g.drawImage(sprite, 0, 0, tileSize, tileSize,
+				0, 0, sprite.getWidth(), sprite.getHeight(), null);
 	}
 
 	@Override
