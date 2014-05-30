@@ -7,14 +7,17 @@ import javax.swing.*;
 public class HomePage extends Page {
     private static final long serialVersionUID = 1L;
     public enum Result implements Page.Result {
-        PLAY_GAME,
+        PLAY_GAME_SINGLEPLAYER,
+        PLAY_GAME_MULTIPLAYER,
         SHOW_INSTRUCTIONS,
+        SHOW_HIGH_SCORES,
         SHOW_SETTINGS,
-        SHOW_CUSTOM,
+        PLAY_CUSTOM,
         QUIT_GAME,
     };
 
     private volatile Result result;
+	private JButton startMaze;
 	
     public HomePage() {
     	super();
@@ -27,10 +30,10 @@ public class HomePage extends Page {
         add(titleLabel);
         
         addStartButton();
-        addInstructionsButton();
-        addSettingsButton();
-        addHighScoresButton();
-        addExitButton();
+        addResultPanel("Instructions", Result.SHOW_INSTRUCTIONS);
+        addResultPanel("Settings", Result.SHOW_SETTINGS);
+        addResultPanel("Custom Game", Result.PLAY_CUSTOM);
+        addResultPanel("Quit", Result.QUIT_GAME);
         
         result = null;
     }
@@ -51,15 +54,19 @@ public class HomePage extends Page {
         return result;
     }
     
+    public void setStartButtonText(String newText) {
+        startMaze.setText(newText);
+    }
+    
     private void addStartButton() {
         JPanel startPanel = Components.makePanel();
         startPanel.setLayout(new FlowLayout());
         
-        JButton startMaze = Components.makeButton("Start maze");
+        startMaze = Components.makeButton("Play");
 		startMaze.addActionListener(new ActionListener() {
-			public synchronized void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// some action to generate maze and display a MazePage
-				result = Result.PLAY_GAME;
+				result = Result.PLAY_GAME_SINGLEPLAYER;
 			}
 		});
 		
@@ -67,61 +74,17 @@ public class HomePage extends Page {
 		add(startPanel);
     }
     
-	private void addInstructionsButton() {
-		JPanel instructionsPanel = Components.makePanel();
-		instructionsPanel.setLayout(new FlowLayout());
+	private void addResultPanel(String text, final HomePage.Result buttonResult) {
+	    JPanel panel = Components.makePanel();
+        panel.setLayout(new FlowLayout());
 
-		JButton instructions = Components.makeButton("Instructions");
-		instructions.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// some action to show instructions screen for each feature
-				result = Result.SHOW_INSTRUCTIONS;
-			}
-		});
-		instructionsPanel.add(instructions);
-		add(instructionsPanel);
+        JButton exit = Components.makeButton(text);
+        exit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                result = buttonResult;
+            }
+        });
+        panel.add(exit);
+        add(panel);
 	}
-    
-	private void addSettingsButton() {
-		JPanel settingsPanel = Components.makePanel();
-		settingsPanel.setLayout(new FlowLayout());
-
-		JButton settings = Components.makeButton("Settings");
-		settings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				result = Result.SHOW_SETTINGS;
-			}
-		});
-		settingsPanel.add(settings);
-		add(settingsPanel);
-	}
-	
-	private void addHighScoresButton() {
-		JPanel scoresPanel = Components.makePanel();
-		scoresPanel.setLayout(new FlowLayout());
-
-		JButton scores = Components.makeButton("Custom Maze");
-		scores.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				result = Result.SHOW_CUSTOM;
-			}
-		});
-		scoresPanel.add(scores);
-		add(scoresPanel);
-	}
-	
-	private void addExitButton() {
-		JPanel exitPanel = Components.makePanel();
-		exitPanel.setLayout(new FlowLayout());
-
-		JButton exit = Components.makeButton("Exit");
-		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				result = Result.QUIT_GAME;
-			}
-		});
-		exitPanel.add(exit);
-		add(exitPanel);
-	}
-	
 }
