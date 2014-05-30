@@ -401,7 +401,7 @@ public class CustomPage extends Page implements ItemListener {
 			System.out.println(wallsSlider.getValue());
 		}
 		
-		MazeSettings mazeSettings = new MazeSettings(false, trail, mazeSize, branching, straightness,
+		MazeSettings mazeSettings = new MazeSettings(multiplayer, trail, mazeSize, branching, straightness,
 				 startingTime, -1, modifications);
 		
 		this.mazeSettings = mazeSettings;
