@@ -92,13 +92,17 @@ public class Maze extends JComponent {
         this.rand = new Random(settings.getSeed());
         this.genMazeDFSBranch();
         
-		player1 = new Player(1, 0, Color.RED, settings.getTrail(), settings.getStartingTime(), settings.getStartingHints(), "img/playerSprite/brownCat");
+		player1 = new Player(1, 0, Color.RED, settings.getTrail(),
+				settings.getStartingTime(), settings.getStartingHints(),
+				"img/playerSprite/brownCat", Direction.SOUTH);
 		player1Last = new Coord(1, 0);
 		
 		player2 = null;
 		this.multiplayer = settings.getMultiplayer();
     	if (this.multiplayer) {
-    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE, settings.getTrail(), settings.getStartingTime(), settings.getStartingHints(), "img/playerSprite/tanCat");
+    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE,
+    				settings.getTrail(), settings.getStartingTime(),
+    				settings.getStartingHints(), "img/playerSprite/tanCat", Direction.NORTH);
     		player2Last = new Coord(mazeWidth - 2, mazeHeight - 1);
     		
     		player1.setFriend(player2);
@@ -232,6 +236,20 @@ public class Maze extends JComponent {
 	    		Coord player1Pos = new Coord(player1.getRealX(), player1.getRealY());
 	    		Coord goalPos = new Coord(mazeWidth - 2, mazeHeight - 1);
 	    		List<Coord> path = getPath(player1Pos, goalPos);
+	    		if (path != null) {
+	    			int i = 0;
+	    			while (i < length && i < path.size()) {
+	    				tileSetHint(path.get(i));
+	    				i++;
+	    			}
+	    		}
+    		}
+    	}
+    	if (playerNum == 2) {
+    		if (player2 != null) {
+	    		Coord player2Pos = new Coord(player2.getRealX(), player2.getRealY());
+	    		Coord goalPos = new Coord(1, 0);
+	    		List<Coord> path = getPath(player2Pos, goalPos);
 	    		if (path != null) {
 	    			int i = 0;
 	    			while (i < length && i < path.size()) {

@@ -80,6 +80,8 @@ public class MazePage extends Page implements KeyListener{
 		c.weighty = 1;
 		add(maze, c);
 		validate();
+		maze.getHint(1, 10);
+		maze.getHint(2,  10);
 		
 		/*
          * The main event loop which gets run every frame based on a frame-rate

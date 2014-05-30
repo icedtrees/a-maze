@@ -2,6 +2,8 @@ package maze;
 
 import java.awt.Color;
 
+import maze.Maze.Direction;
+
 public class Player extends MobileObject {
 	private int vision;
 	private Player friend;
@@ -10,8 +12,8 @@ public class Player extends MobileObject {
 	private boolean finished;
 	private int hintsLeft;
 	
-	public Player(int startX, int startY, Color color, boolean trail, double timer, int hintsLeft, String basePath) {
-		super(color, 5, startX, startY, 3, basePath);
+	public Player(int startX, int startY, Color color, boolean trail, double timer, int hintsLeft, String basePath, Direction initial) {
+		super(color, 5, startX, startY, 3, basePath, initial);
 		this.leavesTrail = trail;
 		this.timer = timer;
 		this.hintsLeft = hintsLeft;
