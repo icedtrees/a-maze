@@ -90,11 +90,11 @@ public class Maze extends JComponent {
         int straightness = settings.getStraightness();
         this.straightness = straightness > 0 ? straightness*straightness : straightness;
         this.branching = 22 - (2 * settings.getBranching());
-        this.rand = new Random(settings.getSeed());
+        this.rand = new Random(settings.getSeed() == -1 ? System.nanoTime() : settings.getSeed());
         this.genMazeDFSBranch();
         
 		player1 = new Player(1, 0, new Color(244, 121, 149), settings.getTrail(),
-				settings.getStartingTime(), settings.getStartingHints(),
+				settings.getStartingTime(), settings.getHints() ? 5 : 0,
 				"img/playerSprite/redCat", Direction.SOUTH);
 		player1Last = new Coord(1, 0);
 		
@@ -103,7 +103,7 @@ public class Maze extends JComponent {
     	if (this.multiplayer) {
     		player2 = new Player(mazeWidth - 2, mazeHeight - 1, new Color(242, 213, 164),
     				settings.getTrail(), settings.getStartingTime(),
-    				settings.getStartingHints(), "img/playerSprite/greenCat", Direction.NORTH);
+    				settings.getHints() ? 5 : 0, "img/playerSprite/greenCat", Direction.NORTH);
     		player2Last = new Coord(mazeWidth - 2, mazeHeight - 1);
     		
     		player1.setFriend(player2);
@@ -240,7 +240,7 @@ public class Maze extends JComponent {
     private boolean player2Finished() {
     	return player2 == null || player2.isFinished();
     }
-    public void getHint(int playerNum, int length) {
+    public void showHint(int playerNum, int percent) {
     	if (playerNum == 1) {
     		if (player1 != null) {
 	    		Coord player1Pos = new Coord(player1.getRealX(), player1.getRealY());
@@ -248,6 +248,7 @@ public class Maze extends JComponent {
 	    		List<Coord> path = getPath(player1Pos, goalPos);
 	    		if (path != null) {
 	    			int i = 0;
+	    			int length = path.size() * percent / 100;
 	    			while (i < length && i < path.size()) {
 	    				tileSetHint(path.get(i));
 	    				i++;
@@ -262,6 +263,7 @@ public class Maze extends JComponent {
 	    		List<Coord> path = getPath(player2Pos, goalPos);
 	    		if (path != null) {
 	    			int i = 0;
+	    			int length = path.size() * percent / 100;
 	    			while (i < length && i < path.size()) {
 	    				tileSetHint(path.get(i));
 	    				i++;
