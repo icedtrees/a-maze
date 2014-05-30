@@ -27,6 +27,7 @@ public class MazePage extends Page implements KeyListener{
     private static final int KEY_UNPRESSED = 0;
 
 	private JPanel sidePanel;
+	private JPanel timerPanel;
 	private JLabel timeLeft1;
 	private JLabel timeLeft2;
 	
@@ -43,17 +44,19 @@ public class MazePage extends Page implements KeyListener{
 		
 		GridBagConstraints c = new GridBagConstraints();
         sidePanel = Components.makePanel();
-        sidePanel.setLayout(new GridLayout(5, 1));
-        sidePanel.setMinimumSize(new Dimension(150, 100));
+        sidePanel.setOpaque(true);
+        sidePanel.setBackground(Color.DARK_GRAY);
+        sidePanel.setLayout(new GridBagLayout());
+        sidePanel.setPreferredSize(new Dimension(225, 100));
+        c.fill = GridBagConstraints.BOTH;
 		c.gridx = 1;
-		//c.ipadx = 30;
+		c.weightx = 0.04;
 		add(sidePanel, c);
 		
 		addKeyListener(this);
 		pressedKeys = new AtomicIntegerArray(256);
 		
         drawSidebar();
-        
         mazeSettings = new MazeSettings();
 	}
 
@@ -62,7 +65,6 @@ public class MazePage extends Page implements KeyListener{
 	    
 	    // Start collecting keys
         this.requestFocusInWindow();
-				
 
 		final Maze maze = new Maze(mazeSettings);
 		GridBagConstraints c = new GridBagConstraints();
@@ -73,6 +75,7 @@ public class MazePage extends Page implements KeyListener{
 		c.weighty = 1;
 		add(maze, c);
 		validate();
+		maze.getHint(1, 10);
 		
 		/*
          * The main event loop which gets run every frame based on a frame-rate
@@ -144,19 +147,36 @@ public class MazePage extends Page implements KeyListener{
 	    timeLeft1.setText("Player1: " + String.format("%.2f", maze.getPlayer1Timer()));
         if (maze.isMultiplayer()) {
             timeLeft2.setText("Player2: " + String.format("%.2f", maze.getPlayer2Timer()));
+            timeLeft2.setVisible(true);
         }
 	}
 	
     private void drawSidebar() {
-        JLabel mazeTitle = Components.makeText("MAZE", 20);
+        JLabel mazeTitle = Components.makeText("MAZE", 40);
         mazeTitle.setAlignmentX(JLabel.CENTER);
-        sidePanel.add(mazeTitle);
-
-        timeLeft1 = Components.makeText("Player1: ", 15);
-        sidePanel.add(timeLeft1);
+        GridBagConstraints sidePCon = new GridBagConstraints();
+        sidePCon.fill = GridBagConstraints.BOTH;
+        sidePCon.gridx = 0;
+        sidePCon.gridy = 0;
+		sidePCon.ipady = 30;
+//		c.weightx = 10;
+		sidePCon.weighty = 0.20;
+        sidePanel.add(mazeTitle, sidePCon);
         
+        timerPanel = Components.makePanel();
+        timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.PAGE_AXIS));
+        timeLeft1 = Components.makeText("Player1: ", 15);
         timeLeft2 = Components.makeText("Player2: ", 15);
-        sidePanel.add(timeLeft2);
+        timeLeft2.setVisible(false);
+        timerPanel.add(timeLeft1);
+        timerPanel.add(timeLeft2);
+        timerPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        
+        sidePCon.fill = GridBagConstraints.BOTH;
+        sidePCon.gridy = 1;
+        sidePCon.ipady = 0;
+        sidePCon.weighty = 1;
+        sidePanel.add(timerPanel, sidePCon);
         
         JButton returnButton = Components.makeButton("return");
         returnButton.addActionListener(new ActionListener() {
@@ -165,7 +185,10 @@ public class MazePage extends Page implements KeyListener{
                 result = Result.LOST_GAME;
             }
         });
-        sidePanel.add(returnButton);
+        sidePCon.fill = GridBagConstraints.HORIZONTAL;
+        sidePCon.gridy = 3;
+        sidePCon.weighty = 0.1;
+        sidePanel.add(returnButton, sidePCon);
     }
 	
 

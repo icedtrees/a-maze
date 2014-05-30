@@ -23,7 +23,7 @@ public class Components {
 
 		};
     	// sets the colour and opacity of button
-    	button.setBackground(new Color(0, 0, 0, 50));
+    	button.setBackground(new Color(0, 0, 0, 150));
     	
     	// makes jbutton not opaque, so it doesn't stuff up 
     	// the default painting mechanism
@@ -44,6 +44,8 @@ public class Components {
     	button.setFont(new Font(font.getName(), Font.PLAIN, 20));
     	
     	button.setPreferredSize(new Dimension(200, 60));
+//    	button.setMinimumSize(new Dimension(200, 60));
+//    	button.setMaximumSize(new Dimension(200, 60));
         return button;
     }
     
@@ -69,6 +71,7 @@ public class Components {
     	return panel;
     }
     
+    // currently not being used
     public static JPanel makeTranslucentPanel() {
     	JPanel panel = new JPanel() {
 			private static final long serialVersionUID = 1L;

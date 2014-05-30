@@ -204,6 +204,26 @@ public class Maze extends JComponent {
     public boolean player2Finished() {
     	return player2 == null || player2.isFinished();
     }
+    public void getHint(int playerNum, int length) {
+    	if (playerNum == 1) {
+    		if (player1 != null) {
+	    		Coord player1Pos = new Coord(player1.getRealX(), player1.getRealY());
+	    		Coord goalPos = new Coord(mazeWidth - 2, mazeHeight - 1);
+	    		List<Coord> path = getPath(player1Pos, goalPos);
+	    		if (path != null) {
+	    			int i = 0;
+	    			while (i < length && i < path.size()) {
+	    				tileSetHint(path.get(i));
+	    				i++;
+	    			}
+	    		}
+    		}
+    	}
+    }
+    
+    private void tileSetHint(Coord c) {
+    	tiles[c.getX()][c.getY()].setHint();
+    }
     
     private void applyMods(List<Modification> mods) {
     	if (mods == null) {
@@ -554,8 +574,12 @@ public class Maze extends JComponent {
     	}
     	int x = player.getGoalX() + dir.dx();
     	int y = player.getGoalY() + dir.dy();
-    	int friendX = player.getFriend().getGoalX();
-    	int friendY = player.getFriend().getGoalY();
+    	int friendX = -1;
+    	int friendY = -1;
+    	if (player.hasFriend()) {
+	    	friendX = player.getFriend().getGoalX();
+	    	friendY = player.getFriend().getGoalY();
+    	}
     	if (isSpace(x, y) && !(x == friendX && y == friendY)) {
     		player.moveWait(dir);
     	}
@@ -828,6 +852,54 @@ public class Maze extends JComponent {
     	}
     	
     	return shuffledMoves;
+    }
+    private List<Coord> getPath(Coord from, Coord to) {
+    	List<Coord> path = new ArrayList<Coord>();
+    	
+    	Set<Coord> seen = new HashSet<Coord>();
+    	Stack<Step> s = new Stack<Step>();
+    	s.add(new Step(from, null, 0));
+    	
+    	Step finalStep = null;
+    	while (!s.isEmpty()) {
+    		Step curStep = s.pop();
+    		Coord curCell = curStep.getCell();
+    		
+    		if (curCell.equals(to)) {
+    			// End found
+    			finalStep = curStep;
+    			break;
+    		}
+    		
+    		if (seen.contains(curCell)) {
+    			continue;
+    		}
+    		seen.add(curCell);
+    		
+			for (Direction dir : Direction.values()) {
+				Coord newCell = curCell.inDirection(dir);
+				if (!isSpace(newCell.getX(), newCell.getY())) {
+					continue;
+				}
+				Step newStep = new Step(newCell, dir, curStep.getDist() + 1);
+				newStep.setFrom(curStep);
+				s.push(newStep);
+			}
+    	}
+    	
+    	if (finalStep == null) {
+    		System.out.println("No path found");
+    		return null;
+    	}
+    	
+    	Step curStep = finalStep;
+    	while (curStep.getFrom() != null) {
+    		path.add(curStep.getCell());
+    		curStep = curStep.getFrom();
+    	}
+    	
+    	Collections.reverse(path);
+    	return path;
     }
     
     private void debug(String message) {
