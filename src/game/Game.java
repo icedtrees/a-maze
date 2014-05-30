@@ -42,10 +42,17 @@ public class Game {
         game.run();
     }
     
+    /**
+     * Constructs a new game object and initialises the GUI components of the
+     * entire program.
+     */
     public Game() {
         initialiseGUI();
     }
     
+    /**
+     * Begins execution of the game.
+     */
     public void run() {
         // The starting page is the Home Page
         currentPage = HOME_PAGE;
