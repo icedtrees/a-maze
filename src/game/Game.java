@@ -99,7 +99,7 @@ public class Game {
                     mazePage.setMazeSettings(currentCampaign.getLevelSettings());
                     MazePage.Result result = mazePage.run();
                     if (result.equals(MazePage.Result.LOST_GAME)) {
-                        transitionPage.setText("Better luck next time!");
+                        transitionPage.setText("Cat became too hungry to keep walking and collapsed. Better luck next time!");
                         currentTransition = transitionPage;
                         currentPage = HOME_PAGE;
                     } else if (result.equals(MazePage.Result.WON_GAME)) {

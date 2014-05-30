@@ -5,7 +5,7 @@ import game.Game;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import maze.Maze.Direction;
+import maze.Direction;
 
 /**
  * This class implements a square section of the maze (the smallest subdivison).

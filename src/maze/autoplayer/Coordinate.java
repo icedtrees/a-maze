@@ -3,7 +3,7 @@ package maze.autoplayer;
 import java.util.ArrayList;
 import java.util.List;
 
-import maze.Maze.Direction;
+import maze.Direction;
 
 public class Coordinate {
 	private int x;
