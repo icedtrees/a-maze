@@ -42,8 +42,8 @@ public class Clock implements TileObject {
 
 	@Override
 	public void draw(Graphics g, int tileSize) {
-		g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(),
-				0, 0, tileSize, tileSize, null);
+		g.drawImage(image, 0, 0, tileSize, tileSize,
+				0, 0, image.getWidth(), image.getHeight(), null);
 	}
 
 }
