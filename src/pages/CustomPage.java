@@ -273,8 +273,8 @@ public class CustomPage extends Page implements ItemListener {
 		JLabel wallsDescription = Components.makeText(html1 + "Walls will shift after the player has"
 				+ " moved a certain number of steps. Move the slider to select the number"
 				+ " of (pairs of) walls to shift each time.</html>", 15);
-		JLabel hintsDescription = Components.makeText(html1 + "The next _ steps of the correct path will be shown "
-				+ "[when you press H?]. Move the slider to select the number of starting hints.</html>", 15);
+		JLabel hintsDescription = Components.makeText(html1 + "The next steps of the correct path will be shown "
+				+ "when you press H. If you turn hints on, you will receive 5 starting hints.</html>", 15);
 		
 		GridBagConstraints dCon = new GridBagConstraints();
 		dCon.fill = GridBagConstraints.NONE;
@@ -370,6 +370,7 @@ public class CustomPage extends Page implements ItemListener {
 		int branching = branchingSlider.getValue();
 		int straightness = straightnessSlider.getValue();
 		int startingTime = timeSlider.getValue();
+		boolean hints = hintsBox.isSelected();
 //		long seed; // haven't done yet, i just put in -1
 		System.out.println(multiplayer);
 		System.out.println(trail);
@@ -402,7 +403,7 @@ public class CustomPage extends Page implements ItemListener {
 		}
 		
 		MazeSettings mazeSettings = new MazeSettings(multiplayer, trail, mazeSize, branching, straightness,
-				 startingTime, false, -1, modifications);
+				 startingTime, hints, -1, modifications);
 		
 		this.mazeSettings = mazeSettings;
 	}
@@ -426,31 +427,24 @@ public class CustomPage extends Page implements ItemListener {
 		Object source = e.getItemSelectable();
 		
 		if (source == multiplayerBox) {
-			System.out.print(MULTIPLAYER);
 			descriptionLayout.show(descriptionPanel, MULTIPLAYER);
 			
 		} else if (source == bootsBox) {
-			System.out.print(BOOTS);
 			descriptionLayout.show(descriptionPanel, BOOTS);
 			
 		} else if (source == clockBox) {
-			System.out.print(CLOCKS);
 			descriptionLayout.show(descriptionPanel, CLOCKS);
 			
 		} else if (source == trailBox) {
-			System.out.print(EXPLORED_TRAIL);
 			descriptionLayout.show(descriptionPanel, EXPLORED_TRAIL);
 			
 		} else if (source == fogBox) {
-			System.out.print(FOG_OF_WAR);
 			descriptionLayout.show(descriptionPanel, FOG_OF_WAR);
 			
 		} else if (source == shiftingWallsBox) {
-			System.out.print(SHIFTING_WALLS);
 			descriptionLayout.show(descriptionPanel, SHIFTING_WALLS);
 			
 		} else if (source == hintsBox) {
-			System.out.print(HINTS);
 			descriptionLayout.show(descriptionPanel, HINTS);
 		}
 		
@@ -479,7 +473,7 @@ public class CustomPage extends Page implements ItemListener {
         JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
 		
-        JButton returnButton = Components.makeButton("return");
+        JButton returnButton = Components.makeButton("Return");
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	System.out.println("return to main menu");
