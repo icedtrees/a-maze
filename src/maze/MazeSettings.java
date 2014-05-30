@@ -4,6 +4,11 @@ import java.util.*;
 
 import maze.modification.Modification;
 
+/**
+ * Contains the settings that the maze will be initialised with
+ * @author Davy
+ *
+ */
 public class MazeSettings {
 	private boolean multiplayer;
 	private boolean trail;

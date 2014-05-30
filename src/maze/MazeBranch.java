@@ -4,6 +4,11 @@ import java.util.Stack;
 
 import maze.Direction;
 
+/**
+ * Represents a DFS'ing branch during the generation of the maze
+ * @author Leo
+ *
+ */
 public class MazeBranch {
 	private Stack<Step> s;
 	private int id;

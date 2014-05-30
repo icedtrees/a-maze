@@ -7,6 +7,11 @@ import java.util.Random;
 import maze.Coord;
 import maze.Maze;
 
+/**
+ * Scatters clocks around the maze which will grant the player extra time
+ * @author Leo
+ *
+ */
 public class ClockMod implements Modification {
 	private int numClocks;
 	

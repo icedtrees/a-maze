@@ -7,6 +7,11 @@ import java.util.Random;
 import maze.Coord;
 import maze.Maze;
 
+/**
+ * Scatters boots around the maze that will increase the player's speed
+ * @author Leo
+ *
+ */
 public class SpeedMod implements Modification {
 	private int numBoots;
 	

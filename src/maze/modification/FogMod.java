@@ -7,6 +7,11 @@ import java.util.Random;
 import maze.Coord;
 import maze.Maze;
 
+/**
+ * Activates fog of war within the maze
+ * @author Leo
+ *
+ */
 public class FogMod implements Modification {
 	private int defaultVision;
 	private int numTorches;

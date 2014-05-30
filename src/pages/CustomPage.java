@@ -13,6 +13,12 @@ import javax.swing.event.ChangeListener;
 import maze.MazeSettings;
 import maze.modification.*;
 
+/**
+ * CustomPage allows users to make their own version of the game by allowing
+ * them to adjust the parameters and features of the game through sliders
+ * and checkboxes. 
+ *
+ */
 public class CustomPage extends Page implements ItemListener {
 	public enum Result implements Page.Result {
 	    PLAY_CUSTOM_GAME,
@@ -62,6 +68,10 @@ public class CustomPage extends Page implements ItemListener {
 	private JCheckBox hintsBox;
 	private MazeSettings mazeSettings;
 	
+	/**
+	 * Constructs a CustomPage, and puts all the components like sliders,
+	 * checkboxes and panels into the appropriate location.
+	 */
 	public CustomPage() {
 		super();
 		
@@ -136,7 +146,7 @@ public class CustomPage extends Page implements ItemListener {
 		c.weighty = 0.08;
 		add(timeSliderPanel, c);
         
-		//-----------------------------------------------------------panel to select features
+		//--------------------------------------------------panel to select features
 		JLabel featuresLabel = Components.makeText("Features", 20);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -158,12 +168,12 @@ public class CustomPage extends Page implements ItemListener {
 		JPanel checkBoxPanel = Components.makePanel();
 		checkBoxPanel.setLayout(new BoxLayout(checkBoxPanel, BoxLayout.Y_AXIS));
 		checkBoxPanel.setAlignmentX(CENTER_ALIGNMENT);
-		// make checkboxes
+		
+		// makes checkboxes
 		multiplayerBox = Components.makeCheckBox(MULTIPLAYER);
 		bootsBox = Components.makeCheckBox(BOOTS);
 		clockBox = Components.makeCheckBox(CLOCKS);
 		trailBox = Components.makeCheckBox(EXPLORED_TRAIL);
-		//fog of war should enable torches too
 		fogBox = Components.makeCheckBox(FOG_OF_WAR); 
 		shiftingWallsBox = Components.makeCheckBox(SHIFTING_WALLS);
 		hintsBox = Components.makeCheckBox(HINTS);
@@ -177,9 +187,9 @@ public class CustomPage extends Page implements ItemListener {
 		hintsBox.addItemListener(this);
 		
 		multiplayerBox.setSelected(false);
-		bootsBox.setSelected(false); //true
-		clockBox.setSelected(false); //true
-		trailBox.setSelected(false); //true
+		bootsBox.setSelected(false); 
+		clockBox.setSelected(false); 
+		trailBox.setSelected(false); 
 		fogBox.setSelected(false);
 		shiftingWallsBox.setSelected(false);
 		hintsBox.setSelected(false);
@@ -195,7 +205,7 @@ public class CustomPage extends Page implements ItemListener {
 		
 		featuresPanel.add(checkBoxPanel);
 		
-		//-----------------------------------------------------------panel to show description
+		//-----------------------------------------------panel to show description
 		JLabel descriptionLabel = Components.makeText("Description", 20);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -205,6 +215,7 @@ public class CustomPage extends Page implements ItemListener {
 		c.weightx = 1;
 		add(descriptionLabel, c);
 
+		// Adds all the sliders for the features and allows it to get input from user.
 		clockSlider = Components.makeJSlider(0, 20, 5, 5, 1, 400);
         clockSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
@@ -249,7 +260,8 @@ public class CustomPage extends Page implements ItemListener {
         		}
         	}
         });
-		
+
+		// Adds descriptions of each feature
 		descriptionPanel = Components.makePanel();
 		descriptionLayout = new CardLayout();
 		descriptionPanel.setLayout(descriptionLayout);
@@ -273,8 +285,8 @@ public class CustomPage extends Page implements ItemListener {
 		JLabel wallsDescription = Components.makeText(html1 + "Walls will shift after the player has"
 				+ " moved a certain number of steps. Move the slider to select the number"
 				+ " of (pairs of) walls to shift each time.</html>", 15);
-		JLabel hintsDescription = Components.makeText(html1 + "The next _ steps of the correct path will be shown "
-				+ "[when you press H?]. Move the slider to select the number of starting hints.</html>", 15);
+		JLabel hintsDescription = Components.makeText(html1 + "The next steps of the correct path will be shown "
+				+ "when you press H. Move the slider to select the number of starting hints.</html>", 15);
 		
 		GridBagConstraints dCon = new GridBagConstraints();
 		dCon.fill = GridBagConstraints.NONE;
@@ -283,6 +295,7 @@ public class CustomPage extends Page implements ItemListener {
 		dCon.weighty = 1;
 		dCon.weightx = 1;
 		
+		//Adds all the panels in the appropriate location
 		mazePanel = Components.makePanel();
 		mazePanel.setLayout(new GridBagLayout());
 		mazePanel.add(mazeDescription, dCon);
@@ -359,10 +372,17 @@ public class CustomPage extends Page implements ItemListener {
         result = null;
 	}
 
+	/**
+	 * @return the mazeSettings specified by the user's inputs
+	 */
 	public MazeSettings getCustomSettings() {
 	    return mazeSettings;
 	}
 	
+	/**
+	 * Gets the values from all the sliders and checkboxes and 
+	 * adds it to mazeSettings
+	 */
 	private void storeCustomSettings() {
 		boolean multiplayer = multiplayerBox.isSelected();
 		boolean trail = trailBox.isSelected();
@@ -370,6 +390,7 @@ public class CustomPage extends Page implements ItemListener {
 		int branching = branchingSlider.getValue();
 		int straightness = straightnessSlider.getValue();
 		int startingTime = timeSlider.getValue();
+		boolean hints = hintsBox.isSelected();
 //		long seed; // haven't done yet, i just put in -1
 		System.out.println(multiplayer);
 		System.out.println(trail);
@@ -402,11 +423,14 @@ public class CustomPage extends Page implements ItemListener {
 		}
 		
 		MazeSettings mazeSettings = new MazeSettings(multiplayer, trail, mazeSize, branching, straightness,
-				 startingTime, false, -1, modifications);
+				 startingTime, hints, -1, modifications);
 		
 		this.mazeSettings = mazeSettings;
 	}
 	
+	/* (non-Javadoc)
+	 * @see pages.Page#run()
+	 */
 	@Override
 	public CustomPage.Result run() {
 	    result = null;
@@ -422,6 +446,9 @@ public class CustomPage extends Page implements ItemListener {
 		return result;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	public void itemStateChanged(ItemEvent e) {
 		Object source = e.getItemSelectable();
 		
@@ -475,6 +502,9 @@ public class CustomPage extends Page implements ItemListener {
 		}
 	}
 	
+	/**
+	 * Adds the 'Play custom game' and 'return' buttons for the page.
+	 */
 	private void addReturnButton() {
         JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());

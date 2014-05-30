@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * HomePage is the menu screen.
+ */
 public class HomePage extends Page {
     private static final long serialVersionUID = 1L;
     public enum Result implements Page.Result {
