@@ -110,31 +110,33 @@ public class MazePage extends Page implements KeyListener{
         	        result = Result.LOST_GAME;
         	    }
         	    
-                if (pressedKeys.get(KeyEvent.VK_LEFT) == KEY_PRESSED) {
-                    maze.movePlayer(1, Maze.Direction.WEST);
-                }
-                if (pressedKeys.get(KeyEvent.VK_RIGHT) == KEY_PRESSED) {
-                    maze.movePlayer(1, Maze.Direction.EAST);
-                } 
-                if (pressedKeys.get(KeyEvent.VK_UP) == KEY_PRESSED) {
-                    maze.movePlayer(1, Maze.Direction.NORTH);
-                } 
-                if (pressedKeys.get(KeyEvent.VK_DOWN) == KEY_PRESSED) {
-                    maze.movePlayer(1, Maze.Direction.SOUTH);
-                } 
                 if (pressedKeys.get(KeyEvent.VK_A) == KEY_PRESSED) {
-                    maze.movePlayer(2, Maze.Direction.WEST);
+                    maze.movePlayer(1, Maze.Direction.WEST);
                 } 
                 if (pressedKeys.get(KeyEvent.VK_D) == KEY_PRESSED) {
-                    maze.movePlayer(2, Maze.Direction.EAST);
+                    maze.movePlayer(1, Maze.Direction.EAST);
                 } 
                 if (pressedKeys.get(KeyEvent.VK_W) == KEY_PRESSED) {
-                    maze.movePlayer(2, Maze.Direction.NORTH);
+                    maze.movePlayer(1, Maze.Direction.NORTH);
                 } 
                 if (pressedKeys.get(KeyEvent.VK_S) == KEY_PRESSED) {
-                    maze.movePlayer(2, Maze.Direction.SOUTH);
+                    maze.movePlayer(1, Maze.Direction.SOUTH);
                 }
-        	    maze.nextFrame();
+
+                if (pressedKeys.get(KeyEvent.VK_LEFT) == KEY_PRESSED) {
+                    maze.movePlayer(2, Maze.Direction.WEST);
+                }
+                if (pressedKeys.get(KeyEvent.VK_RIGHT) == KEY_PRESSED) {
+                    maze.movePlayer(2, Maze.Direction.EAST);
+                } 
+                if (pressedKeys.get(KeyEvent.VK_UP) == KEY_PRESSED) {
+                    maze.movePlayer(2, Maze.Direction.NORTH);
+                } 
+                if (pressedKeys.get(KeyEvent.VK_DOWN) == KEY_PRESSED) {
+                    maze.movePlayer(2, Maze.Direction.SOUTH);
+                } 
+                
+                maze.nextFrame();
         	    SwingUtilities.getWindowAncestor(mazePage).repaint();
         	    if (maze.playersFinished()) {
         	        result = Result.WON_GAME;
