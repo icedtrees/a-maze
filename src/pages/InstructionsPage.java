@@ -34,19 +34,19 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JLabel titleLabel = Components.makeTitle("Instructions");
-		c.fill = GridBagConstraints.HORIZONTAL; //not sure what this does
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.ipady = 40;
 		c.gridwidth = 2;
-		c.weighty = 0.25;
+		c.weighty = 0.15;
         add(titleLabel, c);
         
         
         JPanel selectionPanel = Components.makePanel();
         selectionPanel.setLayout(new GridBagLayout());
         GridBagConstraints selectCon = new GridBagConstraints();
-        selectCon.fill = GridBagConstraints.HORIZONTAL; //not sure what this does
+        selectCon.fill = GridBagConstraints.BOTH; 
         selectCon.gridx = 0;
         selectCon.gridy = 0;
         selectCon.weighty = 0.05;
@@ -64,58 +64,59 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         selectionListModel.addElement(FOG_OF_WAR);
         selectionListModel.addElement(SHIFTING_WALLS);
         
-//        selectionList = new JList<String>(selectionListModel); // JDK 7 version
-        selectionList = new JList(selectionListModel);
+        selectionList = new JList<String>(selectionListModel); // JDK 7 version
+        //selectionList = new JList(selectionListModel);
         selectionList.setOpaque(false);
-        ((javax.swing.DefaultListCellRenderer)selectionList.getCellRenderer()).setOpaque(false);
+        ListCellRenderer renderer = new FocusedListCellRenderer();
+        selectionList.setCellRenderer(renderer);
         selectionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         Font font = selectionList.getFont();
         selectionList.setFont(new Font(font.getName(), Font.PLAIN, 22));
         selectionList.setSelectedIndex(0);
         selectionList.setForeground(Color.WHITE);
         selectionList.addListSelectionListener(this);
-        selectionList.setVisibleRowCount(7);
-        selectCon.fill = GridBagConstraints.BOTH; //not sure what this does
+        selectionList.setVisibleRowCount(5);
+        selectCon.fill = GridBagConstraints.BOTH;
         selectCon.gridx = 0;
         selectCon.gridy = 1;
         selectCon.weighty = 0.25;
         selectionPanel.add(selectionList, selectCon);
-        
+        selectionPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         
         c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 1;
 		c.ipadx = 70;
 		c.gridwidth = 1;
-		c.weighty = 0.75;
+		c.weighty = 0.5;
 		add(selectionPanel, c);
 		
 		JPanel descriptionPanel = Components.makePanel();
-		descriptionPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 50));
-		//borderlayout?
         c.fill = GridBagConstraints.BOTH;
 		c.gridx = 1;
 		c.gridy = 1;
 		c.ipadx = 0;
-		c.weighty = 0.75;
+		c.weighty = 0.5;
 		add(descriptionPanel, c);
 		
 		showDescription = Components.makePanel();
 		showLayout = new CardLayout();
 		showDescription.setLayout(showLayout);
 		
-        JPanel singlePlayerPanel = makeDescription("Single Player: Use the arrow keys to move.", "src/arrowKeys.png");		
-        JPanel multiPlayerPanel = makeDescription("<html>Multi Player: <br>Player 1: Use the WASD keys to move. "
-        		+ "<br> Player 2:   Use arrows to move.</html>", "src/WASDarrowKeys.png");
+        String html1 = "<html><body style='width: 300px'>";
+		
+        JPanel singlePlayerPanel = makeDescription(html1 + "Single Player: <br>Use the arrow keys to move.</html>", "img/arrowKeys.png");		
+        JPanel multiPlayerPanel = makeDescription(html1 + "Multi Player: <br>Player 1: Use the WASD keys to move. "
+        		+ "<br> Player 2:   Use arrows to move.</html>", "img/WASDarrowKeys.png");
         // need to find images for the rest of these, preferably of our actual maze so it's clear what the feature is
-		JPanel bootsPanel = makeDescription("Boots: increase your movement speed", "src/boots.png");
-		JPanel clocksPanel = makeDescription("Clocks: increase the time to complete the maze", "src/clocks.png");
-		JPanel trailPanel = makeDescription("Explored trail: shows the path you've travelled on", "src/trail.png");
-		// need to describe torches too
-		JPanel fogPanel = makeDescription("<html>Fog of war: you have limited visibility.<br> "
-				+ "You can get torches to increase the field of view</html>", "src/fog.png");
+		JPanel bootsPanel = makeDescription(html1 + "Boots: <br>Increase your movement speed.</html>", "img/boots.png");
+		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Increase the time to complete the maze.</html>", "img/clocks.png");
+		JPanel trailPanel = makeDescription(html1 + "Explored trail: <br>Shows the path you've travelled on.</html>", "img/trail.png");
+		JPanel fogPanel = makeDescription(html1 + "Fog of war: <br>You have limited visibility. "
+				+ "You can get torches to increase the field of view.</html>", "img/fog.png");
 		//fill in the blanks
-		JPanel wallsPanel = makeDescription("Sliding walls: _ walls will move every _ seconds", "src/walls.png");
+		JPanel wallsPanel = makeDescription(html1 + "Shifting walls: <br>_ walls "
+				+ "will move every _ seconds</html>", "img/walls.png");
 		
 		showDescription.add(singlePlayerPanel, SINGLE_PLAYER);
 		showDescription.add(multiPlayerPanel, MULTI_PLAYER);
@@ -126,7 +127,6 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		showDescription.add(wallsPanel, SHIFTING_WALLS);
 		
 		descriptionPanel.add(showDescription);
-		
         
         addReturnButton();
         result = null;
@@ -162,7 +162,6 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 	private void addReturnButton() {
         JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
-        returnPanel.setOpaque(false);
 		
         JButton returnBut = Components.makeButton("return");
         returnBut.addActionListener(new ActionListener() {
@@ -172,14 +171,13 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         });
 		
 		returnPanel.add(returnBut);
-		
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH; //not sure what this does
 		c.anchor = GridBagConstraints.PAGE_END; //bottom of space
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
-		c.weighty = 0.10;
+		c.weighty = 0.05;
 		add(returnPanel, c);
 	}
 
@@ -209,7 +207,6 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 				showLayout.show(showDescription, SHIFTING_WALLS);
 			}
 		}
-		
 	}
 	
 }
