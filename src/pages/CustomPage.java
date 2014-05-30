@@ -1,11 +1,20 @@
 package pages;
 
+import game.Campaign;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import maze.MazeSettings;
+import maze.modification.*;
 
 public class CustomPage extends Page implements ItemListener {
 	public enum Result implements Page.Result {
@@ -20,6 +29,7 @@ public class CustomPage extends Page implements ItemListener {
     private JPanel descriptionPanel;
     
     private JPanel mazePanel;
+    private JPanel multiPlayerPanel;
     private JPanel bootsPanel;
     private JPanel clocksPanel;
     private JPanel trailPanel;
@@ -28,6 +38,7 @@ public class CustomPage extends Page implements ItemListener {
     private JPanel hintsPanel;
 	
     private static final String MAZE = "Maze";
+    private static final String MULTIPLAYER = "Multiplayer";
     private static final String BOOTS = "Boots";
     private static final String CLOCKS = "Clocks";
     private static final String EXPLORED_TRAIL = "Explored trail";
@@ -45,12 +56,14 @@ public class CustomPage extends Page implements ItemListener {
     private JSlider fogSlider;
     private JSlider wallsSlider;
     
+    private JCheckBox multiplayerBox;
 	private JCheckBox bootsBox;
 	private JCheckBox clockBox;
 	private JCheckBox trailBox;
 	private JCheckBox fogBox; 
 	private JCheckBox shiftingWallsBox;
 	private JCheckBox hintsBox;
+	private MazeSettings mazeSettings;
 	
 	public CustomPage() {
 		super();
@@ -191,6 +204,7 @@ public class CustomPage extends Page implements ItemListener {
 		checkBoxPanel.setLayout(new BoxLayout(checkBoxPanel, BoxLayout.Y_AXIS));
 		checkBoxPanel.setAlignmentX(CENTER_ALIGNMENT);
 		// make checkboxes
+		multiplayerBox = Components.makeCheckBox(MULTIPLAYER);
 		bootsBox = Components.makeCheckBox(BOOTS);
 		clockBox = Components.makeCheckBox(CLOCKS);
 		trailBox = Components.makeCheckBox(EXPLORED_TRAIL);
@@ -199,6 +213,7 @@ public class CustomPage extends Page implements ItemListener {
 		shiftingWallsBox = Components.makeCheckBox(SHIFTING_WALLS);
 		hintsBox = Components.makeCheckBox(HINTS);
 		
+		multiplayerBox.addItemListener(this);
 		bootsBox.addItemListener(this);
 		clockBox.addItemListener(this);
 		trailBox.addItemListener(this);
@@ -206,6 +221,7 @@ public class CustomPage extends Page implements ItemListener {
 		shiftingWallsBox.addItemListener(this);
 		hintsBox.addItemListener(this);
 		
+		multiplayerBox.setSelected(false);
 		bootsBox.setSelected(false); //true
 		clockBox.setSelected(false); //true
 		trailBox.setSelected(false); //true
@@ -214,6 +230,7 @@ public class CustomPage extends Page implements ItemListener {
 		hintsBox.setSelected(false);
 		
 		// add checkboxes to featurePanel
+		checkBoxPanel.add(multiplayerBox);
 		checkBoxPanel.add(bootsBox);
 		checkBoxPanel.add(clockBox);
 		checkBoxPanel.add(trailBox);
@@ -237,7 +254,6 @@ public class CustomPage extends Page implements ItemListener {
         clockSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = clockSlider.getValue();
-        		System.out.println("clock slider's value is " + value);
         		if (value == 0) {
         			clockBox.setSelected(false);
         		} else {
@@ -249,7 +265,6 @@ public class CustomPage extends Page implements ItemListener {
 		bootsSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = bootsSlider.getValue();
-        		System.out.println("boots slider's value is " + value);
         		if (value == 0) {
         			bootsBox.setSelected(false);
         		} else {
@@ -261,7 +276,6 @@ public class CustomPage extends Page implements ItemListener {
 		fogSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = fogSlider.getValue();
-        		System.out.println("fog slider's value is " + value);
         		if (value == 0) {
         			fogBox.setSelected(false);
         		} else {
@@ -273,7 +287,6 @@ public class CustomPage extends Page implements ItemListener {
 		wallsSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = wallsSlider.getValue();
-        		System.out.println("wall slider's value is " + value);
         		if (value == 0) {
         			shiftingWallsBox.setSelected(false);
         		} else {
@@ -291,6 +304,7 @@ public class CustomPage extends Page implements ItemListener {
 				+ "Branching: Controls _____________<br>"
 				+ "Straightness: Controls ___________<br>"
 				+ "Starting time: Controls how long you have to finish the maze.</html>", 15);
+		JLabel playerDescription = Components.makeText(html1 + "Multiplayer.</html>", 15);
 		JLabel bootsDescription = Components.makeText(html1 + "Boots increase your movement speed. "
 				+ "Move the slider to select the frequency of boots in the maze.</html>", 15);
 		JLabel clocksDescription = Components.makeText(html1 + "Clocks give you extra time. "
@@ -383,7 +397,54 @@ public class CustomPage extends Page implements ItemListener {
         result = null;
 	}
 
+	public MazeSettings getCustomSettings() {
+	    return mazeSettings;
+	}
+	
+	private void storeCustomSettings() {
+		boolean multiplayer = multiplayerBox.isSelected();
+		boolean trail = trailBox.isSelected();
+		int mazeSize = sizeSlider.getValue();
+		int branching = branchingSlider.getValue();
+		int straightness = straightnessSlider.getValue();
+		int startingTime = timeSlider.getValue();
+//		long seed; // haven't done yet, i just put in -1
+		System.out.println(multiplayer);
+		System.out.println(trail);
+		System.out.println(mazeSize);
+		System.out.println(branching);
+		System.out.println(straightness);
+		System.out.println(startingTime);
+		
+		ArrayList<Modification> modifications = new ArrayList<Modification>();
 
+		if (bootsBox.isSelected()) {
+			modifications.add(new SpeedMod(bootsSlider.getValue()));
+			System.out.println(bootsSlider.getValue());
+		}
+		if (clockBox.isSelected()) {
+			modifications.add(new ClockMod(clockSlider.getValue()));
+			System.out.println(clockSlider.getValue());
+		}
+		if (fogBox.isSelected()) {
+			if (multiplayer == false) {
+				modifications.add(new FogMod(Campaign.SINGLEPLAYER_DEFAULT_VISION, fogSlider.getValue()));
+			} else {
+				modifications.add(new FogMod(Campaign.MULTIPLAYER_DEFAULT_VISION, fogSlider.getValue()));
+			}
+			System.out.println(fogSlider.getValue());
+		}
+		if (shiftingWallsBox.isSelected()) {
+			modifications.add(new ShiftingWallsMod(wallsSlider.getValue(), 10));
+			System.out.println(wallsSlider.getValue());
+		}
+		
+		MazeSettings mazeSettings = new MazeSettings(false, trail, mazeSize, branching, straightness,
+				 startingTime, -1, modifications);
+		
+		this.mazeSettings = mazeSettings;
+	}
+	
 	@Override
 	public CustomPage.Result run() {
 	    result = null;
@@ -403,8 +464,6 @@ public class CustomPage extends Page implements ItemListener {
 		Object source = e.getItemSelectable();
 		if (source == bootsBox) {
 			System.out.print(BOOTS);
-			//show description for boots
-			// set settings to pass into maze
 			descriptionLayout.show(descriptionPanel, BOOTS);
 			
 		} else if (source == clockBox) {
@@ -453,15 +512,25 @@ public class CustomPage extends Page implements ItemListener {
         JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
 		
-        JButton returnBut = Components.makeButton("return");
-        returnBut.addActionListener(new ActionListener() {
+        JButton returnButton = Components.makeButton("return");
+        returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	System.out.println("return to main menu");
             	result = Result.RETURN_HOME;
             }
         });
 		
-		returnPanel.add(returnBut);
+        JButton playButton = Components.makeButton("Play custom game");
+        playButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	System.out.println("play custom game");
+                storeCustomSettings();
+            	result = Result.PLAY_CUSTOM_GAME;
+            }
+        });
+        returnPanel.add(playButton);
+        
+		returnPanel.add(returnButton);
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		//c.anchor = GridBagConstraints.PAGE_END; //bottom of space

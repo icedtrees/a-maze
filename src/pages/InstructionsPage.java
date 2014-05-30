@@ -24,8 +24,8 @@ public class InstructionsPage extends Page implements ListSelectionListener{
     private static final String SHIFTING_WALLS = "Shifting walls";
     private static final String HINTS = "Hints";
     
-//    private JList<String> selectionList; // JDK 7 version
-    private JList selectionList;
+    private JList<String> selectionList; // JDK 7 version
+    // private JList selectionList;
     private JPanel showDescription;
     private CardLayout showLayout;
 

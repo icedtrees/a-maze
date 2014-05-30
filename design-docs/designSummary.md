@@ -149,25 +149,5 @@ Non-base functionality that varies with difficulty level
 - MobileObjects
     *  [Enemies]
 
-Stuff done
-----------
-0. Multiple buttons + co-op buttons: Davy
-1. Level completion: Leo
-2. Compile and run scripts: Davy
-6. Implement timer on MazePage: Davy
-9. GameStats: Leo
-10.Page backgrounds + move to Page + button translucency: Nara
-10. SettingsPage: Davy
-
-Stuff to do
------------
-3. Colour tuning: Andy
-4. Sprites + fix sprite size + sprite animations: Torches, clocks, player + walls: Andy
-5. Instructions: Nara
-7. Establish the difficulty and feature count for each level: Leo
-8. MazeStats: Leo
-11. Co-op mode: Leo
-12. Update UML: Davy
-
-Sprite colour: Andy
-Make threads safe: Leo/Davy
+TASK LISTS MOVED TO TRELLO
+--------------------------

@@ -1,9 +1,8 @@
 package game;
 
 import java.awt.*;
-
 import javax.swing.*;
-
+import maze.MazeSettings;
 import pages.*;
 
 /**
@@ -49,6 +48,7 @@ public class Game {
         // The starting page is the Home Page
         currentPage = HOME_PAGE;
         Campaign campaign = new Campaign();
+        MazeSettings customSettings = null;
         
         while (currentPage != null) {
             layout.show(mainPanel, currentPage);
@@ -67,14 +67,23 @@ public class Game {
                     currentPage = null;
                 }
             } else if (currentPage.equals(MAZE_PAGE)) {
-                mainWindow.setTitle(campaign.getLevelName());
-                mazePage.setMazeSettings(campaign.getLevelSettings());
-                MazePage.Result result = mazePage.run();
-                if (result.equals(MazePage.Result.LOST_GAME)) {
+                if (customSettings == null) {
+                    // Campaign mode
+                    mazePage.setMazeSettings(campaign.getLevelSettings());
+                    MazePage.Result result = mazePage.run();
+                    if (result.equals(MazePage.Result.LOST_GAME)) {
+                        currentPage = HOME_PAGE;
+                    } else if (result.equals(MazePage.Result.WON_GAME)) {
+                        campaign.advance();
+                    }
+                } else {
+                    // Custom game mode
+                    mazePage.setMazeSettings(customSettings);
+                    mazePage.run();
+                    customSettings = null;
                     currentPage = HOME_PAGE;
-                } else if (result.equals(MazePage.Result.WON_GAME)) {
-                    campaign.advance();
                 }
+
             } else if (currentPage.equals(INSTRUCTIONS_PAGE)) {
                 InstructionsPage.Result result = instructionsPage.run();
                 if (result.equals(InstructionsPage.Result.RETURN_HOME)) {
@@ -90,6 +99,9 @@ public class Game {
                 CustomPage.Result result = customPage.run();
                 if (result.equals(CustomPage.Result.RETURN_HOME)) {
                     currentPage = HOME_PAGE;
+                } else if (result.equals(CustomPage.Result.PLAY_CUSTOM_GAME)) {
+                    customSettings = customPage.getCustomSettings();
+                    currentPage = MAZE_PAGE;
                 }
             }
         }
@@ -101,7 +113,7 @@ public class Game {
         mainWindow = new JFrame();
         mainWindow.setSize(settings.screenSize.width, settings.screenSize.height);
         mainWindow.setTitle("A*maze-d yet?");
-        //mainWindow.setResizable(false);
+        // mainWindow.setResizable(false);
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         mainPanel = new JPanel();
