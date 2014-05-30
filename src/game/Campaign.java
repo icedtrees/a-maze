@@ -25,6 +25,10 @@ public class Campaign {
     private int currentLevel;
     private static final CampaignLevel[] levels = new CampaignLevel[]
     {
+    	new CampaignLevel("Test", new MazeSettings(false, true, 15, 8, 10, 40, -1, Arrays.asList(new Modification[] {
+    			new ShiftingWallsMod(10, 1)
+    	}))),
+    	
         new CampaignLevel("Hello World!", new MazeSettings(false, true, 5, 8, 10, 40, -1, MazeSettings.NO_MODIFICATIONS)),
         new CampaignLevel("Easy as pie", new MazeSettings(false, true, 7, 8, 7, 40, -1, MazeSettings.NO_MODIFICATIONS)),
         new CampaignLevel("What's that ticking sound?", new MazeSettings(false, true, 9, 8, 5, 20, -1, Arrays.asList(new Modification[] {

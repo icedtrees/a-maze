@@ -152,6 +152,9 @@ public class Maze extends JComponent {
     		player2.setVision(vision);
     	}
     }
+    public boolean tileShifting(Coord c) {
+    	return tiles[c.getX()][c.getY()].isShifting();
+    }
     public void setShiftingWalls(boolean on, int numWalls, int stepsToTake) {
     	shiftingWalls = on;
     	wallsToShift = numWalls;
@@ -426,14 +429,13 @@ public class Maze extends JComponent {
         }
     }
     
-    public void shiftTile(int x, int y) {
+    public boolean shiftTile(int x, int y) {
     	for (Direction dir : Direction.values()) {
-    		if (isSpace(x + dir.dx(), y + dir.dy())) {
-    			continue;
+    		if (!isSpace(x + dir.dx(), y + dir.dy())) {
+    			return tiles[x][y].shiftWall(dir);
     		}
-    		tiles[x][y].shiftWall(dir);
-    		break;
     	}
+    	return false;
     }
     
     public void shiftTiles(int n) {
@@ -465,8 +467,10 @@ public class Maze extends JComponent {
     	Collections.shuffle(currentSpaces, rand);
     	
     	for (int i = 0; i < n; i++) {
-    		Coord newWall;
-    		newWall = currentSpaces.remove(0);
+    		if (currentSpaces.isEmpty()) {
+    			break;
+    		}
+    		Coord newWall = currentSpaces.remove(0);
     		
     		int x = newWall.getX();
     		int y = newWall.getY();
@@ -509,6 +513,10 @@ public class Maze extends JComponent {
     		 */
     		Coord wallToRemove = null;
     		for (Coord cur : currentWalls) {
+    			if (!curTileWalls[cur.getX()][cur.getY()]) {
+    				System.out.println("Bad luck");
+    				continue;
+    			}
     			int numInSet = 0;
     			for (Direction dir : Direction.values()) {
     				int newX = cur.getX() + dir.dx();
@@ -526,12 +534,22 @@ public class Maze extends JComponent {
     				break;
     			}
     		}
+    		if (wallToRemove == null) {
+    			System.out.println("Ran out of walls");
+    			continue;
+    		}
     		currentWalls.remove(wallToRemove);
     		curTileWalls[wallToRemove.getX()][wallToRemove.getY()] = false;
     		
     		// Shift the new wall/space tiles
-			shiftTile(newWall.getX(), newWall.getY());
-			shiftTile(wallToRemove.getX(), wallToRemove.getY());
+    		if (!tileShifting(newWall) && !tileShifting(wallToRemove)) {
+				if (!shiftTile(newWall.getX(), newWall.getY())) {
+					System.out.println("Your maze is screwed");
+				}
+				if (!shiftTile(wallToRemove.getX(), wallToRemove.getY())) {
+					System.out.println("Your maze is screwed");
+				}
+    		}
     	}
     	
     }

@@ -117,36 +117,26 @@ public class Tile {
     			hint = null;
     		}
     	}
-    	if (!isShifting()) {
-    		return;
-    	}
-    	shifted += SHIFT_SPEED / Game.settings.FPS;
-    	if (shifted >= 1) {
-    		shifting = null;
-    		shifted = 0;
-    		if (value == WALL) {
-    			value = SPACE;
-    		} else {
-    			value = WALL;
-    		}
-    		synchronized(this) {
-    			notifyAll();
-    		}
+    	if (isShifting()) {
+	    	shifted += SHIFT_SPEED / Game.settings.FPS;
+	    	if (shifted >= 1) {
+	    		shifting = null;
+	    		shifted = 0;
+	    		if (value == WALL) {
+	    			value = SPACE;
+	    		} else {
+	    			value = WALL;
+	    		}
+	    	}
     	}
     }
     
-    public synchronized void shiftWall(Direction dir) {
-    	while (isShifting()) {
-    		synchronized(this) {
-    			try {
-					wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    		}
+    public boolean shiftWall(Direction dir) {
+    	if (isShifting()) {
+    		return false;
     	}
     	shifting = dir;
+    	return true;
     }
     
     public void interact(Player player) {
