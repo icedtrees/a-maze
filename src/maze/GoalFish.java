@@ -1,13 +1,24 @@
 package maze;
 
 import java.awt.Graphics;
-import java.awt.Polygon;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class GoalFlag implements TileObject {
+import javax.imageio.ImageIO;
+
+public class GoalFish implements TileObject {
 	private Player expectedPlayer;
+	private BufferedImage sprite;
 	
-	public GoalFlag(Player expectedPlayer) {
+	public GoalFish(Player expectedPlayer, String fishType) {
 		this.expectedPlayer = expectedPlayer;
+		try {
+			sprite = ImageIO.read(new File("img/fish-" + fishType + ".png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean isExpectedPlayer(Player p) {
@@ -28,15 +39,8 @@ public class GoalFlag implements TileObject {
 
 	@Override
 	public void draw(Graphics g, int tileSize) {
-		g.setColor(expectedPlayer.getColor());
-		Polygon flag = new Polygon();
-		flag.addPoint(tileSize/3, tileSize/10);
-		flag.addPoint(tileSize*3/4, tileSize/5);
-		flag.addPoint(tileSize/3 + 1, tileSize*2/5);
-		flag.addPoint(tileSize/3 + 1, tileSize*9/10);
-		flag.addPoint(tileSize/3, tileSize*9/10);
-		flag.addPoint(tileSize/3, tileSize/10);
-		g.fillPolygon(flag);
+		g.drawImage(sprite, 0, 0, tileSize, tileSize,
+				0, 0, sprite.getWidth(), sprite.getHeight(), null);
 	}
 
 	@Override

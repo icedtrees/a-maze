@@ -17,12 +17,12 @@ public class Torch implements TileObject {
 	private static int NUM_FRAMES = 4;
 	private static int LOOPS_PER_SECOND = 2;
 	private double currentFrame;
-	private static BufferedImage image[] = new BufferedImage[NUM_FRAMES];
+	private static BufferedImage sprites[] = new BufferedImage[NUM_FRAMES];
 	
 	static {
 		try {
 			for (int i = 0; i < NUM_FRAMES; i++) {
-				image[i] = ImageIO.read(new File("img/playerSprite/torch" + i + ".png"));
+				sprites[i] = ImageIO.read(new File("img/playerSprite/torch" + i + ".png"));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -51,7 +51,7 @@ public class Torch implements TileObject {
 
 	@Override
 	public void draw(Graphics g, int tileSize) {
-		BufferedImage curSprite = image[(int) currentFrame];
+		BufferedImage curSprite = sprites[(int) currentFrame];
 		g.drawImage(curSprite, 0, 0, tileSize, tileSize,
 				0, 0, curSprite.getWidth(), curSprite.getHeight(), null);
 	}
