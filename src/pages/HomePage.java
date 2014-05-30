@@ -26,7 +26,7 @@ public class HomePage extends Page {
         setLayout(layout);
         
         add(new JLabel(), JLabel.CENTER); // Left padding
-        JLabel titleLabel = Components.makeTitle("A*maze-d");
+        JLabel titleLabel = Components.makeTitle("A-mazing Cat");
         add(titleLabel, JLabel.CENTER);
         add(new JLabel(), JLabel.CENTER); // Right padding
                 

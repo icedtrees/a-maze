@@ -195,7 +195,8 @@ public class MazePage extends Page implements KeyListener{
 	}
 	
     private void drawSidebar() {
-        JLabel mazeTitle = Components.makeText("MAZE", 40);
+        JLabel mazeTitle = Components.makeText("The a-maze-ing", 30);
+        JLabel mazeTitle2 = Components.makeText("Cat", 30);
         mazeTitle.setAlignmentX(JLabel.CENTER);
         GridBagConstraints sidePCon = new GridBagConstraints();
         sidePCon.fill = GridBagConstraints.HORIZONTAL;
@@ -204,6 +205,8 @@ public class MazePage extends Page implements KeyListener{
 		sidePCon.ipady = 30;
 		sidePCon.weighty = 0.20;
         sidePanel.add(mazeTitle, sidePCon);
+        sidePCon.gridy = 1;
+        sidePanel.add(mazeTitle2, sidePCon);
         
         timerPanel = Components.makePanel();
         timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.PAGE_AXIS));
@@ -223,19 +226,20 @@ public class MazePage extends Page implements KeyListener{
         hintsPanel2.add(instructionsLabel);
         
         sidePCon.fill = GridBagConstraints.HORIZONTAL;
-        sidePCon.gridy = 1;
+        sidePCon.gridy = 3;
         sidePCon.ipady = 0;
         sidePCon.weighty = 1;
         sidePanel.add(timerPanel, sidePCon);
         
         sidePCon.fill = GridBagConstraints.HORIZONTAL;
-        sidePCon.gridy = 2;
+        sidePCon.gridy = 5;
         sidePCon.ipady = 0;
         sidePanel.add(hintsPanel, sidePCon);
         sidePCon.fill = GridBagConstraints.HORIZONTAL;
-        sidePCon.gridy = 3;
+        sidePCon.gridy = 6;
         sidePanel.add(hintsPanel2, sidePCon);
         
+       
         JButton returnButton = Components.makeButton("return");
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -244,7 +248,7 @@ public class MazePage extends Page implements KeyListener{
             }
         });
         sidePCon.fill = GridBagConstraints.NONE;
-        sidePCon.gridy = 4;
+        sidePCon.gridy = 8;
         sidePCon.weighty = 0.1;
         returnButton.setMinimumSize(new Dimension(200, 60));
         sidePanel.add(returnButton, sidePCon);
