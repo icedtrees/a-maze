@@ -79,7 +79,7 @@ public class CustomPage extends Page implements ItemListener {
         JPanel sizeSliderPanel = Components.makePanel();
         JLabel sizeSliderLabel = Components.makeText("Maze Size:    ", 17);
         sizeSliderPanel.add(sizeSliderLabel);
-        sizeSlider = Components.makeJSlider(5, 40, 11, 5, 1, 400);
+        sizeSlider = Components.makeJSlider(5, 30, 9, 5, 1, 400);
         sizeSliderPanel.add(sizeSlider);
         
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -125,7 +125,7 @@ public class CustomPage extends Page implements ItemListener {
         JPanel timeSliderPanel = Components.makePanel();
         JLabel timeSliderLabel = Components.makeText("Starting time:", 17);
         timeSliderPanel.add(timeSliderLabel);
-        timeSlider = Components.makeJSlider(20, 300, 120, 20, 10, 400);
+        timeSlider = Components.makeJSlider(20, 180, 40, 20, 10, 400);
         timeSliderPanel.add(timeSlider);
         
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -205,7 +205,7 @@ public class CustomPage extends Page implements ItemListener {
 		c.weightx = 1;
 		add(descriptionLabel, c);
 
-		clockSlider = Components.makeJSlider(0, 100, 3, 10, 5, 400);
+		clockSlider = Components.makeJSlider(0, 20, 5, 10, 5, 400);
         clockSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = clockSlider.getValue();
@@ -216,7 +216,7 @@ public class CustomPage extends Page implements ItemListener {
         		}
         	}
         });
-		bootsSlider = Components.makeJSlider(0, 100, 3, 10, 5, 400);
+		bootsSlider = Components.makeJSlider(0, 20, 5, 10, 5, 400);
 		bootsSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = bootsSlider.getValue();
@@ -227,7 +227,7 @@ public class CustomPage extends Page implements ItemListener {
         		}
         	}
         });
-		fogSlider = Components.makeJSlider(0, 100, 0, 10, 5, 400);
+		fogSlider = Components.makeJSlider(0, 20, 5, 10, 5, 400);
 		fogSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = fogSlider.getValue();
@@ -238,7 +238,7 @@ public class CustomPage extends Page implements ItemListener {
         		}
         	}
         });
-		wallsSlider = Components.makeJSlider(0, 20, 0, 5, 1, 400);
+		wallsSlider = Components.makeJSlider(0, 20, 5, 5, 1, 400);
 		wallsSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = wallsSlider.getValue();
@@ -256,25 +256,25 @@ public class CustomPage extends Page implements ItemListener {
 
 		String html1 = "<html><body style='width: 300px'>";
 		JLabel mazeDescription = Components.makeText(html1 + "Maze size: Controls the size of the maze.<br>"
-				+ "Branching: Controls _____________<br>"
-				+ "Straightness: Controls ___________<br>"
+				+ "Branching: Controls the amount of branching.<br>"
+				+ "Straightness: Controls the straightness of the maze. A negative value will create very squiggly mazes.<br>"
 				+ "Starting time: Controls how long you have to finish the maze.</html>", 15);
 		JLabel playerDescription = Components.makeText(html1 + "Multiplayer is with two players "
 				+ "playing cooperatively. If multiplayer is off, the player mode is single"
 				+ "player. This is either on or off.</html>", 15);
 		JLabel bootsDescription = Components.makeText(html1 + "Boots increase your movement speed. "
-				+ "Move the slider to select the frequency of boots in the maze.</html>", 15);
+				+ "Move the slider to select the number of boots in the maze.</html>", 15);
 		JLabel clocksDescription = Components.makeText(html1 + "Clocks give you extra time. "
-				+ "Move the slider to select the frequency of clocks in the maze.</html>", 15);
+				+ "Move the slider to select the number of clocks in the maze.</html>", 15);
 		JLabel trailDescription = Components.makeText(html1 + "The explored trail shows the path "
 				+ "you've travelled on. This is either on or off. </html>", 15);
 		JLabel fogDescription = Components.makeText(html1 + "The fog of war limits your visibility. "
-				+ "Move the slider to select the frequency of torches.</html>", 15);
+				+ "Move the slider to select the number of torches in the maze.</html>", 15);
 		JLabel wallsDescription = Components.makeText(html1 + "Walls will shift after the player has"
-				+ " moved a certain number of steps. Move the slider to select the percentage"
-				+ " of walls to shift each time.</html>", 15);
+				+ " moved a certain number of steps. Move the slider to select the number"
+				+ " of (pairs of) walls to shift each time.</html>", 15);
 		JLabel hintsDescription = Components.makeText(html1 + "The next _ steps of the correct path will be shown "
-				+ "[when you press H?]. This is either on or off.</html>", 15);
+				+ "[when you press H?]. Move the slider to select the number of starting hints.</html>", 15);
 		
 		GridBagConstraints dCon = new GridBagConstraints();
 		dCon.fill = GridBagConstraints.NONE;

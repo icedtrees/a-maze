@@ -45,10 +45,14 @@ public class Player extends MobileObject {
 		return timer;
 	}
 	public void setTimer(double timer) {
-		this.timer = timer;
+		if (!finished) {
+			this.timer = timer;
+		}
 	}
 	public void setTimerRelative(double timer) {
-		this.timer += timer;
+		if (!finished) {
+			this.timer += timer;
+		}
 	}
 	public int getHints() {
 		return hintsLeft;
