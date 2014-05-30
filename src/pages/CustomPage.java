@@ -25,13 +25,7 @@ public class CustomPage extends Page implements ItemListener {
     private JPanel trailPanel;
     private JPanel fogPanel;
     private JPanel wallsPanel;
-    
-//    private JLabel mazeDescription;
-//    private JLabel bootsDescription;
-//    private JLabel clocksDescription;
-//    private JLabel trailDescription;
-//    private JLabel fogDescription;
-//    private JLabel wallsDescription;
+    private JPanel hintsPanel;
 	
     private static final String MAZE = "Maze";
     private static final String BOOTS = "Boots";
@@ -39,6 +33,7 @@ public class CustomPage extends Page implements ItemListener {
     private static final String EXPLORED_TRAIL = "Explored trail";
     private static final String FOG_OF_WAR = "Fog of war";
     private static final String SHIFTING_WALLS = "Shifting walls";
+    private static final String HINTS = "Hints";
     
     private JSlider sizeSlider;
     private JSlider branchingSlider;
@@ -53,10 +48,9 @@ public class CustomPage extends Page implements ItemListener {
 	private JCheckBox bootsBox;
 	private JCheckBox clockBox;
 	private JCheckBox trailBox;
-	//fog of war should enable torches too
 	private JCheckBox fogBox; 
 	private JCheckBox shiftingWallsBox;
-	
+	private JCheckBox hintsBox;
 	
 	public CustomPage() {
 		super();
@@ -175,7 +169,6 @@ public class CustomPage extends Page implements ItemListener {
 		add(timeSliderPanel, c);
         
 		//-----------------------------------------------------------panel to select features
-		// should it be a translucent panel later?
 		JLabel featuresLabel = Components.makeText("Features", 20);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -189,6 +182,7 @@ public class CustomPage extends Page implements ItemListener {
 		featuresPanel.setLayout(new BoxLayout(featuresPanel, BoxLayout.PAGE_AXIS));
 		featuresPanel.setMinimumSize(new Dimension(150, 300));
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
 		c.weighty = 5;
 		c.gridy = 6;
 		add(featuresPanel, c);
@@ -203,18 +197,21 @@ public class CustomPage extends Page implements ItemListener {
 		//fog of war should enable torches too
 		fogBox = Components.makeCheckBox(FOG_OF_WAR); 
 		shiftingWallsBox = Components.makeCheckBox(SHIFTING_WALLS);
+		hintsBox = Components.makeCheckBox(HINTS);
 		
 		bootsBox.addItemListener(this);
 		clockBox.addItemListener(this);
 		trailBox.addItemListener(this);
 		fogBox.addItemListener(this);
 		shiftingWallsBox.addItemListener(this);
+		hintsBox.addItemListener(this);
 		
 		bootsBox.setSelected(false); //true
 		clockBox.setSelected(false); //true
 		trailBox.setSelected(false); //true
 		fogBox.setSelected(false);
 		shiftingWallsBox.setSelected(false);
+		hintsBox.setSelected(false);
 		
 		// add checkboxes to featurePanel
 		checkBoxPanel.add(bootsBox);
@@ -222,12 +219,11 @@ public class CustomPage extends Page implements ItemListener {
 		checkBoxPanel.add(trailBox);
 		checkBoxPanel.add(fogBox);
 		checkBoxPanel.add(shiftingWallsBox);
+		checkBoxPanel.add(hintsBox);
 		
 		featuresPanel.add(checkBoxPanel);
 		
 		//-----------------------------------------------------------panel to show description
-
-		
 		JLabel descriptionLabel = Components.makeText("Description", 20);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -236,9 +232,8 @@ public class CustomPage extends Page implements ItemListener {
 		c.weighty = 3;
 		c.weightx = 1;
 		add(descriptionLabel, c);
-		
 
-		clockSlider = Components.makeJSlider(0, 100, 3, 10, 5, 100);
+		clockSlider = Components.makeJSlider(0, 100, 3, 10, 5, 400);
         clockSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = clockSlider.getValue();
@@ -250,7 +245,7 @@ public class CustomPage extends Page implements ItemListener {
         		}
         	}
         });
-		bootsSlider = Components.makeJSlider(0, 100, 3, 10, 5, 200);
+		bootsSlider = Components.makeJSlider(0, 100, 3, 10, 5, 400);
 		bootsSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = bootsSlider.getValue();
@@ -262,7 +257,7 @@ public class CustomPage extends Page implements ItemListener {
         		}
         	}
         });
-		fogSlider = Components.makeJSlider(0, 100, 0, 10, 5, 200);
+		fogSlider = Components.makeJSlider(0, 100, 0, 10, 5, 400);
 		fogSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = fogSlider.getValue();
@@ -274,7 +269,7 @@ public class CustomPage extends Page implements ItemListener {
         		}
         	}
         });
-		wallsSlider = Components.makeJSlider(0, 20, 0, 5, 1, 200);
+		wallsSlider = Components.makeJSlider(0, 20, 0, 5, 1, 400);
 		wallsSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = wallsSlider.getValue();
@@ -291,15 +286,27 @@ public class CustomPage extends Page implements ItemListener {
 		descriptionLayout = new CardLayout();
 		descriptionPanel.setLayout(descriptionLayout);
 
-		JLabel mazeDescription = Components.makeText("maze description of sliders", 13);
-		JLabel bootsDescription = Components.makeText("boots description of sliders", 13);
-		JLabel clocksDescription = Components.makeText("clocks description of sliders", 13);
-		JLabel trailDescription = Components.makeText("explored trail description", 13);
-		JLabel fogDescription = Components.makeText("fog of war description of sliders", 13);
-		JLabel wallsDescription = Components.makeText("shifting walls description of sliders", 13);
+		String html1 = "<html><body style='width: 300px'>";
+		JLabel mazeDescription = Components.makeText(html1 + "Maze size: Controls the size of the maze.<br>"
+				+ "Branching: Controls _____________<br>"
+				+ "Straightness: Controls ___________<br>"
+				+ "Starting time: Controls how long you have to finish the maze.</html>", 15);
+		JLabel bootsDescription = Components.makeText(html1 + "Boots increase your movement speed. "
+				+ "Move the slider to select the frequency of boots in the maze.</html>", 15);
+		JLabel clocksDescription = Components.makeText(html1 + "Clocks give you extra time. "
+				+ "Move the slider to select the frequency of clocks in the maze.</html>", 15);
+		JLabel trailDescription = Components.makeText(html1 + "The explored trail shows the path "
+				+ "you've travelled on. This is either on or off. </html>", 15);
+		JLabel fogDescription = Components.makeText(html1 + "The fog of war limits your visibility. "
+				+ "Move the slider to select the frequency of torches.</html>", 15);
+		JLabel wallsDescription = Components.makeText(html1 + "Walls will shift after the player has"
+				+ " moved a certain number of steps. Move the slider to select the percentage"
+				+ " of walls to shift each time.</html>", 15);
+		JLabel hintsDescription = Components.makeText(html1 + "The next _ steps of the correct path will be shown "
+				+ "[when you press H?]. This is either on or off.</html>", 15);
 		
 		GridBagConstraints dCon = new GridBagConstraints();
-		dCon.fill = GridBagConstraints.HORIZONTAL;
+		dCon.fill = GridBagConstraints.NONE;
 		dCon.gridx = 0;
 		dCon.gridy = 0;
 		dCon.weighty = 1;
@@ -312,34 +319,48 @@ public class CustomPage extends Page implements ItemListener {
 		bootsPanel = Components.makePanel();
 		bootsPanel.setLayout(new GridBagLayout());
 		bootsPanel.add(bootsSlider, dCon);
+		dCon.fill = GridBagConstraints.BOTH;
 		dCon.gridy = 1;
 		bootsPanel.add(bootsDescription, dCon);
 		
+		dCon.fill = GridBagConstraints.NONE;
 		dCon.gridy = 0;
 		clocksPanel = Components.makePanel();
 		clocksPanel.setLayout(new GridBagLayout());
 		clocksPanel.add(clockSlider, dCon);
+		dCon.fill = GridBagConstraints.BOTH;
 		dCon.gridy = 1;
 		clocksPanel.add(clocksDescription, dCon);
 		
+		dCon.fill = GridBagConstraints.BOTH;
 		dCon.gridy = 0;
 		trailPanel = Components.makePanel();
 		trailPanel.setLayout(new GridBagLayout());
 		trailPanel.add(trailDescription, dCon);
 		
+		dCon.fill = GridBagConstraints.NONE;
 		dCon.gridy = 0;
 		fogPanel = Components.makePanel();
 		fogPanel.setLayout(new GridBagLayout());
 		fogPanel.add(fogSlider, dCon);
+		dCon.fill = GridBagConstraints.BOTH;
 		dCon.gridy = 1;
 		fogPanel.add(fogDescription, dCon);
 		
+		dCon.fill = GridBagConstraints.NONE;
 		dCon.gridy = 0;
 		wallsPanel = Components.makePanel();
 		wallsPanel.setLayout(new GridBagLayout());
 		wallsPanel.add(wallsSlider, dCon);
+		dCon.fill = GridBagConstraints.BOTH;
 		dCon.gridy = 1;
 		wallsPanel.add(wallsDescription, dCon);
+		
+		dCon.fill = GridBagConstraints.BOTH;
+		dCon.gridy = 0;
+		hintsPanel = Components.makePanel();
+		hintsPanel.setLayout(new GridBagLayout());
+		hintsPanel.add(hintsDescription, dCon);
 		
 		descriptionPanel.add(mazePanel, MAZE);
 		descriptionPanel.add(bootsPanel, BOOTS);
@@ -347,6 +368,7 @@ public class CustomPage extends Page implements ItemListener {
 		descriptionPanel.add(trailPanel, EXPLORED_TRAIL);
 		descriptionPanel.add(fogPanel, FOG_OF_WAR);
 		descriptionPanel.add(wallsPanel, SHIFTING_WALLS);
+		descriptionPanel.add(hintsPanel, HINTS);
 		descriptionLayout.show(descriptionPanel, MAZE);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -400,6 +422,10 @@ public class CustomPage extends Page implements ItemListener {
 		} else if (source == shiftingWallsBox) {
 			System.out.print(SHIFTING_WALLS);
 			descriptionLayout.show(descriptionPanel, SHIFTING_WALLS);
+			
+		} else if (source == hintsBox) {
+			System.out.print(HINTS);
+			descriptionLayout.show(descriptionPanel, HINTS);
 		}
 		
 		if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -411,8 +437,6 @@ public class CustomPage extends Page implements ItemListener {
 			}
 		} else if (e.getStateChange() == ItemEvent.DESELECTED) {
 			System.out.println(" was deselected");
-			
-			// but if you check that box and then try to drag the slider from 0 to another value, the box becomes unchecked
 			if (source == bootsBox) {
 				bootsSlider.setValue(0);
 			} else if (source == clockBox) {

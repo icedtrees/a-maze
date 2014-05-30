@@ -22,6 +22,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
     private static final String EXPLORED_TRAIL = "Explored trail";
     private static final String FOG_OF_WAR = "Fog of war";
     private static final String SHIFTING_WALLS = "Shifting walls";
+    private static final String HINTS = "Hints";
     
 //    private JList<String> selectionList; // JDK 7 version
     private JList selectionList;
@@ -63,6 +64,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         selectionListModel.addElement(EXPLORED_TRAIL);
         selectionListModel.addElement(FOG_OF_WAR);
         selectionListModel.addElement(SHIFTING_WALLS);
+        selectionListModel.addElement(HINTS);
         
         selectionList = new JList<String>(selectionListModel); // JDK 7 version
         //selectionList = new JList(selectionListModel);
@@ -117,6 +119,8 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		//fill in the blanks
 		JPanel wallsPanel = makeDescription(html1 + "Shifting walls: <br>_ walls "
 				+ "will move every _ seconds</html>", "img/walls.png");
+		JPanel hintsPanel = makeDescription(html1 + "Hints: <br>The next _ steps of the correct path will be "
+				+ "shown [when you press H?]</html>", "img/hints.png");
 		
 		showDescription.add(singlePlayerPanel, SINGLE_PLAYER);
 		showDescription.add(multiPlayerPanel, MULTI_PLAYER);
@@ -125,6 +129,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		showDescription.add(trailPanel, EXPLORED_TRAIL);
 		showDescription.add(fogPanel, FOG_OF_WAR);
 		showDescription.add(wallsPanel, SHIFTING_WALLS);
+		showDescription.add(hintsPanel, HINTS);
 		
 		descriptionPanel.add(showDescription);
         
@@ -205,6 +210,9 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 			} else if (selectionList.getSelectedIndex() == 6) {
 				System.out.println("shifting walls selected");
 				showLayout.show(showDescription, SHIFTING_WALLS);
+			} else if (selectionList.getSelectedIndex() == 7) {
+				System.out.println("hints selected");
+				showLayout.show(showDescription, HINTS);
 			}
 		}
 	}
