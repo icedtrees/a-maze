@@ -92,17 +92,17 @@ public class Maze extends JComponent {
         this.rand = new Random(settings.getSeed());
         this.genMazeDFSBranch();
         
-		player1 = new Player(1, 0, new Color(121, 96, 70), settings.getTrail(),
+		player1 = new Player(1, 0, new Color(244, 121, 149), settings.getTrail(),
 				settings.getStartingTime(), settings.getStartingHints(),
-				"img/playerSprite/brownCat", Direction.SOUTH);
+				"img/playerSprite/redCat", Direction.SOUTH);
 		player1Last = new Coord(1, 0);
 		
 		player2 = null;
 		this.multiplayer = settings.getMultiplayer();
     	if (this.multiplayer) {
-    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, new Color(210, 180, 140),
+    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, new Color(242, 213, 164),
     				settings.getTrail(), settings.getStartingTime(),
-    				settings.getStartingHints(), "img/playerSprite/tanCat", Direction.NORTH);
+    				settings.getStartingHints(), "img/playerSprite/greenCat", Direction.NORTH);
     		player2Last = new Coord(mazeWidth - 2, mazeHeight - 1);
     		
     		player1.setFriend(player2);
