@@ -8,6 +8,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 
+/**
+ * A page which stores and displays instructions on how to play the game. These
+ * are displayed as expandable buttons, each button describing a particular
+ * feature and how it functions. 
+ */
 public class InstructionsPage extends Page implements ListSelectionListener{
 	public enum Result implements Page.Result {
         RETURN_HOME
@@ -24,8 +29,8 @@ public class InstructionsPage extends Page implements ListSelectionListener{
     private static final String SHIFTING_WALLS = "Shifting walls";
     private static final String HINTS = "Hints";
     
-    private JList<String> selectionList; // JDK 7 version
-    // private JList selectionList;
+//    private JList<String> selectionList; // JDK 7 version
+     private JList selectionList;
     private JPanel showDescription;
     private CardLayout showLayout;
 
@@ -66,8 +71,8 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         selectionListModel.addElement(SHIFTING_WALLS);
         selectionListModel.addElement(HINTS);
         
-        selectionList = new JList<String>(selectionListModel); // JDK 7 version
-        //selectionList = new JList(selectionListModel);
+//        selectionList = new JList<String>(selectionListModel); // JDK 7 version
+        selectionList = new JList(selectionListModel);
         selectionList.setOpaque(false);
         ListCellRenderer renderer = new FocusedListCellRenderer();
         selectionList.setCellRenderer(renderer);
@@ -137,6 +142,9 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         result = null;
 	}
 
+	/**
+	 * Runs the page.
+	 */
 	public InstructionsPage.Result run() {
 	    result = null;
     	while (result == null) {

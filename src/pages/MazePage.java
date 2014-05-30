@@ -15,6 +15,10 @@ import maze.Maze;
 import maze.MazeSettings;
 
 
+/**
+ * This page contains the actual maze itself, along with game state information
+ * in a sidebar (JPanel) and a 'Return' button to go back to the main screen.
+ */
 public class MazePage extends Page implements KeyListener{
     private static final long serialVersionUID = 1L;
     public enum Result implements Page.Result {
@@ -61,6 +65,9 @@ public class MazePage extends Page implements KeyListener{
         mazeSettings = new MazeSettings();
 	}
 
+	/**
+	 * Runs the page.
+	 */
 	public MazePage.Result run() {
 	    result = null;
 	    
@@ -150,6 +157,12 @@ public class MazePage extends Page implements KeyListener{
 		return result;
 	}
 	
+	/**
+	 * Applies settings to the page to allow the player to choose optional or
+	 * variable features which modify the maze. 
+	 * @param newSettings a <code>MazeSettings</code> object encapsulating
+	 * information about chosen game settings
+	 */
 	public void setMazeSettings(MazeSettings newSettings) {
 	    mazeSettings = newSettings;
 	}
