@@ -92,13 +92,13 @@ public class Maze extends JComponent {
         this.rand = new Random(settings.getSeed());
         this.genMazeDFSBranch();
         
-		player1 = new Player(1, 0, Color.RED, settings.getTrail(), settings.getStartingTime());
+		player1 = new Player(1, 0, Color.RED, settings.getTrail(), settings.getStartingTime(), settings.getStartingHints());
 		player1Last = new Coord(1, 0);
 		
 		player2 = null;
 		this.multiplayer = settings.getMultiplayer();
     	if (this.multiplayer) {
-    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE, settings.getTrail(), settings.getStartingTime());
+    		player2 = new Player(mazeWidth - 2, mazeHeight - 1, Color.BLUE, settings.getTrail(), settings.getStartingTime(), settings.getStartingHints());
     		player2Last = new Coord(mazeWidth - 2, mazeHeight - 1);
     		
     		player1.setFriend(player2);
@@ -169,36 +169,50 @@ public class Maze extends JComponent {
     public boolean isMultiplayer() {
     	return multiplayer;
     }
-    public double getPlayer1Timer() {
-    	if (player1 != null) {
-    		return player1.getTimer();
-    	}
-    	return Integer.MAX_VALUE;
-    }
-    public double getPlayer2Timer() {
-    	if (player2 != null) {
-    		return player2.getTimer();
-    	}
-    	return Integer.MAX_VALUE;
-    }
-    public void setPlayer1Timer(double timer) {
-    	if (player1 != null) {
-    		player1.setTimer(timer);
+    public double getPlayerTimer(int playerNum) {
+    	Player player = getPlayer(playerNum);
+    	
+    	if (player != null) {
+    		return player.getTimer();
+    	} else {
+    		return Integer.MAX_VALUE;
     	}
     }
-    public void setPlayer2Timer(double timer) {
-    	if (player2 != null) {
-    		player2.setTimer(timer);
+    public void setPlayerTimer(int playerNum, double timer) {
+    	Player player = getPlayer(playerNum);
+    	
+    	if (player != null) {
+    		player.setTimer(timer);
     	}
     }
-    public void setPlayer1TimerRelative(double timer) {
-    	if (player1 != null) {
-    		player1.setTimerRelative(timer);
+    public void setPlayerTimerRelative(int playerNum, double timer) {
+    	Player player = getPlayer(playerNum);
+    	
+    	if (player != null) {
+    		player.setTimerRelative(timer);
     	}
     }
-    public void setPlayer2TimerRelative(double timer) {
-    	if (player2 != null) {
-    		player2.setTimerRelative(timer);
+    public int getPlayerHints(int playerNum) {
+    	Player player = getPlayer(playerNum);
+    	
+    	if (player == null) {
+    		return 0;
+    	} else {
+    		return player.getHints();
+    	}
+    }
+    public void setPlayerHints(int playerNum, int hints) {
+    	Player player = getPlayer(playerNum);
+    	
+    	if (player != null) {
+    		player.setHints(hints);
+    	}
+    }
+    public void setPlayerHintsRelative(int playerNum, int hints) {
+    	Player player = getPlayer(playerNum);
+    	
+    	if (player != null) {
+    		player.setHintsRelative(hints);
     	}
     }
     
@@ -842,6 +856,15 @@ public class Maze extends JComponent {
                 tiles[col][row].setValue(Tile.WALL);
             }
         }
+    }
+    private Player getPlayer(int playerNum) {
+    	if (playerNum == 1) {
+    		return player1;
+    	}
+    	if (playerNum == 2) {
+    		return player2;
+    	}
+    	return null;
     }
     private int getTileValue(Coord coord) {
     	return tiles[coord.getX()][coord.getY()].getValue();

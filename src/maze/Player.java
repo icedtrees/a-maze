@@ -8,11 +8,13 @@ public class Player extends MobileObject {
 	private boolean leavesTrail;
 	private double timer;
 	private boolean finished;
+	private int hintsLeft;
 	
-	public Player(int startX, int startY, Color color, boolean trail, double timer) {
+	public Player(int startX, int startY, Color color, boolean trail, double timer, int hintsLeft) {
 		super(color, 5, startX, startY, 1, "img/sprite-test-");
 		this.leavesTrail = trail;
 		this.timer = timer;
+		this.hintsLeft = hintsLeft;
 		finished = false;
 	}
 	
@@ -45,6 +47,15 @@ public class Player extends MobileObject {
 	}
 	public void setTimerRelative(double timer) {
 		this.timer += timer;
+	}
+	public int getHints() {
+		return hintsLeft;
+	}
+	public void setHints(int hints) {
+		this.hintsLeft = hints;
+	}
+	public void setHintsRelative(int hints) {
+		this.hintsLeft += hints;
 	}
 	public boolean isFinished() {
 		return finished;

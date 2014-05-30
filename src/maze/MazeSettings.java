@@ -11,6 +11,7 @@ public class MazeSettings {
 	private int branching;
 	private int straightness;
 	private int startingTime;
+	private int startingHints;
 	private List<Modification> modifications;
 	private long seed;
 	
@@ -22,16 +23,18 @@ public class MazeSettings {
 	public static final int MAX_STRAIGHTNESS = 10;
 	public static final int MIN_STARTING_TIME = 10;
 	public static final int MAX_STARTING_TIME = 300;
+	public static final int MIN_STARTING_HINTS = 0;
 	
 	public static final List<Modification> NO_MODIFICATIONS = Collections.emptyList();
 	
     public MazeSettings(boolean multiplayer, boolean trail, int mazeSize,
     		int branching, int straightness, int startingTime,
-            long seed, Collection<Modification> modifications) {
+            int startingHints, long seed, Collection<Modification> modifications) {
         if ((mazeSize < MIN_MAZE_SIZE || mazeSize > MAX_MAZE_SIZE)
                 || (branching < MIN_BRANCHING || branching > MAX_BRANCHING)
                 || (straightness < MIN_STRAIGHTNESS || straightness > MAX_STRAIGHTNESS)
-                || (startingTime < MIN_STARTING_TIME || startingTime > MAX_STARTING_TIME)) {
+                || (startingTime < MIN_STARTING_TIME || startingTime > MAX_STARTING_TIME)
+                || startingHints < MIN_STARTING_HINTS) {
             throw new IllegalArgumentException("Maze parameters are incorrect");
         }
 
@@ -45,6 +48,7 @@ public class MazeSettings {
         this.branching = branching;
         this.straightness = straightness;
         this.startingTime = startingTime;
+        this.startingHints = startingHints;
         this.modifications = new ArrayList<Modification>(modifications);
         if (seed == -1) {
         	this.seed = System.nanoTime();
@@ -54,7 +58,7 @@ public class MazeSettings {
     }
 	
 	public MazeSettings() {
-	    this(false, true, MIN_MAZE_SIZE, MIN_BRANCHING, MIN_STRAIGHTNESS, MIN_STARTING_TIME, System.nanoTime(), NO_MODIFICATIONS);
+	    this(false, true, MIN_MAZE_SIZE, MIN_BRANCHING, MIN_STRAIGHTNESS, MIN_STARTING_TIME, MIN_STARTING_HINTS, System.nanoTime(), NO_MODIFICATIONS);
 	}
 
     public boolean getMultiplayer() {
@@ -79,6 +83,10 @@ public class MazeSettings {
 
     public int getStartingTime() {
         return startingTime;
+    }
+    
+    public int getStartingHints() {
+    	return startingHints;
     }
 
     public List<Modification> getModifications() {
@@ -111,6 +119,10 @@ public class MazeSettings {
 
     public void setStartingTime(int startingTime) {
         this.startingTime = startingTime;
+    }
+    
+    public void setStartingHints(int startingHints) {
+    	this.startingHints = startingHints;
     }
 
     public void setModifications(List<Modification> modifications) {
