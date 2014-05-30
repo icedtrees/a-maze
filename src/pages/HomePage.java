@@ -15,6 +15,7 @@ public class HomePage extends Page {
     };
 
     private volatile Result result;
+	private JButton startMaze;
 	
     public HomePage() {
     	super();
@@ -51,11 +52,15 @@ public class HomePage extends Page {
         return result;
     }
     
+    public void setStartButtonText(String newText) {
+        startMaze.setText(newText);
+    }
+    
     private void addStartButton() {
         JPanel startPanel = Components.makePanel();
         startPanel.setLayout(new FlowLayout());
         
-        JButton startMaze = Components.makeButton("Start maze");
+        startMaze = Components.makeButton("Play");
 		startMaze.addActionListener(new ActionListener() {
 			public synchronized void actionPerformed(ActionEvent e) {
 				// some action to generate maze and display a MazePage

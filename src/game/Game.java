@@ -94,6 +94,9 @@ public class Game {
                             currentTransition = transitionPage;
                             currentPage = HOME_PAGE;
                         } else {
+                            if (campaign.getCurrentLevel() == 1) {
+                                homePage.setStartButtonText("Continue");
+                            }
                             campaign.advance();
                             transitionPage.setText("Level " + campaign.getCurrentLevel() + ": " + campaign.getLevelName());
                             currentTransition = transitionPage;
