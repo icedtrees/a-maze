@@ -259,8 +259,8 @@ public class MazePage extends Page implements KeyListener{
             pressedKeys.set(e.getKeyCode(), KEY_PRESSED);
             if (e.getKeyCode() == KeyEvent.VK_H) {
                 if (maze.getPlayerHints(1) > 0) {
-                    maze.getHint(1, maze.getPlayerHints(1) * 4);
-                    maze.getHint(2, maze.getPlayerHints(2) * 4);
+                    maze.showHint(1, maze.getPlayerHints(1) * 4);
+                    maze.showHint(2, maze.getPlayerHints(2) * 4);
                 }
             }
             if (!timeStarted) {
