@@ -11,3 +11,7 @@ Spritedatabase licensing: "Permission is granted to temporarily download one cop
 Clock image:
 http://steeve-the-fox.deviantart.com/art/Clock-Sprite-145000592
  ©2009-2014 Steeve-the-Fox
+ 
+ Torch image:
+ http://souliknight.deviantart.com/art/Tile-Torch-1-349606021
+ "Free to use! By use, please give credit! :D"
