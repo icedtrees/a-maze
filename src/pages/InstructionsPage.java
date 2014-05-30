@@ -112,20 +112,20 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		
         String html1 = "<html><body style='width: 300px'>";
 		
-        JPanel singlePlayerPanel = makeDescription(html1 + "Single Player: <br>Use the arrow keys to move.</html>", "img/arrowKeys.png");		
+        JPanel singlePlayerPanel = makeDescription(html1 + "Single Player: <br>Use the arrow keys to move. Your goal is to help cat find his fish before he collapses from hunger.</html>", "img/arrowKeys.png");		
         JPanel multiPlayerPanel = makeDescription(html1 + "Multi Player: <br>Player 1: Use the WASD keys to move. "
-        		+ "<br> Player 2:   Use arrows to move.</html>", "img/WASDarrowKeys.png");
+        		+ "<br> Player 2:   Use arrows to move.<br>Red cat hates green fish and green cat hates red fish. Both cats must find their favourite fish before they collapse from hunger! Once you get to your fish your timer will stop counting down.</html>", "img/WASDarrowKeys.png");
         // need to find images for the rest of these, preferably of our actual maze so it's clear what the feature is
-		JPanel bootsPanel = makeDescription(html1 + "Boots: <br>Increase your movement speed.</html>", "img/boots.png");
-		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Increase the time to complete the maze.</html>", "img/clocks.png");
-		JPanel trailPanel = makeDescription(html1 + "Explored trail: <br>Shows the path you've travelled on.</html>", "img/trail.png");
-		JPanel fogPanel = makeDescription(html1 + "Fog of war: <br>You have limited visibility. "
-				+ "You can get torches to increase the field of view.</html>", "img/fog.png");
+		JPanel bootsPanel = makeDescription(html1 + "Boots: <br>When cat picks up a pair of these boots, he can run faster!</html>", "img/boots.png");
+		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Cat is able to turn back time with one of these clocks.<br>This means that cat has more time to find his fish.</html>", "img/clocks.png");
+		JPanel trailPanel = makeDescription(html1 + "Explored trail: <br>Cat leaves colourful footprints to help him remember where he's been.</html>", "img/trail.png");
+		JPanel fogPanel = makeDescription(html1 + "Fog of war: <br>It's nighttime and cat can't see very far."
+				+ "Fortunately cat can pick up torches to increase his field of view.</html>", "img/fog.png");
 		//fill in the blanks
-		JPanel wallsPanel = makeDescription(html1 + "Shifting walls: <br>_ walls "
-				+ "will move every _ seconds</html>", "img/walls.png");
-		JPanel hintsPanel = makeDescription(html1 + "Hints: <br>The next _ steps of the correct path will be "
-				+ "shown [when you press H?]</html>", "img/hints.png");
+		JPanel wallsPanel = makeDescription(html1 + "Shifting walls: <br>Is this Hogwarts? Every few steps that cat takes, "
+				+ "a bunch of walls will shift and move around, confuddling poor cat.</html>", "img/walls.png");
+		JPanel hintsPanel = makeDescription(html1 + "Hints: <br>"
+				+ "Hold down the hint button to highlight the path towards cat's fish.<br>You have limited hints - each tile's worth of hint counts against your hint limit. This means that you can get 10 hints of 1 tile long or 1 hint of 10 tiles long (or 2 hints of 5 tiles long etc)</html>", "img/hints.png");
 		
 		showDescription.add(singlePlayerPanel, SINGLE_PLAYER);
 		showDescription.add(multiPlayerPanel, MULTI_PLAYER);

@@ -1,7 +1,11 @@
 package game;
 
+import game.Campaign.CampaignType;
+
 import java.awt.*;
+
 import javax.swing.*;
+
 import maze.MazeSettings;
 import pages.*;
 
@@ -57,7 +61,9 @@ public class Game {
         // The starting page is the Home Page
         currentPage = HOME_PAGE;
         TransitionPage currentTransition = null;
-        Campaign campaign = new Campaign();
+        Campaign singleCampaign = new Campaign(CampaignType.SINGLEPLAYER);
+        Campaign multiCampaign = new Campaign(CampaignType.MULTIPLAYER);
+        Campaign currentCampaign = null;
         MazeSettings customSettings = null;
         
         
@@ -67,9 +73,15 @@ public class Game {
             if (currentPage.equals(HOME_PAGE)) {
                 HomePage.Result result = homePage.run();
                 if (result.equals(HomePage.Result.PLAY_GAME_SINGLEPLAYER)) {
-                    transitionPage.setText("Level " + campaign.getCurrentLevel() + ": " + campaign.getLevelName());
+                    transitionPage.setText("Level " + singleCampaign.getCurrentLevel() + ": " + singleCampaign.getLevelName());
                     currentTransition = transitionPage;
+                    currentCampaign = singleCampaign;
                     currentPage = MAZE_PAGE;
+                } else if (result.equals(HomePage.Result.PLAY_GAME_MULTIPLAYER)) {
+                    transitionPage.setText("Level " + multiCampaign.getCurrentLevel() + ": " + multiCampaign.getLevelName());
+                    currentTransition = transitionPage;
+                    currentCampaign = multiCampaign;
+                    currentPage = MAZE_PAGE;                    
                 } else if (result.equals(HomePage.Result.SHOW_INSTRUCTIONS)) {
                     currentPage = INSTRUCTIONS_PAGE;
                 } else if (result.equals(HomePage.Result.SHOW_SETTINGS)) {
@@ -82,23 +94,27 @@ public class Game {
             } else if (currentPage.equals(MAZE_PAGE)) {
                 if (customSettings == null) {
                     // Campaign mode
-                    mazePage.setMazeSettings(campaign.getLevelSettings());
+                    mazePage.setMazeSettings(currentCampaign.getLevelSettings());
                     MazePage.Result result = mazePage.run();
                     if (result.equals(MazePage.Result.LOST_GAME)) {
                         transitionPage.setText("Better luck next time!");
                         currentTransition = transitionPage;
                         currentPage = HOME_PAGE;
                     } else if (result.equals(MazePage.Result.WON_GAME)) {
-                        if (campaign.getCurrentLevel() == Campaign.SINGLEPLAYER_NUM_LEVELS) {
+                        if (currentCampaign.getCurrentLevel() == Campaign.SINGLEPLAYER_NUM_LEVELS) {
                             transitionPage.setText("Congratulations, you finished every level!");
                             currentTransition = transitionPage;
                             currentPage = HOME_PAGE;
                         } else {
-                            if (campaign.getCurrentLevel() == 1) {
-                                homePage.setStartButtonText("Continue");
+                            if (currentCampaign.getCurrentLevel() == 1) {
+                                if (currentCampaign == singleCampaign) {
+                                    homePage.setSingleButtonText("Continue (Solo)");
+                                } else if (currentCampaign == multiCampaign) {
+                                    homePage.setMultiButtonText("Continue (Co-op)");
+                                }
                             }
-                            campaign.advance();
-                            transitionPage.setText("Level " + campaign.getCurrentLevel() + ": " + campaign.getLevelName());
+                            currentCampaign.advance();
+                            transitionPage.setText("Level " + currentCampaign.getCurrentLevel() + ": " + currentCampaign.getLevelName());
                             currentTransition = transitionPage;
                         }
                     } else if (result.equals(MazePage.Result.RETURN_HOME)) {
@@ -157,7 +173,7 @@ public class Game {
         mainWindow = new JFrame();
         mainWindow.setSize(settings.screenSize.width, settings.screenSize.height);
         mainWindow.setTitle("A*maze-d");
-        // mainWindow.setResizable(false);
+        mainWindow.setResizable(false);
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         mainPanel = new JPanel();
