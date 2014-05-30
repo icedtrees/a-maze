@@ -16,7 +16,7 @@ public class Boots implements TileObject {
 	
 	static {
 		try {
-			sprite = ImageIO.read(new File("img/playerSprite/WinterBoots.png"));
+			sprite = ImageIO.read(new File("img/playerSprite/boots2.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

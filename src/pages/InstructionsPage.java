@@ -114,7 +114,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		
         JPanel singlePlayerPanel = makeDescription(html1 + "Single Player: <br>Use the arrow keys to move. Your goal is to help cat find his fish before he collapses from hunger.</html>", "img/arrowKeys.png");		
         JPanel multiPlayerPanel = makeDescription(html1 + "Multi Player: <br>Player 1: Use the WASD keys to move. "
-        		+ "<br> Player 2:   Use arrows to move.<br>Both cats must find their fish before they collapse from hunger! Once you get to your fish your timer will stop counting down.</html>", "img/WASDarrowKeys.png");
+        		+ "<br> Player 2:   Use arrows to move.<br>Red cat hates green fish and green cat hates red fish. Both cats must find their favourite fish before they collapse from hunger! Once you get to your fish your timer will stop counting down.</html>", "img/WASDarrowKeys.png");
         // need to find images for the rest of these, preferably of our actual maze so it's clear what the feature is
 		JPanel bootsPanel = makeDescription(html1 + "Boots: <br>When cat picks up a pair of these boots, he can run faster!</html>", "img/boots.png");
 		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Cat is able to turn back time with one of these clocks.<br>This means that cat has more time to find his fish.</html>", "img/clocks.png");
