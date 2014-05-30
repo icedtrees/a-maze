@@ -75,7 +75,6 @@ public class MazePage extends Page implements KeyListener{
 		c.weighty = 1;
 		add(maze, c);
 		validate();
-		maze.getHint(1, 10);
 		
 		/*
          * The main event loop which gets run every frame based on a frame-rate
@@ -87,11 +86,11 @@ public class MazePage extends Page implements KeyListener{
         	@Override
         	public void run() {
         	    
-        	    maze.setPlayer1TimerRelative(-(1.0 / Game.settings.FPS));
-        	    maze.setPlayer2TimerRelative(-(1.0 / Game.settings.FPS));
+        	    maze.setPlayerTimerRelative(1, -(1.0 / Game.settings.FPS));
+        	    maze.setPlayerTimerRelative(2, -(1.0 / Game.settings.FPS));
         	    updateTimers(maze);
         	    
-        	    if (maze.getPlayer1Timer() <= 0 || maze.getPlayer2Timer() <= 0) {
+        	    if (maze.getPlayerTimer(1) <= 0 || maze.getPlayerTimer(2) <= 0) {
         	        result = Result.LOST_GAME;
         	    }
         	    
@@ -148,9 +147,9 @@ public class MazePage extends Page implements KeyListener{
 	}
 	
 	private void updateTimers(Maze maze) {
-	    timeLeft1.setText("Player1: " + String.format("%.2f", maze.getPlayer1Timer()));
+	    timeLeft1.setText("Player1: " + String.format("%.2f", maze.getPlayerTimer(1)));
         if (maze.isMultiplayer()) {
-            timeLeft2.setText("Player2: " + String.format("%.2f", maze.getPlayer2Timer()));
+            timeLeft2.setText("Player2: " + String.format("%.2f", maze.getPlayerTimer(2)));
             timeLeft2.setVisible(true);
         }
 	}

@@ -402,7 +402,7 @@ public class CustomPage extends Page implements ItemListener {
 		}
 		
 		MazeSettings mazeSettings = new MazeSettings(multiplayer, trail, mazeSize, branching, straightness,
-				 startingTime, -1, modifications);
+				 startingTime, 0, -1, modifications);
 		
 		this.mazeSettings = mazeSettings;
 	}
