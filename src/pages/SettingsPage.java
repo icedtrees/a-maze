@@ -106,14 +106,14 @@ public class SettingsPage extends Page {
         JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
 		
-        JButton returnBut = Components.makeButton("return");
-        returnBut.addActionListener(new ActionListener() {
+        JButton returnButton = Components.makeButton("return");
+        returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	result = Result.RETURN_HOME;
             }
         });
 		
-		returnPanel.add(returnBut);
+		returnPanel.add(returnButton);
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.VERTICAL; //not sure what this does
 		c.anchor = GridBagConstraints.PAGE_END; //bottom of space

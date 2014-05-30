@@ -30,9 +30,10 @@ public class MazePage extends Page implements KeyListener{
 	private JPanel timerPanel;
 	private JLabel timeLeft1;
 	private JLabel timeLeft2;
+	private volatile boolean timeStarted;
 	
 	public volatile Result result;
-	public AtomicIntegerArray pressedKeys;
+	public volatile AtomicIntegerArray pressedKeys;
 	
 	private MazeSettings mazeSettings;
 
@@ -63,10 +64,14 @@ public class MazePage extends Page implements KeyListener{
 	public MazePage.Result run() {
 	    result = null;
 	    
+	    timeStarted = false;
+	    
 	    // Start collecting keys
+	    pressedKeys = new AtomicIntegerArray(256);
         this.requestFocusInWindow();
 
 		final Maze maze = new Maze(mazeSettings);
+		updateTimers(maze);
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
@@ -85,10 +90,11 @@ public class MazePage extends Page implements KeyListener{
         actionLoop.scheduleAtFixedRate(new TimerTask() {
         	@Override
         	public void run() {
-        	    
-        	    maze.setPlayerTimerRelative(1, -(1.0 / Game.settings.FPS));
-        	    maze.setPlayerTimerRelative(2, -(1.0 / Game.settings.FPS));
-        	    updateTimers(maze);
+        	    if (timeStarted) {
+            	    maze.setPlayerTimerRelative(1, -(1.0 / Game.settings.FPS));
+            	    maze.setPlayerTimerRelative(2, -(1.0 / Game.settings.FPS));
+            	    updateTimers(maze);
+        	    }
         	    
         	    if (maze.getPlayerTimer(1) <= 0 || maze.getPlayerTimer(2) <= 0) {
         	        result = Result.LOST_GAME;
@@ -199,6 +205,9 @@ public class MazePage extends Page implements KeyListener{
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() < 256) {
             pressedKeys.set(e.getKeyCode(), KEY_PRESSED);
+            if (!timeStarted) {
+                timeStarted = true;
+            }
         }
     }
 

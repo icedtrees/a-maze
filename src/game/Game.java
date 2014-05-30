@@ -16,6 +16,7 @@ public class Game {
     private static final String INSTRUCTIONS_PAGE = "instructions";
     private static final String CUSTOM_PAGE = "custom";
     private static final String SETTINGS_PAGE = "settings";
+    private static final String TRANSITION_PAGE = "transition";
     
     // Main window and layout
     private JFrame mainWindow;
@@ -28,6 +29,7 @@ public class Game {
     private InstructionsPage instructionsPage;
     private CustomPage customPage;
     private SettingsPage settingsPage;
+    private TransitionPage transitionPage;
     
     // Current page
     String currentPage;
@@ -47,8 +49,10 @@ public class Game {
     public void run() {
         // The starting page is the Home Page
         currentPage = HOME_PAGE;
+        TransitionPage currentTransition = null;
         Campaign campaign = new Campaign();
         MazeSettings customSettings = null;
+        
         
         while (currentPage != null) {
             layout.show(mainPanel, currentPage);
@@ -56,6 +60,8 @@ public class Game {
             if (currentPage.equals(HOME_PAGE)) {
                 HomePage.Result result = homePage.run();
                 if (result.equals(HomePage.Result.PLAY_GAME)) {
+                    transitionPage.setText("Level " + campaign.getCurrentLevel() + ": " + campaign.getLevelName());
+                    currentTransition = transitionPage;
                     currentPage = MAZE_PAGE;
                 } else if (result.equals(HomePage.Result.SHOW_INSTRUCTIONS)) {
                     currentPage = INSTRUCTIONS_PAGE;
@@ -74,7 +80,15 @@ public class Game {
                     if (result.equals(MazePage.Result.LOST_GAME)) {
                         currentPage = HOME_PAGE;
                     } else if (result.equals(MazePage.Result.WON_GAME)) {
-                        campaign.advance();
+                        if (campaign.getCurrentLevel() == Campaign.SINGLEPLAYER_NUM_LEVELS) {
+                            transitionPage.setText("Congratulations, you finished every level!");
+                            currentTransition = transitionPage;
+                            currentPage = HOME_PAGE;
+                        } else {
+                            campaign.advance();
+                            transitionPage.setText("Level " + campaign.getCurrentLevel() + ": " + campaign.getLevelName());
+                            currentTransition = transitionPage;
+                        }
                     }
                 } else {
                     // Custom game mode
@@ -104,6 +118,13 @@ public class Game {
                     currentPage = MAZE_PAGE;
                 }
             }
+            
+            // Show the transition page if needed
+            if (currentTransition != null) {
+                layout.show(mainPanel, TRANSITION_PAGE);
+                transitionPage.run();
+                currentTransition = null;
+            }
         }
         
         mainWindow.dispose();
@@ -127,6 +148,7 @@ public class Game {
         instructionsPage = new InstructionsPage();
         customPage = new CustomPage();
         settingsPage = new SettingsPage(settings);
+        transitionPage = new TransitionPage();
         
         // Add all the Pages to the CardLayout
         
@@ -135,6 +157,7 @@ public class Game {
         mainPanel.add(instructionsPage, INSTRUCTIONS_PAGE);
         mainPanel.add(customPage, CUSTOM_PAGE);
         mainPanel.add(settingsPage, SETTINGS_PAGE);
+        mainPanel.add(transitionPage, TRANSITION_PAGE);
 
         mainWindow.add(mainPanel);  
         
