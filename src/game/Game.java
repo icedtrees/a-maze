@@ -78,6 +78,8 @@ public class Game {
                     mazePage.setMazeSettings(campaign.getLevelSettings());
                     MazePage.Result result = mazePage.run();
                     if (result.equals(MazePage.Result.LOST_GAME)) {
+                        transitionPage.setText("Better luck next time!");
+                        currentTransition = transitionPage;
                         currentPage = HOME_PAGE;
                     } else if (result.equals(MazePage.Result.WON_GAME)) {
                         if (campaign.getCurrentLevel() == Campaign.SINGLEPLAYER_NUM_LEVELS) {
@@ -93,7 +95,14 @@ public class Game {
                 } else {
                     // Custom game mode
                     mazePage.setMazeSettings(customSettings);
-                    mazePage.run();
+                    MazePage.Result result = mazePage.run();
+                    if (result.equals(MazePage.Result.WON_GAME)) {
+                        transitionPage.setText("Well done! Was that level too easy for you?");
+                        currentTransition = transitionPage;     
+                    } else if (result.equals(MazePage.Result.LOST_GAME)){
+                        transitionPage.setText("Maybe you made that game a bit too hard.");
+                        currentTransition = transitionPage;
+                    }
                     customSettings = null;
                     currentPage = HOME_PAGE;
                 }
