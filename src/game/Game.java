@@ -66,7 +66,7 @@ public class Game {
        
             if (currentPage.equals(HOME_PAGE)) {
                 HomePage.Result result = homePage.run();
-                if (result.equals(HomePage.Result.PLAY_GAME)) {
+                if (result.equals(HomePage.Result.PLAY_GAME_SINGLEPLAYER)) {
                     transitionPage.setText("Level " + campaign.getCurrentLevel() + ": " + campaign.getLevelName());
                     currentTransition = transitionPage;
                     currentPage = MAZE_PAGE;
@@ -74,7 +74,7 @@ public class Game {
                     currentPage = INSTRUCTIONS_PAGE;
                 } else if (result.equals(HomePage.Result.SHOW_SETTINGS)) {
                     currentPage = SETTINGS_PAGE;
-                } else if (result.equals(HomePage.Result.SHOW_CUSTOM)) {
+                } else if (result.equals(HomePage.Result.PLAY_CUSTOM)) {
                     currentPage = CUSTOM_PAGE;
                 } else if (result.equals(HomePage.Result.QUIT_GAME)) {
                     currentPage = null;
