@@ -7,6 +7,11 @@ import java.awt.Graphics;
 
 import maze.Direction;
 
+/**
+ * This class implements a square section of the maze (the smallest subdivison).
+ * It contains a <code>TileObject</code> which is used to render the tile onto
+ * the JFrame containing the maze.
+ */
 public class Tile {
     public static final int WALL = 1;
     public static final int SPACE = 0;

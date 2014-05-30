@@ -16,7 +16,6 @@ public class Maze extends JComponent {
      */
     private static final long serialVersionUID = 1L;
     
-    private final static boolean DEBUGGING = false;
     public final static double DEFAULT_RATIO = 1.2;    
     private final Random rand;
     
@@ -41,7 +40,6 @@ public class Maze extends JComponent {
     public Maze(MazeSettings settings) {
         mazeHeight = 2 * settings.getMazeSize() + 1;
         mazeWidth = 2 * (int) (settings.getMazeSize() * DEFAULT_RATIO) + 1;
-//        setPreferredSize(new Dimension(displayWidth, displayHeight));
         tiles = new Tile[mazeWidth][mazeHeight];
         for (int row = 0; row < mazeHeight; row++) {
             for (int col = 0; col < mazeWidth; col++) {
@@ -83,14 +81,27 @@ public class Maze extends JComponent {
     }
     
     /*
-     * Getters
+     * Public interface functions
+     */
+    /**
+     * 
+     * @return Number of columns of tiles
      */
     public int getMazeWidth() {
         return mazeWidth;
     }
+    /**
+     * 
+     * @return Number of rows of tiles
+     */
     public int getMazeHeight() {
         return mazeHeight;
     }
+    /**
+     * 
+     * @return List of coordinates of tiles that are space and do not have a
+     * TileObject in them
+     */
     public List<Coord> getSpaces() {
     	List<Coord> spaces = new ArrayList<Coord>();
 		for (int row = 1; row < mazeHeight - 1; row++) {
@@ -103,18 +114,79 @@ public class Maze extends JComponent {
 		
 		return spaces;
     }
+    /**
+     * 
+     * @param x x coordinate of tile
+     * @param y y coordinate of tile
+     * @return Whether or not the specified tile is a space (not wall and not shifting)
+     */
+    public boolean isSpace(int x, int y) {
+    	if (x == 1 && y == 0) {
+    		// Start
+    		return true;
+    	}
+    	if (x == mazeWidth - 2 && y == mazeHeight - 1) {
+    		// End goal
+    		return true;
+    	}
+    	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
+    		// Outside of map bounds
+    		return false;
+    	}
+    	return tiles[x][y].getValue() != Tile.WALL && !tiles[x][y].isShifting();
+    }
+    /**
+     * 
+     * @param x x coordinate of tile
+     * @param y y coordinate of tile
+     * @return Whether or not the specified tile will BECOME a space
+     * (after shifting, if it's shifting)
+     */
+    public boolean isGoalSpace(int x, int y) {
+    	if (x == 1 && y == 0) {
+    		// Start
+    		return true;
+    	}
+    	if (x == mazeWidth - 2 && y == mazeHeight - 1) {
+    		// End goal
+    		return true;
+    	}
+    	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
+    		// Outside of map bounds
+    		return false;
+    	}
+    	return (tiles[x][y].getValue() == Tile.WALL && tiles[x][y].isShifting()) ||
+    			(tiles[x][y].getValue() != Tile.WALL && !tiles[x][y].isShifting());
+    }
+    /**
+     * 
+     * @param x x coordinate of tile
+     * @param y y coordinate of tile
+     * @return Whether or not the specified tile has a TileObject
+     */
     public boolean hasTileObject(int x, int y) {
     	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
     		return true;
     	}
     	return tiles[x][y].hasContents();
     }
+    /**
+     * 
+     * @param x x coordinate of tile
+     * @param y y coordinate of tile
+     * @param obj Set the tile to contain obj
+     */
     public void setTileObject(int x, int y, TileObject obj) {
     	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
     		return;
     	}
     	tiles[x][y].setContents(obj);
     }
+    /**
+     * 
+     * @param on Whether or not fog of war is on
+     * @param vision Starting vision for both players
+     */
     public void setFogOfWar(boolean on, int vision) {
     	fogOfWar = on;
     	if (player1 != null) {
@@ -124,18 +196,97 @@ public class Maze extends JComponent {
     		player2.setVision(vision);
     	}
     }
+    /**
+     * 
+     * @param c Coordinate of tile
+     * @return Whether or not tile is currently shifting
+     */
     public boolean tileShifting(Coord c) {
     	return tiles[c.getX()][c.getY()].isShifting();
     }
+    /**
+     * 
+     * @param on Whether or not shifting walls mod is on
+     * @param numWalls Number of walls to shift each time
+     * @param stepsToTake Steps to take before shifting
+     */
     public void setShiftingWalls(boolean on, int numWalls, int stepsToTake) {
     	shiftingWalls = on;
     	wallsToShift = numWalls;
     	this.stepsToTake = stepsToTake;
     	stepsTaken = 0;
     }
+    /**
+     * 
+     * @return Whether or not the game mode is multiplayer
+     */
     public boolean isMultiplayer() {
     	return multiplayer;
     }
+    /**
+     * 
+     * @param playerNum Player to move - 1 or 2
+     * @param dir Direction to move player in
+     * @return True if move was successful, false otherwise
+     */
+    public boolean movePlayer(int playerNum, Direction dir) {
+    	Player player = null;
+    	if (playerNum == 1) {
+    		player = player1;
+    	} else if (playerNum == 2) {
+    		player = player2;
+    	}
+    	
+    	if (player == null || dir == null) {
+    		return false;
+    	}
+    	int x = player.getGoalX() + dir.dx();
+    	int y = player.getGoalY() + dir.dy();
+    	int friendX = -1;
+    	int friendY = -1;
+    	if (player.hasFriend()) {
+	    	friendX = player.getFriend().getGoalX();
+	    	friendY = player.getFriend().getGoalY();
+    	}
+    	if (isSpace(x, y) && !(x == friendX && y == friendY)) {
+    		return player.move(dir);
+    	} else {
+    		return false;
+    	}
+    }
+    /**
+     * This guarantees a move - will block the calling thread until move occurs
+     * @param playerNum Player to move - 1 or 2
+     * @param dir Direction to move player in
+     */
+    public void movePlayerWait(int playerNum, Direction dir) {
+    	Player player = null;
+    	if (playerNum == 1) {
+    		player = player1;
+    	} else if (playerNum == 2) {
+    		player = player2;
+    	}
+    	
+    	if (dir == null) {
+    		return;
+    	}
+    	int x = player.getGoalX() + dir.dx();
+    	int y = player.getGoalY() + dir.dy();
+    	int friendX = -1;
+    	int friendY = -1;
+    	if (player.hasFriend()) {
+	    	friendX = player.getFriend().getGoalX();
+	    	friendY = player.getFriend().getGoalY();
+    	}
+    	if (isSpace(x, y) && !(x == friendX && y == friendY)) {
+    		player.moveWait(dir);
+    	}
+    }
+    /**
+     * 
+     * @param playerNum Player - 1 or 2
+     * @return Current timer for the specified player
+     */
     public double getPlayerTimer(int playerNum) {
     	Player player = getPlayer(playerNum);
     	
@@ -145,6 +296,11 @@ public class Maze extends JComponent {
     		return Integer.MAX_VALUE;
     	}
     }
+    /**
+     * 
+     * @param playerNum Player - 1 or 2
+     * @param timer New timer value for player
+     */
     public void setPlayerTimer(int playerNum, double timer) {
     	Player player = getPlayer(playerNum);
     	
@@ -152,6 +308,11 @@ public class Maze extends JComponent {
     		player.setTimer(timer);
     	}
     }
+    /**
+     * Sets the timer relative to the previous timer
+     * @param playerNum Player - 1 or 2
+     * @param timer Value to increase timer by (specify negative value to decrease)
+     */
     public void setPlayerTimerRelative(int playerNum, double timer) {
     	Player player = getPlayer(playerNum);
     	
@@ -159,6 +320,11 @@ public class Maze extends JComponent {
     		player.setTimerRelative(timer);
     	}
     }
+    /**
+     * 
+     * @param playerNum Player - 1 or 2
+     * @return Number of hints left on specified player
+     */
     public int getPlayerHints(int playerNum) {
     	Player player = getPlayer(playerNum);
     	
@@ -168,6 +334,11 @@ public class Maze extends JComponent {
     		return player.getHints();
     	}
     }
+    /**
+     * 
+     * @param playerNum Player - 1 or 2
+     * @param hints New number of hints left for player
+     */
     public void setPlayerHints(int playerNum, int hints) {
     	Player player = getPlayer(playerNum);
     	
@@ -175,6 +346,11 @@ public class Maze extends JComponent {
     		player.setHints(hints);
     	}
     }
+    /**
+     * Sets hints relative to current hints
+     * @param playerNum Player - 1 or 2
+     * @param hints Value to increase hints by (specify negative value to decrease)
+     */
     public void setPlayerHintsRelative(int playerNum, int hints) {
     	Player player = getPlayer(playerNum);
     	
@@ -182,11 +358,19 @@ public class Maze extends JComponent {
     		player.setHintsRelative(hints);
     	}
     }
-    
+    /**
+     * 
+     * @return Whether or not both players are finished
+     */
     public boolean playersFinished() {
         return player1Finished() && player2Finished();
     }
-    
+    /**
+     * 
+     * @param playerNum Player - 1 or 2
+     * @return Whether or not the specified player is finished. If the player
+     * is not currently playing, will return true.
+     */
     public boolean playerFinished(int playerNum) {
     	if (playerNum == 1) {
     		return player1Finished();
@@ -196,12 +380,11 @@ public class Maze extends JComponent {
     	}
     	return true;
     }
-    private boolean player1Finished() {
-    	return player1 == null || player1.isFinished();
-    }
-    private boolean player2Finished() {
-    	return player2 == null || player2.isFinished();
-    }
+    /**
+     * Displays a path to the end temporarily
+     * @param playerNum Player - 1 or 2
+     * @param percent Percentage of the remaining path to highlight
+     */
     public void showHint(int playerNum, int percent) {
     	if (playerNum == 1) {
     		if (player1 != null) {
@@ -237,19 +420,6 @@ public class Maze extends JComponent {
     	}
     }
     
-    private void tileSetHint(Coord c) {
-    	tiles[c.getX()][c.getY()].setHint();
-    }
-    
-    private void applyMods(List<Modification> mods) {
-    	if (mods == null) {
-    		return;
-    	}
-    	for (Modification mod : mods) {
-    		mod.apply(this, rand);
-    	}
-    }
-    
     @Override
     public String toString() {
         String[] asciiOutput = new String[]{" ", "#"};
@@ -263,69 +433,6 @@ public class Maze extends JComponent {
         }
         
         return mazeString;
-    }
-    
-    private void drawPath(Graphics g, Area a, Color color) {
-    	g.setColor(color);
-    	PathIterator path = a.getPathIterator(null);
-    	double[] coords = new double[6];
-		double prevX = 0;
-    	double prevY = 0;
-    	double prevMOVETOX = 0;
-    	double prevMOVETOY = 0;
-    	while (!path.isDone()) {
-    		int type = path.currentSegment(coords);
-    		if (type == PathIterator.SEG_LINETO) {
-    			int startX = (int) prevX;
-    			int startY = (int) prevY;
-    			int endX = (int) coords[0];
-    			int endY = (int) coords[1];
-    			
-    			if (coords[0] > prevX) {
-    				startX++;
-    			} else if (coords[0] < prevX) {
-    				startX--;
-    			}
-    			if (coords[1] > prevY) {
-    				startY++;
-    			} else if (coords[1] < prevY) {
-    				startY--;
-    			}
-    			
-    			g.drawLine(startX, startY, endX, endY);
-//    			System.out.println("Draw line from " + startX + ", " + startY + " to " + endX + ", " + endY);
-    			prevX = coords[0];
-        		prevY = coords[1];
-    		} else if (type == PathIterator.SEG_CLOSE) {
-    			int startX = (int) prevX;
-    			int startY = (int) prevY;
-    			int endX = (int) prevMOVETOX;
-    			int endY = (int) prevMOVETOY;
-    			
-    			if (prevMOVETOX > prevX) {
-    				startX++;
-    			} else if (prevMOVETOX < prevX) {
-    				startX--;
-    			}
-    			if (prevMOVETOY > prevY) {
-    				startY++;
-    			} else if (prevMOVETOY < prevY) {
-    				startY--;
-    			}
-    			
-    			g.drawLine(startX, startY, endX, endY);
-//    			System.out.println("Draw line from " + startX + ", " + startY + " to " + endX + ", " + endY);
-    			prevX = prevMOVETOX;
-        		prevY = prevMOVETOY;
-    		} else if (type == PathIterator.SEG_MOVETO) {
-    			prevMOVETOX = coords[0];
-    			prevMOVETOY = coords[1];
-    			prevX = coords[0];
-        		prevY = coords[1];
-    		}
-    		path.next();
-    	}
-//    	System.out.println();
     }
     
     @Override
@@ -442,6 +549,13 @@ public class Maze extends JComponent {
         }
     }
     
+    /**
+     * 
+     * @param x x coordinate of tile
+     * @param y y coordinate of tile
+     * @return Whether or not the shift was successful (can't shift if
+     * already shifting)
+     */
     public boolean shiftTile(int x, int y) {
     	for (Direction dir : Direction.values()) {
     		if (!isSpace(x + dir.dx(), y + dir.dy())) {
@@ -450,7 +564,11 @@ public class Maze extends JComponent {
     	}
     	return false;
     }
-    
+    /**
+     * Shift a given amount of tiles, ensuring that the maze is still
+     * perfect and solvable
+     * @param n Number of tiles to shift
+     */
     public void shiftTiles(int n) {    	
     	List<Coord> currentWalls = new ArrayList<Coord>();
     	List<Coord> currentSpaces = new ArrayList<Coord>();
@@ -555,55 +673,10 @@ public class Maze extends JComponent {
     	
     }
     
-    public boolean movePlayer(int playerNum, Direction dir) {
-    	Player player = null;
-    	if (playerNum == 1) {
-    		player = player1;
-    	} else if (playerNum == 2) {
-    		player = player2;
-    	}
-    	
-    	if (player == null || dir == null) {
-    		return false;
-    	}
-    	int x = player.getGoalX() + dir.dx();
-    	int y = player.getGoalY() + dir.dy();
-    	int friendX = -1;
-    	int friendY = -1;
-    	if (player.hasFriend()) {
-	    	friendX = player.getFriend().getGoalX();
-	    	friendY = player.getFriend().getGoalY();
-    	}
-    	if (isSpace(x, y) && !(x == friendX && y == friendY)) {
-    		return player.move(dir);
-    	} else {
-    		return false;
-    	}
-    }
-    public void movePlayerWait(int playerNum, Direction dir) {
-    	Player player = null;
-    	if (playerNum == 1) {
-    		player = player1;
-    	} else if (playerNum == 2) {
-    		player = player2;
-    	}
-    	
-    	if (dir == null) {
-    		return;
-    	}
-    	int x = player.getGoalX() + dir.dx();
-    	int y = player.getGoalY() + dir.dy();
-    	int friendX = -1;
-    	int friendY = -1;
-    	if (player.hasFriend()) {
-	    	friendX = player.getFriend().getGoalX();
-	    	friendY = player.getFriend().getGoalY();
-    	}
-    	if (isSpace(x, y) && !(x == friendX && y == friendY)) {
-    		player.moveWait(dir);
-    	}
-    }
-    
+    /**
+     * Advance the maze to the next frame. Will advance all components within
+     * the maze object (player, tiles etc).
+     */
     public void nextFrame() {
     	for (int row = 0; row < mazeHeight; row++) {
     		for (int col = 0; col < mazeWidth; col++) {
@@ -649,45 +722,17 @@ public class Maze extends JComponent {
     	}
     }
     
-    public boolean isSpace(int x, int y) {
-    	if (x == 1 && y == 0) {
-    		// Start
-    		return true;
-    	}
-    	if (x == mazeWidth - 2 && y == mazeHeight - 1) {
-    		// End goal
-    		return true;
-    	}
-    	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
-    		// Outside of map bounds
-    		return false;
-    	}
-    	return tiles[x][y].getValue() != Tile.WALL && !tiles[x][y].isShifting();
-    }
-    public boolean isGoalSpace(int x, int y) {
-    	if (x == 1 && y == 0) {
-    		// Start
-    		return true;
-    	}
-    	if (x == mazeWidth - 2 && y == mazeHeight - 1) {
-    		// End goal
-    		return true;
-    	}
-    	if (x < 1 || x > mazeWidth - 2 || y < 1 || y > mazeHeight - 2) {
-    		// Outside of map bounds
-    		return false;
-    	}
-    	return (tiles[x][y].getValue() == Tile.WALL && tiles[x][y].isShifting()) ||
-    			(tiles[x][y].getValue() != Tile.WALL && !tiles[x][y].isShifting());
-    }
-    
     /*
      * Maze Generation algorithm
      */    
-    public void genMazeDFSBranch() {
+    private void genMazeDFSBranch() {
     	genMazeDFSBranch(0);
     }
-    public void genMazeDFSBranch(int delay) {
+    /**
+     * Generates the maze.
+     * @param delay Delay in milliseconds to see progress of maze generation.
+     */
+    private void genMazeDFSBranch(int delay) {
     	reset();
     	
     	List<MazeBranch> branches = new ArrayList<MazeBranch>();
@@ -836,8 +881,6 @@ public class Maze extends JComponent {
         } else {
         	setTileValue(wallToRemove, Tile.SPACE);
         }
-    	
-    	debug("Path of length " + largestDist + " in a total of " + (mazeWidth/2)*(mazeHeight/2) + " cells");
     }
     
 
@@ -860,6 +903,23 @@ public class Maze extends JComponent {
     	}
     	return null;
     }
+    private boolean player1Finished() {
+    	return player1 == null || player1.isFinished();
+    }
+    private boolean player2Finished() {
+    	return player2 == null || player2.isFinished();
+    }
+    private void tileSetHint(Coord c) {
+    	tiles[c.getX()][c.getY()].setHint();
+    }
+    private void applyMods(List<Modification> mods) {
+    	if (mods == null) {
+    		return;
+    	}
+    	for (Modification mod : mods) {
+    		mod.apply(this, rand);
+    	}
+    }
     private int getTileValue(Coord coord) {
     	return tiles[coord.getX()][coord.getY()].getValue();
     }
@@ -875,6 +935,10 @@ public class Maze extends JComponent {
     	
     	return x > 0 && x < mazeWidth-1 && y > 0 && y < mazeHeight-1;
     }
+    /*
+     * Weighted shuffle of the moves given their weight. More heavily weighted
+     * moves are move likely to be placed at the end of the final list
+     */
     private List<Step> weightedShuffle(List<Step> moves, Random rand) {
     	List<Step> shuffledMoves = new ArrayList<Step>();
     	int weightSum = 0;
@@ -897,6 +961,9 @@ public class Maze extends JComponent {
     	
     	return shuffledMoves;
     }
+    /*
+     * List of coordinates that form a path from 'from' to 'to'
+     */
     private List<Coord> getPath(Coord from, Coord to) {
     	List<Coord> path = new ArrayList<Coord>();
     	
@@ -945,10 +1012,66 @@ public class Maze extends JComponent {
     	Collections.reverse(path);
     	return path;
     }
-    
-    private void debug(String message) {
-        if (Maze.DEBUGGING) {
-            System.out.println("> " + message);
-        }
+    /*
+     * Draws the path of an area's PathIterator in specified color
+     */
+    private void drawPath(Graphics g, Area a, Color color) {
+    	g.setColor(color);
+    	PathIterator path = a.getPathIterator(null);
+    	double[] coords = new double[6];
+		double prevX = 0;
+    	double prevY = 0;
+    	double prevMOVETOX = 0;
+    	double prevMOVETOY = 0;
+    	while (!path.isDone()) {
+    		int type = path.currentSegment(coords);
+    		if (type == PathIterator.SEG_LINETO) {
+    			int startX = (int) prevX;
+    			int startY = (int) prevY;
+    			int endX = (int) coords[0];
+    			int endY = (int) coords[1];
+    			
+    			if (coords[0] > prevX) {
+    				startX++;
+    			} else if (coords[0] < prevX) {
+    				startX--;
+    			}
+    			if (coords[1] > prevY) {
+    				startY++;
+    			} else if (coords[1] < prevY) {
+    				startY--;
+    			}
+    			
+    			g.drawLine(startX, startY, endX, endY);
+    			prevX = coords[0];
+        		prevY = coords[1];
+    		} else if (type == PathIterator.SEG_CLOSE) {
+    			int startX = (int) prevX;
+    			int startY = (int) prevY;
+    			int endX = (int) prevMOVETOX;
+    			int endY = (int) prevMOVETOY;
+    			
+    			if (prevMOVETOX > prevX) {
+    				startX++;
+    			} else if (prevMOVETOX < prevX) {
+    				startX--;
+    			}
+    			if (prevMOVETOY > prevY) {
+    				startY++;
+    			} else if (prevMOVETOY < prevY) {
+    				startY--;
+    			}
+    			
+    			g.drawLine(startX, startY, endX, endY);
+    			prevX = prevMOVETOX;
+        		prevY = prevMOVETOY;
+    		} else if (type == PathIterator.SEG_MOVETO) {
+    			prevMOVETOX = coords[0];
+    			prevMOVETOY = coords[1];
+    			prevX = coords[0];
+        		prevY = coords[1];
+    		}
+    		path.next();
+    	}
     }
 }
