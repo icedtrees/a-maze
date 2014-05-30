@@ -20,9 +20,9 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 	private static final long serialVersionUID = 1L;
 	private volatile Result result;
 	
-    private static final String SINGLE_PLAYER = "Single Player";
-    private static final String MULTI_PLAYER = "Multi Player";
-    private static final String COOP_HINTS = "Co-op Hints";
+    private static final String SINGLE_PLAYER = "Solo";
+    private static final String MULTI_PLAYER = "Co-op";
+    private static final String COOP_HINTS = "Co-op: Tips";
     private static final String BOOTS = "Boots";
     private static final String CLOCKS = "Clocks";
     private static final String EXPLORED_TRAIL = "Explored trail";
@@ -44,7 +44,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.ipady = 40;
+		c.ipady = 20;
 		c.gridwidth = 2;
 		c.weighty = 0.15;
         add(titleLabel, c);
@@ -119,7 +119,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         		+ "<br> Player 2:   Use arrows to move.<br><br>Both cats must find their favourite coloured fish before they collapse from hunger! Once you get to your fish your timer will stop counting down.<br><br>Cats cannot walk past each other.</html>", "img/WASDarrowKeys.png");
         // need to find images for the rest of these, preferably of our actual maze so it's clear what the feature is
         
-		JPanel coopPanel = makeDescription(html1 + "In Co-op mode, red cat and green cat must work together to get to their respective fish.<br><br>Cats cannot walk past each other because they eat too much fish and get fat.<br><br>Red cat loves green cat very much and all powerups that red cat picks up will go to green cat and vice versa.", "img/WASDarrowKeys.png");
+		JPanel coopPanel = makeDescription(html1 + "In Co-op mode, red cat and green cat must work together to get to their respective fish.<br><br>Cats cannot walk past each other because they eat too much fish and get fat.<br><br>Red cat loves green cat very much and all powerups that red cat picks up will go to green cat and vice versa.", "img/none.png");
 		JPanel bootsPanel = makeDescription(html1 + "Boots: <br>When cat picks up a pair of these boots, he can run faster!</html>", "img/bootsDescription.jpg");
 		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Cat is able to turn back time with one of these clocks.<br>This means that cat has more time to find his fish.</html>", "img/clocksDescription.jpg");
 		JPanel trailPanel = makeDescription(html1 + "Explored trail: <br>Cat leaves colourful footprints to help him remember where he's been.</html>", "img/exploredTrailDescription.jpg");
@@ -172,6 +172,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
+		c.ipady = 20;
 		JLabel featureDescription = Components.makeText(description, 18);
 		ImageIcon feature = new ImageIcon(filename);
 		JLabel featureLabel = new JLabel(feature, JLabel.CENTER);
@@ -186,16 +187,17 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 	
 	private void addReturnButton() {
         JPanel returnPanel = Components.makePanel();
+        returnPanel.setAlignmentY(JPanel.TOP_ALIGNMENT);
         returnPanel.setLayout(new FlowLayout());
 		
-        JButton returnBut = Components.makeButton("return");
-        returnBut.addActionListener(new ActionListener() {
+        JButton returnButton = Components.makeButton("return");
+        returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	result = Result.RETURN_HOME;
             }
         });
 		
-		returnPanel.add(returnBut);
+		returnPanel.add(returnButton);
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH; //not sure what this does
 		c.anchor = GridBagConstraints.PAGE_END; //bottom of space
