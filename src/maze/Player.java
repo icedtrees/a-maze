@@ -4,6 +4,13 @@ import java.awt.Color;
 
 import maze.Maze.Direction;
 
+
+/**
+ * A subclass of <code>MobileObject</code>, this class provides a controllable
+ * character which a user can give commands to e.g. via keypresses which trigger
+ * the classe's methods to be called.
+ *
+ */
 public class Player extends MobileObject {
 	private int vision;
 	private Player friend;
@@ -29,12 +36,24 @@ public class Player extends MobileObject {
 	public void setVisionRelative(int vision) {
 		this.vision += vision;
 	}
+	
+	/**
+	 * Modifies a reference to another <code>Player</code> object which exists
+	 * concurrently with this player.
+	 * @param friend
+	 */
 	public void setFriend(Player friend) {
 		this.friend = friend;
 	}
+	
 	public Player getFriend() {
 		return friend;
 	}
+	
+	/**
+	 * Returns true if this player has a reference to another distinct player
+	 * (i.e. true if there are two or more players in play).
+	 */
 	public boolean hasFriend() {
 		return friend != null;
 	}

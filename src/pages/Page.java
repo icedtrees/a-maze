@@ -8,8 +8,14 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
+/**
+ * An abstract class to store information about a particular 'page', that is
+ * it is a JPanel which spans the entire window, which can be hidden and focused
+ * on in order to navigate between different pages in the program.
+ */
 public abstract class Page extends JPanel {
 	BufferedImage bgImage = null;
+	
     public Page() {
         this.setFocusable(true);
         this.setBackground(new Color(50, 50, 50));

@@ -12,6 +12,11 @@ import javax.imageio.ImageIO;
 
 import maze.Maze.Direction;
 
+/**
+ * An abstract class which models a movable (mobile) character or item
+ * which can be rendered onto the maze. This class provides methods for
+ * animating and moving the character.
+ */
 public abstract class MobileObject {
 //	private static final double EPSILON = 0.00000000001;
 	
@@ -109,7 +114,12 @@ public abstract class MobileObject {
 		this.speed += speed;
 	}
 	
+	/**
+	 * When called, renders the next frame of the <code>MobileObject</code> so
+	 * that it appears to be animated. 
+	 */
 	public void nextFrame() {
+	    // TODO not entirely sure of the specifics
 		if (moving == null) {
 			return;
 		}
@@ -179,6 +189,13 @@ public abstract class MobileObject {
 //		return (a > b) && (!equalTo(a, b));
 //	}
 	
+	/**
+	 * Moves the object by one tile in the given direction when called, but only
+	 * if it is not currently moving to an adjacent tile.
+	 * @param dir the cardinal direction in which to move the object towards
+	 * @return false if either an invalid direction was given or the object is
+	 * currently moving to a neighbouring tile, otherwise true
+	 */
 	public boolean move(Direction dir) {
 		if (dir == null) {
 			return false;
@@ -191,6 +208,10 @@ public abstract class MobileObject {
 		return true;
 	}
 	
+	/**
+	 * TODO
+	 * @param dir
+	 */
 	public void moveWait(Direction dir) {
 		if (dir == null) {
 			return;
