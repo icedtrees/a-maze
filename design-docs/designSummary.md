@@ -157,6 +157,7 @@ Stuff done
 6. Implement timer on MazePage: Davy
 9. GameStats: Leo
 10.Page backgrounds + move to Page + button translucency: Nara
+10. SettingsPage: Davy
 
 Stuff to do
 -----------
@@ -165,7 +166,6 @@ Stuff to do
 5. Instructions: Nara
 7. Establish the difficulty and feature count for each level: Leo
 8. MazeStats: Leo
-10. SettingsPage: Davy
 11. Co-op mode: Leo
 12. Update UML: Davy
 
