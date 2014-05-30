@@ -8,10 +8,16 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+/**
+ * Sets the properties for the cells in a Jlist.
+ */
 public class FocusedListCellRenderer implements ListCellRenderer {
 	  protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 
-	  public Component getListCellRendererComponent(JList list, Object value, int index,
+	  /* (non-Javadoc)
+	 * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
+	public Component getListCellRendererComponent(JList list, Object value, int index,
 	      boolean isSelected, boolean cellHasFocus) {
 	    JLabel renderer = (DefaultListCellRenderer) defaultRenderer.getListCellRendererComponent(list, value, 
 	    		index, isSelected, cellHasFocus);
