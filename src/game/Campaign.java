@@ -35,36 +35,36 @@ public class Campaign {
                 new ClockMod(3)
         }))),
         new CampaignLevel("Time is tight", new MazeSettings(false, true, 11, 10, 5, 20, -1, Arrays.asList(new Modification[] {
-                new ClockMod(3)
+                new ClockMod(5)
         }))),
         new CampaignLevel("Run, run, run", new MazeSettings(false, true, 13, 10, 3, 30, -1, Arrays.asList(new Modification[] {
-                new SpeedMod(1),
+                new SpeedMod(6),
                 new ClockMod(3)
         }))),
         new CampaignLevel("Training wheels off", new MazeSettings(false, false, 15, 10, 0, 30, -1, Arrays.asList(new Modification[] {
-                new SpeedMod(2),
-                new ClockMod(2)
+                new SpeedMod(5),
+                new ClockMod(5)
         }))),
-        new CampaignLevel("iseedeadpeople", new MazeSettings(false, true, 17, 10, 0, 60, -1, Arrays.asList(new Modification[] {
-                new SpeedMod(2),
-                new ClockMod(2),
-                new FogMod(SINGLEPLAYER_DEFAULT_VISION, 3)
+        new CampaignLevel("iseedeadpeople", new MazeSettings(false, true, 17, 10, 0, 40, -1, Arrays.asList(new Modification[] {
+                new SpeedMod(8),
+                new ClockMod(7),
+                new FogMod(SINGLEPLAYER_DEFAULT_VISION, 10)
         }))),
         new CampaignLevel("Fading footsteps", new MazeSettings(false, false, 17, 10, 0, 60, -1, Arrays.asList(new Modification[] {
-                new SpeedMod(2),
-                new ClockMod(2),
-                new FogMod(SINGLEPLAYER_DEFAULT_VISION, 3)
+                new SpeedMod(10),
+                new ClockMod(8),
+                new FogMod(SINGLEPLAYER_DEFAULT_VISION, 10)
         }))),
-        new CampaignLevel("HOGWARTS", new MazeSettings(false, false, 20, 10, 0, 120, -1, Arrays.asList(new Modification[] {
-                new SpeedMod(2),
-                new ClockMod(2),
-                new ShiftingWallsMod(10, 10),
+        new CampaignLevel("HOGWARTS", new MazeSettings(false, false, 20, 10, 0, 60, -1, Arrays.asList(new Modification[] {
+                new SpeedMod(12),
+                new ClockMod(12),
+                new ShiftingWallsMod(8, 10),
         }))),
-        new CampaignLevel("Final Destination", new MazeSettings(false, false, 25, 10, -5, 180, -1, Arrays.asList(new Modification[] {
-                new SpeedMod(5),
-                new ClockMod(3),
-                new FogMod(SINGLEPLAYER_DEFAULT_VISION, 4),
-                new ShiftingWallsMod(10, 10)
+        new CampaignLevel("Final Destination", new MazeSettings(false, false, 25, 10, -5, 120, -1, Arrays.asList(new Modification[] {
+                new SpeedMod(8),
+                new ClockMod(14),
+                new FogMod(SINGLEPLAYER_DEFAULT_VISION, 8),
+                new ShiftingWallsMod(8, 10)
         })))
     };
     
