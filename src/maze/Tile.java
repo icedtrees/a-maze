@@ -146,10 +146,7 @@ public class Tile {
     		}
     	}
     	if (player.leavesTrail()) {
-    		int red = 255 - (player.getColor().getGreen() + player.getColor().getBlue())/5;
-    		int green = 255 - (player.getColor().getRed() + player.getColor().getBlue())/5;
-    		int blue = 255 - (player.getColor().getGreen() + player.getColor().getRed())/5;
-    		this.trail = new Color(red, green, blue);
+    		this.trail = player.getColor();
     	}
     }
     

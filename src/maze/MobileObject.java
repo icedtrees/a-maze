@@ -30,17 +30,8 @@ public abstract class MobileObject {
 	private BufferedImage[][] sprites;
     private double currentFrame;
 	
-	public MobileObject() {
-		this(new Color(0, 0, 0));
-	}
-	public MobileObject(Color color) {
-		this(color, 1);
-	}
-	public MobileObject(Color color, double speed) {
-		this(color, speed, 1, 0, 1, "img/sprite-test-");
-	}
 	public MobileObject(Color color, double speed, int x, int y,
-			int numAnimationFrames, String baseSpritePath) {
+			int numAnimationFrames, String baseSpritePath, Direction initial) {
 		this.realX = x;
 		this.realY = y;
 		this.curX = x;
@@ -64,7 +55,7 @@ public abstract class MobileObject {
 			e.printStackTrace();
 		}
         
-        this.currentSprite = sprites[Direction.SOUTH.intVal()][0];
+        this.currentSprite = sprites[initial.intVal()][0];
         this.currentFrame = 0;
 	}
 	
