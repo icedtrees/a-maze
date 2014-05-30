@@ -22,6 +22,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 	
     private static final String SINGLE_PLAYER = "Single Player";
     private static final String MULTI_PLAYER = "Multi Player";
+    private static final String COOP_HINTS = "Co-op Hints";
     private static final String BOOTS = "Boots";
     private static final String CLOCKS = "Clocks";
     private static final String EXPLORED_TRAIL = "Explored trail";
@@ -64,6 +65,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         DefaultListModel selectionListModel = new DefaultListModel();
         selectionListModel.addElement(SINGLE_PLAYER);
         selectionListModel.addElement(MULTI_PLAYER);
+        selectionListModel.addElement(COOP_HINTS);
         selectionListModel.addElement(BOOTS);
         selectionListModel.addElement(CLOCKS);
         selectionListModel.addElement(EXPLORED_TRAIL);
@@ -116,11 +118,14 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         JPanel multiPlayerPanel = makeDescription(html1 + "Multi Player: <br>Player 1: Use the WASD keys to move. "
         		+ "<br> Player 2:   Use arrows to move.<br><br>Both cats must find their favourite coloured fish before they collapse from hunger! Once you get to your fish your timer will stop counting down.<br><br>Cats cannot walk past each other.</html>", "img/WASDarrowKeys.png");
         // need to find images for the rest of these, preferably of our actual maze so it's clear what the feature is
+        
+		JPanel coopPanel = makeDescription(html1 + "In Co-op mode, red cat and green cat must work together to get to their respective fish.<br><br>Cats cannot walk past each other because they eat too much fish and get fat.<br><br>Red cat loves green cat very much and all powerups that red cat picks up will go to green cat and vice versa.", "img/WASDarrowKeys.png");
 		JPanel bootsPanel = makeDescription(html1 + "Boots: <br>When cat picks up a pair of these boots, he can run faster!</html>", "img/bootsDescription.jpg");
 		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Cat is able to turn back time with one of these clocks.<br>This means that cat has more time to find his fish.</html>", "img/clocksDescription.jpg");
 		JPanel trailPanel = makeDescription(html1 + "Explored trail: <br>Cat leaves colourful footprints to help him remember where he's been.</html>", "img/exploredTrailDescription.jpg");
 		JPanel fogPanel = makeDescription(html1 + "Fog of war: <br>It's nighttime and cat can't see very far. "
 				+ "Fortunately cat can pick up torches to increase his field of view.</html>", "img/fogOfWarDescription.jpg");
+		
 		//fill in the blanks
 		JPanel wallsPanel = makeDescription(html1 + "Shifting walls: <br>Is this Hogwarts? Every few steps that cat takes, "
 				+ "a bunch of walls will shift and move around, confuddling poor cat.</html>", "img/shiftingWallsDescription.jpg");
@@ -129,6 +134,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		
 		showDescription.add(singlePlayerPanel, SINGLE_PLAYER);
 		showDescription.add(multiPlayerPanel, MULTI_PLAYER);
+		showDescription.add(coopPanel, COOP_HINTS);
 		showDescription.add(bootsPanel, BOOTS);
 		showDescription.add(clocksPanel, CLOCKS);
 		showDescription.add(trailPanel, EXPLORED_TRAIL);
@@ -210,21 +216,24 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 				System.out.println("multi player selected");
 				showLayout.show(showDescription, MULTI_PLAYER);
 			} else if (selectionList.getSelectedIndex() == 2) {
+				System.out.println("coop selected");
+				showLayout.show(showDescription, COOP_HINTS);
+			} else if (selectionList.getSelectedIndex() == 3) {
 				System.out.println("boots selected");
 				showLayout.show(showDescription, BOOTS);
-			} else if (selectionList.getSelectedIndex() == 3) {
+			} else if (selectionList.getSelectedIndex() == 4) {
 				System.out.println("clocks selected");
 				showLayout.show(showDescription, CLOCKS);
-			} else if (selectionList.getSelectedIndex() == 4) {
+			} else if (selectionList.getSelectedIndex() == 5) {
 				System.out.println("trail selected");
 				showLayout.show(showDescription, EXPLORED_TRAIL);
-			} else if (selectionList.getSelectedIndex() == 5) {
+			} else if (selectionList.getSelectedIndex() == 6) {
 				System.out.println("fog selected");
 				showLayout.show(showDescription, FOG_OF_WAR);
-			} else if (selectionList.getSelectedIndex() == 6) {
+			} else if (selectionList.getSelectedIndex() == 7) {
 				System.out.println("shifting walls selected");
 				showLayout.show(showDescription, SHIFTING_WALLS);
-			} else if (selectionList.getSelectedIndex() == 7) {
+			} else if (selectionList.getSelectedIndex() == 8) {
 				System.out.println("hints selected");
 				showLayout.show(showDescription, HINTS);
 			}
