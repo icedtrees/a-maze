@@ -22,6 +22,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 	
     private static final String SINGLE_PLAYER = "Single Player";
     private static final String MULTI_PLAYER = "Multi Player";
+    private static final String COOP_HINTS = "Co-op Hints";
     private static final String BOOTS = "Boots";
     private static final String CLOCKS = "Clocks";
     private static final String EXPLORED_TRAIL = "Explored trail";
@@ -64,6 +65,7 @@ public class InstructionsPage extends Page implements ListSelectionListener{
         DefaultListModel selectionListModel = new DefaultListModel();
         selectionListModel.addElement(SINGLE_PLAYER);
         selectionListModel.addElement(MULTI_PLAYER);
+        selectionListModel.addElement(COOP_HINTS);
         selectionListModel.addElement(BOOTS);
         selectionListModel.addElement(CLOCKS);
         selectionListModel.addElement(EXPLORED_TRAIL);
@@ -112,23 +114,27 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 		
         String html1 = "<html><body style='width: 300px'>";
 		
-        JPanel singlePlayerPanel = makeDescription(html1 + "Single Player: <br>Use the arrow keys to move. Your goal is to help cat find his fish before he collapses from hunger.</html>", "img/arrowKeys.png");		
+        JPanel singlePlayerPanel = makeDescription(html1 + "Single Player: <br>Use the arrow keys to move. Your goal is to help cat find his fish before he collapses from hunger.</html>", "img/WASDkeys.png");		
         JPanel multiPlayerPanel = makeDescription(html1 + "Multi Player: <br>Player 1: Use the WASD keys to move. "
-        		+ "<br> Player 2:   Use arrows to move.<br>Red cat hates green fish and green cat hates red fish. Both cats must find their favourite fish before they collapse from hunger! Once you get to your fish your timer will stop counting down.</html>", "img/WASDarrowKeys.png");
+        		+ "<br> Player 2:   Use arrows to move.<br><br>Both cats must find their favourite coloured fish before they collapse from hunger! Once you get to your fish your timer will stop counting down.<br><br>Cats cannot walk past each other.</html>", "img/WASDarrowKeys.png");
         // need to find images for the rest of these, preferably of our actual maze so it's clear what the feature is
-		JPanel bootsPanel = makeDescription(html1 + "Boots: <br>When cat picks up a pair of these boots, he can run faster!</html>", "img/boots.png");
-		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Cat is able to turn back time with one of these clocks.<br>This means that cat has more time to find his fish.</html>", "img/clocks.png");
-		JPanel trailPanel = makeDescription(html1 + "Explored trail: <br>Cat leaves colourful footprints to help him remember where he's been.</html>", "img/trail.png");
-		JPanel fogPanel = makeDescription(html1 + "Fog of war: <br>It's nighttime and cat can't see very far."
-				+ "Fortunately cat can pick up torches to increase his field of view.</html>", "img/fog.png");
+        
+		JPanel coopPanel = makeDescription(html1 + "In Co-op mode, red cat and green cat must work together to get to their respective fish.<br><br>Cats cannot walk past each other because they eat too much fish and get fat.<br><br>Red cat loves green cat very much and all powerups that red cat picks up will go to green cat and vice versa.", "img/WASDarrowKeys.png");
+		JPanel bootsPanel = makeDescription(html1 + "Boots: <br>When cat picks up a pair of these boots, he can run faster!</html>", "img/bootsDescription.jpg");
+		JPanel clocksPanel = makeDescription(html1 + "Clocks: <br>Cat is able to turn back time with one of these clocks.<br>This means that cat has more time to find his fish.</html>", "img/clocksDescription.jpg");
+		JPanel trailPanel = makeDescription(html1 + "Explored trail: <br>Cat leaves colourful footprints to help him remember where he's been.</html>", "img/exploredTrailDescription.jpg");
+		JPanel fogPanel = makeDescription(html1 + "Fog of war: <br>It's nighttime and cat can't see very far. "
+				+ "Fortunately cat can pick up torches to increase his field of view.</html>", "img/fogOfWarDescription.jpg");
+		
 		//fill in the blanks
 		JPanel wallsPanel = makeDescription(html1 + "Shifting walls: <br>Is this Hogwarts? Every few steps that cat takes, "
-				+ "a bunch of walls will shift and move around, confuddling poor cat.</html>", "img/walls.png");
+				+ "a bunch of walls will shift and move around, confuddling poor cat.</html>", "img/shiftingWallsDescription.jpg");
 		JPanel hintsPanel = makeDescription(html1 + "Hints: <br>"
-				+ "Hold down the hint button to highlight the path towards cat's fish.<br>You have limited hints - each tile's worth of hint counts against your hint limit. This means that you can get 10 hints of 1 tile long or 1 hint of 10 tiles long (or 2 hints of 5 tiles long etc)</html>", "img/hints.png");
+				+ "When hints are on you get 5 hints. The first hint highlights 100% of the path. The next hint highlights 80%, then 60%, 40%, 20% and then cat is left all alone.</html>", "img/hints.png");
 		
 		showDescription.add(singlePlayerPanel, SINGLE_PLAYER);
 		showDescription.add(multiPlayerPanel, MULTI_PLAYER);
+		showDescription.add(coopPanel, COOP_HINTS);
 		showDescription.add(bootsPanel, BOOTS);
 		showDescription.add(clocksPanel, CLOCKS);
 		showDescription.add(trailPanel, EXPLORED_TRAIL);
@@ -161,14 +167,20 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 
 	private JPanel makeDescription(String description, String filename) {
 		JPanel featurePanel = Components.makePanel();
-		featurePanel.setLayout(new GridLayout(2,0));
-		JLabel featureDescription = Components.makeText(description, 20);
+		featurePanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		JLabel featureDescription = Components.makeText(description, 18);
 		ImageIcon feature = new ImageIcon(filename);
 		JLabel featureLabel = new JLabel(feature, JLabel.CENTER);
 		featureLabel.setOpaque(false);
 		featureLabel.setLayout(new BorderLayout());
-		featurePanel.add(featureLabel);
-		featurePanel.add(featureDescription);
+		featurePanel.add(featureLabel, c);
+		c.gridx = 0;
+		c.gridy = 1;
+		featurePanel.add(featureDescription, c);
 		return featurePanel;
 	}
 	
@@ -204,21 +216,24 @@ public class InstructionsPage extends Page implements ListSelectionListener{
 				System.out.println("multi player selected");
 				showLayout.show(showDescription, MULTI_PLAYER);
 			} else if (selectionList.getSelectedIndex() == 2) {
+				System.out.println("coop selected");
+				showLayout.show(showDescription, COOP_HINTS);
+			} else if (selectionList.getSelectedIndex() == 3) {
 				System.out.println("boots selected");
 				showLayout.show(showDescription, BOOTS);
-			} else if (selectionList.getSelectedIndex() == 3) {
+			} else if (selectionList.getSelectedIndex() == 4) {
 				System.out.println("clocks selected");
 				showLayout.show(showDescription, CLOCKS);
-			} else if (selectionList.getSelectedIndex() == 4) {
+			} else if (selectionList.getSelectedIndex() == 5) {
 				System.out.println("trail selected");
 				showLayout.show(showDescription, EXPLORED_TRAIL);
-			} else if (selectionList.getSelectedIndex() == 5) {
+			} else if (selectionList.getSelectedIndex() == 6) {
 				System.out.println("fog selected");
 				showLayout.show(showDescription, FOG_OF_WAR);
-			} else if (selectionList.getSelectedIndex() == 6) {
+			} else if (selectionList.getSelectedIndex() == 7) {
 				System.out.println("shifting walls selected");
 				showLayout.show(showDescription, SHIFTING_WALLS);
-			} else if (selectionList.getSelectedIndex() == 7) {
+			} else if (selectionList.getSelectedIndex() == 8) {
 				System.out.println("hints selected");
 				showLayout.show(showDescription, HINTS);
 			}
