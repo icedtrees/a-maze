@@ -165,13 +165,13 @@ public class Maze extends JComponent {
     	if (player1 != null) {
     		return player1.getTimer();
     	}
-    	return 0;
+    	return Integer.MAX_VALUE;
     }
     public double getPlayer2Timer() {
     	if (player2 != null) {
     		return player2.getTimer();
     	}
-    	return 0;
+    	return Integer.MAX_VALUE;
     }
     public void setPlayer1Timer(double timer) {
     	if (player1 != null) {

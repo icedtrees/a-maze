@@ -91,6 +91,10 @@ public class MazePage extends Page implements KeyListener{
         	    maze.setPlayer2TimerRelative(-(1.0 / Game.settings.FPS));
         	    updateTimers(maze);
         	    
+        	    if (maze.getPlayer1Timer() <= 0 || maze.getPlayer2Timer() <= 0) {
+        	        result = Result.LOST_GAME;
+        	    }
+        	    
                 if (pressedKeys.get(KeyEvent.VK_LEFT) == KEY_PRESSED) {
                     maze.movePlayer(1, Maze.Direction.WEST);
                 }
