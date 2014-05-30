@@ -37,6 +37,10 @@ public class MazePage extends Page implements KeyListener{
 	private JLabel timeLeft1;
 	private JLabel timeLeft2;
 	private volatile boolean timeStarted;
+	private JPanel hintsPanel;
+	private JLabel hintsLeftLabel;
+	
+	private Maze maze;
 	
 	public volatile Result result;
 	public volatile AtomicIntegerArray pressedKeys;
@@ -79,7 +83,7 @@ public class MazePage extends Page implements KeyListener{
 	    pressedKeys = new AtomicIntegerArray(256);
         this.requestFocusInWindow();
 
-		final Maze maze = new Maze(mazeSettings);
+		maze = new Maze(mazeSettings);
 		updateTimers(maze);
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -183,6 +187,9 @@ public class MazePage extends Page implements KeyListener{
         	}
             timeLeft2.setVisible(true);
         }
+        if (mazeSettings.getHints()) {
+            hintsLeftLabel.setText("Hints left: " + maze.getPlayerHints(1));
+        }
 	}
 	
     private void drawSidebar() {
@@ -205,12 +212,33 @@ public class MazePage extends Page implements KeyListener{
         timerPanel.add(timeLeft1);
         timerPanel.add(timeLeft2);
         timerPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+
+        hintsPanel = Components.makePanel();
+        hintsLeftLabel = Components.makeText("Hints Left: ", 25);
+        hintsPanel.add(hintsLeftLabel);
+
+        if (mazeSettings.getHints()) {
+            JPanel hintsPanel2 = Components.makePanel();
+            JLabel instructionsLabel = Components.makeText("(Press H to get hints)", 25);
+            hintsPanel2.add(instructionsLabel);
+            
+            sidePCon.fill = GridBagConstraints.BOTH;
+            sidePCon.gridy = 1;
+            sidePCon.ipady = 0;
+            sidePCon.weighty = 1;
+            sidePanel.add(timerPanel, sidePCon);
+            
+            sidePCon.gridy = 2;
+            sidePCon.ipady = 0;
+            sidePanel.add(hintsPanel, sidePCon);
+            sidePCon.gridy = 3;
+            sidePanel.add(hintsPanel2, sidePCon);
+        }
         
         sidePCon.fill = GridBagConstraints.BOTH;
-        sidePCon.gridy = 1;
+        sidePCon.gridy = 4;
         sidePCon.ipady = 0;
         sidePCon.weighty = 1;
-        sidePanel.add(timerPanel, sidePCon);
         
         JButton returnButton = Components.makeButton("return");
         returnButton.addActionListener(new ActionListener() {
@@ -230,6 +258,12 @@ public class MazePage extends Page implements KeyListener{
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() < 256) {
             pressedKeys.set(e.getKeyCode(), KEY_PRESSED);
+            if (e.getKeyCode() == KeyEvent.VK_H) {
+                if (maze.getPlayerHints(1) > 0) {
+                    maze.showHint(1, maze.getPlayerHints(1) * 4);
+                    maze.showHint(2, maze.getPlayerHints(2) * 4);
+                }
+            }
             if (!timeStarted) {
                 timeStarted = true;
             }

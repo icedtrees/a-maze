@@ -82,7 +82,7 @@ public class Campaign {
                 new SpeedMod(6),
                 new ClockMod(3)
         }))),
-        new CampaignLevel("Training wheels off", new MazeSettings(true, false, 15, 10, 0, 30, false, -1, Arrays.asList(new Modification[] {
+        new CampaignLevel("Two lonely cats", new MazeSettings(true, false, 15, 10, 0, 30, false, -1, Arrays.asList(new Modification[] {
                 new SpeedMod(5),
                 new ClockMod(5)
         }))),
