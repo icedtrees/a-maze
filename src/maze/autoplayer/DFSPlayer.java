@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import maze.Maze;
-import maze.Maze.Direction;
+import maze.Direction;
 
 public class DFSPlayer {
 

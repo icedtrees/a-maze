@@ -5,7 +5,7 @@ import game.Game;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import maze.Maze.Direction;
+import maze.Direction;
 
 public class Tile {
     public static final int WALL = 1;

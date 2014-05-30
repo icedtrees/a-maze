@@ -2,7 +2,7 @@ package maze;
 
 import java.awt.Color;
 
-import maze.Maze.Direction;
+import maze.Direction;
 
 
 /**

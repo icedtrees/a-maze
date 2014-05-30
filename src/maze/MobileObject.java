@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import maze.Maze.Direction;
+import maze.Direction;
 
 /**
  * An abstract class which models a movable (mobile) character or item

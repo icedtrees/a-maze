@@ -2,7 +2,7 @@ package maze;
 
 import java.awt.image.BufferedImage;
 
-import maze.Maze.Direction;
+import maze.Direction;
 
 /**
  * This is a class for getting images in an animated sprite
