@@ -1,6 +1,12 @@
 package pages;
 
+import game.Game;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 /**
@@ -15,11 +21,22 @@ public class TransitionPage extends Page {
     }
     
     private Result result;
-    private JLabel title;
+    private JTextArea title;
     
     public TransitionPage() {
         super();
-        title = Components.makeTitle("");
+        this.setSize(Game.settings.screenSize.width, Game.settings.screenSize.height);
+        title = new JTextArea();
+        title.setSize(this.getSize());
+        Font font = title.getFont();
+        title.setMargin(new Insets(100, 100, 100, 100));
+        title.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
+        title.setForeground(Color.WHITE);
+        title.setOpaque(false);
+        title.setFont(new Font(font.getName(), Font.PLAIN, 40));
+        title.setLineWrap(true);
+        title.setWrapStyleWord(true);
+        
         JButton continueButton = Components.makeButton("Continue");
         continueButton.addActionListener(new ActionListener() {
             @Override

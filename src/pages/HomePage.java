@@ -22,14 +22,14 @@ public class HomePage extends Page {
 	
     public HomePage() {
     	super();
-        setLayout(new GridLayout(7, 1));
+    	GridLayout layout = new GridLayout(3, 4);
+        setLayout(layout);
         
-        //JLabel blank = new JLabel("", JLabel.CENTER);
-        //add(blank);
-        
+        add(new JLabel(), JLabel.CENTER); // Left padding
         JLabel titleLabel = Components.makeTitle("A*maze-d");
-        add(titleLabel);
-        
+        add(titleLabel, JLabel.CENTER);
+        add(new JLabel(), JLabel.CENTER); // Right padding
+                
         addStartButton();
         addMultiButton();
         addResultPanel("Instructions", Result.SHOW_INSTRUCTIONS);
@@ -106,7 +106,7 @@ public class HomePage extends Page {
                 result = buttonResult;
             }
         });
-        panel.add(exit);
+        panel.add(exit, JButton.CENTER);
         add(panel);
 	}
 }
