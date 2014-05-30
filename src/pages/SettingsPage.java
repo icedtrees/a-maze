@@ -106,7 +106,7 @@ public class SettingsPage extends Page {
         JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
 		
-        JButton returnButton = Components.makeButton("return");
+        JButton returnButton = Components.makeButton("Save and Return");
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	result = Result.RETURN_HOME;
