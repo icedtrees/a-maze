@@ -198,11 +198,10 @@ public class MazePage extends Page implements KeyListener{
         JLabel mazeTitle = Components.makeText("MAZE", 40);
         mazeTitle.setAlignmentX(JLabel.CENTER);
         GridBagConstraints sidePCon = new GridBagConstraints();
-        sidePCon.fill = GridBagConstraints.BOTH;
+        sidePCon.fill = GridBagConstraints.HORIZONTAL;
         sidePCon.gridx = 0;
         sidePCon.gridy = 0;
 		sidePCon.ipady = 30;
-//		c.weightx = 10;
 		sidePCon.weighty = 0.20;
         sidePanel.add(mazeTitle, sidePCon);
         
@@ -219,27 +218,23 @@ public class MazePage extends Page implements KeyListener{
         hintsLeftLabel = Components.makeText("Hints Left: ", 25);
         hintsPanel.add(hintsLeftLabel);
 
-
         JPanel hintsPanel2 = Components.makePanel();
         JLabel instructionsLabel = Components.makeText("(Press H to get hints)", 25);
         hintsPanel2.add(instructionsLabel);
         
-        sidePCon.fill = GridBagConstraints.BOTH;
+        sidePCon.fill = GridBagConstraints.HORIZONTAL;
         sidePCon.gridy = 1;
         sidePCon.ipady = 0;
         sidePCon.weighty = 1;
         sidePanel.add(timerPanel, sidePCon);
         
+        sidePCon.fill = GridBagConstraints.HORIZONTAL;
         sidePCon.gridy = 2;
         sidePCon.ipady = 0;
         sidePanel.add(hintsPanel, sidePCon);
+        sidePCon.fill = GridBagConstraints.HORIZONTAL;
         sidePCon.gridy = 3;
         sidePanel.add(hintsPanel2, sidePCon);
-        
-        sidePCon.fill = GridBagConstraints.BOTH;
-        sidePCon.gridy = 4;
-        sidePCon.ipady = 0;
-        sidePCon.weighty = 1;
         
         JButton returnButton = Components.makeButton("return");
         returnButton.addActionListener(new ActionListener() {
@@ -248,9 +243,10 @@ public class MazePage extends Page implements KeyListener{
                 result = Result.RETURN_HOME;
             }
         });
-        sidePCon.fill = GridBagConstraints.HORIZONTAL;
-        sidePCon.gridy = 3;
+        sidePCon.fill = GridBagConstraints.NONE;
+        sidePCon.gridy = 4;
         sidePCon.weighty = 0.1;
+        returnButton.setMinimumSize(new Dimension(200, 60));
         sidePanel.add(returnButton, sidePCon);
     }
 	
