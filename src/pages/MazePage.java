@@ -23,7 +23,8 @@ public class MazePage extends Page implements KeyListener{
     private static final long serialVersionUID = 1L;
     public enum Result implements Page.Result {
 		WON_GAME,
-        LOST_GAME
+        LOST_GAME,
+        RETURN_HOME
     };
     
     // Status of key presses
@@ -206,7 +207,7 @@ public class MazePage extends Page implements KeyListener{
         returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("return to main menu");
-                result = Result.LOST_GAME;
+                result = Result.RETURN_HOME;
             }
         });
         sidePCon.fill = GridBagConstraints.HORIZONTAL;
