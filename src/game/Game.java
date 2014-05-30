@@ -78,7 +78,9 @@ public class Game {
                     currentCampaign = singleCampaign;
                     currentPage = MAZE_PAGE;
                 } else if (result.equals(HomePage.Result.PLAY_GAME_MULTIPLAYER)) {
-                    transitionPage.setText("Level " + multiCampaign.getCurrentLevel() + ": " + multiCampaign.getLevelName());
+                    transitionPage.setText("Level " + multiCampaign.getCurrentLevel() + ": " + multiCampaign.getLevelName() +
+                            "\n\n"
+                            + "Note in co-op mode, all items picked up are given to the other player.");
                     currentTransition = transitionPage;
                     currentCampaign = multiCampaign;
                     currentPage = MAZE_PAGE;                    
@@ -172,7 +174,7 @@ public class Game {
     private void initialiseGUI() {
         mainWindow = new JFrame();
         mainWindow.setSize(settings.screenSize.width, settings.screenSize.height);
-        mainWindow.setTitle("A*maze-d");
+        mainWindow.setTitle("The A-maze-ing cat");
         mainWindow.setResizable(false);
         mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
