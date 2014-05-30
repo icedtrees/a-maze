@@ -508,8 +508,8 @@ public class CustomPage extends Page implements ItemListener {
         JPanel returnPanel = Components.makePanel();
         returnPanel.setLayout(new FlowLayout());
 		
-        JButton returnBut = Components.makeButton("return");
-        returnBut.addActionListener(new ActionListener() {
+        JButton returnButton = Components.makeButton("return");
+        returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	System.out.println("return to main menu");
             	result = Result.RETURN_HOME;
@@ -517,7 +517,7 @@ public class CustomPage extends Page implements ItemListener {
         });
 		
         JButton playButton = Components.makeButton("Play custom game");
-        returnBut.addActionListener(new ActionListener() {
+        returnButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	System.out.println("play custom game");
             	result = Result.PLAY_CUSTOM_GAME;
@@ -526,7 +526,7 @@ public class CustomPage extends Page implements ItemListener {
         });
         returnPanel.add(playButton);
         
-		returnPanel.add(returnBut);
+		returnPanel.add(returnButton);
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		//c.anchor = GridBagConstraints.PAGE_END; //bottom of space
