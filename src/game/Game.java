@@ -91,6 +91,8 @@ public class Game {
                             transitionPage.setText("Level " + campaign.getCurrentLevel() + ": " + campaign.getLevelName());
                             currentTransition = transitionPage;
                         }
+                    } else if (result.equals(MazePage.Result.RETURN_HOME)) {
+                        currentPage = HOME_PAGE;
                     }
                 } else {
                     // Custom game mode
@@ -102,6 +104,8 @@ public class Game {
                     } else if (result.equals(MazePage.Result.LOST_GAME)){
                         transitionPage.setText("Maybe you made that game a bit too hard.");
                         currentTransition = transitionPage;
+                    } else if (result.equals(MazePage.Result.RETURN_HOME)) {
+                        currentPage = HOME_PAGE;
                     }
                     customSettings = null;
                     currentPage = HOME_PAGE;
