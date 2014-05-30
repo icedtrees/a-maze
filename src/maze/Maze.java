@@ -9,7 +9,16 @@ import javax.swing.JComponent;
 
 import maze.modification.Modification;
 
-
+/**
+ * Maze object which can be added as a component
+ * 
+ * Holds the state of the maze, all the objects within the maze and public
+ * interface methods to interact with those objects
+ * 
+ * Will draw itself and everything inside it.
+ * @author Leo
+ *
+ */
 public class Maze extends JComponent {
     /**
      * 

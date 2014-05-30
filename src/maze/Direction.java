@@ -1,5 +1,11 @@
 package maze;
 
+/**
+ * Enumeration of directions, providing the change in x and y for
+ * each direction.
+ * @author Leo
+ *
+ */
 public enum Direction {
 	NORTH(0, -1, 0),
 	EAST(1, 0, 1),
@@ -24,12 +30,24 @@ public enum Direction {
     	this.intval = intval;
     }
     
+    /**
+     * 
+     * @return Change in x that this direction represents
+     */
     public int dx() {
     	return dx;
     }
+    /**
+     * 
+     * @return Change in y that this direction represents
+     */
     public int dy() {
     	return dy;
     }
+    /**
+     * 
+     * @return Reverse of this direction
+     */
     public Direction reverse() {
     	return reverse;
     }

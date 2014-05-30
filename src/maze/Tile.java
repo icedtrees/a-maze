@@ -35,37 +35,73 @@ public class Tile {
         trail = null;
     }
     
+    /**
+     * 
+     * @return Value of the tile - WALL or SPACE
+     */
     public int getValue() {
     	if (isShifting()) {
     		return WALL;
     	}
         return value;
     }
+    /**
+     * 
+     * @return x coordinate of tile
+     */
     public int getX() {
         return x;
     }
+    /**
+     * 
+     * @return y coordinate of tile
+     */
     public int getY() {
         return y;
     }
+    /**
+     * 
+     * @return Whether or not tile is currently shifting
+     */
     public boolean isShifting() {
     	return shifting != null;
     }
     
+    /**
+     * 
+     * @return Whether or not tile has a TileObject in it
+     */
     public boolean hasContents() {
     	return contents != null;
     }
+    /**
+     * Places a TileObject within this tile
+     * @param obj Object to place in tile
+     */
     public void setContents(TileObject obj) {
     	this.contents = obj;
     }
     
+    /**
+     * Set the tile to show as a hint tile
+     */
     public void setHint() {
     	this.hint = new Color(0, 255, 0);
     }
     
+    /**
+     * Set the tile to a new value (WALL or SPACE)
+     * @param newValue Value to set the tile to - WALL or SPACE
+     */
     public void setValue(int newValue) {
         value = newValue;
     }
     
+    /**
+     * Draw the tile and everything inside it
+     * @param g Graphics context
+     * @param tileSize Tile size in pixels
+     */
     public void draw(Graphics g, int tileSize) {	    
 	    if (isShifting()) {
 	    	// Draw background
@@ -111,6 +147,9 @@ public class Tile {
     	}
     }
     
+    /**
+     * Advance the tile to the next frame and everything inside it.
+     */
     public void nextFrame() {
     	if (hint != null) {
     		hint = new Color(hint.getRed(), hint.getGreen(), hint.getBlue(), hint.getAlpha() - 5);
@@ -144,6 +183,11 @@ public class Tile {
     	}
     }
     
+    /**
+     * Shift this tile and change it from a WALL to a SPACE or vice versa
+     * @param dir Direction to shift in
+     * @return Whether or not the shift was successful (can't shift if already shifting)
+     */
     public boolean shiftWall(Direction dir) {
     	if (isShifting()) {
     		return false;
@@ -152,6 +196,11 @@ public class Tile {
     	return true;
     }
     
+    /**
+     * Interact with the given player. Leaves a trail if that setting is true
+     * and/or allows player to interact with the TileObject within this tile
+     * @param player
+     */
     public void interact(Player player) {
     	if (contents != null) {
     		if (contents.interact(player)) {

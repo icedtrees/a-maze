@@ -7,6 +7,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Goal for the players to walk towards
+ * @author Leo
+ *
+ */
 public class GoalFish implements TileObject {
 	private Player expectedPlayer;
 	private BufferedImage sprite;

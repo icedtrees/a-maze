@@ -2,6 +2,12 @@ package maze;
 
 import maze.Direction;
 
+/**
+ * Represents a step in any search - contains a coordinate and some other
+ * information pertaining to it such as the direction we came from to get here
+ * @author Leo
+ *
+ */
 public class Step {
 	private Coord cell;
 	private Direction dir;
