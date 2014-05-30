@@ -17,19 +17,21 @@ public class HomePage extends Page {
     };
 
     private volatile Result result;
-	private JButton startMaze;
+	private JButton startMazeSingleplayer;
+	private JButton startMazeMultiplayer;
 	
     public HomePage() {
     	super();
-        setLayout(new GridLayout(6, 1));
+        setLayout(new GridLayout(7, 1));
         
         //JLabel blank = new JLabel("", JLabel.CENTER);
         //add(blank);
         
-        JLabel titleLabel = Components.makeTitle("A-MAZE");
+        JLabel titleLabel = Components.makeTitle("A*maze-d");
         add(titleLabel);
         
         addStartButton();
+        addMultiButton();
         addResultPanel("Instructions", Result.SHOW_INSTRUCTIONS);
         addResultPanel("Settings", Result.SHOW_SETTINGS);
         addResultPanel("Custom Game", Result.PLAY_CUSTOM);
@@ -54,24 +56,44 @@ public class HomePage extends Page {
         return result;
     }
     
-    public void setStartButtonText(String newText) {
-        startMaze.setText(newText);
+    public void setSingleButtonText(String newText) {
+        startMazeSingleplayer.setText(newText);
+    }
+    
+    public void setMultiButtonText(String newText) {
+        startMazeSingleplayer.setText(newText);
     }
     
     private void addStartButton() {
         JPanel startPanel = Components.makePanel();
         startPanel.setLayout(new FlowLayout());
         
-        startMaze = Components.makeButton("Play");
-		startMaze.addActionListener(new ActionListener() {
+        startMazeSingleplayer = Components.makeButton("Play (Solo)");
+		startMazeSingleplayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// some action to generate maze and display a MazePage
 				result = Result.PLAY_GAME_SINGLEPLAYER;
 			}
 		});
 		
-		startPanel.add(startMaze);
+		startPanel.add(startMazeSingleplayer);
 		add(startPanel);
+    }
+    
+    private void addMultiButton() {
+        JPanel startPanel = Components.makePanel();
+        startPanel.setLayout(new FlowLayout());
+        
+        startMazeMultiplayer = Components.makeButton("Play (Co-op)");
+        startMazeMultiplayer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // some action to generate maze and display a MazePage
+                result = Result.PLAY_GAME_MULTIPLAYER;
+            }
+        });
+        
+        startPanel.add(startMazeMultiplayer);
+        add(startPanel);
     }
     
 	private void addResultPanel(String text, final HomePage.Result buttonResult) {

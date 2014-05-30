@@ -205,7 +205,7 @@ public class CustomPage extends Page implements ItemListener {
 		c.weightx = 1;
 		add(descriptionLabel, c);
 
-		clockSlider = Components.makeJSlider(0, 20, 5, 10, 5, 400);
+		clockSlider = Components.makeJSlider(0, 20, 5, 5, 1, 400);
         clockSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = clockSlider.getValue();
@@ -216,7 +216,7 @@ public class CustomPage extends Page implements ItemListener {
         		}
         	}
         });
-		bootsSlider = Components.makeJSlider(0, 20, 5, 10, 5, 400);
+		bootsSlider = Components.makeJSlider(0, 20, 5, 5, 1, 400);
 		bootsSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = bootsSlider.getValue();
@@ -227,7 +227,7 @@ public class CustomPage extends Page implements ItemListener {
         		}
         	}
         });
-		fogSlider = Components.makeJSlider(0, 20, 5, 10, 5, 400);
+		fogSlider = Components.makeJSlider(0, 20, 5, 5, 1, 400);
 		fogSlider.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent event) {
         		int value = fogSlider.getValue();
