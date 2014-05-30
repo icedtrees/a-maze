@@ -15,3 +15,7 @@ http://steeve-the-fox.deviantart.com/art/Clock-Sprite-145000592
  Torch image:
  http://souliknight.deviantart.com/art/Tile-Torch-1-349606021
  "Free to use! By use, please give credit! :D"
+ 
+ Boots image:
+ http://img2.wikia.nocookie.net/__cb20100915204325/clubpenguin/images/7/72/WinterBoots.png
+ 
