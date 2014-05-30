@@ -188,6 +188,8 @@ public class MazePage extends Page implements KeyListener{
         }
         if (mazeSettings.getHints()) {
             hintsLeftLabel.setText("Hints left: " + maze.getPlayerHints(1));
+        } else {
+            hintsLeftLabel.setText("No hints");
         }
 	}
 	
@@ -216,23 +218,22 @@ public class MazePage extends Page implements KeyListener{
         hintsLeftLabel = Components.makeText("Hints Left: ", 25);
         hintsPanel.add(hintsLeftLabel);
 
-        if (mazeSettings.getHints()) {
-            JPanel hintsPanel2 = Components.makePanel();
-            JLabel instructionsLabel = Components.makeText("(Press H to get hints)", 25);
-            hintsPanel2.add(instructionsLabel);
-            
-            sidePCon.fill = GridBagConstraints.BOTH;
-            sidePCon.gridy = 1;
-            sidePCon.ipady = 0;
-            sidePCon.weighty = 1;
-            sidePanel.add(timerPanel, sidePCon);
-            
-            sidePCon.gridy = 2;
-            sidePCon.ipady = 0;
-            sidePanel.add(hintsPanel, sidePCon);
-            sidePCon.gridy = 3;
-            sidePanel.add(hintsPanel2, sidePCon);
-        }
+
+        JPanel hintsPanel2 = Components.makePanel();
+        JLabel instructionsLabel = Components.makeText("(Press H to get hints)", 25);
+        hintsPanel2.add(instructionsLabel);
+        
+        sidePCon.fill = GridBagConstraints.BOTH;
+        sidePCon.gridy = 1;
+        sidePCon.ipady = 0;
+        sidePCon.weighty = 1;
+        sidePanel.add(timerPanel, sidePCon);
+        
+        sidePCon.gridy = 2;
+        sidePCon.ipady = 0;
+        sidePanel.add(hintsPanel, sidePCon);
+        sidePCon.gridy = 3;
+        sidePanel.add(hintsPanel2, sidePCon);
         
         sidePCon.fill = GridBagConstraints.BOTH;
         sidePCon.gridy = 4;
