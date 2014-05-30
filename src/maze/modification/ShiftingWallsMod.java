@@ -4,6 +4,11 @@ import java.util.Random;
 
 import maze.Maze;
 
+/**
+ * Activates shifting walls within the maze
+ * @author Leo
+ *
+ */
 public class ShiftingWallsMod implements Modification{
 	private int numWalls;
 	private int stepsBeforeShift;

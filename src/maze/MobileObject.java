@@ -209,8 +209,9 @@ public abstract class MobileObject {
 	}
 	
 	/**
-	 * TODO
-	 * @param dir
+	 * Move in the specified direction - guaranteed. Calling thread will block
+	 * until the move happens.
+	 * @param dir Direction to move in.
 	 */
 	public void moveWait(Direction dir) {
 		if (dir == null) {
