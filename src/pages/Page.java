@@ -9,10 +9,15 @@ import javax.swing.JPanel;
 
 
 public abstract class Page extends JPanel {
-	
+	BufferedImage bgImage = null;
     public Page() {
         this.setFocusable(true);
         this.setBackground(new Color(50, 50, 50));
+        try {
+    		bgImage = ImageIO.read(new File("img/largeMazeBackground.png"));
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
     }
     
     private static final long serialVersionUID = 1L;
@@ -23,14 +28,8 @@ public abstract class Page extends JPanel {
     
     @Override
     public void paintComponent(Graphics g) {
-    	BufferedImage image = null;
-    	try {
-    		image = ImageIO.read(new File("img/largeMazeBackground.png"));
-    	} catch (IOException E) {
-    		
-    	}
     	super.paintComponent(g);
-    	g.drawImage(image, 0, 0, null);
+    	g.drawImage(bgImage, 0, 0, null);
 	}
 
 }
