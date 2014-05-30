@@ -9,8 +9,8 @@ import javax.swing.event.ChangeListener;
 
 public class CustomPage extends Page implements ItemListener {
 	public enum Result implements Page.Result {
-        RETURN_HOME
-        //APPLY_SETTINGS ?
+	    PLAY_CUSTOM_GAME,
+	    RETURN_HOME
     };
 	private static final long serialVersionUID = 1L;
 	private volatile Result result;
