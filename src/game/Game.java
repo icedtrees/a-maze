@@ -100,7 +100,7 @@ public class Game {
                 if (result.equals(CustomPage.Result.RETURN_HOME)) {
                     currentPage = HOME_PAGE;
                 } else if (result.equals(CustomPage.Result.PLAY_CUSTOM_GAME)) {
-                    
+                    customSettings = customPage.getCustomSettings();
                     currentPage = MAZE_PAGE;
                 }
             }

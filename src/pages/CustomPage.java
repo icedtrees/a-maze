@@ -398,6 +398,10 @@ public class CustomPage extends Page implements ItemListener {
 	}
 
 	public MazeSettings getCustomSettings() {
+	    return mazeSettings;
+	}
+	
+	private void storeCustomSettings() {
 		boolean multiplayer = multiplayerBox.isSelected();
 		boolean trail = trailBox.isSelected();
 		int mazeSize = sizeSlider.getValue();
@@ -438,7 +442,7 @@ public class CustomPage extends Page implements ItemListener {
 		MazeSettings mazeSettings = new MazeSettings(false, trail, mazeSize, branching, straightness,
 				 startingTime, -1, modifications);
 		
-		return mazeSettings;
+		this.mazeSettings = mazeSettings;
 	}
 	
 	@Override
@@ -517,11 +521,11 @@ public class CustomPage extends Page implements ItemListener {
         });
 		
         JButton playButton = Components.makeButton("Play custom game");
-        returnButton.addActionListener(new ActionListener() {
+        playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	System.out.println("play custom game");
+                storeCustomSettings();
             	result = Result.PLAY_CUSTOM_GAME;
-            	MazeSettings mazeSettings = getCustomSettings();
             }
         });
         returnPanel.add(playButton);
