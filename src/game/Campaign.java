@@ -70,7 +70,7 @@ public class Campaign {
  
     private static final CampaignLevel[] multiPlayerLevels = new CampaignLevel[]
     {
-        new CampaignLevel("Hello World!", new MazeSettings(true, true, 5, 8, 10, 40, 5, -1, MazeSettings.NO_MODIFICATIONS)),
+        new CampaignLevel("Hello World!", new MazeSettings(true, true, 5, 8, 5, 40, 5, -1, MazeSettings.NO_MODIFICATIONS)),
         new CampaignLevel("Easy as pie", new MazeSettings(true, true, 7, 8, 7, 40, 5, -1, MazeSettings.NO_MODIFICATIONS)),
         new CampaignLevel("What's that ticking sound?", new MazeSettings(true, true, 9, 8, 5, 20, 5, -1, Arrays.asList(new Modification[] {
                 new ClockMod(3)

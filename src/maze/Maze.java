@@ -87,8 +87,9 @@ public class Maze extends JComponent {
             }
         }
         
+        int straightness = settings.getStraightness();
         this.straightness = straightness > 0 ? straightness*straightness : straightness;
-        this.branching = (int) (1.5 * (11 - branching));
+        this.branching = 22 - (2 * settings.getBranching());
         this.rand = new Random(settings.getSeed());
         this.genMazeDFSBranch();
         
@@ -224,10 +225,19 @@ public class Maze extends JComponent {
         return player1Finished() && player2Finished();
     }
     
-    public boolean player1Finished() {
+    public boolean playerFinished(int playerNum) {
+    	if (playerNum == 1) {
+    		return player1Finished();
+    	}
+    	if (playerNum == 2) {
+    		return player2Finished();
+    	}
+    	return true;
+    }
+    private boolean player1Finished() {
     	return player1 == null || player1.isFinished();
     }
-    public boolean player2Finished() {
+    private boolean player2Finished() {
     	return player2 == null || player2.isFinished();
     }
     public void getHint(int playerNum, int length) {

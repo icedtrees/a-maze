@@ -169,9 +169,17 @@ public class MazePage extends Page implements KeyListener{
 	}
 	
 	private void updateTimers(Maze maze) {
-	    timeLeft1.setText("Player1: " + String.format("%.2f", maze.getPlayerTimer(1)));
+		if (maze.playerFinished(1)) {
+			timeLeft1.setText("Player1: Finished!");
+		} else {
+			timeLeft1.setText("Player1: " + String.format("%.2f", maze.getPlayerTimer(1)));
+		}
         if (maze.isMultiplayer()) {
-            timeLeft2.setText("Player2: " + String.format("%.2f", maze.getPlayerTimer(2)));
+        	if (maze.playerFinished(2)) {
+        		timeLeft2.setText("Player2: Finished!");
+        	} else {
+        		timeLeft2.setText("Player2: " + String.format("%.2f", maze.getPlayerTimer(2)));
+        	}
             timeLeft2.setVisible(true);
         }
 	}
@@ -190,8 +198,8 @@ public class MazePage extends Page implements KeyListener{
         
         timerPanel = Components.makePanel();
         timerPanel.setLayout(new BoxLayout(timerPanel, BoxLayout.PAGE_AXIS));
-        timeLeft1 = Components.makeText("Player1: ", 15);
-        timeLeft2 = Components.makeText("Player2: ", 15);
+        timeLeft1 = Components.makeText("Player1: ", 25);
+        timeLeft2 = Components.makeText("Player2: ", 25);
         timeLeft2.setVisible(false);
         timerPanel.add(timeLeft1);
         timerPanel.add(timeLeft2);
