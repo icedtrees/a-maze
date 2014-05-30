@@ -186,7 +186,7 @@ public class MazePage extends Page implements KeyListener{
         	}
             timeLeft2.setVisible(true);
         }
-        if (mazeSettings.getStartingHints() > 0) {
+        if (mazeSettings.getHints()) {
             hintsLeftLabel.setText("Hints left: " + maze.getPlayerHints(1));
         }
 	}
@@ -216,7 +216,7 @@ public class MazePage extends Page implements KeyListener{
         hintsLeftLabel = Components.makeText("Hints Left: ", 25);
         hintsPanel.add(hintsLeftLabel);
 
-        if (mazeSettings.getStartingHints() > 0) {
+        if (mazeSettings.getHints()) {
             JPanel hintsPanel2 = Components.makePanel();
             JLabel instructionsLabel = Components.makeText("(Press H to get hints)", 25);
             hintsPanel2.add(instructionsLabel);
