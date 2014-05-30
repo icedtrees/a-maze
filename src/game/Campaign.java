@@ -40,21 +40,21 @@ public class Campaign {
                 new SpeedMod(6),
                 new ClockMod(3)
         }))),
-        new CampaignLevel("Training wheels off", new MazeSettings(false, false, 15, 10, 0, 30, 10, -1, Arrays.asList(new Modification[] {
+        new CampaignLevel("Training wheels off", new MazeSettings(false, false, 15, 10, 0, 30, 0, -1, Arrays.asList(new Modification[] {
                 new SpeedMod(5),
                 new ClockMod(5)
         }))),
-        new CampaignLevel("iseedeadpeople", new MazeSettings(false, true, 17, 10, 0, 40, 10, -1, Arrays.asList(new Modification[] {
+        new CampaignLevel("iseedeadpeople", new MazeSettings(false, true, 17, 10, 0, 40, 0, -1, Arrays.asList(new Modification[] {
                 new SpeedMod(8),
                 new ClockMod(7),
                 new FogMod(SINGLEPLAYER_DEFAULT_VISION, 10)
         }))),
-        new CampaignLevel("Fading footsteps", new MazeSettings(false, false, 17, 10, 0, 60, 10, -1, Arrays.asList(new Modification[] {
+        new CampaignLevel("Fading footsteps", new MazeSettings(false, false, 17, 10, 0, 60, 0, -1, Arrays.asList(new Modification[] {
                 new SpeedMod(10),
                 new ClockMod(8),
                 new FogMod(SINGLEPLAYER_DEFAULT_VISION, 10)
         }))),
-        new CampaignLevel("HOGWARTS", new MazeSettings(false, false, 20, 10, 0, 60, 50, -1, Arrays.asList(new Modification[] {
+        new CampaignLevel("HOGWARTS", new MazeSettings(false, false, 20, 10, 0, 60, 0, -1, Arrays.asList(new Modification[] {
                 new SpeedMod(12),
                 new ClockMod(12),
                 new ShiftingWallsMod(8, 10),
@@ -82,21 +82,21 @@ public class Campaign {
                 new SpeedMod(6),
                 new ClockMod(3)
         }))),
-        new CampaignLevel("Training wheels off", new MazeSettings(true, false, 15, 10, 0, 30, 10, -1, Arrays.asList(new Modification[] {
+        new CampaignLevel("Training wheels off", new MazeSettings(true, false, 15, 10, 0, 30, 0, -1, Arrays.asList(new Modification[] {
                 new SpeedMod(5),
                 new ClockMod(5)
         }))),
-        new CampaignLevel("iseedeadpeople", new MazeSettings(true, true, 17, 10, 0, 40, 10, -1, Arrays.asList(new Modification[] {
+        new CampaignLevel("iseedeadpeople", new MazeSettings(true, true, 17, 10, 0, 40, 0, -1, Arrays.asList(new Modification[] {
                 new SpeedMod(8),
                 new ClockMod(7),
                 new FogMod(SINGLEPLAYER_DEFAULT_VISION, 10)
         }))),
-        new CampaignLevel("Fading footsteps", new MazeSettings(true, false, 17, 10, 0, 60, 10, -1, Arrays.asList(new Modification[] {
+        new CampaignLevel("Fading footsteps", new MazeSettings(true, false, 17, 10, 0, 60, 0, -1, Arrays.asList(new Modification[] {
                 new SpeedMod(10),
                 new ClockMod(8),
                 new FogMod(SINGLEPLAYER_DEFAULT_VISION, 10)
         }))),
-        new CampaignLevel("HOGWARTS", new MazeSettings(true, false, 20, 10, 0, 60, 50, -1, Arrays.asList(new Modification[] {
+        new CampaignLevel("HOGWARTS", new MazeSettings(true, false, 20, 10, 0, 60, 0, -1, Arrays.asList(new Modification[] {
                 new SpeedMod(12),
                 new ClockMod(12),
                 new ShiftingWallsMod(8, 10),
